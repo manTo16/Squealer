@@ -2,6 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
+import ButtonBootstrap from 'react-bootstrap/Button'
 
 export default function () {
   return (
@@ -24,6 +25,7 @@ export default function () {
             <InputGroup>
                 <Form.Control placeholder="type password again" aria-label="confirm password"/>
             </InputGroup>
+            <ButtonBootstrap type="submit" className='my-3'>Register</ButtonBootstrap>
         </Container>
     </div>
   )
