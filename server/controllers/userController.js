@@ -1,5 +1,4 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+//const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 
 const getAllUsers = async (req,res)=>{
@@ -11,7 +10,7 @@ const getAllUsers = async (req,res)=>{
     }
   }
 
-const addNewUser = async (req,res)=>{
+/* const addNewUser = async (req,res)=>{
     const hashedPassword = await bcrypt.hash(req.body.password,10)
     const user = new User({
       username: req.body.username,
@@ -25,7 +24,7 @@ const addNewUser = async (req,res)=>{
     } catch(err){
       res.status(400).json({message: err.message})
     }
-  }
+  } */
 
 const getUser = async (req,res)=>{
     try{
@@ -63,7 +62,7 @@ const deleteUser = async (req,res)=>{
 
 module.exports = {
     getAllUsers,
-    addNewUser,
+    //addNewUser,
     getUser,
     updateUser,
     deleteUser

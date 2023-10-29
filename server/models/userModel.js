@@ -4,15 +4,18 @@ const userSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: true
+      required: true,
+      max: 20
     },
     displayName: {
       type: String,
-      required: true
+      required: true,
+      max: 20
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     creationDate: {
       type: Date,
@@ -20,7 +23,8 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true
+      required: true,
+      min:6
     }
   }
 )
