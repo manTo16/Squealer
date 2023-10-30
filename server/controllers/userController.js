@@ -9,7 +9,7 @@ const getAllUsers = async (req,res)=>{
       res.status(500).json({message: err.message})
     }
   }
-
+ 
 /* const addNewUser = async (req,res)=>{
     const hashedPassword = await bcrypt.hash(req.body.password,10)
     const user = new User({
@@ -29,6 +29,7 @@ const getAllUsers = async (req,res)=>{
 const getUser = async (req,res)=>{
     try{
       const oneUser = await User.findOne({username: req.params.userName})
+      delete oneUser.password
       res.status(201).json(oneUser)
     }catch(err){
       res.status(400).json({message: err.message})

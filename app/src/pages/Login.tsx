@@ -4,8 +4,30 @@ import Form from 'react-bootstrap/Form'
 import Container from 'react-bootstrap/Container'
 import ButtonBootstrap from 'react-bootstrap/Button'
 import Logo from '../assets/squealer-logo.png'
+import { useNavigate } from 'react-router-dom'
+import { apiAuthURL } from '../URLs'
 
 export default function Login() {
+  const [username,setUsername]=useState('')
+  const [password,setPassword]=useState('')
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e:React.MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    try{
+      const response = await axios.post(apiAuthURL+'/login',{username,password})
+      const token = response.data.token
+      alert('Success!')
+      setUsername('')
+      setPassword('')
+      navigate('/')
+      localStorage.setItem('token', token)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
   return (
     <div>
       <Container className='d-flex justify-content-center align-items-center flex-column my-10 container-md'>
@@ -14,13 +36,13 @@ export default function Login() {
         <Form.Label> Username </Form.Label>
         <Form.Group className='mb-3'>
             <Form.Group ></Form.Group>
-            <Form.Control placeholder="type username here" aria-label="username"/>
+            <Form.Control onChange={(e)=>setUsername(e.target.value)} value={username} placeholder="type username here" aria-label="username"/>
         </Form.Group>
         <Form.Label> Password </Form.Label>
         <Form.Group className='mb-3'>
-            <Form.Control placeholder="type password here" aria-label="password"/>
+            <Form.Control onChange={(e)=>setPassword(e.target.value)} value={password} placeholder="type password here" aria-label="password"/>
         </Form.Group>
-        <ButtonBootstrap type="submit" className='my-3'>Log in</ButtonBootstrap>
+        <ButtonBootstrap onClick={handleSubmit} type="submit" className='my-3'>Log in</ButtonBootstrap>
       </Container>
     </div>
   )

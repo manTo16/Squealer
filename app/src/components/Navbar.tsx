@@ -6,6 +6,8 @@ import { NavLink } from 'react-router-dom';
 
 
 export default function Navbar() {
+  const isLoggedIn = !!localStorage.getItem('token')
+
   return (
     <NavbarBootstrap expand="lg" className="bg-white shadow-sm">
       <ContainerBootstrap>
