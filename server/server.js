@@ -1,5 +1,6 @@
 const express=require('express')
 const mongoose=require('mongoose')
+const cors=require('cors')
 require('dotenv').config()
 
 //routes
@@ -17,6 +18,7 @@ const database=mongoose.connection
 database.on('error',(error)=>console.error(error))
 
 app.use(express.json())
+app.use(cors)
 
 app.use('/users',users)
 app.use('/auth',auth)
