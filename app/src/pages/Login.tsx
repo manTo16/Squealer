@@ -21,6 +21,7 @@ export default function Login() {
       setUsername('')
       setPassword('')
       navigate('/')
+      window.location.reload();
       localStorage.setItem('token', token)
     }
     catch(err){
