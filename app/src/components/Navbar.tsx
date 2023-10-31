@@ -16,7 +16,7 @@ export default function Navbar() {
   }
   console.log(isLoggedIn)
   return (
-    <NavbarBootstrap expand="lg" className="bg-white shadow-sm">
+    <NavbarBootstrap expand="lg" className="bg-flamingo shadow-sm nav-bootstrap">
       <ContainerBootstrap>
         <NavbarBootstrap.Brand to="/" as={NavLink}>
           <img src={Logo} alt="" width="50" height="30" className="d-inline-block align-top mx-2"/>
