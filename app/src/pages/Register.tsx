@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { apiAuthURL, apiUsersURL } from '../URLs'
 
 
-export default function () {
+export default function Register() {
   const [username,setUsername]=useState('')
   const [email,setEmail]=useState('')
   const [displayName,setDisplayName]=useState('')
@@ -51,7 +51,7 @@ export default function () {
   return (
     <div> 
       <Container className='d-flex justify-content-center align-items-center flex-column my-10 container-md'>
-        <img className='my-3 mt-10' src={Logo} width={200}/>
+        <img className='my-3 mt-10' src={Logo} width={200} alt=''/>
         <h1>Sign up to Squealer</h1>
         <Form.Label> Choose displayed name </Form.Label>
         <Form.Group className='mb-3'>
@@ -67,11 +67,11 @@ export default function () {
         </Form.Group>
         <Form.Label> Create password </Form.Label>
         <Form.Group className='mb-3'>
-            <Form.Control onChange={(e)=>setPassword(e.target.value)} value={password} placeholder="type password here" aria-label="password"/>
+            <Form.Control onChange={(e)=>setPassword(e.target.value)} value={password} placeholder="type password here" aria-label="password" type='password'/>
         </Form.Group>
         <Form.Label> Confirm Password </Form.Label>
         <Form.Group className='mb-3'>
-            <Form.Control onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} placeholder="type password again" aria-label="password"/>
+            <Form.Control onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} placeholder="type password again" aria-label="password" type='password'/>
         </Form.Group>
         <ButtonBootstrap onClick={handleSubmit} type="submit" className='my-3'>Sign up</ButtonBootstrap>
       </Container>
