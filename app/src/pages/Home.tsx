@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/col'
+import Col from 'react-bootstrap/Col'
 import Sidebar from '../components/Sidebar'
 
 export default function Home() {

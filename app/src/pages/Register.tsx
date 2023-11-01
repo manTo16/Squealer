@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect } from 'react'
 import axios from 'axios'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { apiAuthURL, apiUsersURL } from '../URLs'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { convertToBase64 } from '../utilities'
 
 export default function Register() {
   const [username,setUsername]=useState('')
@@ -15,6 +16,7 @@ export default function Register() {
   const [displayName,setDisplayName]=useState('')
   const [password,setPassword]=useState('')
   const [confirmPassword,setConfirmPassword]=useState('')
+  const [userImage,setUserImage]=useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function Register() {
       alert('The passwords are different!')
       return;
     }
-    axios.post(apiAuthURL+'/register', {username,displayName,email,password })
+    axios.post(apiAuthURL+'/register', {username,displayName,email,password, userImage })
     .then(()=>{
       alert('Success!')
       setUsername('')
@@ -44,10 +46,17 @@ export default function Register() {
       setEmail('')
       setPassword('')
       setConfirmPassword('')
+      setUserImage('')
       navigate('/login')
     }).catch((err)=>console.log(err))
   }
 
+  const handleImageUpload = async (e:React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files == null) return;
+    const file = e.target.files[0];
+    let convertedImage: any = await convertToBase64(file)
+    setUserImage(convertedImage)
+  }
   
   return (
     <div> 
@@ -74,6 +83,10 @@ export default function Register() {
             <Form.Label> Confirm Password </Form.Label>
             <Form.Group className='mb-3'>
                 <Form.Control onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} placeholder="type password again" aria-label="password" type='password'/>
+            </Form.Group>
+            <Form.Label> Upload profile picture</Form.Label>
+            <Form.Group className='mb-3'>
+                <input aria-label="upload-image" type='file' accept='.jpeg, .png, .jpg' name='image' onChange={(e)=>handleImageUpload(e)}/>                
             </Form.Group>
             <ButtonBootstrap onClick={handleSubmit} type="submit" className='my-3 red-buttons'>Sign up</ButtonBootstrap>
           </Col>
