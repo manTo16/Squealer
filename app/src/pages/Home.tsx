@@ -10,7 +10,7 @@ export default function Home() {
       <Container className='h-100'>
         <Row>
           <Col xs={2} className='sidebar-wrapper'>
-            <Sidebar />
+            
           </Col>
           <Col xs={6} className='content-wrapper'></Col>
           <Col xs={4} className=''></Col>

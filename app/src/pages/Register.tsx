@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { apiAuthURL, apiUsersURL } from '../URLs'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { convertToBase64 } from '../utilities'
+import { convertToBase64 } from '../utils'
 
 export default function Register() {
   const [username,setUsername]=useState('')
@@ -54,7 +54,8 @@ export default function Register() {
   const handleImageUpload = async (e:React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files == null) return;
     const file = e.target.files[0];
-    let convertedImage: any = await convertToBase64(file)
+    const convertedImage: any = await convertToBase64(file)
+    console.log(convertedImage)
     setUserImage(convertedImage)
   }
   
