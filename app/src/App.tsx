@@ -6,12 +6,14 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 
+
 function App() {
   //const isLoggedIn = !!localStorage.getItem('token')
 
   return (
     <div>
       <Navbar />
+
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<Login />}/>
