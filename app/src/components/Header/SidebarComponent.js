@@ -1,17 +1,18 @@
-
+/*
+https://medium.com/how-to-react/create-a-sidebar-menu-in-react-js-3463b306ca9a
+*/
 
 //import useState hook to create menu collapse state
 import React, { useState } from "react";
 
 //import react pro sidebar components
 import {
-  ProSidebar,
   Menu,
   MenuItem,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarContent,
   Sidebar,
+  ProSidebar,
+  MenuContext,
+  MenuItemFR,
 } from "react-pro-sidebar";
 
 //import icons from react icons
@@ -22,7 +23,7 @@ import { BiCog } from "react-icons/bi";
 
 
 //import sidebar css from react-pro-sidebar module and our custom css 
-//import "react-pro-sidebar/dist/css/styles.css";
+//import "react-pro-sidebar/dist/css/styles.scss";
 import "./SidebarComponent.css";
 
 
@@ -31,21 +32,18 @@ const SidebarComponent = () => {
     //create initial menuCollapse state using useState hook
     const [menuCollapse, setMenuCollapse] = useState(false)
 
-    //create a custom function that will change menucollapse state from false to true and true to false
-  const menuIconClick = () => {
-    //condition checking to change state from true to false and vice versa
+    const menuIconClick = () => {
     menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
   };
 
   return (
-    <>
       <div id="header">
           {/* collapsed props to change menu size using menucollapse state */}
-        <sidebar collapsed={menuCollapse}>
+        <Sidebar collapsed={menuCollapse}>
           <div className="logotext">
               {/* small and big change using menucollapse state */}
               <p>{menuCollapse ? "Logo" : "Big Logo"}</p>
-            </div>
+          </div>
             <div className="closemenu" onClick={menuIconClick}>
                 {/* changing menu collapse icon on click */}
               {menuCollapse ? (
@@ -58,6 +56,8 @@ const SidebarComponent = () => {
               <MenuItem active={true} icon={<FiHome />}>
                 Home
               </MenuItem>
+              <MenuItem>ssdsd</MenuItem>
+              <MenuItem></MenuItem>
               <MenuItem icon={<FaList />}>Category</MenuItem>
               <MenuItem icon={<FaRegHeart />}>Favourite</MenuItem>
               <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
@@ -69,9 +69,9 @@ const SidebarComponent = () => {
               <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
             </Menu>
           
-        </sidebar>
+        </Sidebar>
       </div>
-    </>
+    
   );
 };
 
