@@ -1,7 +1,7 @@
 import ContainerBootstrap from 'react-bootstrap/Container';
 import NavBootstrap from 'react-bootstrap/Nav';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
-import Logo from '../assets/squealer-logo.png'
+import Logo from '../assets/Squealer.png'
 import { NavLink, useNavigate } from 'react-router-dom';
 
 
@@ -19,7 +19,7 @@ export default function Navbar() {
     <NavbarBootstrap expand="lg" className="bg-flamingo shadow-sm nav-bootstrap">
       <ContainerBootstrap>
         <NavbarBootstrap.Brand to="/" as={NavLink}>
-          <img src={Logo} alt="" width="50" height="30" className="d-inline-block align-top mx-2"/>
+          <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2"/>
           Squealer</NavbarBootstrap.Brand>
         <NavbarBootstrap.Toggle aria-controls="basic-navbar-nav" />
         <NavbarBootstrap.Collapse id="basic-navbar-nav">

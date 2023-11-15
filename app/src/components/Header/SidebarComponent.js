@@ -56,8 +56,6 @@ const SidebarComponent = () => {
               <MenuItem active={true} icon={<FiHome />}>
                 Home
               </MenuItem>
-              <MenuItem>ssdsd</MenuItem>
-              <MenuItem></MenuItem>
               <MenuItem icon={<FaList />}>Category</MenuItem>
               <MenuItem icon={<FaRegHeart />}>Favourite</MenuItem>
               <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
