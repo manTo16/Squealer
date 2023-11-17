@@ -1,0 +1,22 @@
+
+.clickable-channel-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #4CAF50; 
+    color: #4CAF50; 
+    background-color: white; 
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;  /* Transizione per effetti durante il passaggio del mouse */
+  }
+  
+  .clickable-channel-button:hover {
+    background-color: #4CAF50; 
+    color: white; 
+  }
+
+  .channels-wrapper {
+    display:grid
+  }

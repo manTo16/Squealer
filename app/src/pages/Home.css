@@ -1,0 +1,17 @@
+.main-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.sidebar-wrapper {
+    display: flex;
+}
+
+.content-wrapper {
+    display: flex;
+}
+
+.right-column-wrapper {
+    display: flex;
+}

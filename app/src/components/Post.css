@@ -1,0 +1,6 @@
+.my-frame {
+    border: 2px solid #000; /* Crea una cornice nera */
+    padding: 10px; /* Aggiunge spazio all'interno della cornice */
+    width: 200px; /* Larghezza del quadrato */
+    height: 200px; /* Altezza del quadrato */
+}

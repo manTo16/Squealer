@@ -5,7 +5,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 
 function Searchbar () {
     return (
-        <Container className="mt-5">
+        <Container className="mb-2">
             <Form className="d-flex">
                 
                 <Form.Control
@@ -13,10 +13,10 @@ function Searchbar () {
                 placeholder="Search"
                 className="me-2 rounded-pill"
                 aria-label="Search"
-                
                 />
                 
-                <Button className="rounded-pill"
+                <Button 
+                className="rounded-pill"
                 variant="outline-primary"
                 >
                     Search

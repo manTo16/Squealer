@@ -4,6 +4,9 @@ import NavbarBootstrap from 'react-bootstrap/Navbar';
 import Logo from '../assets/squealer-logo.png'
 import { NavLink, useNavigate } from 'react-router-dom';
 
+/* sidebar */
+import SidebarComponent from './SidebarComponent';
+
 
 export default function Navbar() {
   const isLoggedIn = !!localStorage.getItem('token')
@@ -18,6 +21,9 @@ export default function Navbar() {
   return (
     <NavbarBootstrap expand="lg" className="bg-flamingo shadow-sm nav-bootstrap">
       <ContainerBootstrap>
+        
+        <SidebarComponent />
+
         <NavbarBootstrap.Brand to="/" as={NavLink}>
           <img src={Logo} alt="" width="50" height="30" className="d-inline-block align-top mx-2"/>
           Squealer</NavbarBootstrap.Brand>
