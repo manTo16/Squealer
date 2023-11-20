@@ -15,6 +15,8 @@ function App() {
     <div>
       <Navbar />
 
+      {/* <SidebarComponent /> */}
+
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<Login />}/>
