@@ -6,6 +6,8 @@ import Searchbar from './Searchbar';
 
 import "./SidebarComponent.css";
 
+import Logo from "../assets/Squealer.png"
+
 function SidebarComponent() {
   const [show, setShow] = useState(false);
 
@@ -22,7 +24,10 @@ function SidebarComponent() {
 
       <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+          <Offcanvas.Title>
+            <img src={Logo} alt="Squealer-logo" width="50" height="50" className="d-inline-block align-top mx-2" />
+            Squealer
+          </Offcanvas.Title>
         </Offcanvas.Header>
 
         <Offcanvas.Body>

@@ -2,15 +2,16 @@ import "./Post.css"
 
 
 
-function Post() {
+function Post(props: any) {
     return(
-        <div className='my-frame'>
+        <div className='post-container'>
 
             <h3>
-                nome utente
+                {props.username}
             </h3>
-            <p>
-                dgjfdgfhdgfhdg messaggio un sacco di cose belle alallalala sono andato a fare la spesa cacca pipi e tutto il resto
+
+            <p className="post-content-wrapper">
+                dgjfdgfhdgfhdg messaggio un sacco didddddddddddd ddddddddddd cose belle alallalala sono andato a fare la spesa cacca pipi e tutto il resto fine messaggio
             </p>
         </div>
 

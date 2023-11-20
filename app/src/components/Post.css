@@ -1,6 +1,14 @@
-.my-frame {
-    border: 2px solid #000; /* Crea una cornice nera */
-    padding: 10px; /* Aggiunge spazio all'interno della cornice */
-    width: 200px; /* Larghezza del quadrato */
-    height: 200px; /* Altezza del quadrato */
+.post-container {
+    border: 2px solid #000; 
+    padding: 0px; 
+    max-height: 50%;  /* non so, si può cambiare se vi sembra meglio */
+    overflow: hidden;
+}
+
+.post-content-wrapper {
+    padding: 0px; 
+    max-height: 100%;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: "...";
 }
