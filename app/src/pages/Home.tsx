@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import SidebarComponent from '../components/SidebarComponent'
+import SidebarComponent from '../components/Sidebar/SidebarComponent'
 import Searchbar from '../components/Searchbar.js'
 import Post from '../components/Post'
 

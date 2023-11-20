@@ -5,12 +5,13 @@ import Logo from '../assets/Squealer.png'
 import { NavLink, useNavigate } from 'react-router-dom';
 
 /* sidebar */
-import SidebarComponent from './SidebarComponent';
+import SidebarComponent from './Sidebar/SidebarComponent';
 
 
 export default function Navbar() {
   const isLoggedIn = !!localStorage.getItem('token')
   const navigate = useNavigate()
+  
 
 
   const handleLogout = (e:React.MouseEvent<HTMLElement>) => {
@@ -19,14 +20,19 @@ export default function Navbar() {
   }
   console.log(isLoggedIn)
   return (
-    <NavbarBootstrap expand="lg" className="bg-flamingo shadow-sm nav-bootstrap">
+    <NavbarBootstrap expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
       <ContainerBootstrap>
         
-        <SidebarComponent />
+        
 
-        <NavbarBootstrap.Brand to="/" as={NavLink}>
-          <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2"/>
-          Squealer</NavbarBootstrap.Brand>
+      <NavbarBootstrap.Brand to="/" as={NavLink} className="d-flex align-items-center">
+          <SidebarComponent />
+          <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2" />
+          <span style={{ lineHeight: '50px' }}>Squealer </span>
+        </NavbarBootstrap.Brand>
+
+          
+
         <NavbarBootstrap.Toggle aria-controls="basic-navbar-nav" />
         <NavbarBootstrap.Collapse id="basic-navbar-nav">
             {!isLoggedIn ?(
