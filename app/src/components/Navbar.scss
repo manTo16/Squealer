@@ -1,0 +1,46 @@
+.Bell {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.Logout {
+    margin-right: 20px;
+}
+
+.Logo {
+    font-size: 24px;
+    margin-left: 10px;
+    font-weight: bold;
+    line-height: 50px;
+}
+
+.searchBar {
+    width: 100%;
+    height: 30px;
+    background-color: #272729;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.searchIcon {
+    font-size: 20px !important;
+    margin-left: 10px;
+}
+
+.searchInput {
+    background-color: #272729;
+    color: #f2cdcd;
+    border: none;
+    width: 70%;
+}
+
+.searchInput:focus {
+    outline: none;
+}
+
+
+.navbarImg {
+    width: 32px;
+    height: 32px;
+}

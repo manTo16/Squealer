@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 
 import SidebarComponent from '../components/Sidebar/SidebarComponent'
 import Searchbar from '../components/Searchbar'
-import Post from '../components/Post'
+import Feed from '../components/Feed/Feed'
 
 import "./Home.css"
 
@@ -23,9 +23,7 @@ export default function Home() {
           </Col>
 
           <Col xs={6} className='content-wrapper'>
-          <Post username="username1" />
-          <Post username="lala" />
-          <Post username="io" />
+            <Feed/>
           </Col>
 
           <Col xs={4} className='right-column-wrapper'>
