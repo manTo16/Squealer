@@ -3,9 +3,9 @@ import NavBootstrap from 'react-bootstrap/Nav';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
 import Logo from '../assets/Squealer.png'
 import { NavLink, useNavigate } from 'react-router-dom';
-import Bell from './Button/BellButton'
-import Logout from './Button/LogoutButton';
-import SearchLogo from './Button/SearchLogo';
+import Bell from './svg/BellSvg'
+import Logout from './svg/LogoutSvg';
+import SearchLogo from './svg/SearchSvg';
 import "./Navbar.scss"
 
 /* sidebar */
@@ -29,7 +29,7 @@ export default function Navbar() {
       <NavbarBootstrap.Brand className="d-flex align-items-center">
         <SidebarComponent />
         <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2" />
-        <span className='Logo'>Squealer</span>
+        <span className='Logo'>Squealer aaaaaaaaaaaaaaaaaa</span>
       </NavbarBootstrap.Brand>
 
       <div className="d-flex align-items-center flex-grow-1"> {/* Utilizzo di flex-grow per l'espansione */}

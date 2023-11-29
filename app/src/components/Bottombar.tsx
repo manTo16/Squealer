@@ -6,11 +6,11 @@ import Button from 'react-bootstrap/Button';
 import "./Bottombar.css"
 
 import Logo from "../assets/Squealer.png"
-import HomeButton from './Button/BottomBarButtons/HomeButton';
-import FireButton from './Button/BottomBarButtons/FireButton';
-import AddButton from './Button/BottomBarButtons/AddButton';
-import QuestionButton from './Button/BottomBarButtons/QuestionButton';
-import GroupButton from './Button/BottomBarButtons/GroupButton';
+import HomeButton from './svg/BottomBarSvg/HomeButton';
+import FireButton from './svg/BottomBarSvg/FireButton';
+import AddButton from './svg/BottomBarSvg/AddButton';
+import QuestionButton from './svg/BottomBarSvg/QuestionButton';
+import GroupButton from './svg/BottomBarSvg/GroupButton';
 
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';

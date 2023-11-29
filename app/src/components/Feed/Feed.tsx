@@ -4,6 +4,8 @@ import Share from "../Share/Share"
 
 export default function Feed() {
     return (
-        <div> [feed] </div>
+        <div>
+            [feed]    
+        </div>
     )
 }

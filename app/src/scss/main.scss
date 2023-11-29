@@ -37,13 +37,13 @@ $catpuccin-theme-colors: (
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Nunito+Sans:opsz,wght@6..12,500&display=swap');
 
 body {
-  background-color: #030303;
+  background-color: $darkMode-Background;
   font-family: Nunito Sans;
   color: white;
 }
 
 .nav-bootstrap{
-  background-color: #1a1a1b;
+  background-color: $darkMode-Navbar;
   font-family: Lobster;
 }
 
