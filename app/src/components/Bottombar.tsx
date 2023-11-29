@@ -24,7 +24,7 @@ import "./Bottombar.css"
 export default function Bottombar() {
   return (
       <Navbar fixed="bottom" bg="dark" data-bs-theme="dark">
-      <Nav className="me-auto"> 
+      <Nav className="d-flex flex-grow-1"> 
         <Container className='justify-content-center'>
             <Row>
 
@@ -44,7 +44,7 @@ export default function Bottombar() {
               </Nav.Item>
             </Col>
 
-            <Col className='justify-content-start'>
+            <Col>
               <Nav.Item>
                 <Button variant="outline-light" href="/newPost">
                   <AddButton />

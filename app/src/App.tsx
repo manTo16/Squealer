@@ -27,7 +27,9 @@ function App() {
         <Route path='/trendingPage' element={<TrendingPage />}/>
       </Routes>
 
-      <Bottombar />
+      <div className='d-lg-none'>
+      <Bottombar/>
+      </div>
     </div>
   );
 }

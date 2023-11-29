@@ -24,9 +24,9 @@ function SidebarComponent() {
         </svg>
       </Button>
 
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Cacca</Offcanvas.Title>
+      <Offcanvas className="offcanvas-background" show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton closeVariant='white'>
+          <Offcanvas.Title className='normal-text'>Cacca</Offcanvas.Title>
         </Offcanvas.Header>
 
         <Offcanvas.Body>

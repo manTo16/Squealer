@@ -69,4 +69,14 @@ body {
   }
 }
 
+.offcanvas-background {
+  &.offcanvas {
+    background-color: $darkMode-Background;
+  }
+}
+
+.normal-text {
+  color: $darkMode-DisplayName
+}
+
 $theme-colors: ($catpuccin-theme-colors,$theme-colors);

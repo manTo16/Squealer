@@ -7,6 +7,7 @@ import SidebarComponent from '../components/Sidebar/SidebarComponent'
 import Searchbar from '../components/Searchbar'
 import Feed from '../components/Feed/Feed'
 import SidebarContent from '../components/Sidebar/SidebarContent'
+import ThirdColumn from '../components/ThirdColumn/ThirdColumn'
 
 import "./Home.css"
 
@@ -19,16 +20,16 @@ export default function Home() {
         
         <Row xs={12} lg={12} className="main-row">
 
-          <Col xs={0} lg={{ span: 3, offset: 1 }} className='d-none d-lg-block'>
+          <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
             <SidebarContent />
           </Col>
 
-          <Col xs={12} lg={4} className='content-wrapper'>
+          <Col xs={12} lg={6} className='content-wrapper'>
             <Feed/>
           </Col>
 
-          <Col xs={0} lg={4} className='d-none d-lg-block'>
-            <p>terza colonna</p>
+          <Col xs={0} lg={3} className='d-none d-lg-block'>
+            <ThirdColumn />
           </Col>
         
         </Row>
