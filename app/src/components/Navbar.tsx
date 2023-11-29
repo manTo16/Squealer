@@ -29,7 +29,7 @@ export default function Navbar() {
       <NavbarBootstrap.Brand to="/" as={NavLink} className="d-flex align-items-center">
         <SidebarComponent />
         <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2" />
-        <span className='Logo'>Squealer </span>
+        <span className='Logo'>Squealer</span>
       </NavbarBootstrap.Brand>
 
       <div className="searchBar">

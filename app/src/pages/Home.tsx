@@ -16,17 +16,17 @@ export default function Home() {
     <div>
       <Container className='h-100'>
         
-        <Row xs={12} className="main-row">
+        <Row xs={12} lg={12} className="main-row">
 
-          <Col xs={2} className='sidebar-wrapper'>
+          <Col xs={0} lg={2} className='sidebar-wrapper'>
             
           </Col>
 
-          <Col xs={6} className='content-wrapper'>
+          <Col xs={12} lg={6} className='content-wrapper'>
             <Feed/>
           </Col>
 
-          <Col xs={4} className='right-column-wrapper'>
+          <Col xs={0} lg={4} className='right-column-wrapper'>
             <p>terza colonna</p>
           </Col>
          

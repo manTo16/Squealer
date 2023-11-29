@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Bottombar from './components/Bottombar';
+import NewPostPage from './pages/NewPost';
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<Login />}/>
         <Route path='/register' element={<Register />}/>
+        <Route path='/newPost' element={<NewPostPage />}/>
       </Routes>
 
       <Bottombar />
