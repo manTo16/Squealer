@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import FireButton from '../Button/FireButton';
 
 import Searchbar from '../Searchbar';
 
