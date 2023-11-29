@@ -27,11 +27,11 @@ function Bottombar() {
     <>
       <Navbar fixed="bottom" bg="dark" data-bs-theme="dark">
       <Nav className="me-auto"> 
-        <Container>
+        <Container className='justify-content-center'>
             <Row>
 
             <Col>
-              <Nav.Item className='d-flex justify-content-around'>
+              <Nav.Item>
                   <Button variant="outline-light" href="/">
                     <HomeButton />
                   </Button>
@@ -39,7 +39,7 @@ function Bottombar() {
             </Col>
     
             <Col>
-              <Nav.Item className='d-flex justify-content-around'>
+              <Nav.Item>
                 <Button variant="outline-light" href="/trendingPage">
                   <FireButton/>
                 </Button>
@@ -47,7 +47,7 @@ function Bottombar() {
             </Col>
 
             <Col className='justify-content-start'>
-              <Nav.Item className='d-flex justify-content-around'>
+              <Nav.Item>
                 <Button variant="outline-light" href="/newPost">
                   <AddButton />
                 </Button>
@@ -55,7 +55,7 @@ function Bottombar() {
             </Col>
 
             <Col>
-              <Nav.Item className='d-flex justify-content-around'>
+              <Nav.Item>
                 <Button variant="outline-light">
                   <QuestionButton/>
                 </Button>
@@ -63,7 +63,7 @@ function Bottombar() {
             </Col>
 
             <Col>
-              <Nav.Item className='d-flex justify-content-around'>
+              <Nav.Item>
                 <Button variant="outline-light">
                   <GroupButton/> 
                 </Button>
