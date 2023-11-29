@@ -6,11 +6,11 @@ import Button from 'react-bootstrap/Button';
 import "./Bottombar.css"
 
 import Logo from "../assets/Squealer.png"
-import HomeButton from './Button/HomeButton';
-import FireButton from './Button/FireButton';
-import AddButton from './Button/AddButton';
-import QuestionButton from './Button/QuestionButton';
-import GroupButton from './Button/GroupButton';
+import HomeButton from './Button/BottomBarButtons/HomeButton';
+import FireButton from './Button/BottomBarButtons/FireButton';
+import AddButton from './Button/BottomBarButtons/AddButton';
+import QuestionButton from './Button/BottomBarButtons/QuestionButton';
+import GroupButton from './Button/BottomBarButtons/GroupButton';
 
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
@@ -20,11 +20,10 @@ import { Col } from 'react-bootstrap';
 icone:
 https://reactsvgicons.com/materialdesignicons?page=1
 */
+import "./Bottombar.css"
 
-
-function Bottombar() {
+export default function Bottombar() {
   return (
-    <>
       <Navbar fixed="bottom" bg="dark" data-bs-theme="dark">
       <Nav className="me-auto"> 
         <Container className='justify-content-center'>
@@ -74,8 +73,5 @@ function Bottombar() {
         </Container>
       </Nav>
       </Navbar>
-    </>
   );
 }
-
-export default Bottombar;
