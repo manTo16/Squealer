@@ -13,8 +13,8 @@ import SidebarComponent from './Sidebar/SidebarComponent';
 
 
 export default function Navbar() {
-  // const isLoggedIn = !!localStorage.getItem('token')
-  const isLoggedIn = true
+  const isLoggedIn = !!localStorage.getItem('token')
+  // const isLoggedIn = true
   const navigate = useNavigate()
 
   const handleLogout = (e:React.MouseEvent<HTMLElement>) => {
@@ -32,33 +32,35 @@ export default function Navbar() {
         <span className='Logo'>Squealer</span>
       </NavbarBootstrap.Brand>
 
-      <div className="searchBar">
-        <SearchLogo className='searchIcon'/>
-        <input
+      <div className="d-flex align-items-center flex-grow-1"> {/* Utilizzo di flex-grow per l'espansione */}
+          <div className='searchBar flex-grow-1'> {/* Utilizzo di flex-grow per espandere l'input */}
+          <SearchLogo className='searchIcon'/>
+          <input
             placeholder='Trova amici, post o video'
             className='searchInput'
-        />
-      </div>
+          />
+        </div>
 
-      <NavbarBootstrap.Toggle aria-controls="basic-navbar-nav" />
-      <NavbarBootstrap.Collapse id="basic-navbar-nav">
-          {!isLoggedIn ?(
-              // if NOT logged
-              <NavBootstrap className="ms-auto">
-                <NavBootstrap.Link to="/login" as={NavLink}>Log in</NavBootstrap.Link>
-                <NavBootstrap.Link to="/register" as={NavLink}>Register</NavBootstrap.Link>
-              </NavBootstrap>
-            ):(
-              // if logged
-              <NavBootstrap className="ms-auto">
-                <div className="Bell"><Bell/></div>
-                <div className="Logout"><Logout/></div>
-                <img src="/assets/person/1.png" alt="" className='navbarImg'/>
-              </NavBootstrap>
-            )
-          }
+        <NavbarBootstrap.Toggle aria-controls="basic-navbar-nav" className='logButton'/>
+        <NavbarBootstrap.Collapse id="basic-navbar-nav">
+            {!isLoggedIn ?(
+                // if NOT logged
+                <NavBootstrap className="ms-auto">
+                  <NavBootstrap.Link to="/login" as={NavLink}>Log in</NavBootstrap.Link>
+                  <NavBootstrap.Link to="/register" as={NavLink}>Register</NavBootstrap.Link>
+                </NavBootstrap>
+              ):(
+                // if logged
+                <NavBootstrap className="ms-auto">
+                  <div className="Bell"><Bell/></div>
+                  <div className="Logout"><Logout/></div>
+                  <img src="/assets/person/1.png" alt="" className='navbarImg'/>
+                </NavBootstrap>
+              )
+            }
 
-        </NavbarBootstrap.Collapse>
+          </NavbarBootstrap.Collapse>
+        </div>
       </ContainerBootstrap>
     </NavbarBootstrap>
   );
