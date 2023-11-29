@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 
 import "./Bottombar.css"
 
-import Logo from "../assets/Squealer.png"
 import HomeButton from './svg/BottomBarSvg/HomeButton';
 import FireButton from './svg/BottomBarSvg/FireButton';
 import AddButton from './svg/BottomBarSvg/AddButton';

@@ -29,7 +29,7 @@ export default function Navbar() {
       <NavbarBootstrap.Brand className="d-flex align-items-center">
         <SidebarComponent />
         <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2" />
-        <span className='Logo'>Squealer aaaaaaaaaaaaaaaaaa</span>
+        <span className='Logo'>Squealer</span>
       </NavbarBootstrap.Brand>
 
       <div className="d-flex align-items-center flex-grow-1"> {/* Utilizzo di flex-grow per l'espansione */}
