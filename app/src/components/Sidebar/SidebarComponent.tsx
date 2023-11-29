@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import FireButton from '../Button/FireButton';
 
 import Searchbar from '../Searchbar';
 
@@ -33,17 +34,28 @@ function SidebarComponent() {
 
           <Searchbar />
 
+          <Button variant="outline-light" href="/login">
+            Log in
+          </Button>
+          <Button variant="outline-light" href="/register">
+            Register
+          </Button>
+
+
           <h3 className="sidebar-title">Canali consigliati</h3>
           <div className="channels-wrapper">
-            <div className="clickable-channel-button">
+            <Button variant="outline-light">
               canale 1
-            </div>
-            <div className="clickable-channel-button">
+            </Button>
+            <Button variant="outline-light">
               canale 2
-            </div>
-            <div className="clickable-channel-button">
-              canale 3
-            </div>
+            </Button>
+            <Button variant="outline-light">
+              canale x
+            </Button>
+            <Button variant="outline-light">
+              cronologia
+            </Button>
           </div>
         </Offcanvas.Body>
       </Offcanvas>

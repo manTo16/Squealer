@@ -32,7 +32,7 @@ function Bottombar() {
 
             <Col>
               <Nav.Item className='d-flex justify-content-around'>
-                  <Button variant="outline-light">
+                  <Button variant="outline-light" href="/">
                     <HomeButton />
                   </Button>
               </Nav.Item>
@@ -40,7 +40,7 @@ function Bottombar() {
     
             <Col>
               <Nav.Item className='d-flex justify-content-around'>
-                <Button variant="outline-light">
+                <Button variant="outline-light" href="/trendingPage">
                   <FireButton/>
                 </Button>
               </Nav.Item>

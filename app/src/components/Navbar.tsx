@@ -26,7 +26,7 @@ export default function Navbar() {
     <NavbarBootstrap expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
       <ContainerBootstrap>
 
-      <NavbarBootstrap.Brand to="/" as={NavLink} className="d-flex align-items-center">
+      <NavbarBootstrap.Brand className="d-flex align-items-center">
         <SidebarComponent />
         <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2" />
         <span className='Logo'>Squealer</span>
