@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import Searchbar from '../Searchbar';
+import SidebarContent from './SidebarContent';
 
 import "./SidebarComponent.css";
 
@@ -15,7 +15,7 @@ function SidebarComponent() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" onClick={handleShow} className='d-lg-none'>
       <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
             width="24" height="24"  fill="currentColor" 
             stroke="currentColor"   stroke-width="1" 
@@ -30,32 +30,7 @@ function SidebarComponent() {
         </Offcanvas.Header>
 
         <Offcanvas.Body>
-
-          <Searchbar />
-
-          <Button variant="outline-light" href="/login">
-            Log in
-          </Button>
-          <Button variant="outline-light" href="/register">
-            Register
-          </Button>
-
-
-          <h3 className="sidebar-title">Canali consigliati</h3>
-          <div className="channels-wrapper">
-            <Button variant="outline-light">
-              canale 1
-            </Button>
-            <Button variant="outline-light">
-              canale 2
-            </Button>
-            <Button variant="outline-light">
-              canale x
-            </Button>
-            <Button variant="outline-light">
-              cronologia
-            </Button>
-          </div>
+          <SidebarContent />
         </Offcanvas.Body>
       </Offcanvas>
     </>
