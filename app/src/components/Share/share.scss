@@ -24,11 +24,18 @@
     border-radius: 50%;
     object-fit: cover;
     margin-right: 10px;
+    flex: none;
+}
+
+.rightTop{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .shareInput{
     border: none;
-    width: 80%;
+    width: 100%;
     background-color: $darkMode-Input;
     color: $Flamingo;
 }
@@ -89,4 +96,6 @@
 
 .charLeft{
     margin-left: auto;
+    flex-grow: 2;
+    text-align: right;
 }

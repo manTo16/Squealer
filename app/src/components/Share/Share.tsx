@@ -8,19 +8,14 @@ export default function Share() {
     return (
         <div className="share">
             <div className="shareWrapper">
+                
                 <div className="shareTop">
                     <img className="shareProfileImg" src="/assets/person/1.png" alt="" />
                     <div className="rightTop">
                         <div className="tags">
-                            <div className="displayedName">
-                                <h6>Repubblica</h6>    
-                            </div>
-                            <div className="tagName">
-                                <p>@Repubblica</p>
-                            </div>
-                            <div className="charLeft">
-                                <p>69420</p>
-                            </div>
+                            <span className="displayedName">Repubblica</span>
+                            <span className="tagName">@Repubblica</span>
+                            <span className="charLeft">69420</span>
                         </div>
                         <input 
                             placeholder="Squillo calde nei paraggi"
@@ -28,6 +23,8 @@ export default function Share() {
                         />
                     </div>
                 </div>
+                {/* ----------------------- */}
+                
                 <hr className="shareHr"/>
                 <div className="shareBottom">
                     <div className="shareOptions">
