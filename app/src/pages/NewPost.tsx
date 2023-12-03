@@ -1,3 +1,4 @@
+import "./NewPost.scss"
 import Share from "../components/Share/Share"
 
 

@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col'
 import SidebarComponent from '../components/Sidebar/SidebarComponent'
 import Searchbar from '../components/Searchbar'
 import Feed from '../components/Feed/Feed'
+import SidebarContent from '../components/Sidebar/SidebarContent'
+import ThirdColumn from '../components/ThirdColumn/ThirdColumn'
 
 import "./Home.css"
 import UserInfo from '../components/UserInfo'
@@ -15,22 +17,27 @@ import UserInfo from '../components/UserInfo'
 export default function Home() {
   return (
     <div>
-      <Container className='h-100'>
+      <Container fluid>
         
         <Row xs={12} lg={12} className="main-row">
 
-          <Col xs={0} lg={2} className='sidebar-wrapper'>
-            
+          <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
+            <SidebarContent />
           </Col>
 
           <Col xs={12} lg={6} className='content-wrapper'>
             <Feed/>
           </Col>
 
+<<<<<<< HEAD
           <Col xs={0} lg={4} className='right-column-wrapper'>
             <UserInfo />
+=======
+          <Col xs={0} lg={3} className='d-none d-lg-block'>
+            <ThirdColumn />
+>>>>>>> 765e123e2ce86e4d4d282c919de6f86ee1b43356
           </Col>
-         
+        
         </Row>
       </Container>
     </div>

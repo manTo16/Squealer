@@ -4,7 +4,8 @@
 
 * Squealer è un social network di brevi messaggi detti squeal
 * Sebbene non ci sia, come in Twitter, un numero massimo di caratteri nel singolo essaggio, **c'è un numero massimo di caratteri al giorno, alla settimana e al mese <ins>per i messaggi pubblici**</ins>
-* Un utente può esaurire questa quota in un unico messaggio lungo, pochi messaggi di media lunghezza o tanti messaggi brevi. * I messaggi possono essere indirizzati ad un singolo utente, oppure ad un canale, oppure a tutti (pubblici). Le reazioni sono importanti
+* Un utente può esaurire questa quota in un unico messaggio lungo, pochi messaggi di media lunghezza o tanti messaggi brevi. 
+* I messaggi possono essere indirizzati ad un singolo utente, oppure ad un canale, oppure a tutti (pubblici). Le reazioni sono importanti
 * I messaggi possono contenere testo, link (anche abbreviati), immagini e geolocazioni. Il rapporto tra immagini e testo è che *"un'immagine vale mille parole"* Per noi **mille bit**, cioè 125 caratteri. Una geolocazione viene mostrata come una mappa e conta come un'immagine.
 
 ## la quota di caratteri
