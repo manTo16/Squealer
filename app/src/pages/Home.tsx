@@ -8,6 +8,7 @@ import Searchbar from '../components/Searchbar'
 import Feed from '../components/Feed/Feed'
 
 import "./Home.css"
+import UserInfo from '../components/UserInfo'
 
 
 
@@ -27,7 +28,7 @@ export default function Home() {
           </Col>
 
           <Col xs={0} lg={4} className='right-column-wrapper'>
-            <p>terza colonna</p>
+            <UserInfo />
           </Col>
          
         </Row>

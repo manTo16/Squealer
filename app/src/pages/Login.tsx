@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container'
 import ButtonBootstrap from 'react-bootstrap/Button'
 import Logo from '../assets/Squealer.png'
 import { useNavigate } from 'react-router-dom'
-import { apiAuthURL } from '../URLs'
+import { apiAuthURL, apiUsersURL } from '../URLs'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
@@ -28,6 +28,16 @@ export default function Login() {
       localStorage.setItem('token', token)
     }
     catch(err){
+      console.log(err)
+    }
+  }
+
+  const getLoggedUserData = async (username: String) =>{
+    try{
+      const response = await axios.get(apiUsersURL+'/'+username)
+      const user = response.data.user
+      localStorage.setItem('user',JSON.stringify(user))
+    }catch(err){
       console.log(err)
     }
   }
