@@ -9,6 +9,19 @@ import { apiAuthURL, apiUsersURL } from '../URLs'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+const getLoggedUserData = async (username: String) =>{
+  try{
+    const url=apiUsersURL+'/'+username
+    console.log(url)
+    const response = await axios.get(apiUsersURL+'/'+username)
+    console.log(response)
+    const user = response.data.user
+    console.log(user)
+    localStorage.setItem('user',JSON.stringify(user))
+  }catch(err){
+    console.log(err)
+  }
+}
 
 export default function Login() {
   const [username,setUsername]=useState('')
@@ -21,6 +34,7 @@ export default function Login() {
       const response = await axios.post(apiAuthURL+'/login',{username,password})
       const token = response.data.token
       alert('Success!')
+      await getLoggedUserData(username)
       setUsername('')
       setPassword('')
       navigate('/')
@@ -32,15 +46,6 @@ export default function Login() {
     }
   }
 
-  const getLoggedUserData = async (username: String) =>{
-    try{
-      const response = await axios.get(apiUsersURL+'/'+username)
-      const user = response.data.user
-      localStorage.setItem('user',JSON.stringify(user))
-    }catch(err){
-      console.log(err)
-    }
-  }
 
   return (
     <div>

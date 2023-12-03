@@ -29,13 +29,8 @@ export default function Home() {
             <Feed/>
           </Col>
 
-<<<<<<< HEAD
           <Col xs={0} lg={4} className='right-column-wrapper'>
             <UserInfo />
-=======
-          <Col xs={0} lg={3} className='d-none d-lg-block'>
-            <ThirdColumn />
->>>>>>> 765e123e2ce86e4d4d282c919de6f86ee1b43356
           </Col>
         
         </Row>

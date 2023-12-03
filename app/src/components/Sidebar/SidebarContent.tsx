@@ -6,7 +6,7 @@ import Searchbar from '../Searchbar';
 
 
 export default function SidebarContent() {
-  const isLoggedIn = true;
+  const isLoggedIn = !!localStorage.getItem('token');
 
   return(
   <div>
