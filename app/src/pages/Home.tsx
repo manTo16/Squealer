@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import SidebarComponent from '../components/Sidebar/SidebarComponent'
-import Searchbar from '../components/Searchbar'
+import Searchbar from '../components/Searchbar/Searchbar'
 import Feed from '../components/Feed/Feed'
 import SidebarContent from '../components/Sidebar/SidebarContent'
 import ThirdColumn from '../components/ThirdColumn/ThirdColumn'

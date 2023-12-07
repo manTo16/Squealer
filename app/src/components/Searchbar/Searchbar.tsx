@@ -1,24 +1,20 @@
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import SearchLogo from './svg/SearchSvg';
+import SearchLogo from '../svg/SearchSvg';
+import './searchbar.css'; // Importa il file CSS per stili personalizzati
 
-
-
-
-function Searchbar () {
-    return (
-        <div className="d-flex align-items-center flex-grow-1"> {/* Utilizzo di flex-grow per l'espansione */}
-        <div className='searchBar flex-grow-1'> {/* Utilizzo di flex-grow per espandere l'input */}
-          <SearchLogo className='searchIcon'/>
-          <input
-            placeholder='Trova amici, post o video'
-            className='searchInput'
-          />
-        </div>
+export default function Searchbar() {
+  return (
+    <div className="d-flex align-items-center flex-grow-1"> {/* Utilizzo di flex-grow per l'espansione */}
+      <div className='searchBar flex-grow-1'> {/* Utilizzo di flex-grow per espandere l'input */}
+        <SearchLogo className='searchIcon'/>
+        <input
+          placeholder='Trova amici, post o video'
+          className='searchInput'
+        />
       </div>
-    );
+    </div>
+  );
 }
-
-export default Searchbar;
 
 
 

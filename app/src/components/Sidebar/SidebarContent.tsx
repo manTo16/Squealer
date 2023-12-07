@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 
 import Bell from '../svg/BellSvg';
 import Logout from '../svg/LogoutSvg';
-import Searchbar from '../Searchbar';
+import Searchbar from '../Searchbar/Searchbar';
 
 
 export default function SidebarContent() {
