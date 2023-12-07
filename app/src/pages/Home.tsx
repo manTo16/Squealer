@@ -30,7 +30,7 @@ export default function Home() {
           </Col>
 
           <Col xs={0} lg={4} className='right-column-wrapper'>
-            <UserInfo />
+            {/* <UserInfo /> */}
           </Col>
         
         </Row>

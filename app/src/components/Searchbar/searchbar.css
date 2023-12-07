@@ -17,4 +17,7 @@
     width: 100%; /* Assicura che l'input si espanda completamente */
     max-width: calc(100% - 30px); /* Imposta la larghezza massima dell'input per evitare l'overflow */
   }
-  
+
+.bar{
+  padding-bottom: 10px;
+}

@@ -20,3 +20,8 @@
 .channels-wrapper {
   display:grid
 }
+
+.leftside{
+  position: sticky !important;
+  top: 0;
+}

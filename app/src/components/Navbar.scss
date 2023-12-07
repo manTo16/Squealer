@@ -1,5 +1,17 @@
 @import '../scss/variables.scss';
 
+.navbar{
+    position: sticky !important;
+    top: 0;
+    padding: 0 !important;
+}
+
+@media (max-width: 767px) {
+    .navbar {
+      padding-bottom: 10px !important;
+    }
+  }
+
 .topBar{
     display: flex;
 }
