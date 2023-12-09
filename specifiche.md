@@ -8,7 +8,7 @@
 * I messaggi possono essere indirizzati ad un singolo utente, oppure ad un canale, oppure a tutti (pubblici). Le reazioni sono importanti
 * I messaggi possono contenere testo, link (anche abbreviati), immagini e geolocazioni. Il rapporto tra immagini e testo è che *"un'immagine vale mille parole"* Per noi **mille bit**, cioè 125 caratteri. Una geolocazione viene mostrata come una mappa e conta come un'immagine.
 
-## la quota di caratteri
+## La quota di caratteri
 
 * Squealer non ha quota di caratteri per messaggio.
 * All'iscrizione, l'utente riceve una quota di default di caratteri che può usare al giorno (D), alla settimana (W < 7*D) e al mese (M < W*4 ).
@@ -18,7 +18,7 @@
 * I messaggi ad utenti specifici (non a canali, non pubblici) non usano quota e sono sempre disponibili anche senza quota residua.
 * Un utente può aumentare la quota comprandola (per un anno), oppure ottenendo apprezzamenti dal proprio pubblico. Similmente, le reazioni negative diminuiscono la quota (anche quella comprata) fino a farla scomparire (vedi prossime slide)
 
-## i destinatari
+## I destinatari
 
 * Squealer usa indirizzi per diffondere gli squeal, ma distingue tra menzioni e destinatari
 * La sintassi degli indirizzi è la stessa ma la menzione appare nel corpo del messaggio mentre il destinatario ha un campo tutto suo.
@@ -28,7 +28,7 @@
   * <span style="color:cyan">#keyword</span> sono "canali" estemporanei creati in qualunque momento e accessibili da chiunque senza permessi o limitazioni.
 * Gli indirizzi specificati come menzioni sono solo ricercabili, mentre gli indirizzi specificati come destinatari vengono notificati agli iscritti all'indirizzo stesso
 
-## canali riservati
+## Canali riservati
 
 * Squealer prevede un certo numero di canali riservati (identificati con un §CANALE in lettere maiuscole) e gestiti dalla redazione interna
 * Ogni gruppo sceglie quali canali rendere disponibili e la logica di ogni canale. Alcuni possono essere popolati automat### icamente sulla base di regole, altri attraverso l'intevento manuale di un moderatore.
@@ -41,7 +41,7 @@
 * <span style="color:orange">Alcuni canali non sono mai silenziabili: §ALL,
 §EMERGENCY, §EMERGENCY_BOLOGNA, ecc.</span>
 
-## le reazioni
+## Le reazioni
 
 * Di ogni messaggio si contano le *impression X* (il numero di utenti, registrati o meno, che l'hanno visualizzato). Si escludono i destinatari individuali.
 * Ogni utente, registrato o meno, può reagire ad un messaggio in maniera positiva o negativa con appositi emoji <span style="color:orange">(scelti dal gruppo, ad es. “Concordo”, “Mi piace”, "sono contrario", "mi disgusta", ecc.)</span>
@@ -51,7 +51,7 @@
 * I messaggi controversi non contano per la variazione della quota, ma appaiono
 nei canali dedicati (§CONTROVERSIAL)
 
-## il formato dei messaggi
+## Il formato dei messaggi
 
 * Ogni messaggio ha un corpo e un elenco di destinatari sotto il
 controllo dell'autore, e una serie di metadati generati
@@ -66,7 +66,7 @@ automaticamente o manualmente dal moderatore Squealer.
 * Esistono inoltre messaggi automatici o derivati da sorgenti esterne
 (vedi prossima slide)
 
-## messaggi automatici e da sorgenti esterne
+## Messaggi automatici e da sorgenti esterne
 
 * Ogni gruppo deve implementare almeno 3 tipi di messaggi generati automaticamente. Di questi, il tipo "messaggi
 temporizzati" è obbligatorio, gli altri 2 a discrezione.
@@ -79,7 +79,7 @@ temporizzati" è obbligatorio, gli altri 2 a discrezione.
   * <span style="color:orange">Twitter RIP: messaggi pubblici letti da canali Twitter attraverso l’API. Sappiamo che Twitter è destinato a scomparire ma gli diamo qualche ultima possibilità 😀"
   * <span style="color:orange">…</span>
 
-## georeferenziazione
+## Georeferenziazione
 
 * I messaggi temporizzati possono essere usati per costruire dinamicamente mappe e mostrarle in una pagina dedicata.
 * Ad esempio, assumiamo che ogni ambulanza, autobus, taxi, camion di corrieri sia dotato di un proprio device con Squealer attivo
