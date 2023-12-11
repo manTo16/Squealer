@@ -4,7 +4,7 @@ import './searchbar.css'; // Importa il file CSS per stili personalizzati
 
 export default function Searchbar() {
   return (
-    <div className="d-flex align-items-center flex-grow-1"> {/* Utilizzo di flex-grow per l'espansione */}
+    <div className="d-flex align-items-center flex-grow-1" style={{ padding: '10px' }}>
       <div className='searchBar flex-grow-1'> {/* Utilizzo di flex-grow per espandere l'input */}
         <SearchLogo className='searchIcon'/>
         <input

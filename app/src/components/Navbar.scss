@@ -6,10 +6,8 @@
     padding: 0 !important;
 }
 
-@media (max-width: 767px) {
-    .navbar {
-      padding-bottom: 10px !important;
-    }
+.custom-dropdown .dropdown-menu {
+    padding-left: 10px; // Aggiungi il padding sinistro desiderato al dropdown-menu
   }
 
 .topBar{
