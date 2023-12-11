@@ -19,11 +19,10 @@ import { Col } from 'react-bootstrap';
 icone:
 https://reactsvgicons.com/materialdesignicons?page=1
 */
-import "./Bottombar.css"
 
 export default function Bottombar() {
   return (
-      <Navbar fixed="bottom" bg="dark" data-bs-theme="dark">
+    <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="bottom-navbar">
       <Nav className="d-flex flex-grow-1"> 
         <Container className='justify-content-center'>
             <Row>
@@ -71,6 +70,6 @@ export default function Bottombar() {
             </Row>
         </Container>
       </Nav>
-      </Navbar>
+    </Navbar>
   );
 }

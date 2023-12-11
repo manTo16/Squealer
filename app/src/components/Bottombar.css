@@ -1,5 +1,8 @@
-.bottomBar{
-    display: flex;
-    justify-content: center;
-    /* align-content: center; */
-}
+/* Bottombar.css */
+.bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* Aggiungi altri stili a tua scelta per il footer */
+    /* background-color, padding, etc. */
+  }

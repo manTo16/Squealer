@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Bottombar from './components/Bottombar';
 import NewPostPage from './pages/NewPost';
 import TrendingPage from './pages/TrendingPage';
+import "./components/Bottombar.css"
 
 
 
@@ -27,8 +28,8 @@ function App() {
         <Route path='/trendingPage' element={<TrendingPage />}/>
       </Routes>
 
-      <div className='d-lg-none'>
-      <Bottombar/>
+      <div className='d-lg-none bottom-navbar'>
+        <Bottombar/>
       </div>
     </div>
   );
