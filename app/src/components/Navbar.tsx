@@ -27,13 +27,14 @@ export default function Navbar() {
     <NavbarBootstrap expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
       <ContainerBootstrap>
 
-      <NavbarBootstrap.Brand className="d-flex align-items-center">
-        <SidebarComponent />
-        <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2" />
-        <span className='Logo'>Squealer</span>
-      </NavbarBootstrap.Brand>
+        <NavbarBootstrap.Brand className="d-flex align-items-center">
+          <SidebarComponent />
+          <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-top mx-2" />
+            <span className='Logo'   >Squealer</span>
+            <span className='charRem'>D: 1024</span>
+        </NavbarBootstrap.Brand>
 
-      <Searchbar />
+        <Searchbar />
       
       </ContainerBootstrap>
     </NavbarBootstrap>
