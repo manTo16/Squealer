@@ -6,3 +6,13 @@
     /* Aggiungi altri stili a tua scelta per il footer */
     /* background-color, padding, etc. */
   }
+
+.ca {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-no-outline:focus {
+  outline: none;
+  box-shadow: none; /* Assicurati di rimuovere anche eventuali ombre di focus */
+}

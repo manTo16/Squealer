@@ -24,7 +24,7 @@ export default function Bottombar() {
   return (
     <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="bottom-navbar">
       <Nav className="d-flex flex-grow-1"> 
-        <Container className='justify-content-center'>
+        <Container className='justify-content-center ca'>
             <Row>
 
             <Col>

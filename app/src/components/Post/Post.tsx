@@ -1,5 +1,8 @@
 import "./post.scss"
 import VDots from "../svg/VDotsSvg"
+import propic from "../../assets/person/9.png"
+import Like from "../svg/Reaction/LikeSvg"
+import Heart from "../svg/Reaction/HeartSvg"
 
 export default function Post() {
     return (
@@ -9,7 +12,7 @@ export default function Post() {
                     <div className="postTopLeft">
                         <img 
                             className="postProfileImg"
-                            src="/assets/person/1.png"
+                            src={propic}
                             alt="" 
                         />
                         <span className="postDisplayedName">Tova</span>
@@ -26,8 +29,8 @@ export default function Post() {
                 </div>
                 <div className="postBottom">
                     <div className="postBottomLeft">
-                        <img className="likeIcon" src="/assets/like.png" alt="" />
-                        <img className="likeIcon" src="/assets/hart.png" alt="" />
+                        <Like className="likeIcon"/>
+                        <Heart className="likeIcon"/>
                         <span className="postLikeCounter">piace a 69 utenti</span>
                     </div>
                     <div className="postBottomRight">
