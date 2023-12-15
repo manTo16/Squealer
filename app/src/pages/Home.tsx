@@ -21,16 +21,17 @@ export default function Home() {
         
         <Row xs={12} lg={12} className="main-row">
 
+          {/* visibile solo su schermi 'lg', mentre su schermi 'xs' viene nascosta `xs={0}` */}
           <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
             <SidebarContent />
           </Col>
-
+          {/* occupa 12 col per 'xs', e 6 per schermi 'lg' */}
           <Col xs={12} lg={6} className='content-wrapper'>
             <Feed/>
           </Col>
-
-          <Col xs={0} lg={4} className='right-column-wrapper'>
-            {/* <UserInfo /> */}
+          {/* invisibile per 'xs', occupa 4 per 'lg' */}
+          <Col xs={0} lg={3} className='d-none d-lg-block'>
+            <UserInfo />
           </Col>
         
         </Row>

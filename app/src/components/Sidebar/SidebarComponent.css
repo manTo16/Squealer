@@ -1,3 +1,8 @@
+.btn-transparent {
+  background-color: transparent !important;
+  border: none !important;
+}
+
 
 .clickable-channel-button {
     display: inline-block;

@@ -29,7 +29,7 @@ export default function Bottombar() {
 
             <Col>
               <Nav.Item>
-                  <Button variant="outline-light" href="/">
+                  <Button variant="outline-light" href="/" className='btn-transparent'>
                     <HomeButton />
                   </Button>
               </Nav.Item>
@@ -37,7 +37,7 @@ export default function Bottombar() {
     
             <Col>
               <Nav.Item>
-                <Button variant="outline-light" href="/trendingPage">
+                <Button variant="outline-light" href="/trendingPage" className='btn-transparent'>
                   <FireButton/>
                 </Button>
               </Nav.Item>
@@ -45,7 +45,7 @@ export default function Bottombar() {
 
             <Col>
               <Nav.Item>
-                <Button variant="outline-light" href="/newPost">
+                <Button variant="outline-light" href="/newPost" className='btn-transparent'>
                   <AddButton />
                 </Button>
               </Nav.Item>
@@ -53,7 +53,7 @@ export default function Bottombar() {
 
             <Col>
               <Nav.Item>
-                <Button variant="outline-light">
+                <Button variant="outline-light" className='btn-transparent'>
                   <QuestionButton/>
                 </Button>
               </Nav.Item>
@@ -61,7 +61,7 @@ export default function Bottombar() {
 
             <Col>
               <Nav.Item>
-                <Button variant="outline-light">
+                <Button variant="outline-light" className='btn-transparent'>
                   <GroupButton/> 
                 </Button>
               </Nav.Item>

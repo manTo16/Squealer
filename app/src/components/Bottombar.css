@@ -16,3 +16,8 @@
   outline: none;
   box-shadow: none; /* Assicurati di rimuovere anche eventuali ombre di focus */
 }
+
+.btn-transparent {
+  background-color: transparent !important;
+  border: none !important;
+}
