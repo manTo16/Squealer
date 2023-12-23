@@ -43,8 +43,8 @@ usa "path" che praticamente è una roba html per fare dei disegnini
 
                         //questi 3 non cambiano nulla, bho
                         fill-rule="evenodd" 
-                        stroke-linecap="round" 
-                        stroke-linejoin="round"
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
                         />
                     </svg>
                 
