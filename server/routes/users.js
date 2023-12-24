@@ -11,6 +11,6 @@ const {
 
 
 router.route('/').get(getAllUsers)/*.post(addNewUser)*/
-router.route('/:username/posts').get(getUserPosts)
+router.route('/:userName/posts').get(getUserPosts)
 router.route('/:userName').get(getUser).patch(updateUser).delete(deleteUser)
 module.exports = router

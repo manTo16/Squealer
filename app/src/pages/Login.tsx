@@ -12,11 +12,8 @@ import Col from 'react-bootstrap/Col'
 const getLoggedUserData = async (username: String) =>{
   try{
     const url=apiUsersURL+'/'+username
-    console.log(url)
     const response = await axios.get(apiUsersURL+'/'+username)
-    console.log(response)
-    const user = response.data.user
-    console.log(user)
+    const user = response.data
     localStorage.setItem('user',JSON.stringify(user))
   }catch(err){
     console.log(err)
