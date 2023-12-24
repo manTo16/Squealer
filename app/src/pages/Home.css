@@ -16,3 +16,16 @@
 .right-column-wrapper {
     display: flex;
 }
+
+/* Aggiungi regole per garantire un'alta altezza */
+.full-height {
+  height: 100vh; /* Altezza pari al 100% della viewport */
+  overflow-x: hidden; /* Nasconde lo scroll orizzontale */
+  overflow-y: hidden;
+}
+
+/* Rimuovi il padding extra */
+.main-row {
+  margin-right: 0; /* Rimuovi margini a destra */
+  margin-left: 0; /* Rimuovi margini a sinistra */
+}
