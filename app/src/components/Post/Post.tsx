@@ -29,8 +29,12 @@ export default function Post() {
                 </div>
                 <div className="postBottom">
                     <div className="postBottomLeft">
-                        <Like className="likeIcon"/>
-                        <Heart className="likeIcon"/>
+                        <button className="btn-transparent">
+                            <Like className="likeIcon"/>
+                        </button>
+                        <button className="btn-transparent">
+                            <Heart className="likeIcon"/>
+                        </button>
                         <span className="postLikeCounter">piace a 69 utenti</span>
                     </div>
                     <div className="postBottomRight">
