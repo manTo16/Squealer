@@ -5,6 +5,7 @@ import DropdownCharSM from './DropdownChar/DropdownChar4SM';
 import DropdownCharLG from './DropdownChar/DropdownChar4LG';
 import Logo from '../assets/Squealer.png'
 import ProfileLG from './Profile options/ProfileLG';
+import ProfileSM from './Profile options/ProfileSM';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Bell from './svg/BellSvg'
 import Logout from './svg/LogoutSvg';
@@ -36,15 +37,11 @@ export default function Navbar() {
             <span className='Logo'>Squealer</span>
           </a>
         </NavbarBootstrap.Brand>
-        
         <DropdownCharSM />
-        
+        <ProfileSM/>
         <Searchbar />
-        
         <DropdownCharLG />
-
         <ProfileLG />
-      
       </ContainerBootstrap>
     </NavbarBootstrap>
   );
