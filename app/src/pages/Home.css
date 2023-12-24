@@ -8,21 +8,38 @@
     display: flex;
 }
 
-.content-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
 .right-column-wrapper {
     display: flex;
 }
 
-/* Aggiungi regole per garantire un'alta altezza */
-.full-height {
-  height: 100vh; /* Altezza pari al 100% della viewport */
-  overflow-x: hidden; /* Nasconde lo scroll orizzontale */
-  overflow-y: hidden;
+/* Rimuovi il padding extra */
+body {
+    margin: 0;
+    overflow: hidden;
 }
+
+.home {
+    overflow: hidden;
+    scrollbar-width: none;  /* Firefox */
+  }
+
+.full-height {
+    height: calc(100vh - 20px); /* Altezza pari al 100% della viewport meno eventuali margini */
+    overflow-y: auto; /* Abilita lo scroll verticale quando necessario */
+}
+
+.content-wrapper {
+    height: 100%; /* Utilizza tutta l'altezza disponibile */
+    overflow-y: auto; /* Abilita lo scroll verticale solo per il componente Feed */
+    scrollbar-width: none;  /* Firefox */
+}
+
+  /* Nascondi la scrollbar verticale */
+.content-wrapper::-webkit-scrollbar {
+    width: 0; /* Nascondi la larghezza */
+    background: transparent; /* Imposta lo sfondo trasparente */
+}
+  
 
 /* Rimuovi il padding extra */
 .main-row {

@@ -14,8 +14,8 @@ import UserInfo from '../components/UserInfo';
 
 export default function Home() {
   return (
-    <div className="full-height">
-      <Container fluid className="p-0 full-height">
+    <div className="full-height home">
+      <Container fluid className="p-0 full-height home">
         <Row xs={12} lg={12} className="main-row full-height">
           {/* visibile solo su schermi 'lg', mentre su schermi 'xs' viene nascosta `xs={0}` */}
           <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
