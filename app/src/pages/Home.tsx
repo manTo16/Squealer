@@ -17,7 +17,7 @@ import UserInfo from '../components/UserInfo'
 export default function Home() {
   return (
     <div>
-      <Container fluid>
+      <Container fluid  className="p-0" >
         
         <Row xs={12} lg={12} className="main-row">
 
@@ -26,7 +26,7 @@ export default function Home() {
             <SidebarContent />
           </Col>
           {/* occupa 12 col per 'xs', e 6 per schermi 'lg' */}
-          <Col xs={12} lg={6} className='content-wrapper'>
+          <Col xs={13} lg={6} className='content-wrapper'>
             <Feed/>
           </Col>
           {/* invisibile per 'xs', occupa 4 per 'lg' */}

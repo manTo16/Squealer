@@ -28,6 +28,7 @@ function App() {
         <Route path='/newPost'      element={<NewPostPage />}   />
         <Route path='/trendingPage' element={<TrendingPage />}  />
         <Route path='/feed'         element={<Feed />}          />
+        {/* <Route path='/charShop'         element={< />}          /> */}
       </Routes>
 
       <div className='d-lg-none bottom-navbar'>
