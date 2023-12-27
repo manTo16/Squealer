@@ -10,6 +10,8 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { Textarea } from "flowbite-react";
+import { text } from "stream/consumers";
 
 
 
@@ -20,11 +22,33 @@ export default function NewPostPage() {
     var Msg;
 
     const [charCount, setCharCount] = useState(0);
+
+    const [textLines, setTextLines] = useState(1);
+
+    const calculateNumberOfTextLines = (textarea: HTMLElement) => {
+        return Math.floor(textarea.scrollHeight/parseInt(getComputedStyle(textarea).lineHeight) );
+    }
+
+    //calcola le linee da assegnare al componente ponendoci un limite, impostato in modo che la textarea non occupi più di metà schermo
+    const getTextLines = (textarea: HTMLTextAreaElement) => {
+        const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+        //const maxHeight = textarea.parentElement?.clientHeight;  //non funziona, il componente cardbody si allunga dinamicamente
+        const maxHeight = window.innerHeight / 2
+        
+        const maxLines = Math.floor(maxHeight / lineHeight);
+        
+        const lines = calculateNumberOfTextLines(textarea);
+        return Math.min(lines, maxLines);
+    }
     
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const inputText = event.target.value;
         setCharCount(inputText.length);
+
+        setTextLines(getTextLines(event.target));
     };
+
+
 
     return(
         <Container>
@@ -44,11 +68,12 @@ export default function NewPostPage() {
                             <Card.Text>
                             <textarea
                                 placeholder="Squillo calde nei paraggi"
-                                className="shareInput"
-                                rows={4}
-                                cols={50}
+                                className="shareInput bg-dark text-white"
+                                rows={textLines}
+                                cols={0}     //viene sostituita da width quindi il valore qua non viene guardato
                                 maxLength={Dchar}               // sostituire coi caratteri giornalieri
                                 onChange={handleInputChange}    // visualizza quanti caratteri sono stati inseriti
+                                style={{width:"100%"}}
                             />
                             </Card.Text>
                             <CardFooter>
