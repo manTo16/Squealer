@@ -4,18 +4,19 @@ const Post = require('../models/postModel')
 const createPost = async (req,res) => {
   try{
     const {userId, text} = req.body;
-    const user = User.findById(userId);
+    const user = await User.findOne({_id: userId});
     const newPost = new Post({
-      userId,
-      text,
+      userId: userId,
       username: user.username,
-      displayName: user.displayName
+      displayName: user.displayName,
+      text: text,
     })
+    //res.status(400).json({message: JSON.stringify(user.username) })
     await newPost.save();
     const post = await Post.find();
     res.status(200).json(post);
   }catch(err){
-    res.status(409).json({message: err.message})
+    res.status(409).json({message: err.message + post})
   }
 }
 
@@ -28,9 +29,31 @@ const getFeed = async (req,res) => {
   }
 }
 
+const getFeedIds = async (req,res) => {
+  try {
+    /*
+    TODO: fare in modo che vengano presi solo un determinato numero di post dal database
+    in teoria le get non dovrebbero prendere nulla nelle richieste
+    https://stackoverflow.com/questions/978061/http-get-with-request-body
+    quindi va fatto in altro modo
+    per ora ho risolto in questo modo un po' statico
+    va bene ma se vi vengono nuove idee per scegliere quel numero in modo un po' più dinamico potrebbe essere carino
+    */
+    //numberOfPosts = req.body.numberOfPosts;
+    numberOfPosts = 5;
+   
+    const postIds = await Post.find({}, {projection:{_id:true}}).limit(numberOfPosts);
+    res.status(200).json(postIds);
+    
+  }
+  catch (err) {
+    res.status(500).json({message: err.message});
+  }
+}
+
 const getPost = async (req,res) => {
   try{
-    const post = Post.findById(req.params.id)
+    const post = await Post.findOne({_id: req.params.id})
     res.status(200).json(post)
   }catch(err){
     res.status(404).json({message: err.message})
@@ -41,5 +64,6 @@ const getPost = async (req,res) => {
 module.exports = {
   createPost,
   getFeed,
+  getFeedIds,
   getPost,
 }

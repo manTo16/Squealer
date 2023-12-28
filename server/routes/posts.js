@@ -3,12 +3,12 @@ const router = express.Router()
 const verifyToken = require('../middleware/auth')
 const {
   createPost,
-  getFeed,
+  getFeedIds,
   getPost,
   getUserPosts
 } = require ('../controllers/postController.js')
 
-router.route('/').post(verifyToken, createPost).get(getFeed)
+router.route('/').post(verifyToken, createPost).get(getFeedIds)
 router.route('/:id').get(getPost)
 //router.route('/:username/posts').get(getUserPosts)
 

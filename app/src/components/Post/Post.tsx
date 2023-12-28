@@ -4,43 +4,41 @@ import propic from "../../assets/person/9.png"
 import Like from "../svg/Reaction/LikeSvg"
 import Heart from "../svg/Reaction/HeartSvg"
 
-import { MutableRefObject, useRef } from "react"
+import axios from "axios"
+import { apiPostsURL } from "../../URLs"
 
-function loadPostData(
-    postText: MutableRefObject<string>,
-    postDisplayedName: MutableRefObject<string>,
-    postUsername: MutableRefObject<string>,
-    postLikeCounter: MutableRefObject<number>,
-    postCommentsCounter: MutableRefObject<number>
-    ) {
-    /* 
-    qua probabilmente metteremo delle chiamate al database per popolare gli elementi del post
-    idealmente l'unico argomento di loadPostData è un id che identifica il post,
-        perchè mettere tanti argomenti mi sembra bruttino, ma va poi bene uguale.
-        per ora dobbiamo tenerci tanti argomenti perchè non so come gestire lo scope della funzione altrimenti
-    mancano delle cose, tipo l'immagine
-    */
+import { MutableRefObject, useEffect, useRef, useState } from "react"
 
-   //elemento.current = api get post_id o qualcosa del genere
-    postText.current = "Ei fu. Siccome immobile, Dato il mortal sospiro, Stette la spoglia immemore Orba di tanto spiro, Così percossa, attonita La terra al nunzio sta, Muta pensando all’ultima Ora dell’uom fatale; Nè sa quando una simile Orma di piè mortale La sua cruenta polvere A calpestar verrà."
-    postDisplayedName.current = "Tova";
-    postUsername.current = "@Phepega69";
-    postLikeCounter.current = 69;
-    postCommentsCounter.current = 9;
-}
 
-export default function Post() {
-    const postText = useRef("");
-    const postDisplayedName = useRef("");
-    const postUsername = useRef("");
-    const postLikeCounter = useRef(0);
-    const postCommentsCounter = useRef(0);
+
+export default function Post({postId = "defaultId"}: {postId?: string}) {
+    async function loadPostData(postId: string) {
+ 
+        const postData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response.data));
+        setPostData({
+            postText: postData.text,
+            postDisplayedName: postData.displayName,
+            postUsername: postData.username,
+            postLikeCounter: 69 ,
+            postCommentsCounter: 9
+        })
+    }
+
+    const [postData, setPostData] = useState({
+        postText: "",
+        postDisplayedName: "",
+        postUsername: "",
+        postLikeCounter: 0,
+        postCommentsCounter: 0
+    });
 
     let postTextLength = 0;
 
-    loadPostData(postText, postDisplayedName, postUsername, postLikeCounter, postCommentsCounter);
+    useEffect(() => {
+        loadPostData(postId);
+    }, [])
 
-    postTextLength = postText.current.length;
+    postTextLength = postData.postText.length;
 
     return (
         <div className="post">
@@ -52,8 +50,8 @@ export default function Post() {
                             src={propic}
                             alt="" 
                         />
-                        <span className="postDisplayedName">{postDisplayedName.current}</span>
-                        <span className="postUsername">{postUsername.current}</span>
+                        <span className="postDisplayedName">{postData.postDisplayedName}</span>
+                        <span className="postUsername">{postData.postUsername}</span>
                     </div>
                     <div className="postTopRight">
                         <span className="postCharUsed">{postTextLength}</span>
@@ -61,7 +59,7 @@ export default function Post() {
                     </div>
                 </div>
                 <div className="postCenter">
-                    <span className="postText">{postText.current}</span>
+                    <span className="postText">{postData.postText}</span>
                     <img className="postImg" src="/assets/post/2.jpg" alt="" />
                 </div>
                 <div className="postBottom">
@@ -72,10 +70,10 @@ export default function Post() {
                         <button className="btn-transparent">
                             <Heart className="likeIcon"/>
                         </button>
-                        <span className="postLikeCounter">piace a {postLikeCounter.current} utenti</span>
+                        <span className="postLikeCounter">piace a {postData.postLikeCounter} utenti</span>
                     </div>
                     <div className="postBottomRight">
-                        <span className="postCommentText">{postCommentsCounter.current} commenti</span>
+                        <span className="postCommentText">{postData.postCommentsCounter} commenti</span>
                     </div>
                 </div>
             </div>

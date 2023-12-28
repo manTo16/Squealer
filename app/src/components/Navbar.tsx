@@ -20,10 +20,7 @@ export default function Navbar() {
   // const isLoggedIn = true
   const navigate = useNavigate()
 
-  const handleLogout = (e:React.MouseEvent<HTMLElement>) => {
-    localStorage.removeItem('token')
-    navigate('/')
-  }
+
   console.log(isLoggedIn)
   return (
     

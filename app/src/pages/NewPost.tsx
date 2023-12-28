@@ -12,14 +12,18 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Textarea } from "flowbite-react";
 import { text } from "stream/consumers";
-
-
+import axios from 'axios'
+import { apiPostsURL } from "../URLs";
+import { useNavigate } from "react-router-dom";
 
 export default function NewPostPage() {
-
+    const defaultValue = {}
+    const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+    const userToken = localStorage.getItem("token") ?? "";
+    
     var Dchar = 1024;
 
-    var Msg;
+    const [text,setText] = useState("");
 
     const [charCount, setCharCount] = useState(0);
 
@@ -28,6 +32,8 @@ export default function NewPostPage() {
     const calculateNumberOfTextLines = (textarea: HTMLElement) => {
         return Math.floor(textarea.scrollHeight/parseInt(getComputedStyle(textarea).lineHeight) );
     }
+
+    const navigate = useNavigate()
 
     //calcola le linee da assegnare al componente ponendoci un limite, impostato in modo che la textarea non occupi più di metà schermo
     const getTextLines = (textarea: HTMLTextAreaElement) => {
@@ -44,10 +50,27 @@ export default function NewPostPage() {
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const inputText = event.target.value;
         setCharCount(inputText.length);
-
+        setText(inputText)
         setTextLines(getTextLines(event.target));
     };
 
+    const handleSubmit = async (event:React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+        console.log('sei qui')
+        try{
+            const response = await axios.post(apiPostsURL,
+                {userId: userDetails._id,text},
+                { headers: {"Authorization": `Bearer ${userToken}`}}
+                )
+            console.log('ora sei quiaaaa')
+            alert('Post created')
+            navigate('/')
+            window.location.reload();
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
 
 
     return(
@@ -89,7 +112,7 @@ export default function NewPostPage() {
                                 <Button className='btn-transparent d-lg-none'>
                                     <FeelingsButton/>
                                 </Button>
-                                <Button className='btn-transparent d-lg-none'>
+                                <Button className='btn-transparent d-lg-none' onClick={handleSubmit}>
                                     Post
                                 </Button>
                             </CardFooter>

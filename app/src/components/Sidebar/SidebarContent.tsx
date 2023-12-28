@@ -3,11 +3,20 @@ import Button from 'react-bootstrap/Button';
 import Bell from '../svg/BellSvg';
 import Logout from '../svg/LogoutSvg';
 import Searchbar from '../Searchbar/Searchbar';
+import { useNavigate } from 'react-router-dom';
 
+import { useState } from 'react';
 
 export default function SidebarContent() {
   const isLoggedIn = !!localStorage.getItem('token');
+  const navigate = useNavigate()
 
+  const handleLogout = (e:React.MouseEvent<HTMLButtonElement>) => {
+    localStorage.clear()
+    navigate('/')
+    window.location.reload();
+  }
+  
   return(
   <div>
       <div className='sidebar-separator mt-4'>
@@ -19,7 +28,7 @@ export default function SidebarContent() {
         (
         <div className='logged-in-buttons'>
           <div className="Bell"><Bell/></div>
-          <div className="Logout"><Logout/></div>
+          <button className="Logout" onClick={handleLogout}><Logout/></button>
           <img src="/assets/person/1.png" alt="" className='navbarImg'/>
         </div>
         ) :
