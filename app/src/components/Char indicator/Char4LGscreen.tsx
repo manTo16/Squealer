@@ -5,7 +5,7 @@ var Dchar = 69;
 var Wchar = 104;
 var Mchar = 420;
 
-export default function DropdownCharSM() {
+export default function Char4LG() {
     const [selectedChar, setSelectedChar] = useState('Caratteri');
 
     const handleSelect = (eventKey: string | null) => {

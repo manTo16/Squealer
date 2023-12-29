@@ -1,8 +1,8 @@
 import ContainerBootstrap from 'react-bootstrap/Container';
 import NavBootstrap from 'react-bootstrap/Nav';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
-import DropdownCharSM from './DropdownChar/DropdownChar4SM';
-import DropdownCharLG from './DropdownChar/DropdownChar4LG';
+import DropdownCharSM from './Char indicator/DropdownChar4SM';
+import DropdownCharLG from './Char indicator/Char4LGscreen';
 import Logo from '../assets/Squealer.png'
 import ProfileLG from './Profile options/ProfileLG';
 import ProfileSM from './Profile options/ProfileSM';
