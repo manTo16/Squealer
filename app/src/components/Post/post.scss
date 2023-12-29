@@ -32,9 +32,16 @@
 }
 
 .postUsername {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
-    margin: 0 10px;
+    margin: 0 1em;
+    color: $darkMode-Tag;
+}
+
+.postReceiverUsername {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0.5em 0 0 0;
     color: $darkMode-Tag;
 }
 

@@ -19,6 +19,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postText: postData.text,
             postDisplayedName: postData.displayName,
             postUsername: postData.username,
+            postReceiverUsername: postData.receiverUsername,
             postLikeCounter: postData.impressions.likes,
             postDislikes: postData.impressions.dislikes,
             postViews: postData.impressions.views,
@@ -30,6 +31,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
         postText: "",
         postDisplayedName: "",
         postUsername: "",
+        postReceiverUsername: "",
         postLikeCounter: 0,
         postDislikes: 0,
         postViews: 0,
@@ -90,6 +92,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                         />
                         <span className="postDisplayedName">{postData.postDisplayedName}</span>
                         <span className="postUsername">{postData.postUsername}</span>
+                        <span className="postReceiverUsername">{postData.postReceiverUsername ?? "nullo"}</span>
                     </div>
                     <div className="postTopRight">
                         <span className="postCharUsed">{postTextLength}</span>

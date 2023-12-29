@@ -24,6 +24,7 @@ export default function NewPostPage() {
     var Dchar = 1024;
 
     const [text,setText] = useState("");
+    const [receiver, setReceiver] = useState("");
 
     const [charCount, setCharCount] = useState(0);
 
@@ -54,12 +55,17 @@ export default function NewPostPage() {
         setTextLines(getTextLines(event.target));
     };
 
+    const handleReceiverInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const inputText = event.target.value;
+        setReceiver(inputText);
+    }
+
     const handleSubmit = async (event:React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
         console.log('sei qui')
         try{
             const response = await axios.post(apiPostsURL,
-                {userId: userDetails._id,text},
+                {userId: userDetails._id,text, receiver},
                 { headers: {"Authorization": `Bearer ${userToken}`}}
                 )
             console.log('ora sei quiaaaa')
@@ -88,6 +94,13 @@ export default function NewPostPage() {
                         </Card.Header>
                         <Card.Body>
                             <Card.Title>Squillami tutto</Card.Title>
+                            <Card.Text>
+                                <span className="text-secondary">@</span>
+                                <input className="receiverInput bg-dark text-white"
+                                placeholder="Destinatario" 
+                                type="text"
+                                onChange={handleReceiverInputChange} />
+                            </Card.Text>
                             <Card.Text>
                             <textarea
                                 placeholder="Squillo calde nei paraggi"

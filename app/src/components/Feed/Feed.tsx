@@ -32,13 +32,13 @@ export default function Feed() {
     //const renderPosts()
     
     return (
-        <div>
+        <>
            {
             postList.map((postId: string) => (
                 <Post key={postId} postId={postId} />
             ))
            }
-        </div>
+        </>
     )
 }
 

@@ -3,17 +3,18 @@ const Post = require('../models/postModel')
 
 const createPost = async (req,res) => {
   try{
-    const {userId, text} = req.body;
+    const {userId, text, receiver} = req.body;
     const user = await User.findOne({_id: userId});
     const newPost = new Post({
       userId: userId,
       username: user.username,
       displayName: user.displayName,
       text: text,
+      receiverUsername: receiver,
     })
     //res.status(400).json({message: JSON.stringify(user.username) })
     await newPost.save();
-    const post = await Post.find();
+    const post = await Post.find({userId: userId, text: text});
     res.status(200).json(post);
   }catch(err){
     res.status(409).json({message: err.message + post})
@@ -42,7 +43,7 @@ const getFeedIds = async (req,res) => {
     //numberOfPosts = req.body.numberOfPosts;
     numberOfPosts = 5;
    
-    const postIds = await Post.find({}, {projection:{_id:true}}).limit(numberOfPosts);
+    const postIds = await Post.find({}, {projection:{_id:true}}).sort({creationDate: -1}).limit(numberOfPosts);
     res.status(200).json(postIds);
     
   }

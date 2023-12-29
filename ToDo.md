@@ -6,12 +6,14 @@
 ## App
 ### Funzioni di accounting
 - [ ] creazione di account
+    - messaggi di errore se si sbaglia password, se il nome utente esiste già, eccetera
 - [ ] cambio password
 - [ ] reset password
 - [ ] eliminazione
 - [ ] scelta tipo di account:
 - [ ] scelta di un social media manager
 - [ ] rimozione de smm
+
     *facoltative*
     
 - [ ] <span style="color:orange"> Acquisto caratteri aggiuntivi giornalieri, settimanali, mensili (solo verificati e pro)

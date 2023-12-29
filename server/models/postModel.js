@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { stringifyCookie } = require('next/dist/compiled/@edge-runtime/cookies')
 
 const postSchema = mongoose.Schema({
   postId:{
@@ -20,6 +21,10 @@ const postSchema = mongoose.Schema({
   text: {
     type: String,
     max: 300
+  },
+  receiverUsername: {
+    type: String,
+    default: null
   },
   impressions: {
     likes: {
