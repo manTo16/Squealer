@@ -21,6 +21,20 @@ const postSchema = mongoose.Schema({
     type: String,
     max: 300
   },
+  impressions: {
+    likes: {
+      type: Number,
+      default: 0
+    },
+    dislikes:{
+      type: Number,
+      default: 0
+    },
+    views: {
+      type: Number,
+      default: 0
+    }
+  },
   creationDate: {
     type: Date,
     default: new Date()

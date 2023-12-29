@@ -19,7 +19,9 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postText: postData.text,
             postDisplayedName: postData.displayName,
             postUsername: postData.username,
-            postLikeCounter: 69 ,
+            postLikeCounter: postData.impressions.likes,
+            postDislikes: postData.impressions.dislikes,
+            postViews: postData.impressions.views,
             postCommentsCounter: 9
         })
     }
@@ -29,6 +31,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
         postDisplayedName: "",
         postUsername: "",
         postLikeCounter: 0,
+        postDislikes: 0,
+        postViews: 0,
         postCommentsCounter: 0
     });
 
@@ -36,9 +40,43 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
     useEffect(() => {
         loadPostData(postId);
+        handleImpressions('view')
     }, [])
 
     postTextLength = postData.postText.length;
+
+    const handleImpressions = (impression:string) => {
+      try{
+        const response = axios.patch(apiPostsURL+`/${postId}/impressions/${impression}`)
+        setPostData((prev)=>{
+          switch(impression){
+            case 'like':
+              return{
+                ...prev,
+                postLikeCounter: prev.postLikeCounter+1
+              }
+            case 'dislike':
+              return{
+                ...prev,
+                postLikeCounter: prev.postDislikes+1
+              }
+            case 'view':
+              return{
+                ...prev,
+                postLikeCounter: prev.postViews+1
+              }
+            default:
+              return {
+                ...prev
+              }
+          }
+
+        })
+      }
+      catch(e){
+        console.log(e)
+      }
+    }
 
     return (
         <div className="post">
@@ -64,7 +102,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                 </div>
                 <div className="postBottom">
                     <div className="postBottomLeft">
-                        <button className="btn-transparent">
+                        <button className="btn-transparent" onClick={()=>handleImpressions('like')}>
                             <Like className="likeIcon"/>
                         </button>
                         <button className="btn-transparent">

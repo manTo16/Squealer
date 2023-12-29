@@ -60,10 +60,35 @@ const getPost = async (req,res) => {
   }
 }
 
+const updateImpressions = async (req,res) =>{
+  try{
+    const post = await Post.findOne({_id: req.params.id})
+    if (!post) res.status(404).json({message: "post not found"})
+    const impression = req.params.impression
+    switch(impression){
+      case 'like':
+        post.impressions.likes+=1
+        break
+      case 'dislike':
+        post.impressions.dislikes+=1
+        break
+      case 'view':
+        post.impressions.views+=1
+        break
+    }
+    await post.save()
+    res.status(200).json(post)
+  }
+  catch(err){
+    res.status(500).json({message: err.message});
+  }
+}
+
 
 module.exports = {
   createPost,
   getFeed,
   getFeedIds,
   getPost,
+  updateImpressions
 }
