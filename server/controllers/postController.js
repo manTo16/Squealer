@@ -1,23 +1,39 @@
 const User = require('../models/userModel')
 const Post = require('../models/postModel')
 
+//poi magari spostiamo la funzione in un altro file che includiamo qua
+const checkReceiverSyntax = (receiver) => {
+  if (receiver != "") {
+    if ( (receiver[0] == "@") || (receiver[0] == "$") ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+
 const createPost = async (req,res) => {
   try{
-    const {userId, text, receiver} = req.body;
+    const {userId, text, receivers} = req.body;
     const user = await User.findOne({_id: userId});
+
+    //rimuovi elementi vuoti dall'array dei destinatari
+    const receiversCopy = receivers.filter(checkReceiverSyntax);
+
     const newPost = new Post({
       userId: userId,
       username: user.username,
       displayName: user.displayName,
       text: text,
-      receiverUsername: receiver,
+      receivers: receiversCopy,
     })
     //res.status(400).json({message: JSON.stringify(user.username) })
     await newPost.save();
-    const post = await Post.find({userId: userId, text: text});
+    const post = await Post.find();
     res.status(200).json(post);
   }catch(err){
-    res.status(409).json({message: err.message + post})
+    res.status(409).json({message: err.message})
   }
 }
 

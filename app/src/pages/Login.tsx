@@ -46,13 +46,12 @@ export default function Login() {
 
   return (
     <div>
-      <Container className='d-flex justify-content-center align-items-center flex-column container-md auth-container'>
+      <Container className='d-flex justify-content-center align-items-center flex-column auth-container'>
         <Row>
           <Col>
             <h1>Log in to Squealer</h1>
             <Form.Label> Username </Form.Label>
             <Form.Group className='mb-3'>
-                <Form.Group ></Form.Group>
                 <Form.Control onChange={(e)=>setUsername(e.target.value)} value={username} placeholder="type username here" aria-label="username"/>
             </Form.Group>
             <Form.Label> Password </Form.Label>

@@ -22,9 +22,9 @@ const postSchema = mongoose.Schema({
     type: String,
     max: 300
   },
-  receiverUsername: {
-    type: String,
-    default: null
+  receivers: {
+    type: [String],
+    default: []
   },
   impressions: {
     likes: {

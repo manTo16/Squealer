@@ -1,5 +1,6 @@
 import FeelingsButton from "../components/svg/FeelingsSvg";
 import LocationButton from "../components/svg/LocationSvg";
+import ReceiverInputField from "@components/newPost/ReceiverInputField";
 import CardFooter from 'react-bootstrap/CardFooter'
 import Container from 'react-bootstrap/Container'
 import TagButton from "../components/svg/TagSvg";
@@ -24,7 +25,8 @@ export default function NewPostPage() {
     var Dchar = 1024;
 
     const [text,setText] = useState("");
-    const [receiver, setReceiver] = useState("");
+    const [receivers, setReceivers] = useState<string[]>([""]);
+    const [nReceivers, setNReceivers] = useState(1);
 
     const [charCount, setCharCount] = useState(0);
 
@@ -55,9 +57,12 @@ export default function NewPostPage() {
         setTextLines(getTextLines(event.target));
     };
 
-    const handleReceiverInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleReceiverInputChange = (event: React.ChangeEvent<HTMLInputElement>, receiversArrayIndex: number) => {
         const inputText = event.target.value;
-        setReceiver(inputText);
+        
+        /* aggiorna l'array di destinatari modificando solo l'indice corrispondente al campo modificato */
+        setReceivers(receivers => receivers.map((receiver, index) =>
+            index == receiversArrayIndex-1 ? inputText : receiver));
     }
 
     const handleSubmit = async (event:React.MouseEvent<HTMLButtonElement>) => {
@@ -65,7 +70,7 @@ export default function NewPostPage() {
         console.log('sei qui')
         try{
             const response = await axios.post(apiPostsURL,
-                {userId: userDetails._id,text, receiver},
+                {userId: userDetails._id,text, receivers},
                 { headers: {"Authorization": `Bearer ${userToken}`}}
                 )
             console.log('ora sei quiaaaa')
@@ -76,6 +81,22 @@ export default function NewPostPage() {
         catch(err){
             console.log(err)
         }
+    }
+
+    const handleAddReceivers = () => {
+        if (nReceivers<=100) {
+            setNReceivers(nReceivers+1);
+            setReceivers((prev) => [...prev, ""])
+        }
+        console.log(receivers)
+    }
+
+    const handleRemoveReceivers = () => {
+        if (nReceivers>0){
+            setNReceivers(nReceivers-1);
+            setReceivers(receivers.slice(0, -1))
+        }
+        console.log(receivers)
     }
 
 
@@ -94,13 +115,30 @@ export default function NewPostPage() {
                         </Card.Header>
                         <Card.Body>
                             <Card.Title>Squillami tutto</Card.Title>
+
                             <Card.Text>
-                                <span className="text-secondary">@</span>
-                                <input className="receiverInput bg-dark text-white"
-                                placeholder="Destinatario" 
-                                type="text"
-                                onChange={handleReceiverInputChange} />
+                                Destinatari: {nReceivers}
+                                <Button 
+                                variant="outline-light"
+                                disabled={nReceivers>100}
+                                onClick={handleAddReceivers}>
+                                    +1
+                                </Button>
+                                <Button
+                                variant="outline-light"
+                                disabled={nReceivers<1}
+                                onClick={handleRemoveReceivers}>
+                                    -1
+                                </Button>
                             </Card.Text>
+
+                            {[...Array(nReceivers)].map((_, i) => (
+                                <ReceiverInputField key={i} 
+                                _inputField={i + 1} 
+                                handleReceiverInputChange={handleReceiverInputChange} 
+                                />
+                            ))}
+
                             <Card.Text>
                             <textarea
                                 placeholder="Squillo calde nei paraggi"
