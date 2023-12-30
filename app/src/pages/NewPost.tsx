@@ -1,10 +1,10 @@
-import FeelingsButton from "../components/svg/FeelingsSvg";
+import Video from "../components/svg/VideoSvg";
 import LocationButton from "../components/svg/LocationSvg";
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ReceiverInputField from "@components/newPost/ReceiverInputField";
 import CardFooter from 'react-bootstrap/CardFooter'
 import Container from 'react-bootstrap/Container'
-import TagButton from "../components/svg/TagSvg";
-// import propic from "../../assets/person/1.png"
 import Media from "../components/svg/MediaSvg";
 import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
@@ -16,6 +16,7 @@ import { text } from "stream/consumers";
 import axios from 'axios'
 import { apiPostsURL } from "../URLs";
 import { useNavigate } from "react-router-dom";
+import { Stack } from "react-bootstrap";
 
 export default function NewPostPage() {
     const defaultValue = {}
@@ -107,10 +108,12 @@ export default function NewPostPage() {
                     <Card bg='dark' text='white'>
                         <Card.Header>
                         <div className="tags">
-                            {/* <img className="shareProfileImg" src={propic} alt="" /> */}
-                            <span className="displayedName">Repubblica</span>
-                            <span className="tagName">@Repubblica</span>
-                            <span className="charLeft">{charCount}</span>
+                            <Stack direction="horizontal" gap={2}>
+                                {/* <img className="shareProfileImg" src={propic} alt="" /> */}
+                                <span className="p-2 displayedName">Repubblica</span>
+                                <span className="p-2 tagName">@Repubblica</span>
+                                <span className="p-2 ms-auto charLeft">{charCount}</span>
+                            </Stack>
                         </div>
                         </Card.Header>
                         <Card.Body>
@@ -151,21 +154,15 @@ export default function NewPostPage() {
                             />
                             </Card.Text>
                             <CardFooter>
-                                <Button className='btn-transparent d-lg-none'>
-                                    <Media/>
-                                </Button>
-                                <Button className='btn-transparent d-lg-none'>
-                                    <TagButton/>
-                                </Button>
-                                <Button className='btn-transparent d-lg-none'>
-                                    <LocationButton/>
-                                </Button>
-                                <Button className='btn-transparent d-lg-none'>
-                                    <FeelingsButton/>
-                                </Button>
-                                <Button className='btn-transparent d-lg-none' onClick={handleSubmit}>
-                                    Post
-                                </Button>
+                                <Stack direction="horizontal" gap={3}>
+                                    <ToggleButtonGroup type="radio" name="options" defaultValue={0}>
+                                        <ToggleButton className="btn btn-outline-light border-primary" id="postType-Img" value={2}><Media/></ToggleButton>
+                                        <ToggleButton className="btn btn-outline-light border-primary" id="postType-vid" value={3}><Video/></ToggleButton>
+                                        <ToggleButton className="btn btn-outline-light border-primary" id="postType-gps" value={4}><LocationButton/></ToggleButton>
+                                    </ToggleButtonGroup>
+
+                                    <Button className="p-2 ms-auto">Squeal</Button>
+                                </Stack>
                             </CardFooter>
                         </Card.Body>
                     </Card>
