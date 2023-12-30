@@ -7,6 +7,7 @@ require('dotenv').config()
 const users = require('./routes/users')
 const auth = require('./routes/auth')
 const posts = require('./routes/posts')
+const channels = require('./routes/channels')
 
 const app=express()
 const PORT = process.env.PORT || 5000
@@ -24,6 +25,7 @@ app.use(cors())
 app.use('/users',users)
 app.use('/auth',auth)
 app.use('/posts',posts)
+app.use('/channels',channels)
 
 app.get('/',(req,res)=>{
   res.status(200).send('Home page')

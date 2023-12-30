@@ -7,7 +7,7 @@ import CardFooter from 'react-bootstrap/CardFooter'
 import Container from 'react-bootstrap/Container'
 import Media from "../components/svg/MediaSvg";
 import Button from 'react-bootstrap/Button';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -38,6 +38,13 @@ export default function NewPostPage() {
     }
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        //if not logged in, redirects to login page
+        if(!userToken) {
+            navigate("/login");
+        }
+    }, [])
 
     //calcola le linee da assegnare al componente ponendoci un limite, impostato in modo che la textarea non occupi più di metà schermo
     const getTextLines = (textarea: HTMLTextAreaElement) => {
@@ -77,7 +84,7 @@ export default function NewPostPage() {
             console.log('ora sei quiaaaa')
             alert('Post created')
             navigate('/')
-            window.location.reload();
+            //window.location.reload();
         }
         catch(err){
             console.log(err)
@@ -100,8 +107,8 @@ export default function NewPostPage() {
         console.log(receivers)
     }
 
-
     return(
+        
         <Container>
             <Row className="justify-content-md-center">
                 <Col xs={12} g={{ span: 6, offset: 3 }}>
@@ -161,7 +168,10 @@ export default function NewPostPage() {
                                         <ToggleButton className="btn btn-dark border-light" id="postType-gps" value={4}><LocationButton/></ToggleButton>
                                     </ToggleButtonGroup>
 
-                                    <Button className="p-2 ms-auto btn-dark border-light">Squeal</Button>
+                                    <Button 
+                                    className="p-2 ms-auto btn-dark border-light"
+                                    onClick={handleSubmit}>
+                                        Squeal</Button>
                                 </Stack>
                             </CardFooter>
                         </Card.Body>
@@ -170,4 +180,7 @@ export default function NewPostPage() {
             </Row>
         </Container>
     )
+    
+
+    
 }

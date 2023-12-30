@@ -35,7 +35,7 @@ export default function Login() {
       setUsername('')
       setPassword('')
       navigate('/')
-      window.location.reload();
+      //window.location.reload();
       localStorage.setItem('token', token)
     }
     catch(err){
@@ -46,7 +46,7 @@ export default function Login() {
 
   return (
     <div>
-      <Container className='d-flex justify-content-center align-items-center flex-column auth-container'>
+      <Container className='d-flex justify-content-center align-titems-cener flex-column auth-container'>
         <Row>
           <Col>
             <h1>Log in to Squealer</h1>
@@ -61,7 +61,7 @@ export default function Login() {
             <ButtonBootstrap onClick={handleSubmit} type="submit" className='my-3 red-buttons'>Log in</ButtonBootstrap>
           </Col>
           <Col className='d-flex justify-content-center align-items-center'>
-            <img className='my-3 mt-10' src={Logo} width={400} alt=''/>
+            <img className='my-3 mt-10' src={Logo} width={"70%"} alt=''/>
           </Col>
         </Row>
       </Container>
