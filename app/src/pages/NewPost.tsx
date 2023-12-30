@@ -156,12 +156,12 @@ export default function NewPostPage() {
                             <CardFooter>
                                 <Stack direction="horizontal" gap={3}>
                                     <ToggleButtonGroup type="radio" name="options" defaultValue={0}>
-                                        <ToggleButton className="btn btn-outline-light border-primary" id="postType-Img" value={2}><Media/></ToggleButton>
-                                        <ToggleButton className="btn btn-outline-light border-primary" id="postType-vid" value={3}><Video/></ToggleButton>
-                                        <ToggleButton className="btn btn-outline-light border-primary" id="postType-gps" value={4}><LocationButton/></ToggleButton>
+                                        <ToggleButton className="btn btn-dark border-light" id="postType-Img" value={2}><Media/></ToggleButton>
+                                        <ToggleButton className="btn btn-dark border-light" id="postType-vid" value={3}><Video/></ToggleButton>
+                                        <ToggleButton className="btn btn-dark border-light" id="postType-gps" value={4}><LocationButton/></ToggleButton>
                                     </ToggleButtonGroup>
 
-                                    <Button className="p-2 ms-auto">Squeal</Button>
+                                    <Button className="p-2 ms-auto btn-dark border-light">Squeal</Button>
                                 </Stack>
                             </CardFooter>
                         </Card.Body>
