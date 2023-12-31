@@ -67,7 +67,7 @@ export default function Register() {
             <h1>Sign up to Squealer</h1>
             <Form.Label> Choose displayed name </Form.Label>
             <Form.Group className='mb-3'>
-                <Form.Control onChange={(e)=>setDisplayName(e.target.value)} value={displayName} placeholder="type username here" aria-label="username"/>
+                <Form.Control onChange={(e)=>setDisplayName(e.target.value)} value={displayName} placeholder="type displayed name here" aria-label="username"/>
             </Form.Group>
             <Form.Label> Create username </Form.Label>
             <Form.Group className='mb-3'>

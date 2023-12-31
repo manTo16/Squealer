@@ -22,8 +22,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postReceivers: postData.receivers,
             postLikeCounter: postData.impressions.likes,
             postDislikes: postData.impressions.dislikes,
-            postViews: postData.impressions.views,
-            postCommentsCounter: 9
+            postViews: postData.impressions.views
         })
     }
 
@@ -34,8 +33,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
         postReceivers: [],
         postLikeCounter: 0,
         postDislikes: 0,
-        postViews: 0,
-        postCommentsCounter: 0
+        postViews: 0
     });
 
     let postTextLength = 0;
@@ -114,7 +112,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                         <span className="postLikeCounter">piace a {postData.postLikeCounter} utenti</span>
                     </div>
                     <div className="postBottomRight">
-                        <span className="postCommentText">{postData.postCommentsCounter} commenti</span>
+                        <span className="postCommentText">{postData.postViews} Views</span>
                     </div>
                 </div>
             </div>

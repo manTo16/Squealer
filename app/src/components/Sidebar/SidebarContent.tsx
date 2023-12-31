@@ -3,12 +3,18 @@ import Button from 'react-bootstrap/Button';
 import Bell from '../svg/BellSvg';
 import Logout from '../svg/LogoutSvg';
 import Searchbar from '../Searchbar/Searchbar';
-import { useNavigate } from 'react-router-dom';
 
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { channelsURL,apiUsersURL } from '../../URLs';
+
+import { useState, useEffect } from 'react';
 
 export default function SidebarContent() {
-  const isLoggedIn = !!localStorage.getItem('token');
+  const userToken = localStorage.getItem('token');
+  const defaultValue = {}
+  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  const username = userDetails.username
   const navigate = useNavigate()
 
   const handleLogout = (e:React.MouseEvent<HTMLButtonElement>) => {
@@ -16,6 +22,26 @@ export default function SidebarContent() {
     navigate('/')
     window.location.reload();
   }
+
+  const [displayedChannels, setDisplayedChannels] = useState<string[]>([])
+
+  useEffect(() => {
+    const loadChannels = async () => {
+      const response = await axios.get(apiUsersURL+`/${username}/channels`,
+      { headers: {"Authorization": `Bearer ${userToken}`}})
+      let channelsArray = response.data
+      console.log("channelsarray", channelsArray)
+      return channelsArray
+    }
+
+    const fetchChannels = async () => {
+      setDisplayedChannels(await loadChannels());
+    }
+
+    // fetch channels data only if logged in
+    if (userToken) fetchChannels();
+    console.log("displayedchannels", displayedChannels)
+  }, [])
   
   return(
   <div>
@@ -24,7 +50,7 @@ export default function SidebarContent() {
       </div>
 
       {
-        isLoggedIn ? 
+        userToken ? 
         (
         <div className='logged-in-buttons'>
           <div className="Bell"><Bell/></div>
@@ -46,6 +72,19 @@ export default function SidebarContent() {
 
       <h3 className="normal-text">Canali consigliati</h3>
       <div className="channels-wrapper">
+        
+        {
+        userToken ? 
+        (
+          displayedChannels.map((channelName, index) =>
+          <Button key={index} 
+          href={`/channels/${channelName}`}
+          variant="outline-light">
+            {channelName}
+          </Button>  )
+          ):
+        (
+        <>
         <Button variant="outline-light">
           canale 1
         </Button>
@@ -58,6 +97,10 @@ export default function SidebarContent() {
         <Button variant="outline-light">
           cronologia
         </Button>
+        </>
+        )
+        }
+       
       </div>
   </div>
   )

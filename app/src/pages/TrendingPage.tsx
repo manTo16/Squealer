@@ -29,6 +29,8 @@ export default function TrendingPage() {
 
     return(
         <div>
+            <h1>questi bottoni li abbiamo usati solo per testare delle api, li toglieremo presto</h1>
+            <h2>non create canali con spazi in mezzo che se no dobbiamo toglierli dal database, ancora non ci sono controlli</h2>
             <p> Choose displayed name </p>
             <Form.Group className='mb-3'>
                 <Form.Control onChange={(e)=>setChannelName(e.target.value)} value={channelName} placeholder="type here the channel name" aria-label="channel name"/>

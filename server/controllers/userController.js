@@ -63,19 +63,33 @@ const deleteUser = async (req,res)=>{
 
 const getUserPosts = async (req,res) => {
     try{
-      const username = req.params.username
+      const username = req.params.userName
       const post = Post.find({username})
       res.status(200).json(post)
     }catch(err){
       res.status(404).json({message: err.message})
     }
   }
+
+const getUserChannels = async (req,res) =>{
+  try{
+    const username = req.params.userName
+    const user = await User.findOne({username})
+    const channelList = user.channels
+    res.status(200).json(channelList)
+  }catch(err){
+    res.status(400).json({message: err.message})
+  }
   
+}
+   
+
 module.exports = {
     getAllUsers,
     //addNewUser,
     getUserPosts,
     getUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserChannels
 }

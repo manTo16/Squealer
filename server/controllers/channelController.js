@@ -1,18 +1,39 @@
 const Channel = require('../models/channelModel')
 const User = require('../models/userModel')
 
+const checkUserPermissions = async (username,channelName,role) => {
+  const channel = await Channel.findOne({channelName:channelName})
+  let permissionOK = false;
+  //non ci sono break di proposito
+  switch(role){
+    case 'reader':
+      permissionOK = permissionOK || channel.usernames.readers.includes(username)
+    case 'writer':
+      permissionOK = permissionOK || channel.usernames.writers.includes(username)
+    case 'owner':
+      permissionOK = permissionOK || channel.usernames.owners.includes(username)
+      break
+    default:
+      break
+  }
+  return permissionOK
+}
+
+
 const createChannel = async (req,res) => {
   try{
     const {channelName,username,reserved} = req.body
-    //const user = await User.findOne({username:username})
+    const user = await User.findOne({username:username})
+    if (!user) res.status(404).json({message: "user not found"})
+    if (channelName.includes[" "]) res.status(403).json({message: "channel name can't contain whitespaces"})
     const channel = new Channel({
       channelName,
       reserved,
       //usernames.owners[0]: username
     })
       channel.usernames.owners.push(username)
-      channel.usernames.writers.push(username)
-      channel.usernames.readers.push(username)
+      user.channels.push(channel.channelName)
+      await user.save()
       const newChannel = await channel.save()
       res.status(201).json(newChannel)
   }
@@ -35,18 +56,19 @@ const addUserToChannel = async (req,res) =>{
     if (!user) return res.status(404).json({message: "User not found"})
 
     let found = null;
-    //non ci sono break di proposito
     switch(requestedRole) {
       case "owner":
         found = await Channel.findOne({channelName: channelName, "usernames.owners": username});
         if(!found) {
           channel.usernames.owners.push(username);
         }
+        break;
       case "writer":
         found = await Channel.findOne({channelName: channelName, "usernames.writers": username});
         if(!found) {
           channel.usernames.writers.push(username);
         }
+        break;
       case "reader":
         found = await Channel.findOne({channelName: channelName, "usernames.readers": username});
         if(!found) {
@@ -58,13 +80,25 @@ const addUserToChannel = async (req,res) =>{
         res.status(400).json({message: "bad requestedRole"})
         break;
     }
+    user.channel.push(channel._id)
+    await user.save()
     await channel.save()
-    res.status(200)
+    res.status(200).json({message: "user added"})
 
   }catch(err){
     res.status(500).json({message:err.message})
   } 
 }
+
+// const getChannel = async (req,res) =>{
+//   const id = req.params.id
+//   const channel = Channel.findOne({_id:id})
+//   if (checkUserPermissions(req.params.userName,channel.channelName,'reader')){
+//     res.status(200).json(channelName)
+//   }else {
+//     res.status(400).json({message:err.message})
+//   }
+// }
 
 module.exports = {
   createChannel,

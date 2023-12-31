@@ -80,10 +80,11 @@ export default function NewPostPage() {
             const response = await axios.post(apiPostsURL,
                 {userId: userDetails._id,text, receivers},
                 { headers: {"Authorization": `Bearer ${userToken}`}}
-                )
-            console.log('ora sei quiaaaa')
-            alert('Post created')
-            navigate('/')
+                ).then(()=>{
+                    console.log('ora sei quiaaaa')
+                    alert('Post created')
+                    navigate('/')
+                })
             //window.location.reload();
         }
         catch(err){

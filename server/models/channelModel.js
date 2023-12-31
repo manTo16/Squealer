@@ -15,18 +15,18 @@ const channelSchema = mongoose.Schema({
     default: []
   },
   usernames: {
-    owners: {
-        type: [String],
-        default: []
-    },
-    writers: {
-        type: [String],
-        default: []
-    },
-    readers: {
-        type: [String],
-        default: []
-    }
+      owners: {
+          type: [String],
+          default: []
+      },
+      writers: {
+          type: [String],
+          default: []
+      },
+      readers: {
+          type: [String],
+          default: []
+      }
   }
 })
 

@@ -30,7 +30,7 @@ const createPost = async (req,res) => {
     })
     //res.status(400).json({message: JSON.stringify(user.username) })
     await newPost.save();
-    res.status(200);
+    res.status(200).json({message: "post created"});
   }catch(err){
     res.status(409).json({message: err.message})
   }
