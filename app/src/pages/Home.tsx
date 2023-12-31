@@ -13,6 +13,8 @@ import "./Home.css";
 import UserInfo from '../components/UserInfo';
 
 export default function Home() {
+  const isLoggedIn = !!localStorage.getItem('token')
+
   return (
     <div className="full-height home">
       <Container fluid className="p-0 full-height home">
@@ -25,10 +27,21 @@ export default function Home() {
           <Col xs={12} lg={6} className='content-wrapper'>
             <Feed/>
           </Col>
-          {/* invisibile per 'xs', occupa 4 per 'lg' */}
-          <Col xs={0} lg={3} className='d-none d-lg-block'>
-            <UserInfo />
-          </Col>
+          {/* invisibile per 'xs', occupa 3 per 'lg' */}
+          {
+            isLoggedIn ?
+            (
+              <Col xs={0} lg={3} className='d-none d-lg-block'>
+                <UserInfo />
+              </Col>
+            )
+            :
+            (
+              /* colonna vuota visto che da sloggati si possono leggere solo i canali principali */
+              <Col xs = {0} lg = {3} className='d-none d-lg-block'> <></> </Col>
+            )
+          }
+
         </Row>
       </Container>
     </div>
