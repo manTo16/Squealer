@@ -61,12 +61,12 @@ export default function Register() {
   
   return (
     <div> 
-      <Container className='d-flex justify-content-center align-items-center flex-column my-10 container-md auth-container'>
+      <Container className='auth-container'>
         <Row>
           <Col>
             <h1>Sign up to Squealer</h1>
             <Form.Label> Choose displayed name </Form.Label>
-            <Form.Group className='mb-3'>
+            <Form.Group className='mb-3 w-80'>
                 <Form.Control onChange={(e)=>setDisplayName(e.target.value)} value={displayName} placeholder="type displayed name here" aria-label="username"/>
             </Form.Group>
             <Form.Label> Create username </Form.Label>

@@ -48,20 +48,20 @@ export default function Login() {
     <div>
       <Container className='d-flex justify-content-center align-titems-cener flex-column auth-container'>
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
             <h1>Log in to Squealer</h1>
             <Form.Label> Username </Form.Label>
-            <Form.Group className='mb-3'>
+            <Form.Group className='mb-3 w-80'>
                 <Form.Control onChange={(e)=>setUsername(e.target.value)} value={username} placeholder="type username here" aria-label="username"/>
             </Form.Group>
             <Form.Label> Password </Form.Label>
-            <Form.Group className='mb-3'>
+            <Form.Group className='mb-3 w-80'>
                 <Form.Control onChange={(e)=>setPassword(e.target.value)} value={password} placeholder="type password here" aria-label="password" type='password'/>
             </Form.Group>
             <ButtonBootstrap onClick={handleSubmit} type="submit" className='my-3 red-buttons'>Log in</ButtonBootstrap>
           </Col>
           <Col className='d-flex justify-content-center align-items-center'>
-            <img className='my-3 mt-10' src={Logo} width={"70%"} alt=''/>
+            <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/>
           </Col>
         </Row>
       </Container>
