@@ -22,23 +22,31 @@ const checkUserPermissions = async (username,channelName,role) => {
 
 const createChannel = async (req,res) => {
   try{
-    const {channelName,username,reserved} = req.body
+    const {channelName, username, reserved} = req.body
     const user = await User.findOne({username:username})
-    if (!user) res.status(404).json({message: "user not found"})
-    if (channelName.includes[" "]) res.status(403).json({message: "channel name can't contain whitespaces"})
+
+    let channelNameAdjusted = channelName
+
+    if (!user)                                                        return res.status(404).json({message: "user not found"})
+    while (channelNameAdjusted[0] == " ") channelNameAdjusted = channelNameAdjusted.slice(1)
+    while (channelNameAdjusted[channelNameAdjusted.length -1] == " ") channelNameAdjusted = channelNameAdjusted.slice(0, -1)
+    if (channelNameAdjusted.includes(" "))                                    return res.status(403).json({message: "channel name can't contain whitespaces"})
+    if ((reserved) && (channelNameAdjusted != channelNameAdjusted.toUpperCase()))     return res.status(403).json({message: "reserved channels can contain only uppercase characters"})
+    if ((!reserved) && (channelNameAdjusted != channelNameAdjusted.toLowerCase()))    return res.status(403).json({message: "normal channels can contain only lowercase characters"})
+    
     const channel = new Channel({
-      channelName,
-      reserved,
+      channelName: channelNameAdjusted,
+      reserved: reserved,
       //usernames.owners[0]: username
     })
-      channel.usernames.owners.push(username)
-      user.channels.push(channel.channelName)
-      await user.save()
-      const newChannel = await channel.save()
-      res.status(201).json(newChannel)
+    channel.usernames.owners.push(username)
+    user.channels.push(channel.channelName)
+    await user.save()
+    const newChannel = await channel.save()
+    return res.status(201).json(newChannel)
   }
   catch(err){
-    res.status(500).json({message: err.message})
+    return res.status(500).json({message: err.message})
   }
 }
 
@@ -83,10 +91,10 @@ const addUserToChannel = async (req,res) =>{
     user.channel.push(channel._id)
     await user.save()
     await channel.save()
-    res.status(200).json({message: "user added"})
+    return res.status(200).json({message: "user added"})
 
   }catch(err){
-    res.status(500).json({message:err.message})
+    return res.status(500).json({message:err.message})
   } 
 }
 
