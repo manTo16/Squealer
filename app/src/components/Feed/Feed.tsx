@@ -17,7 +17,7 @@ const fetchFeed = async () => {
 
 
 
-export default function Feed() {
+export default function Feed({channelName="ALL"} : {channelName?: string}) {
 
     const [postList, setPostList] = useState([]);
 

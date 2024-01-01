@@ -1,5 +1,6 @@
 const Channel = require('../models/channelModel')
 const User = require('../models/userModel')
+const Post = require('../models/postModel')
 
 const checkUserPermissions = async (username,channelName,role) => {
   const channel = await Channel.findOne({channelName:channelName})
@@ -98,6 +99,17 @@ const addUserToChannel = async (req,res) =>{
   } 
 }
 
+const getChannelPosts = async (req, res) => {
+  try {
+    const channelName = req.params.channelName
+    const postIds = await Channel.find({channelName: channelName}, {projection: {postIds: true}}).sort({creationDate: -1}).limit(numberOfPosts)
+    res.status(200).json(postIds);
+  }
+  catch(err) {
+    return res.status(500).json({message: message.err})
+  }
+}
+
 // const getChannel = async (req,res) =>{
 //   const id = req.params.id
 //   const channel = Channel.findOne({_id:id})
@@ -110,5 +122,6 @@ const addUserToChannel = async (req,res) =>{
 
 module.exports = {
   createChannel,
-  addUserToChannel
+  addUserToChannel,
+  getChannelPosts
 }
