@@ -12,9 +12,7 @@ function UserInfo() {
 
   return (
     <div className='user-info'>
-      <img src={`${userDetails.userImage}`} width={300}/>       
-      {/*<img src={tmpropic} width={300} />*}
-              {/* just 4 look */}
+      <img src={`${userDetails.userImage}`} width={300}/>
       <h3>{userDetails.displayName}</h3> 
       <h4>{'@'+userDetails.username}</h4>
       <Char4LG />

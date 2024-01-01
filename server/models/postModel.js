@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { stringifyCookie } = require('next/dist/compiled/@edge-runtime/cookies')
+// const { stringifyCookie } = require('next/dist/compiled/@edge-runtime/cookies')
 
 const postSchema = mongoose.Schema({
   postId:{

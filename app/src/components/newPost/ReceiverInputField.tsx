@@ -1,5 +1,8 @@
 import { Card } from "react-bootstrap"
-
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 import { useState, ChangeEvent } from "react";  
 
 interface Props {
@@ -15,14 +18,43 @@ export default function ReceiverInputField(
 
     const [receiver, setReceiver] = useState("");
 
+    const [selectedReciver, setSelectedReciver] = useState('to');
+
+    const handleSelect = (eventKey: string | null) => {
+        if (eventKey === null) return; // Check for null
+
+        switch (eventKey) {
+            case 'user':
+                setSelectedReciver('@');
+                break;
+            case 'channel':
+                setSelectedReciver('§');
+                break;
+        }
+    };
+
     return (
         <>
-        <Card.Text>
-            <input className="receiverInput bg-dark text-white"
+        <InputGroup className="mb-3">
+            {/* <InputGroup.Text id="basic-addon1">@</InputGroup.Text> */}
+            <DropdownButton
+                variant="light"
+                title={selectedReciver}
+                onSelect={handleSelect as any} // Casting handleSelect to any temporarily
+                >
+                <Dropdown.Item eventKey="user">@</Dropdown.Item>
+                <Dropdown.Item eventKey="channel">§</Dropdown.Item>
+            </DropdownButton>
+            <Form.Control
             placeholder={`Destinatario n.${fieldId}`}
-            type="text"
-            onChange={(event)=>{handleReceiverInputChange(event, fieldId)}} />
-        </Card.Text>
+            className="bg-dark text-white"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+            as="input"
+            onChange={(event:React.ChangeEvent<HTMLInputElement>)=>
+                {handleReceiverInputChange(event, fieldId)}}
+            />
+        </InputGroup>
         </>
     )
 }

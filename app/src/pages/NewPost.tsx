@@ -17,6 +17,10 @@ import axios from 'axios'
 import { apiPostsURL } from "../URLs";
 import { useNavigate } from "react-router-dom";
 import { Stack } from "react-bootstrap";
+import Text from "@components/svg/TextSvg";
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 export default function NewPostPage() {
     const defaultValue = {}
@@ -31,9 +35,9 @@ export default function NewPostPage() {
 
     const [charCount, setCharCount] = useState(0);
 
-    const [textLines, setTextLines] = useState(1);
-
-    const calculateNumberOfTextLines = (textarea: HTMLElement) => {
+    const [textLines, setTextLines] = useState(1);  // !!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const calculateNumberOfTextLines = (textarea: HTMLElement) => { // !!!
         return Math.floor(textarea.scrollHeight/parseInt(getComputedStyle(textarea).lineHeight) );
     }
 
@@ -117,30 +121,29 @@ export default function NewPostPage() {
                         <Card.Header>
                         <div className="tags">
                             <Stack direction="horizontal" gap={2}>
-                                {/* <img className="shareProfileImg" src={propic} alt="" /> */}
-                                <span className="p-2 displayedName">Repubblica</span>
-                                <span className="p-2 tagName">@Repubblica</span>
-                                <span className="p-2 ms-auto charLeft">{charCount}</span>
+                                <img src={`${userDetails.userImage}`} width={50}/>
+                                <span className="p-2 displayedName">{userDetails.displayName}</span>
+                                <span className="p-2 tagName">{'@'+userDetails.username}</span>
                             </Stack>
                         </div>
                         </Card.Header>
                         <Card.Body>
-                            <Card.Title>Squillami tutto</Card.Title>
-
                             <Card.Text>
-                                Destinatari: {nReceivers}
-                                <Button 
-                                variant="outline-light"
-                                disabled={nReceivers>100}
-                                onClick={handleAddReceivers}>
-                                    +1
-                                </Button>
-                                <Button
-                                variant="outline-light"
-                                disabled={nReceivers<1}
-                                onClick={handleRemoveReceivers}>
-                                    -1
-                                </Button>
+                                <Stack direction="horizontal" gap={3}>
+                                    <span>Destinatari: {nReceivers}</span>
+                                    <ButtonGroup className="ms-auto" aria-label="Basic example">
+                                        <Button 
+                                            variant="secondary"
+                                            disabled={nReceivers>100}
+                                            onClick={handleAddReceivers}>
+                                        +1</Button>
+                                        <Button 
+                                            variant="secondary"
+                                            disabled={nReceivers<1}
+                                            onClick={handleRemoveReceivers}>
+                                            -1</Button>
+                                    </ButtonGroup>
+                                </Stack> 
                             </Card.Text>
 
                             {[...Array(nReceivers)].map((_, i) => (
@@ -151,19 +154,23 @@ export default function NewPostPage() {
                             ))}
 
                             <Card.Text>
-                            <textarea
-                                placeholder="Squillo calde nei paraggi"
-                                className="shareInput bg-dark text-white"
-                                rows={textLines}
-                                cols={0}     //viene sostituita da width quindi il valore qua non viene guardato
-                                maxLength={Dchar}               // sostituire coi caratteri giornalieri
-                                onChange={handleInputChange}    // visualizza quanti caratteri sono stati inseriti
-                                style={{width:"100%"}}
-                            />
+                                <InputGroup>
+                                    <InputGroup.Text>{charCount}</InputGroup.Text>
+                                    <Form.Control 
+                                        as="textarea" 
+                                        aria-label="With textarea" 
+                                        className="shareInput bg-dark text-white"
+                                        placeholder="Squillo calde nei paraggi"
+                                        onChange={handleInputChange}    // visualizza quanti caratteri sono stati inseriti
+                                        rows={textLines}    // QUESTA DA RIVEDERE!!!
+                                        maxLength={Dchar}               // sostituire coi caratteri giornalieri
+                                        />
+                                </InputGroup>
                             </Card.Text>
                             <CardFooter>
                                 <Stack direction="horizontal" gap={3}>
                                     <ToggleButtonGroup type="radio" name="options" defaultValue={0}>
+                                        <ToggleButton className="btn btn-dark border-light" id="postType-Txt" value={1}><Text/></ToggleButton>
                                         <ToggleButton className="btn btn-dark border-light" id="postType-Img" value={2}><Media/></ToggleButton>
                                         <ToggleButton className="btn btn-dark border-light" id="postType-vid" value={3}><Video/></ToggleButton>
                                         <ToggleButton className="btn btn-dark border-light" id="postType-gps" value={4}><LocationButton/></ToggleButton>
