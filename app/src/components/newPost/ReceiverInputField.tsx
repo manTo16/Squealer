@@ -7,7 +7,7 @@ import { useState, ChangeEvent } from "react";
 
 interface Props {
     _inputField: number;
-    handleReceiverInputChange: (event: ChangeEvent<HTMLInputElement>, receiversArrayIndex: number) => void;
+    handleReceiverInputChange: (event: ChangeEvent<HTMLInputElement>, receiversArrayIndex: number, receiverType: string) => void;
 }
 
 
@@ -52,7 +52,7 @@ export default function ReceiverInputField(
             aria-describedby="basic-addon1"
             as="input"
             onChange={(event:React.ChangeEvent<HTMLInputElement>)=>
-                {handleReceiverInputChange(event, fieldId)}}
+                {handleReceiverInputChange(event, fieldId, selectedReciver)}}
             />
         </InputGroup>
         </>
