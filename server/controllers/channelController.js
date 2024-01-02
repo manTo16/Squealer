@@ -99,15 +99,16 @@ const addUserToChannel = async (req,res) =>{
   } 
 }
 
-const getChannelPosts = async (req, res) => {
+const getChannelPostIds = async (req, res) => {
   try {
     const channelName = req.params.channelName
 
     const numberOfPosts = 5;
     //faccio il sorting per id perchè mongodb crea l'id anche in base all'ora e il giorno in cui è stato creato un oggetto
-    const postIds = await Channel.findOne({channelName: channelName}).select("postsIds").sort({_id: -1}).limit(numberOfPosts)
-    console.log("getChannelPosts postIds: ", postIds)
-    return res.status(200).json(postIds);
+    const postIds = await Channel.findOne({channelName: channelName})?.select("postsIds").sort({_id: -1}).limit(numberOfPosts)
+    console.log("getChannelPostIds postIds: ", postIds)
+    if (postIds) return res.status(200).json(postIds.postsIds);
+    else         return res.status(404).json({message: "channel not found"})
   }
   catch(err) {
     return res.status(500).json({message: err.message})
@@ -127,5 +128,5 @@ const getChannelPosts = async (req, res) => {
 module.exports = {
   createChannel,
   addUserToChannel,
-  getChannelPosts
+  getChannelPostIds
 }

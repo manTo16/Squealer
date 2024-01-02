@@ -4,10 +4,10 @@ const verifyToken = require('../middleware/auth')
 const {
   createChannel,
   addUserToChannel,
-  getChannelPosts
+  getChannelPostIds
 } = require('../controllers/channelController.js')
 
 router.route('/').post(verifyToken,createChannel)
-router.route('/:channelName').post(addUserToChannel).get(getChannelPosts)
+router.route('/:channelName').post(addUserToChannel).get(getChannelPostIds)
 
 module.exports = router
