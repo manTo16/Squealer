@@ -74,12 +74,13 @@ export default function NewPostPage() {
     setTextLines(getTextLines(event.target));
   };
 
-  const handleReceiverInputChange = (event: React.ChangeEvent<HTMLInputElement>, receiversArrayIndex: number) => {
-    const inputText = event.target.value;
+  const handleReceiverInputChange = (event: React.ChangeEvent<HTMLInputElement>, receiversArrayIndex: number, receiverType: string) => {
+    const inputText = receiverType + event.target.value;
     
     /* aggiorna l'array di destinatari modificando solo l'indice corrispondente al campo modificato */
     setReceivers(receivers => receivers.map((receiver, index) =>
       index == receiversArrayIndex-1 ? inputText : receiver));
+    console.log("destinatario: ",inputText) //DEBUG
   }
 
   const handleSubmit = async (event:React.MouseEvent<HTMLButtonElement>) => {
@@ -95,6 +96,7 @@ export default function NewPostPage() {
           navigate('/')
         })
       //window.location.reload();
+      console.log("receivers: ", receivers)  //DEBUG
     }
     catch(err){
       console.log(err)

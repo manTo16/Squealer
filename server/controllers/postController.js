@@ -1,10 +1,11 @@
 const User = require('../models/userModel')
 const Post = require('../models/postModel')
+const Channel = require('../models/channelModel')
 
 //poi magari spostiamo la funzione in un altro file che includiamo qua
 const checkReceiverSyntax = (receiver) => {
   if (receiver != "") {
-    if ( (receiver[0] == "@") || (receiver[0] == "$") ) {
+    if ( (receiver[0] == "@") || (receiver[0] == "§") ) {
       return true;
     }
   }
@@ -21,6 +22,8 @@ const createPost = async (req,res) => {
     //rimuovi elementi vuoti dall'array dei destinatari
     const receiversCopy = receivers.filter(checkReceiverSyntax);
 
+    receiversCopy.map((receiver) => console.log("receiver: ", receiver))
+
     const newPost = new Post({
       userId: userId,
       username: user.username,
@@ -30,6 +33,21 @@ const createPost = async (req,res) => {
     })
     //res.status(400).json({message: JSON.stringify(user.username) })
     await newPost.save();
+
+    /* aggiungi il post ai canali ai quali è destinato */
+    
+    receiversCopy.filter(receiver => receiver[0] === "§").map(async (receiver) => {
+      console.log("createPost filter map receiver: ", receiver)      
+      let channel = await Channel.findOne({channelName: receiver.slice(1)})
+      console.log("createPost filter map channel._id: ", channel._id)
+      if(channel) {console.log("sono dentro l'if")
+      console.log("channel: ", channel)
+      console.log("createPost newPost._id: ", newPost._id)
+      channel.postsIds.push(newPost._id)
+      await channel.save()
+      }
+    })
+
     res.status(200).json({message: "post created"});
   }catch(err){
     res.status(409).json({message: err.message})
