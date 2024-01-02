@@ -117,6 +117,13 @@ export default function NewPostPage() {
     console.log(receivers)
   }
 
+  const[Type, setType] = useState('txt');
+  
+  const handleType = (eventKey: string | null) => {
+    if (eventKey === null) return;
+    setType(eventKey);
+  };
+
   return(
     
     <Container>
@@ -160,7 +167,7 @@ export default function NewPostPage() {
 
               <Card.Text>
                 <CardBody
-                  type="txt"
+                  type={Type}
                   onInputChange={handleInputChange} // Usa onInputChange invece di handleInputChange
                   charCount={charCount}
                   textLines={textLines}
@@ -170,12 +177,41 @@ export default function NewPostPage() {
 
               <CardFooter>
                 <Stack direction="horizontal" gap={3}>
-                  <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-                    <ToggleButton className="btn btn-dark border-light" id="postType-Txt" value={1}><Text/></ToggleButton>
-                    <ToggleButton className="btn btn-dark border-light" id="postType-Img" value={2}><Media/></ToggleButton>
-                    <ToggleButton className="btn btn-dark border-light" id="postType-vid" value={3}><Video/></ToggleButton>
-                    <ToggleButton className="btn btn-dark border-light" id="postType-gps" value={4}><LocationButton/></ToggleButton>
-                  </ToggleButtonGroup>
+                <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
+                  <ToggleButton
+                    className="btn btn-dark border-light"
+                    onChange={() => handleType('txt')}
+                    id="postType-Txt"
+                    value={1}
+                  >
+                    <Text />
+                  </ToggleButton>
+                  <ToggleButton
+                    className="btn btn-dark border-light"
+                    onChange={() => handleType('img')}
+                    id="postType-Img"
+                    value={2}
+                  >
+                    <Media />
+                  </ToggleButton>
+                  <ToggleButton
+                    className="btn btn-dark border-light"
+                    onChange={() => handleType('mp4')}
+                    id="postType-vid"
+                    value={3}
+                  >
+                    <Video />
+                  </ToggleButton>
+                  <ToggleButton
+                    className="btn btn-dark border-light"
+                    onChange={() => handleType('gps')}
+                    id="postType-gps"
+                    value={4}
+                  >
+                    <LocationButton />
+                  </ToggleButton>
+                </ToggleButtonGroup>
+
 
                   <Button 
                   className="p-2 ms-auto btn-dark border-light"
