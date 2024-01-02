@@ -8,6 +8,7 @@ import axios from "axios"
 import { apiPostsURL } from "../../URLs"
 
 import { MutableRefObject, useEffect, useRef, useState } from "react"
+import { Stack } from "react-bootstrap"
 
 
 
@@ -82,16 +83,17 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
         <div className="post">
             <div className="postWrapper">
                 <div className="postTop">
-                    <div className="postTopLeft">
+                    <Stack direction="horizontal">
                         <img 
-                            className="postProfileImg"
+                            width={35}
+                            className="rounded-circle"
                             src={propic}
                             alt="" 
                         />
-                        <span className="postDisplayedName">{postData.postDisplayedName}</span>
-                        <span className="postUsername">{postData.postUsername}</span>
-                        <span className="postReceiverUsername">{postData.postReceivers[0] ?? "nullo"}</span>
-                    </div>
+                        <span className="p-2">{postData.postDisplayedName}</span>
+                        <span className="p-2 text-secondary">{postData.postUsername}</span>
+                        <span className="p-2">{postData.postReceivers[0] ?? "nullo"}</span>
+                    </Stack>
                     <div className="postTopRight">
                         <span className="postCharUsed">{postTextLength}</span>
                         <VDots />
