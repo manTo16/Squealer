@@ -12,11 +12,13 @@ function UserInfo() {
 
   return (
     <div className='user-info'>
-      <a style={{ textDecoration: 'none' }} className="align-middle" href="/profile">
-        <img src={`${userDetails.userImage}`} width={300} className='py-4 rounded-circle'/>
+      <a style={{ textDecoration: 'none' }} className="align-middle d-flex" href="/profile">
+        <img src={`${userDetails.userImage}`} width={100} className='py-4 rounded-circle'/>
+        <div className='p-3 '>
+          <h3>{userDetails.displayName}</h3> 
+          <h4>{'@'+userDetails.username}</h4>
+        </div>
       </a>
-      <h3>{userDetails.displayName}</h3> 
-      <h4>{'@'+userDetails.username}</h4>
       <Char4LG />
       <ThirdColumn />
     </div>

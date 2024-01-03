@@ -39,14 +39,9 @@ export default function Navbar(
 
   console.log(isLoggedIn)
   return (
-<<<<<<< HEAD
-    
-    <NavbarBootstrap expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
-=======
     <div ref={divHtmlElementRef}>
 
     <NavbarBootstrap expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid mb-2">
->>>>>>> 84353e93ce9653a8bd604519a5c2e27cfae627fb
       <ContainerBootstrap>
 
         <NavbarBootstrap.Brand className="d-flex align-items-center">

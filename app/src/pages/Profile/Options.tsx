@@ -12,7 +12,7 @@ export default function Options() {
   };
 
   return(
-    <Form className='bg-dark rounded p-2'>
+    <Form className='bg-dark rounded p-2 m-1'>
       <h2 className='p-2'>Modifica profilo</h2>  
       <Row>
         <Col>
