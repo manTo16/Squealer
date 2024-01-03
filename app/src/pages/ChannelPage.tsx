@@ -12,7 +12,7 @@ const ChannelPage: React.FC = () => {
 
   return (
     <div>
-        {channelName}
+        <h1>{channelName}</h1> {/* alla grafica del titolo poi ci lavoriamo */}
         <Feed channelName={channelName} />
       {/* Visualizza i dati del canale qui */}
     </div>

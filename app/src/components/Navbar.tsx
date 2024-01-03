@@ -1,30 +1,52 @@
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+
+import "./Navbar.scss"
+
 import ContainerBootstrap from 'react-bootstrap/Container';
 import NavBootstrap from 'react-bootstrap/Nav';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
-import DropdownCharSM from './Char indicator/DropdownChar4SM';
-import DropdownCharLG from './Char indicator/Char4LGscreen';
-import Logo from '../assets/Squealer.png'
-import ProfileLG from './Profile options/ProfileLG';
-import ProfileSM from './Profile options/ProfileSM';
-import { NavLink, useNavigate } from 'react-router-dom';
-import Bell from './svg/BellSvg'
-import Logout from './svg/LogoutSvg';
-import "./Navbar.scss"
-
 
 import SidebarComponent from './Sidebar/SidebarComponent';
 import Searchbar from './Searchbar/Searchbar';
 
-export default function Navbar() {
+import DropdownCharSM from './Char indicator/DropdownChar4SM';
+import DropdownCharLG from './Char indicator/Char4LGscreen';
+import ProfileLG from './Profile options/ProfileLG';
+import ProfileSM from './Profile options/ProfileSM';
+import Bell from './svg/BellSvg'
+import Logout from './svg/LogoutSvg';
+import Logo from '../assets/Squealer.png'
+
+
+
+export default function Navbar(
+  {onHeightChange} : {onHeightChange: (height: number) => void}
+) {
+  window.addEventListener("resize", () => onHeightChange(divHtmlElementRef.current?.clientHeight ?? 0))
+
   const isLoggedIn = !!localStorage.getItem('token')
   // const isLoggedIn = true
   const navigate = useNavigate()
 
+  const divHtmlElementRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    onHeightChange(divHtmlElementRef.current?.clientHeight ?? 0)
+    console.log("navbar divHtmlElementRef.current?.clientHeight: ", divHtmlElementRef.current?.clientHeight)
+  }, [onHeightChange])
+
 
   console.log(isLoggedIn)
   return (
+<<<<<<< HEAD
     
     <NavbarBootstrap expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
+=======
+    <div ref={divHtmlElementRef}>
+
+    <NavbarBootstrap expand="lg" className="navbar navbar-expand-lg navbar-dark bg-dark container-fluid mb-2">
+>>>>>>> 84353e93ce9653a8bd604519a5c2e27cfae627fb
       <ContainerBootstrap>
 
         <NavbarBootstrap.Brand className="d-flex align-items-center">
@@ -41,5 +63,7 @@ export default function Navbar() {
         <ProfileLG />
       </ContainerBootstrap>
     </NavbarBootstrap>
+
+    </div>
   );
 }
