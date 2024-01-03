@@ -48,7 +48,7 @@ const createPost = async (req,res) => {
       }
     })
 
-    res.status(200).json({message: "post created"});
+    return res.status(200).json({message: "post created"});
   }catch(err){
     res.status(409).json({message: err.message})
   }
@@ -74,7 +74,7 @@ const getFeedIds = async (req,res) => {
     va bene ma se vi vengono nuove idee per scegliere quel numero in modo un po' più dinamico potrebbe essere carino
     */
     //numberOfPosts = req.body.numberOfPosts;
-    numberOfPosts = 5;
+    numberOfPosts = 10;
    
     const postIds = await Post.find({}, {projection:{_id:true}}).sort({creationDate: -1}).limit(numberOfPosts);
     res.status(200).json(postIds);

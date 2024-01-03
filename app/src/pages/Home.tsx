@@ -17,33 +17,7 @@ export default function Home() {
 
   return (
     <div className="full-height home">
-      <Container fluid className="p-0 full-height home">
-        <Row xs={12} lg={12} className="main-row full-height">
-          {/* visibile solo su schermi 'lg', mentre su schermi 'xs' viene nascosta `xs={0}` */}
-          <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
-            <SidebarContent />
-          </Col>
-          {/* occupa 12 col per 'xs', e 6 per schermi 'lg' */}
-          <Col xs={12} lg={6} className='content-wrapper'>
-            <Feed/>
-          </Col>
-          {/* invisibile per 'xs', occupa 3 per 'lg' */}
-          {
-            isLoggedIn ?
-            (
-              <Col xs={0} lg={3} className='d-none d-lg-block'>
-                <UserInfo />
-              </Col>
-            )
-            :
-            (
-              /* colonna vuota visto che da sloggati si possono leggere solo i canali principali */
-              <Col xs = {0} lg = {3} className='d-none d-lg-block'> <></> </Col>
-            )
-          }
-
-        </Row>
-      </Container>
+        <Feed/>
     </div>
   );
 }
