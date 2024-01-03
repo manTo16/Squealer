@@ -12,7 +12,9 @@ function UserInfo() {
 
   return (
     <div className='user-info'>
-      <img src={`${userDetails.userImage}`} width={300}/>
+      <a style={{ textDecoration: 'none' }} className="align-middle" href="/profile">
+        <img src={`${userDetails.userImage}`} width={300} className='py-4 rounded-circle'/>
+      </a>
       <h3>{userDetails.displayName}</h3> 
       <h4>{'@'+userDetails.username}</h4>
       <Char4LG />

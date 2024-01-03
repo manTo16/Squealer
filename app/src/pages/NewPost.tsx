@@ -11,15 +11,11 @@ import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { Textarea } from "flowbite-react";
-import { text } from "stream/consumers";
 import axios from 'axios'
 import { apiPostsURL } from "../URLs";
 import { useNavigate } from "react-router-dom";
 import { Stack } from "react-bootstrap";
 import Text from "@components/svg/TextSvg";
-import InputGroup from 'react-bootstrap/InputGroup';
-import Form from 'react-bootstrap/Form';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Add from "@components/svg/AddSvg";
 import Remove from "@components/svg/RemoveSvg";
@@ -59,7 +55,7 @@ export default function NewPostPage() {
   const getTextLines = (textarea: HTMLTextAreaElement) => {
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
     //const maxHeight = textarea.parentElement?.clientHeight;  //non funziona, il componente cardbody si allunga dinamicamente
-    const maxHeight = window.innerHeight / 2
+    const maxHeight = window.innerHeight / 3
     
     const maxLines = Math.floor(maxHeight / lineHeight);
     
@@ -170,7 +166,7 @@ export default function NewPostPage() {
               <Card.Text>
                 <CardBody
                   type={Type}
-                  onInputChange={handleInputChange} // Usa onInputChange invece di handleInputChange
+                  onInputChange={handleInputChange}
                   charCount={charCount}
                   textLines={textLines}
                   Dchar={Dchar}
