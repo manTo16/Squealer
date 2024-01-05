@@ -43,7 +43,7 @@ function App() {
       onHeightChange={setNavbarHeight} />
 
       <Container fluid>
-      <Row xs={12} lg={12}>
+      <Row xs={12} lg={12} className='justify-content-md-center'>
 
         {renderSidebars &&
         <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
