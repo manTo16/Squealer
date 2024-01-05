@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
 
@@ -34,6 +34,9 @@ function App() {
     console.log("bottombarHeight: ", bottombarHeight)
   }, [navbarHeight, bottombarHeight])
 
+  const location = useLocation();
+  const renderSidebars = (location.pathname != "/login" && location.pathname != "/register")
+  
   return (
     <div>
       <Navbar
@@ -42,10 +45,11 @@ function App() {
       <Container fluid>
       <Row xs={12} lg={12}>
 
-        
+        {renderSidebars &&
         <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
           <SidebarContent />
         </Col>
+        }
 
         {/* <SidebarComponent /> */}
         <Col xs={12} lg={6} className='content-wrapper'>
@@ -69,20 +73,21 @@ function App() {
 
         </Col>
 
-          {/* invisibile per 'xs', occupa 3 per 'lg' */}
-          {
-            isLoggedIn ?
-            (
-              <Col xs={0} lg={3} className='d-none d-lg-block'>
-                <UserInfo />
-              </Col>
-            )
-            :
-            (
-              /* colonna vuota visto che da sloggati si possono leggere solo i canali principali */
-              <Col xs = {0} lg = {3} className='d-none d-lg-block'> <></> </Col>
-            )
-          }
+
+        {renderSidebars && (
+        isLoggedIn ?
+        (
+          <Col xs={0} lg={3} className='d-none d-lg-block'>
+            <UserInfo />
+          </Col>
+        )
+        :
+        (
+          /* colonna vuota visto che da sloggati si possono leggere solo i canali principali */
+          <Col xs = {0} lg = {3} className='d-none d-lg-block'> <></> </Col>
+        )
+      
+        )}
         
       </Row>
       </Container>

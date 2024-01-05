@@ -27,7 +27,7 @@ export default function SidebarContent() {
       const response = await axios.get(apiUsersURL+`/${username}/channels`,
       { headers: {"Authorization": `Bearer ${userToken}`}})
       let channelsArray = response.data
-      console.log("channelsarray", channelsArray)
+      console.log("loadChannels channelsarray", channelsArray)
       return channelsArray
     }
 
@@ -37,7 +37,6 @@ export default function SidebarContent() {
 
     // fetch channels data only if logged in
     if (userToken) fetchChannels();
-    console.log("displayedchannels", displayedChannels)
   }, [])
   
   return(
