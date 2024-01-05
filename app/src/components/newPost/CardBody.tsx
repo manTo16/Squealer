@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import TestGeolocation from '@components/Geolocation/Geolocation';
 
 interface CardBodyProps {
     type: string;
@@ -24,6 +25,8 @@ export default function CardBody({
 
     if (type === 'txt') {
         return (
+            <>
+            <Form.Label>Scrivi il tuo squal</Form.Label>
             <InputGroup>
                 <InputGroup.Text>{charCount}</InputGroup.Text>
                 <Form.Control 
@@ -36,19 +39,21 @@ export default function CardBody({
                     maxLength={Dchar}
                 />
             </InputGroup>
+            </>
         );
     } else if (type === 'img') {
         return (
-            <Form.Group controlId="formFileMultiple" className="mb-3">
-                <Form.Label>Select Image(s)</Form.Label>
+            <>
+            <Form.Label>Select Image(s)</Form.Label>
+            <InputGroup className="mb-3">
                 <Form.Control 
                     type="file" 
                     className="shareInput bg-dark text-white"
-                    multiple 
                     accept='image/*'
                 />
-                {/* <InputGroup.Text></InputGroup.Text> */}
-            </Form.Group>
+                <InputGroup.Text></InputGroup.Text>
+            </InputGroup>
+            </>
         );
     } else if (type === 'mp4') {
         return (
@@ -62,7 +67,7 @@ export default function CardBody({
             </Form.Group>
         );
     } else if (type === 'gps') {
-        return null;
+        return <TestGeolocation/>;
     } else {
         return null;
     }

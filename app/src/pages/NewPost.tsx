@@ -131,7 +131,7 @@ export default function NewPostPage() {
             <Card.Header>
             <div className="tags">
               <Stack direction="horizontal" gap={2}>
-                <img src={`${userDetails.userImage}`} width={50}/>
+                <img src={`${userDetails.userImage}`} width={50} className="rounded-circle"/>
                 <span className="p-2 displayedName">{userDetails.displayName}</span>
                 <span className="p-2 tagName">{'@'+userDetails.username}</span>
               </Stack>
