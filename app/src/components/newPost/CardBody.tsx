@@ -70,7 +70,8 @@ export default function CardBody({
                     accept='image/*'
                 />
                 <InputGroup.Text></InputGroup.Text>
-            </InputGroup> */}
+            </InputGroup> 
+*/}
             </>
         );
     } else if (type === 'mp4') {

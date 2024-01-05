@@ -17,6 +17,7 @@ function UserInfo() {
         <div className='p-3 '>
           <h3>{userDetails.displayName}</h3> 
           <h4>{'@'+userDetails.username}</h4>
+          <h5>{userDetails.dailyChar}</h5>
         </div>
       </a>
       <Char4LG />

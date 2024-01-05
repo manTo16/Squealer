@@ -9,6 +9,7 @@ import { apiAuthURL, apiUsersURL } from '../URLs'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { convertToBase64 } from '../utils'
+import { InputGroup } from 'react-bootstrap'
 
 export default function Register() {
   const [username,setUsername]=useState('')
@@ -67,29 +68,73 @@ export default function Register() {
             <h1>Sign up to Squealer</h1>
             <Form.Label> Choose displayed name </Form.Label>
             <Form.Group className='mb-3 w-80'>
-                <Form.Control onChange={(e)=>setDisplayName(e.target.value)} value={displayName} placeholder="type displayed name here" aria-label="username"/>
+                <Form.Control 
+                  onChange={(e)=>setDisplayName(e.target.value)}
+                  value={displayName}
+                  placeholder="type displayed name here"
+                  aria-label="username"/>
             </Form.Group>
             <Form.Label> Create username </Form.Label>
             <Form.Group className='mb-3'>
-                <Form.Control onChange={(e)=>setUsername(e.target.value)} value={username} placeholder="type username here" aria-label="username"/>
+                <Form.Control
+                  onChange={(e)=>setUsername(e.target.value)}
+                  value={username}
+                  placeholder="type username here"
+                  aria-label="username"/>
             </Form.Group>
             <Form.Label> Your email </Form.Label>
             <Form.Group className='mb-3'>
-                <Form.Control onChange={(e)=>setEmail(e.target.value)} value={email} placeholder="type email here" aria-label="email"/>
+                <Form.Control 
+                  onChange={(e)=>setEmail(e.target.value)}
+                  value={email}
+                  placeholder="type email here"
+                  aria-label="email"/>
             </Form.Group>
             <Form.Label> Create password </Form.Label>
             <Form.Group className='mb-3'>
-                <Form.Control onChange={(e)=>setPassword(e.target.value)} value={password} placeholder="type password here" aria-label="password" type='password'/>
+                <Form.Control
+                  onChange={(e)=>setPassword(e.target.value)}
+                  value={password}
+                  placeholder="type password here"
+                  aria-label="password"
+                  type='password'/>
             </Form.Group>
             <Form.Label> Confirm Password </Form.Label>
             <Form.Group className='mb-3'>
-                <Form.Control onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} placeholder="type password again" aria-label="password" type='password'/>
+                <Form.Control
+                  onChange={(e)=>setConfirmPassword(e.target.value)}
+                  value={confirmPassword}
+                  placeholder="type password again"
+                  aria-label="password"
+                  type='password'/>
             </Form.Group>
             <Form.Label> Upload profile picture</Form.Label>
-            <Form.Group className='mb-3'>
-                <input aria-label="upload-image" type='file' accept='.jpeg, .png, .jpg' name='image' onChange={(e)=>handleImageUpload(e)}/>                
-            </Form.Group>
-            <ButtonBootstrap onClick={handleSubmit} type="submit" className='my-3 red-buttons'>Sign up</ButtonBootstrap>
+            <InputGroup className="mb-3">
+                <input 
+                  className="bg-dark text-white"
+                  aria-label="upload-image"
+                  type='file'
+                  accept='.jpeg, .png, .jpg'
+                  name='image'
+                  onChange={(e)=>handleImageUpload(e)}/>                
+            </InputGroup>
+            {/* 
+            <Form.Label>Select Image(s)</Form.Label>
+            <InputGroup className="mb-3">
+                <Form.Control 
+                    type="file" 
+                    className="shareInput bg-dark text-white"
+                    accept='image/*'
+                />
+                <InputGroup.Text></InputGroup.Text>
+            </InputGroup> 
+            */}
+            <ButtonBootstrap
+              onClick={handleSubmit}
+              type="submit"
+              className='my-3 red-buttons'>
+                Sign up
+              </ButtonBootstrap>
           </Col>
 
           <Col className='d-flex justify-content-center align-items-center'>
