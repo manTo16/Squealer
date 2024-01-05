@@ -28,63 +28,11 @@ export default function TrendingPage() {
         console.log(response)
     }
 
-    /* i nomi sono tutti in italiano perchè tanto poi la rifacciamo seriamente in un'altra pagina
-    questa prendetela solo come dimostrazione
-    */
-/*
-    const [postVisualizzati, setPostVisualizzati] = useState(0)
-    const [listaPostVisualizzati, setListaPostVisualizzati] = useState([])
-    const [impressioniScaricate, setImpressioniScaricate] = useState({
-        veryLikes: [],
-        likes: [],
-        dislikes: [],
-        veryDislikes: [],
-        views: []
-    })
-    const caricaImpressioni = async () => {
-        const username = userDetails.username
-        //la richiesta ritorna una struttura come quella di impressioniScaricati di array di id di post
-        const response = await axios.get(apiUsersURL + "/" + username + "/impressions")
-        setImpressioniScaricate(response.data)
-    }
-*/
-//    useEffect(() => {
-        /* useEffect usato al caricamento della pagina
-        chiama una funzione asincrona perchè gli await dentro gli useeffect a react non piacciono */
-  //      caricaImpressioni()
-  //  }, [])
 
- //   useEffect(() => {
-    /* questo useeffect ha nelle dipendenze lo stato che praticamente è un enum
-    quando lo stato viene cambiato dal setStato nell'onclick dei bottoni (che possono essere radiobutton)
-    questo useeffect viene eseguito, cambiando a sua volta lo stato dell'array di post visualizzati*/
-  /*      switch(postVisualizzati) {
-            case(1):
-                setListaPostVisualizzati(impressioniScaricate.veryLikes)
-                break
-            case(2):
-                setListaPostVisualizzati(impressioniScaricate.likes)
-                break
-            case(3):
-                setListaPostVisualizzati(impressioniScaricate.dislikes)
-                break
-            case(4):
-                setListaPostVisualizzati(impressioniScaricate.veryDislikes)
-                break
-            case(5):
-                setListaPostVisualizzati(impressioniScaricate.views)
-                break
-            //non deve entrare nel default
-            default:
-                setListaPostVisualizzati([])
-                break
-                
-        }
-    }, [postVisualizzati])
-
-*/
 
     const [reactionType, setReactionType] = useState(ReactionType.Default)
+
+    const [usernameReaction, setUsernameReaction] = useState("")
     
 
     return(
@@ -111,6 +59,12 @@ export default function TrendingPage() {
                 quindi direi che prima o poi inizierò a salvare nel localStorage o sessionStorage o comunque in locale i post presi dall'api che prende i post a cui un utente ha reagito, così schiacciando i bottoni non rifa le richieste al server ma le prende dal locale
             </p>
             
+            <p>non funziona ancora perfettamente credo</p>
+            <p>se lasci la barra vuota fa vedere i tuoi, se metti un utente che non trova l'errore non è gestito </p>
+
+            <Form.Group className='mb-3'>
+                <Form.Control onChange={(e)=>setUsernameReaction(e.target.value)} value={usernameReaction} placeholder="uente di cui vuoi vedere le reazioni"/>
+            </Form.Group>
             <button
             onClick={() => setReactionType(ReactionType.VeryLike)}>
                 likeone
@@ -136,7 +90,7 @@ export default function TrendingPage() {
 
 
             <Feed 
-           userName={userDetails.username}
+           userName={usernameReaction ? usernameReaction : userDetails.username}
            visualizedImpression={reactionType}
            />
         </div>
