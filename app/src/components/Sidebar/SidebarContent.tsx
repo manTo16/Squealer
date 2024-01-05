@@ -1,6 +1,4 @@
 import Button from 'react-bootstrap/Button';
-
-import Bell from '../svg/BellSvg';
 import Logout from '../svg/LogoutSvg';
 
 import { useNavigate } from 'react-router-dom';
@@ -49,11 +47,11 @@ export default function SidebarContent() {
         userToken ? 
         (
         <div className='logged-in-buttons'>
-          <div className="Bell"><Bell/></div>
           <Button className="Logout" 
           variant="outline-light"
           onClick={handleLogout}>
-            Log Out <Logout/>
+            Log Out 
+            <Logout/>
           </Button>
         </div>
         ) :

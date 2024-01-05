@@ -49,8 +49,10 @@ function App() {
 
         {/* <SidebarComponent /> */}
         <Col xs={12} lg={6} className='content-wrapper'>
-          <div style={{overflow: "scroll", 
-          height: window.innerHeight - navbarHeight - bottombarHeight - 5}}>
+          <div style={{
+            // overflow: "scroll", 
+          height: window.innerHeight - navbarHeight - bottombarHeight - 10}}
+          >
 
           <Routes>
             <Route path='/'             element={<Home />}          />

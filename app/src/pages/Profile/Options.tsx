@@ -5,8 +5,14 @@ import { useState } from 'react';
 
 export default function Options() {
   const [isPro, setIsPro] = useState(false);
+  const [isVer, setIsVer] = useState(false);
   
-  const handleClick = () => {
+  const handleVerClick = () => {
+    setIsVer(!isVer);
+    // andare a modificare le impostazioni del profilo
+  }
+
+  const handleProClick = () => {
       // Cambia lo stato opposto di isPro
       setIsPro(!isPro);
   };
@@ -34,20 +40,30 @@ export default function Options() {
         <Col>
           <h4>Imposta il tipo di profilo</h4>
           <hr/>
-          <Form.Check
-            type="switch"
-            id="custom-switch"
-            label="Account pro?"
-            checked={isPro}
-            onChange={handleClick}
-          />
-          {isPro && (
-            <Form.Select className='mt-1 btn btn-dark border-light'>
-              <option value="1">Just PRO</option>
-              <option value="2">Social Media Manager</option>
-              <option value="3">Moderatore Squealer</option>
-            </Form.Select>
-          )}
+          <div className='m-2'>
+            <Form.Check
+              type="switch"
+              id="Pro-switch"
+              label="Account pro?"
+              checked={isPro}
+              onChange={handleProClick}
+            />
+            {isPro && (
+              <Form.Select className='mt-1 btn btn-dark border-light'>
+                <option value="1">Just PRO</option>
+                <option value="2">Social Media Manager</option>
+                <option value="3">Moderatore Squealer</option>
+              </Form.Select>
+            )}
+            <hr/>
+            <Form.Check
+              type="switch"
+              id="verified-switch"
+              label="Verificato?"
+              checked={isVer}
+              onChange={handleVerClick}
+            />
+          </div>
         </Col>
       </Row>
       <br></br> 

@@ -3,6 +3,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import TestGeolocation from '@components/Geolocation/Geolocation';
+import { ButtonGroup, Dropdown } from 'react-bootstrap';
+import IconPaste from '@components/svg/PasteSvg';
+import IconUpload from '@components/svg/UploadSvg';
+import IconCamera from '@components/svg/CameraSvg';
 
 interface CardBodyProps {
     type: string;
@@ -20,6 +24,14 @@ export default function CardBody({
     Dchar
 }: CardBodyProps) {
     const [inputValue, setInputValue] = useState<string>(''); // Specifica il tipo string per inputValue
+
+    const[MediaType, setMediaType] = useState('paste');
+
+    const handleMediaType = (eventKey: string | null) => {
+        if (eventKey === null) return;
+        setMediaType(eventKey);
+        console.log(MediaType);
+      };
 
     // const [charCount, setCharCount] = useState(0);
 
@@ -44,6 +56,12 @@ export default function CardBody({
     } else if (type === 'img') {
         return (
             <>
+            <ButtonGroup aria-label="Basic example">
+                <Button variant="secondary" onClick={() => handleMediaType('paste')}><IconPaste/></Button>
+                <Button variant="secondary" onClick={() => handleMediaType('upload')}><IconUpload/></Button>
+                <Button variant="secondary" onClick={() => handleMediaType('camera')}><IconCamera/></Button>
+            </ButtonGroup>
+{/*             
             <Form.Label>Select Image(s)</Form.Label>
             <InputGroup className="mb-3">
                 <Form.Control 
@@ -52,7 +70,7 @@ export default function CardBody({
                     accept='image/*'
                 />
                 <InputGroup.Text></InputGroup.Text>
-            </InputGroup>
+            </InputGroup> */}
             </>
         );
     } else if (type === 'mp4') {

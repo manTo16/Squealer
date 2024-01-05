@@ -3,6 +3,7 @@ import VDots from "../svg/VDotsSvg"
 import propic from "../../assets/person/9.png"
 import Like from "../svg/Reaction/LikeSvg"
 import Heart from "../svg/Reaction/HeartSvg"
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import axios from "axios"
 import { apiPostsURL } from "../../URLs"
@@ -10,6 +11,8 @@ import { apiPostsURL } from "../../URLs"
 import { MutableRefObject, useEffect, useRef, useState } from "react"
 import { Stack } from "react-bootstrap"
 import { Button } from "react-bootstrap"
+import Heartbreak from "@components/svg/Reaction/HeartbreakSvg"
+import Dislike from "@components/svg/Reaction/DislikeSvg"
 
 
 
@@ -159,11 +162,13 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                       />
                       <span className="p-2">{postData.postDisplayedName}</span>
                       <span className="p-2 text-secondary">{postData.postUsername}</span>
-                      <span className="p-2">{postData.postReceivers[0] ?? "nullo"}</span>
+                      <Button className="btn-transparent">
+                        <span className="p-2">{postData.postReceivers[0] ?? "nullo"}</span>
+                      </Button>
                   </Stack>
                   <div className="postTopRight">
                       <span className="postCharUsed">{postTextLength}</span>
-                      <VDots />
+                      {/* <VDots /> */}
                   </div>
               </div>
               <div className="postCenter text-break">
@@ -172,41 +177,36 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
               </div>
               <div className="postBottom">
                   <div className="postBottomLeft">
-                    {/* 
-                      <button className="btn-transparent" onClick={()=>handleImpressions('like')}>
-                          <Like className="likeIcon"/>
-                      </button>
-                      <button className="btn-transparent">
-                          <Heart className="likeIcon"/>
-                      </button>
-                    */}
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('veryLike')}
-                    disabled={postData.postImpressionChosen == "veryLike"}>
-                      <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
-                    </Button>
+                    <ButtonGroup>
+                      <Button
+                      variant="dark"
+                      onClick={()=>handleImpressions('veryLike')}
+                      disabled={postData.postImpressionChosen == "veryLike"}
+                      >
+                        <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
+                      </Button>
 
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('like')}
-                    disabled={postData.postImpressionChosen == "like"}>
-                      <Like className="likeIcon" /> {postData.postLikesCounter}
-                    </Button>
+                      <Button
+                      variant="dark"
+                      onClick={()=>handleImpressions('like')}
+                      disabled={postData.postImpressionChosen == "like"}>
+                        <Like className="likeIcon" /> {postData.postLikesCounter}
+                      </Button>
 
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('dislike')}
-                    disabled={postData.postImpressionChosen == "dislike"}>
-                      dislike {postData.postDislikesCounter}
-                    </Button>
+                      <Button
+                      variant="dark"
+                      onClick={()=>handleImpressions('dislike')}
+                      disabled={postData.postImpressionChosen == "dislike"}>
+                        <Dislike className="likeIcon" /> {postData.postDislikesCounter}
+                      </Button>
 
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('veryDislike')}
-                    disabled={postData.postImpressionChosen == "veryDislike"}>
-                      molto dislike {postData.postVeryDislikesCounter}
-                    </Button>
+                      <Button
+                      variant="dark"
+                      onClick={()=>handleImpressions('veryDislike')}
+                      disabled={postData.postImpressionChosen == "veryDislike"}>
+                        <Heartbreak  className="likeIcon"/> {postData.postVeryDislikesCounter}
+                      </Button>
+                    </ButtonGroup>
 
                   </div>
                   <div className="postBottomRight">

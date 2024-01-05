@@ -1,12 +1,13 @@
 import Video from "../components/svg/VideoSvg";
 import LocationButton from "../components/svg/LocationSvg";
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ReceiverInputField from "@components/newPost/ReceiverInputField";
 import CardFooter from 'react-bootstrap/CardFooter'
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Container from 'react-bootstrap/Container'
 import Media from "../components/svg/MediaSvg";
-import Button from 'react-bootstrap/Button';
 import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row'
@@ -16,7 +17,6 @@ import { apiPostsURL } from "../URLs";
 import { useNavigate } from "react-router-dom";
 import { Stack } from "react-bootstrap";
 import Text from "@components/svg/TextSvg";
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Add from "@components/svg/AddSvg";
 import Remove from "@components/svg/RemoveSvg";
 import CardBody from "@components/newPost/CardBody";
@@ -175,40 +175,40 @@ export default function NewPostPage() {
 
               <CardFooter>
                 <Stack direction="horizontal" gap={3}>
-                <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-                  <ToggleButton
+                <ButtonGroup defaultValue={1}>
+                  <Button
                     className="btn btn-dark border-light"
-                    onChange={() => handleType('txt')}
+                    onClick={() => handleType('txt')}
                     id="postType-Txt"
                     value={1}
                   >
                     <Text />
-                  </ToggleButton>
-                  <ToggleButton
+                  </Button>
+                  <Button
                     className="btn btn-dark border-light"
-                    onChange={() => handleType('img')}
+                    onClick={() => handleType('img')}
                     id="postType-Img"
                     value={2}
                   >
                     <Media />
-                  </ToggleButton>
-                  <ToggleButton
+                  </Button>
+                  <Button
                     className="btn btn-dark border-light"
-                    onChange={() => handleType('mp4')}
+                    onClick={() => handleType('mp4')}
                     id="postType-vid"
                     value={3}
                   >
                     <Video />
-                  </ToggleButton>
-                  <ToggleButton
+                  </Button>
+                  <Button
                     className="btn btn-dark border-light"
-                    onChange={() => handleType('gps')}
+                    onClick={() => handleType('gps')}
                     id="postType-gps"
                     value={4}
                   >
                     <LocationButton />
-                  </ToggleButton>
-                </ToggleButtonGroup>
+                  </Button>
+                </ButtonGroup>
 
 
                   <Button 

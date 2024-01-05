@@ -89,6 +89,11 @@
     cursor: pointer;
     margin: 5px;
     filter: brightness(0) invert(1);  /* filter applicato in combinazione con btn transparent per tenere l'svg bianco e non far vedere il bottone */
+    @media (max-width: 768px) {
+        width: 24px;
+        height: 24px;
+        margin: 0;
+    }
 }
 
 .postLikeCounter {
@@ -106,3 +111,9 @@
     background-color: transparent !important;
     border: none !important;
   }
+
+  .btn-transparent:hover, .btn-transparent:focus, .btn-transparent:active, .btn-transparent.active, .open>.dropdown-toggle.btn-transparent {
+    color: #fff !important;
+    background-color: #00b3db !important;
+    border-color: #285e8e !important; /*set the color you want here*/
+}
