@@ -30,10 +30,6 @@ export default function ThirdColumn() {
             <span className="ml-2">Question</span>
           </Button>
 
-          <Button variant="outline-light" className="w-50 d-flex align-items-center m-1">
-            <GroupButton />
-            <span className="ml-2">Group</span>
-          </Button>
         </div>
   );
 }

@@ -78,7 +78,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                <Button variant="outline-light" className='btn-transparent'>
+                <Button variant="outline-light" href="/profile" className='btn-transparent'>
                   <GroupButton/> 
                 </Button>
               </Nav.Item>

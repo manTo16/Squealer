@@ -25,6 +25,7 @@ const createPost = async (req,res) => {
     receiversCopy.map((receiver) => console.log("receiver: ", receiver))
 
     const newPost = new Post({
+      postId: "",
       userId: userId,
       username: user.username,
       displayName: user.displayName,
@@ -40,8 +41,8 @@ const createPost = async (req,res) => {
       console.log("createPost filter map receiver: ", receiver)      
       let channel = await Channel.findOne({channelName: receiver.slice(1)})
       console.log("createPost filter map channel._id: ", channel._id)
-      if(channel) {console.log("sono dentro l'if")
-      console.log("channel: ", channel)
+      if(channel) {console.log("createPost sono dentro l'if")
+      console.log("createPost channel: ", channel)
       console.log("createPost newPost._id: ", newPost._id)
       channel.postsIds.push(newPost._id)
       await channel.save()
@@ -65,15 +66,6 @@ const getFeed = async (req,res) => {
 
 const getFeedIds = async (req,res) => {
   try {
-    /*
-    TODO: fare in modo che vengano presi solo un determinato numero di post dal database
-    in teoria le get non dovrebbero prendere nulla nelle richieste
-    https://stackoverflow.com/questions/978061/http-get-with-request-body
-    quindi va fatto in altro modo
-    per ora ho risolto in questo modo un po' statico
-    va bene ma se vi vengono nuove idee per scegliere quel numero in modo un po' più dinamico potrebbe essere carino
-    */
-    //numberOfPosts = req.body.numberOfPosts;
     numberOfPosts = 10;
    
     const postIds = await Post.find({}, {projection:{_id:true}}).sort({creationDate: -1}).limit(numberOfPosts);
@@ -96,25 +88,152 @@ const getPost = async (req,res) => {
 
 const updateImpressions = async (req,res) =>{
   try{
-    const post = await Post.findOne({_id: req.params.id})
-    if (!post) res.status(404).json({message: "post not found"})
+    const postId = req.params.id
+    const post = await Post.findOne({_id: postId})
+    if (!post) 
+      return res.status(404).json({message: "post not found"})
+
     const impression = req.params.impression
+
+    const {username} = req.body
+    const user = await User.findOne({username: username})
+    if ((!user) && (username != "guestUser")) 
+      return res.status(404).json({message: "user not found"})
+    console.log("updateImpressions: \n\tpostId: ", postId, "\n\timpression: ", impression, "\n\tusername: ", username)
+
     switch(impression){
+      case 'veryLike':
+        /* adds user chosen reaction */
+        if (!post.impressions.veryLikes.usernames.includes(username)) {
+          post.impressions.veryLikes.number+=1
+          post.impressions.veryLikes.usernames.push(username)
+        }
+        /* remove user other reactions */
+        if (post.impressions.likes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.likes.usernames": username } });
+          post.impressions.likes.number-=1
+        }
+        if (post.impressions.dislikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.dislikes.usernames": username } });
+          post.impressions.dislikes.number-=1
+        }
+        if (post.impressions.veryDislikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.veryDislikes.usernames": username } });
+          post.impressions.veryDislikes.number-=1
+        }
+        /* aggiunge il post alla lista dell'utente, se non c'è già */
+        if (user && !user.impressedPostIds.veryLikes.includes(postId)) {
+          user.impressedPostIds.veryLikes.push(postId)
+          /* toglie il post dalla lista dell'utente, nel caso ci sia */
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.likes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.dislikes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.veryDislikes": postId} })
+        }
+        break
+
       case 'like':
-        post.impressions.likes+=1
+        /* adds user chosen reaction */
+        if (!post.impressions.likes.usernames.includes(username)) {
+          post.impressions.likes.number+=1
+          post.impressions.likes.usernames.push(username)
+        }
+        /* remove user other reactions */
+        if (post.impressions.veryLikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.veryLikes.usernames": username } });
+          post.impressions.veryLikes.number-=1
+        }
+        if (post.impressions.dislikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.dislikes.usernames": username } });
+          post.impressions.dislikes.number-=1
+        }
+        if (post.impressions.veryDislikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.veryDislikes.usernames": username } });
+          post.impressions.veryDislikes.number-=1
+        }
+        /* aggiunge il post alla lista dell'utente, se non c'è già*/
+        if (user && !user.impressedPostIds.likes.includes(postId)) {
+          user.impressedPostIds.likes.push(postId)
+          /* toglie il post dalla lista dell'utente, nel caso ci sia */
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.veryLikes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.dislikes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.veryDislikes": postId} })
+        }
         break
+
       case 'dislike':
-        post.impressions.dislikes+=1
+        /* adds user chosen reaction */
+        if (!post.impressions.dislikes.usernames.includes(username)) {
+          post.impressions.dislikes.number+=1
+          post.impressions.dislikes.usernames.push(username)
+        }
+        /* remove user other reactions */
+        if (post.impressions.veryLikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.veryLikes.usernames": username } });
+          post.impressions.veryLikes.number-=1
+        }
+        if (post.impressions.likes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.likes.usernames": username } });
+          post.impressions.likes.number-=1
+        }
+        if (post.impressions.veryDislikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.veryDislikes.usernames": username } });
+          post.impressions.veryDislikes.number-=1
+        }
+        /* aggiunge il post alla lista dell'utente, se non c'è già*/
+        if (user && !user.impressedPostIds.dislikes.includes(postId)) {
+          user.impressedPostIds.dislikes.push(postId)
+          /* toglie il post dalla lista dell'utente, nel caso ci sia */
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.veryLikes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.likes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.veryDislikes": postId} })
+        }
         break
+
+      case 'veryDislike':
+        /* adds user chosen reaction */
+        if (!post.impressions.veryDislikes.usernames.includes(username)) {
+          post.impressions.veryDislikes.number+=1
+          post.impressions.veryDislikes.usernames.push(username)
+        }
+        /* remove user other reactions */
+        if (post.impressions.veryLikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.veryLikes.usernames": username } });
+          post.impressions.veryLikes.number-=1
+        }
+        if (post.impressions.likes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.likes.usernames": username } });
+          post.impressions.likes.number-=1
+        }
+        if (post.impressions.dislikes.usernames.includes(username)) {
+          await Post.updateOne({ postId: postId }, { $pull: { "impressions.dislikes.usernames": username } });
+          post.impressions.dislikes.number-=1
+        }
+        /* aggiunge il post alla lista dell'utente, se non c'è già*/
+        if (user && !user.impressedPostIds.veryDislikes.includes(postId)) {
+          user.impressedPostIds.veryDislikes.push(postId)
+          /* toglie il post dalla lista dell'utente, nel caso ci sia */
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.veryLikes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.likes": postId} })
+          await User.updateOne({username: username}, { $pull: {"impressedPostIds.dislikes": postId} })
+        }
+        break
+
       case 'view':
-        post.impressions.views+=1
+        if (!post.impressions.views.usernames.includes(username)) {
+          post.impressions.views.number+=1
+          post.impressions.views.usernames.push(username)
+          user?.impressedPostIds.views.push(postId)
+          console.log("updateImpressions DENTRO IF VIEW")
+        }
+        console.log("updateImpressions DENTRO case view")
         break
     }
     await post.save()
-    res.status(200).json(post)
+    await user?.save()
+    return res.status(200).json(post)
   }
   catch(err){
-    res.status(500).json({message: err.message});
+    return res.status(500).json({message: err.message});
   }
 }
 

@@ -31,7 +31,29 @@ const userSchema = mongoose.Schema(
       type: [String],
       default: []
     },
-    userImage: String
+    userImage: String,
+    impressedPostIds: {
+      veryLikes: {
+        type: [String],
+        default: []
+      },
+      likes: {
+        type: [String],
+        default: []
+      },
+      dislikes: {
+        type: [String],
+        default: []
+      },
+      veryDislikes: {
+        type: [String],
+        default: []
+      },
+      views: {
+        type: [String],
+        default: []
+      }
+    }
   }
 )
 

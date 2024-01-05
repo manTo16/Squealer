@@ -51,6 +51,10 @@ const createChannel = async (req,res) => {
   }
 }
 
+/*
+aggiunge un utente alla lista di persone aventi il ruolo richiesto.
+inoltre, rimuove l'utente da tutte le liste di ruoli che non sono quello richiesto
+*/
 const addUserToChannel = async (req,res) =>{
   try{
     /*
@@ -70,18 +74,24 @@ const addUserToChannel = async (req,res) =>{
         found = await Channel.findOne({channelName: channelName, "usernames.owners": username});
         if(!found) {
           channel.usernames.owners.push(username);
+          await Channel.updateOne({ channelName: channelName }, { $pull: { "usernames.writers": username } });
+          await Channel.updateOne({ channelName: channelName }, { $pull: { "usernames.readers": username } });
         }
         break;
       case "writer":
         found = await Channel.findOne({channelName: channelName, "usernames.writers": username});
         if(!found) {
           channel.usernames.writers.push(username);
+          await Channel.updateOne({ channelName: channelName }, { $pull: { "usernames.owners": username } });
+          await Channel.updateOne({ channelName: channelName }, { $pull: { "usernames.readers": username } });
         }
         break;
       case "reader":
         found = await Channel.findOne({channelName: channelName, "usernames.readers": username});
         if(!found) {
           channel.usernames.readers.push(username);
+          await Channel.updateOne({ channelName: channelName }, { $pull: { "usernames.owners": username } });
+          await Channel.updateOne({ channelName: channelName }, { $pull: { "usernames.writers": username } });
         }
         break;
       default:
@@ -103,7 +113,7 @@ const getChannelPostIds = async (req, res) => {
   try {
     const channelName = req.params.channelName
 
-    const numberOfPosts = 5;
+    const numberOfPosts = 1;
     //faccio il sorting per id perchè mongodb crea l'id anche in base all'ora e il giorno in cui è stato creato un oggetto
     const postIds = await Channel.findOne({channelName: channelName})?.select("postsIds").sort({_id: -1}).limit(numberOfPosts)
     console.log("getChannelPostIds postIds: ", postIds)

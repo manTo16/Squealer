@@ -26,17 +26,55 @@ const postSchema = mongoose.Schema({
     default: []
   },
   impressions: {
+    veryLikes: {
+      number: {
+        type: Number,
+        default: 0
+      },
+      usernames: {
+        type: [String],
+        default: []
+      }
+    },
     likes: {
-      type: Number,
-      default: 0
+      number: {
+        type: Number,
+        default: 0
+      },
+      usernames: {
+        type: [String],
+        default: []
+      }
     },
     dislikes:{
-      type: Number,
-      default: 0
+      number: {
+        type: Number,
+        default: 0
+      },
+      usernames: {
+        type: [String],
+        default: []
+      }
+    },
+    veryDislikes: {
+      number: {
+        type: Number,
+        default: 0
+      },
+      usernames: {
+        type: [String],
+        default: []
+      }
     },
     views: {
-      type: Number,
-      default: 0
+      number: {
+        type: Number,
+        default: 0
+      },
+      usernames: {
+        type: [String],
+        default: []
+      }
     }
   },
   creationDate: {
@@ -44,5 +82,19 @@ const postSchema = mongoose.Schema({
     default: new Date()
   }
 })
+
+/*
+a un certo punto non ho capito perchè non salvava più il postId, a quanto pare this non si può usare dentro lo schema (dice copilot). però fin ora ha sempre funzionato...
+*/
+/*
+funzione eseguita prima del salvataggio su database
+assegna a postId lo stesso valore di _id di mongodb
+*/
+postSchema.pre('save', function(next) {
+  if (!this.postId) {
+    this.postId = this._id.toString();
+  }
+  next();
+});
 
 module.exports = mongoose.model("Post",postSchema)

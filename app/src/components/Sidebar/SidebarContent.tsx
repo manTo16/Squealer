@@ -2,7 +2,6 @@ import Button from 'react-bootstrap/Button';
 
 import Bell from '../svg/BellSvg';
 import Logout from '../svg/LogoutSvg';
-import Searchbar from '../Searchbar/Searchbar';
 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -45,17 +44,17 @@ export default function SidebarContent() {
   
   return(
   <div>
-      <div className='sidebar-separator mt-4'>
-        <Searchbar />
-      </div>
 
       {
         userToken ? 
         (
         <div className='logged-in-buttons'>
           <div className="Bell"><Bell/></div>
-          <button className="Logout" onClick={handleLogout}><Logout/></button>
-          <img src="/assets/person/1.png" alt="" className='navbarImg'/>
+          <Button className="Logout" 
+          variant="outline-light"
+          onClick={handleLogout}>
+            Log Out <Logout/>
+          </Button>
         </div>
         ) :
         (
@@ -70,7 +69,7 @@ export default function SidebarContent() {
         )
       }
 
-      <h3 className="normal-text">Canali consigliati</h3>
+      <h3 className="normal-text mt-5 mb-3">Canali consigliati</h3>
       <div className="channels-wrapper">
         
         {
@@ -78,6 +77,7 @@ export default function SidebarContent() {
         (
           displayedChannels.map((channelName, index) =>
           <Button key={index} 
+          className="mb-2"
           href={`/channels/${channelName}`}
           variant="outline-light">
             {channelName}

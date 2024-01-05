@@ -81,8 +81,6 @@ function App() {
               <Col xs = {0} lg = {3} className='d-none d-lg-block'> <></> </Col>
             )
           }
-
-
         
       </Row>
       </Container>
