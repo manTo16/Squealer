@@ -157,7 +157,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                       <img 
                           width={35}
                           className="rounded-circle"
-                          src={propic}
+                          src={`${userDetails.userImage}`}
                           alt="" 
                       />
                       <span className="p-2">{postData.postDisplayedName}</span>

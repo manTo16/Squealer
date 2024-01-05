@@ -42,8 +42,8 @@ export default function ReceiverInputField(
                 title={selectedReciver}
                 onSelect={handleSelect as any} // Casting handleSelect to any temporarily
                 >
-                <Dropdown.Item eventKey="user">@</Dropdown.Item>
-                <Dropdown.Item eventKey="channel">§</Dropdown.Item>
+                <Dropdown.Item eventKey="user">@ - User</Dropdown.Item>
+                <Dropdown.Item eventKey="channel">§ - Channel</Dropdown.Item>
             </DropdownButton>
             <Form.Control
             placeholder={`Destinatario n.${fieldId}`}

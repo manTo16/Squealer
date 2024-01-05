@@ -50,17 +50,19 @@ export default function SidebarContent() {
           <Button className="Logout" 
           variant="outline-light"
           onClick={handleLogout}>
-            Log Out 
-            <Logout/>
+            <div className='d-flex align-items-center'>
+              Log Out 
+              <Logout className='mx-2'/>
+            </div>
           </Button>
         </div>
         ) :
         (
-        <div className='logged-out-buttons'>
+        <div className='d-flex logged-out-buttons'>
           <Button variant="outline-light" href="/login">
             Log in
           </Button>
-          <Button variant="outline-light" href="/register">
+          <Button variant="outline-light" href="/register"  className='ms-auto'>
             Register
           </Button>
         </div>

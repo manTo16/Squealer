@@ -31,7 +31,7 @@ export default function Options() {
               <Form.Control type="password" placeholder="Password" className='bg-dark text-light'/>
               <Form.Label>Conferma nuova passwor</Form.Label>
               <Form.Control type="password" placeholder="Password" className='bg-dark text-light'/>
-              <p className='text-secondary pt-2' style={{fontSize: '11px'}}>Assicurati che la password sia di almeno 15 caratteri O che almeno 8 caratteri includendo numeri e lettere minuscole</p>
+              <p className='text-secondary pt-2' style={{fontSize: '11px'}}>Assicurati che la password sia di almeno 8 caratteri O almeno 6 caratteri includendo numeri e lettere minuscole</p>
               <Button type="submit" className="btn btn-dark border-light">
                 Cambia password 
               </Button>

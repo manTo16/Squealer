@@ -11,22 +11,22 @@ export default function ThirdColumn() {
     return(
         <div className="buttons-wrapper d-flex flex-column align-items-start">
           <Button variant="outline-light" href="/" className="w-50 d-flex align-items-center m-1">
-            <HomeButton />
+            <HomeButton  className="mx-2"/>
             <span className="ml-2">Home</span>
           </Button>
 
           <Button variant="outline-light" href="/trendingPage" className="w-50 d-flex align-items-center m-1">
-            <FireButton />
+            <FireButton  className="mx-2"/>
             <span className="ml-2">Trending</span>
           </Button>
 
           <Button variant="outline-light" href="/newPost" className="w-50 d-flex align-items-center m-1">
-            <AddButton />
+            <AddButton  className="mx-2"/>
             <span className="ml-2">New Post</span>
           </Button>
 
           <Button variant="outline-light" className="w-50 d-flex align-items-center m-1">
-            <QuestionButton />
+            <QuestionButton  className="mx-2"/>
             <span className="ml-2">Question</span>
           </Button>
 

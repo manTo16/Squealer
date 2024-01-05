@@ -63,7 +63,7 @@ export default function Register() {
     <div> 
       <Container className='auth-container'>
         <Row>
-          <Col>
+          <Col xs={12} md={8}>
             <h1>Sign up to Squealer</h1>
             <Form.Label> Choose displayed name </Form.Label>
             <Form.Group className='mb-3 w-80'>
@@ -91,8 +91,9 @@ export default function Register() {
             </Form.Group>
             <ButtonBootstrap onClick={handleSubmit} type="submit" className='my-3 red-buttons'>Sign up</ButtonBootstrap>
           </Col>
+
           <Col className='d-flex justify-content-center align-items-center'>
-            <img className='my-3 mt-10' src={Logo} width={400} alt=''/>
+            <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/>
           </Col>
         </Row>
       </Container>
