@@ -101,6 +101,20 @@ const getUserChannels = async (req,res) =>{
   }
   
 }
+
+const getUserImpressions = async (req,res) => {
+  try {
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+
+    const response = user.impressedPostIds
+    return res.status(200).json(response)
+  }
+  catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
    
 
 module.exports = {
@@ -110,5 +124,6 @@ module.exports = {
     getUser,
     updateUser,
     deleteUser,
-    getUserChannels
+    getUserChannels,
+    getUserImpressions
 }

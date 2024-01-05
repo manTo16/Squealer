@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <div className="full-height home">
-        <Feed/>
+        <Feed channelName='ALL'/>
     </div>
   );
 }

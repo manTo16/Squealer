@@ -8,7 +8,7 @@ function UserInfo() {
   const isLoggedIn = !!localStorage.getItem('token')
   const defaultValue = {}
   const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  console.log(localStorage.getItem('user'))
+  //console.log(localStorage.getItem('user'))
 
   return (
     <div className='user-info'>
