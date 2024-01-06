@@ -59,8 +59,7 @@ export default function TrendingPage() {
                 quindi direi che prima o poi inizierò a salvare nel localStorage o sessionStorage o comunque in locale i post presi dall'api che prende i post a cui un utente ha reagito, così schiacciando i bottoni non rifa le richieste al server ma le prende dal locale
             </p>
             
-            <p>non funziona ancora perfettamente credo</p>
-            <p>se lasci la barra vuota fa vedere i tuoi, se metti un utente che non trova l'errore non è gestito </p>
+            <p>se lasci la barra vuota fa vedere i tuoi, se metti un utente che non trova il backend ritorna 404 e il frontend dà errore </p>
 
             <Form.Group className='mb-3'>
                 <Form.Control onChange={(e)=>setUsernameReaction(e.target.value)} value={usernameReaction} placeholder="uente di cui vuoi vedere le reazioni"/>

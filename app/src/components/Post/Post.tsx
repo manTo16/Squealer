@@ -10,7 +10,7 @@ import { apiPostsURL } from "../../URLs"
 
 import { MutableRefObject, useEffect, useRef, useState } from "react"
 import { Stack } from "react-bootstrap"
-import { Button } from "react-bootstrap"
+import { Button, Row, Col } from "react-bootstrap"
 import Heartbreak from "@components/svg/Reaction/HeartbreakSvg"
 import Dislike from "@components/svg/Reaction/DislikeSvg"
 
@@ -40,6 +40,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
         })
       }
   }
+
+  const [showReceivers, setShowReceivers] = useState(false)
 
   async function sendReaction(reaction: string) {
       const response = await axios.patch(apiPostsURL+`/${postId}/impressions/${reaction}`,
@@ -169,8 +171,9 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                       />
                       <span className="p-2">{postData.postDisplayedName}</span>
                       <span className="p-2 text-secondary">{postData.postUsername}</span>
-                      <Button className="btn-transparent">
-                        <span className="p-2">{postData.postReceivers[0] ?? "nullo"}</span>
+                      <Button className="btn-dark" variant="outline-secondary" size="sm">
+                        <span className="p-2 showReceiversButton"
+                        onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
                       </Button>
                   </Stack>
                   <div className="postTopRight">
@@ -179,6 +182,18 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                   </div>
               </div>
               <div className="postCenter text-break">
+                {showReceivers ?
+                (
+                  <div className="postReceivers d-flex flex-wrap">
+                    {postData.postReceivers.map((str, index) => (
+                      <div key={index} className="p-2 flex-fill">
+                        <Button variant="dark">{str}</Button>
+                      </div>
+                    ))}
+                  </div>
+                )
+                :
+                (
                   <span className="postText">
                   {postTextArray.map((word, index) => {
                       if (mentionsRegex.test(word)) {
@@ -194,7 +209,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                       }
                   })}
                   </span>
-                  <img className="postImg" src="/assets/post/2.jpg" alt="" />
+                )
+                }
               </div>
               <div className="postBottom">
                   <div className="postBottomLeft">
