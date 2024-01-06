@@ -14,11 +14,9 @@ const createPost = async (req,res) => {
     const user = await User.findOne({_id: userId});
 
     //rimuovi elementi vuoti dall'array dei destinatari
-    console.log("FIN qua ci arrivo") //togliere DEBUG
     const receiversCopy = receivers.filter(checkReceiverSyntax);
 
     receiversCopy.map((receiver) => console.log("receiver: ", receiver))
-    console.log("FIN QUA ARRIVO 2") //DEBUG togliere
     /* prendi menzioni dal testo del post */
     const mentions = parseTextForMentions(text)
     console.log("createPost mentions: ", mentions)
@@ -224,9 +222,7 @@ const updateImpressions = async (req,res) => {
           post.impressions.views.number+=1
           post.impressions.views.usernames.push(username)
           user?.impressedPostIds.views.push(postId)
-          console.log("updateImpressions DENTRO IF VIEW")
         }
-        console.log("updateImpressions DENTRO case view")
         break
     }
     await post.save()
