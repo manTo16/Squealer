@@ -6,7 +6,7 @@ import Heart from "../svg/Reaction/HeartSvg"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import axios from "axios"
-import { apiPostsURL } from "../../URLs"
+import { apiPostsURL, apiUsersURL } from "../../URLs"
 
 import { MutableRefObject, useEffect, useRef, useState } from "react"
 import { Stack } from "react-bootstrap"
@@ -25,11 +25,13 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
       const loadedPostData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response?.data));
       if (loadedPostData) {
+        const userImage = await getUserPropic(loadedPostData.username)
         const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
         setPostData({
             postText: loadedPostData.text,
             postDisplayedName: loadedPostData.displayName,
             postUsername: loadedPostData.username,
+            userImg: userImage,
             postReceivers: loadedPostData.receivers,
             postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
             postLikesCounter: loadedPostData.impressions.likes.number,
@@ -69,6 +71,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
       postText: "",
       postDisplayedName: "",
       postUsername: "",
+      userImg: "",
       postReceivers: [],
       postVeryLikesCounter: 0,
       postLikesCounter: 0,
@@ -77,6 +80,14 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
       postImpressionChosen: "",
       postViews: 0
   });
+
+  async function getUserPropic (username: string) {
+    const response = await axios.get(apiUsersURL+`/${username}/propic`)
+    let userImage = ''
+    if (response.status == 200) 
+      userImage = response.data
+    return userImage
+  }
 
   /* viene modificata solo in handleImpressions
   solo in quella funzione c'è il controllo che i non loggati non possono reagire */
@@ -166,7 +177,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                       <img 
                           width={35}
                           className="rounded-circle"
-                          src={`${userDetails.userImage}`}
+                          src={`${postData.userImg}`}
                           alt="" 
                       />
                       <span className="p-2">{postData.postDisplayedName}</span>

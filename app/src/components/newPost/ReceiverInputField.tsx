@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap"
+import { Card, FloatingLabel } from "react-bootstrap"
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -19,6 +19,8 @@ export default function ReceiverInputField(
     const [receiver, setReceiver] = useState("");
 
     const [selectedReciver, setSelectedReciver] = useState('to');
+    const [thersDest, setThersDest] = useState('warning');
+    const [Dest, setDest] = useState('to');
 
     const handleSelect = (eventKey: string | null) => {
         if (eventKey === null) return; // Check for null
@@ -26,34 +28,41 @@ export default function ReceiverInputField(
         switch (eventKey) {
             case 'user':
                 setSelectedReciver('@');
+                setThersDest('light');
+                setDest('User');
                 break;
             case 'channel':
                 setSelectedReciver('§');
+                setThersDest('light');
+                setDest('Channel');
                 break;
         }
     };
 
     return (
         <>
-        <InputGroup className="mb-3">
-            {/* <InputGroup.Text id="basic-addon1">@</InputGroup.Text> */}
+        <InputGroup className="m-1">
             <DropdownButton
-                variant="light"
+                variant={thersDest}
                 title={selectedReciver}
-                onSelect={handleSelect as any} // Casting handleSelect to any temporarily
+                onSelect={handleSelect as any}
                 >
                 <Dropdown.Item eventKey="user">@ - User</Dropdown.Item>
                 <Dropdown.Item eventKey="channel">§ - Channel</Dropdown.Item>
             </DropdownButton>
-            <Form.Control
-            placeholder={`Destinatario n.${fieldId}`}
-            className="bg-dark text-white"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            as="input"
-            onChange={(event:React.ChangeEvent<HTMLInputElement>)=>
-                {handleReceiverInputChange(event, fieldId, selectedReciver)}}
-            />
+            <FloatingLabel
+                controlId="floatingInput"
+                label={`${Dest} n.${fieldId}`}
+            >
+                <Form.Control
+                    className="bg-dark text-white"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    as="input"
+                    onChange={(event:React.ChangeEvent<HTMLInputElement>)=>
+                        {handleReceiverInputChange(event, fieldId, selectedReciver)}}
+                />
+            </FloatingLabel>
         </InputGroup>
         </>
     )

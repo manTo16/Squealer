@@ -190,7 +190,19 @@ const getUserImpressionsViews = async (req,res) => {
 const return200 = async (req,res) => {
   return res.status(200)
 }
-   
+
+const getUserImage = async (req,res) => {
+  try {
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+    
+    const response = user.userImage
+    return res.status(200).json(response)
+  } catch (error) {
+    return res.status(500).json({message: err.message})
+  }
+}   
 
 module.exports = {
     getAllUsers,
@@ -206,6 +218,6 @@ module.exports = {
     getUserImpressionsDislikes,
     getUserImpressionsVeryDislikes,
     getUserImpressionsViews,
-    return200
-
+    return200,
+    getUserImage
 }

@@ -31,9 +31,18 @@ const userSchema = mongoose.Schema(
       type: [String],
       default: []
     },
-    dailyChar: Number,
-    weeklyChar: Number,
-    monthlyChar: Number,
+    dailyChar: {
+      type: Number,
+      default: 0
+    },
+    weeklyChar: {
+      type: Number,
+      default: 0
+    },
+    monthlyChar: {
+      type: Number,
+      default: 0
+    },
     userImage: String,
     impressedPostIds: {
       veryLikes: {

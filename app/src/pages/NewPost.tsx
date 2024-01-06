@@ -20,6 +20,9 @@ import Text from "@components/svg/TextSvg";
 import Add from "@components/svg/AddSvg";
 import Remove from "@components/svg/RemoveSvg";
 import CardBody from "@components/newPost/CardBody";
+import IconPaste from "@components/svg/PasteSvg";
+import IconUpload from "@components/svg/UploadSvg";
+import IconCamera from "@components/svg/CameraSvg";
 
 var cacca = "img";
 
@@ -155,14 +158,18 @@ export default function NewPostPage() {
                   </ButtonGroup>
                 </Stack> 
               </Card.Text>
-
+              
+              <div className="d-flex flex-wrap">
               {[...Array(nReceivers)].map((_, i) => (
                 <ReceiverInputField key={i} 
                 _inputField={i + 1} 
                 handleReceiverInputChange={handleReceiverInputChange} 
                 />
               ))}
+              </div>
 
+              <hr/>
+              
               <Card.Text>
                 <CardBody
                   type={Type}
@@ -177,23 +184,35 @@ export default function NewPostPage() {
                 <Stack direction="horizontal" gap={3}>
                 <ButtonGroup defaultValue={1}>
                   <Button
-                    className="btn btn-dark border-light"
+                    className="btn btn-secondary"
                     onClick={() => handleType('txt')}
                     id="postType-Txt"
                     value={1}
                   >
                     <Text />
                   </Button>
+                  <DropdownButton as={ButtonGroup} title={<Media/>} id="bg-nested-dropdown" variant="secondary">
+                    <Dropdown.Item 
+                      className="btn btn-secondary"
+                      onClick={() => handleType('pst')}
+                    >
+                      <IconPaste/>
+                    </Dropdown.Item>
+                    <Dropdown.Item 
+                      className="btn btn-secondary"
+                      onClick={() => handleType('upl')}
+                    >
+                      <IconUpload/>
+                    </Dropdown.Item>
+                    <Dropdown.Item 
+                      className="btn btn-secondary"
+                      onClick={() => handleType('cmr')}
+                    >
+                      <IconCamera/>
+                    </Dropdown.Item>
+                  </DropdownButton>
                   <Button
-                    className="btn btn-dark border-light"
-                    onClick={() => handleType('img')}
-                    id="postType-Img"
-                    value={2}
-                  >
-                    <Media />
-                  </Button>
-                  <Button
-                    className="btn btn-dark border-light"
+                    className="btn btn-secondary"
                     onClick={() => handleType('mp4')}
                     id="postType-vid"
                     value={3}
@@ -201,7 +220,7 @@ export default function NewPostPage() {
                     <Video />
                   </Button>
                   <Button
-                    className="btn btn-dark border-light"
+                    className="btn btn-secondary"
                     onClick={() => handleType('gps')}
                     id="postType-gps"
                     value={4}
@@ -212,7 +231,7 @@ export default function NewPostPage() {
 
 
                   <Button 
-                  className="p-2 ms-auto btn-dark border-light"
+                  className="p-2 ms-auto btn-secondary"
                   onClick={handleSubmit}>
                     Squeal</Button>
                 </Stack>

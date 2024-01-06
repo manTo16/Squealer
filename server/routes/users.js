@@ -15,7 +15,8 @@ const {
   getUserImpressionsDislikes,
   getUserImpressionsVeryDislikes,
   getUserImpressionsViews,
-  return200
+  return200,
+  getUserImage
 } = require ('../controllers/userController.js')
 
 
@@ -23,6 +24,7 @@ router.route('/').get(getAllUsers)/*.post(addNewUser)*/
 router.route('/:userName/posts').get(getUserPosts)
 router.route('/:userName').get(getUser).patch(updateUser).delete(deleteUser)
 router.route('/:userName/channels').get(verifyToken,getUserChannels)
+router.route('/:userName/propic').get(getUserImage)
 
 router.route('/:userName/impressions').get(getUserImpressions)
 router.route('/:userName/impressions/veryLikes').get(getUserImpressionsVeryLikes)

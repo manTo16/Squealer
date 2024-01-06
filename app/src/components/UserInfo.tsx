@@ -12,9 +12,9 @@ function UserInfo() {
 
   return (
     <div className="bg-dark rounded">
-      <a style={{ textDecoration: 'none' }} className="d-flex" href="/profile">
+      <a style={{ textDecoration: 'none' }} className="d-flex justify-content-around" href="/profile">
         <img src={`${userDetails.userImage}`} width={100} className='py-4 rounded-circle'/>
-        <div className='p-3 '>
+        <div className='p-3'>
           <h3>{userDetails.displayName}</h3> 
           <h4>{'@'+userDetails.username}</h4>
           <h5>{userDetails.dailyChar}</h5>
