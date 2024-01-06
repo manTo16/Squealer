@@ -37,7 +37,7 @@ const createPost = async (req,res) => {
     receiversCopy.filter(receiver => receiver[0] === "§").map(async (receiver) => {
       console.log("createPost filter map receiver: ", receiver)      
       let channel = await Channel.findOne({channelName: receiver.slice(1)})
-      console.log("createPost filter map channel._id: ", channel._id)
+      console.log("createPost filter map channel._id: ", channel?._id)
       if(channel) {
         console.log("createPost sono dentro l'if")
         console.log("createPost channel: ", channel)
