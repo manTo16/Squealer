@@ -40,12 +40,12 @@ export default function SidebarContent() {
   }, [])
   
   return(
-  <div>
+  <div className='bg-dark rounded'>
 
       {
         userToken ? 
         (
-        <div className='logged-in-buttons'>
+        <div className="d-flex justify-content-around pt-4">
           <Button className="Logout" 
           variant="outline-light"
           onClick={handleLogout}>
@@ -57,19 +57,20 @@ export default function SidebarContent() {
         </div>
         ) :
         (
-        <div className='d-flex logged-out-buttons'>
+        <div className="d-flex justify-content-around pt-4">
           <Button variant="outline-light" href="/login">
-            Log in
+            LogIn
           </Button>
-          <Button variant="outline-light" href="/register"  className='ms-auto'>
+          <Button variant="outline-light" href="/register">
             Register
           </Button>
         </div>
         )
       }
 
-      <h3 className="normal-text mt-5 mb-3">Canali consigliati</h3>
-      <div className="channels-wrapper">
+      <h3 className="normal-text mt-5 mb-3 text-center">Canali consigliati</h3>
+      <hr/>
+      <div className="channels-wrapper p-2">
         
         {
         userToken ? 
@@ -84,16 +85,16 @@ export default function SidebarContent() {
           ):
         (
         <>
-        <Button variant="outline-light">
-          canale 1
+        <Button variant="outline-light m-1">
+          § TRENDING
         </Button>
-        <Button variant="outline-light">
-          canale 2
+        <Button variant="outline-light m-1">
+          § NEWS
         </Button>
-        <Button variant="outline-light">
-          canale x
+        <Button variant="outline-light m-1">
+          § WIKI-RAND-PG
         </Button>
-        <Button variant="outline-light">
+        <Button variant="outline-light m-1">
           cronologia
         </Button>
         </>

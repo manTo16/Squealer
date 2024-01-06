@@ -11,8 +11,8 @@ function UserInfo() {
   //console.log(localStorage.getItem('user'))
 
   return (
-    <div className='user-info'>
-      <a style={{ textDecoration: 'none' }} className="align-middle d-flex" href="/profile">
+    <div className="bg-dark rounded">
+      <a style={{ textDecoration: 'none' }} className="d-flex" href="/profile">
         <img src={`${userDetails.userImage}`} width={100} className='py-4 rounded-circle'/>
         <div className='p-3 '>
           <h3>{userDetails.displayName}</h3> 

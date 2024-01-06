@@ -1,5 +1,6 @@
 import React from "react";
 import Options from "./Options";
+import Feed from "@components/Feed/Feed";
 
 
 interface proSideProps {
@@ -9,10 +10,16 @@ interface proSideProps {
 export default function ProfileSide({
   type
 }: proSideProps) {
+
+    const isLoggedIn = !!localStorage.getItem('token')
+    const defaultValue = {}
+    const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+
     if (type === 'profile') {
         return (
             <>
             {/*Feed, con tutti i post dell'utente  */}
+            <Feed  userName={userDetails.username}/>
             </>
         );
     } else if (type === 'channels') {

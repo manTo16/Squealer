@@ -1,4 +1,4 @@
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Stack } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
@@ -16,6 +16,14 @@ export default function Options() {
       // Cambia lo stato opposto di isPro
       setIsPro(!isPro);
   };
+
+  const handleDelete = () => {
+    if(window.confirm("Ci dispiace vederti andare via😢\nVuoi davvero eliminare il tuo account?")){
+      console.log('yes');
+    } else {
+      console.log('no');
+    }
+  }
 
   return(
     <Form className='bg-dark rounded p-2 m-1'>
@@ -66,6 +74,11 @@ export default function Options() {
           </div>
         </Col>
       </Row>
+      <hr/>
+        <Stack direction='horizontal'>
+          <h2 className='text-danger'>Elimina account</h2>
+          <Button className='btn-danger ms-auto mx-3' onClick={handleDelete}>Elimina</Button>
+        </Stack>
       <br></br> 
     </Form>
   )
