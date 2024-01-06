@@ -4,9 +4,9 @@ const User = require('../models/userModel')
 const getAllUsers = async (req,res)=>{
     try{
       const allUsers = await User.find()
-      res.json(allUsers)
+      return res.json(allUsers)
     }catch(err){
-      res.status(500).json({message: err.message})
+      return res.status(500).json({message: err.message})
     }
   }
  
@@ -30,9 +30,9 @@ const getUser = async (req,res)=>{
     try{
       const oneUser = await User.findOne({username: req.params.userName})
       delete oneUser.password
-      res.status(201).json(oneUser)
+      return res.status(201).json(oneUser)
     }catch(err){
-      res.status(400).json({message: err.message})
+      return res.status(400).json({message: err.message})
     }
   }
 
@@ -43,9 +43,9 @@ const updateUser = async (req,res)=>{
       if (!updatedUser) {
         return res.status(404).json({ message: 'Oggetto non trovato' });
       }
-      res.json(updatedUser);
+      return res.json(updatedUser);
     }catch(err){
-      res.status(500).json({message: err.message})
+      return res.status(500).json({message: err.message})
     }
   }
 
@@ -55,9 +55,9 @@ const deleteUser = async (req,res)=>{
       if (!deletedUser) {
         return res.status(404).json({ message: 'User not found' });
       }
-      res.json({ message: 'User eliminated successfully' });
+      return res.json({ message: 'User eliminated successfully' });
     }catch(err){
-      res.status(500).json({message: err.message})
+      return res.status(500).json({message: err.message})
     }
   }
 
@@ -65,9 +65,9 @@ const getUserPosts = async (req,res) => {
     try{
       const username = req.params.userName
       const post = Post.find({username})
-      res.status(200).json(post)
+      return res.status(200).json(post)
     }catch(err){
-      res.status(404).json({message: err.message})
+      return res.status(404).json({message: err.message})
     }
   }
 
@@ -95,9 +95,9 @@ const getUserChannels = async (req,res) =>{
     const username = req.params.userName
     const user = await User.findOne({username})
     const channelList = user.channels
-    res.status(200).json(channelList)
+    return res.status(200).json(channelList)
   }catch(err){
-    res.status(400).json({message: err.message})
+    return res.status(400).json({message: err.message})
   }
   
 }

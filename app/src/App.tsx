@@ -69,8 +69,8 @@ function App() {
             <Route path='/channels/:channelName' element={<ChannelPage />} />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
-          </div>
 
+          </div>
         </Col>
 
 

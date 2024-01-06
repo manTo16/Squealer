@@ -28,10 +28,10 @@ const createChannel = async (req,res) => {
 
     let channelNameAdjusted = channelName
 
-    if (!user)                                                        return res.status(404).json({message: "user not found"})
+    if (!user)                                                                        return res.status(404).json({message: "user not found"})
     while (channelNameAdjusted[0] == " ") channelNameAdjusted = channelNameAdjusted.slice(1)
     while (channelNameAdjusted[channelNameAdjusted.length -1] == " ") channelNameAdjusted = channelNameAdjusted.slice(0, -1)
-    if (channelNameAdjusted.includes(" "))                                    return res.status(403).json({message: "channel name can't contain whitespaces"})
+    if (channelNameAdjusted.includes(" "))                                            return res.status(403).json({message: "channel name can't contain whitespaces"})
     if ((reserved) && (channelNameAdjusted != channelNameAdjusted.toUpperCase()))     return res.status(403).json({message: "reserved channels can contain only uppercase characters"})
     if ((!reserved) && (channelNameAdjusted != channelNameAdjusted.toLowerCase()))    return res.status(403).json({message: "normal channels can contain only lowercase characters"})
     
@@ -96,7 +96,7 @@ const addUserToChannel = async (req,res) =>{
         break;
       default:
         found = null;
-        res.status(400).json({message: "bad requestedRole"})
+        return res.status(400).json({message: "bad requestedRole"})
         break;
     }
     user.channel.push(channel._id)

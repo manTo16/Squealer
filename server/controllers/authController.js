@@ -15,9 +15,9 @@ const register = async (req,res) => {
   })
   try{
     const newUser = await user.save()
-    res.status(201).json(newUser)
+    return res.status(201).json(newUser)
   } catch(err){
-    res.status(400).json({message: err.message})
+    return res.status(400).json({message: err.message})
   }
 }
 
@@ -29,9 +29,9 @@ const login = async (req,res) =>{
     const checkPW = await bcrypt.compare(password,user.password);
     const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
-    res.status(200).json({token,user})
+    return res.status(200).json({token,user})
   }catch(err){
-    res.status(400).json({message: err.message})
+    return res.status(400).json({message: err.message})
   }
 }
 

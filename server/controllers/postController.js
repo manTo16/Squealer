@@ -52,16 +52,16 @@ const createPost = async (req,res) => {
 
     return res.status(200).json({message: "post created"});
   }catch(err){
-    res.status(409).json({message: err.message})
+    return res.status(409).json({message: err.message})
   }
 }
 
 const getFeed = async (req,res) => {
   try{
     const post = await Post.find();
-    res.status(200).json(post);
+    return res.status(200).json(post);
   }catch(err){
-    res.status(500).json({message: err.message})
+    return res.status(500).json({message: err.message})
   }
 }
 
@@ -70,20 +70,20 @@ const getFeedIds = async (req,res) => {
     numberOfPosts = 10;
    
     const postIds = await Post.find({}, {projection:{_id:true}}).sort({creationDate: -1}).limit(numberOfPosts);
-    res.status(200).json(postIds);
+    return res.status(200).json(postIds);
     
   }
   catch (err) {
-    res.status(500).json({message: err.message});
+    return res.status(500).json({message: err.message});
   }
 }
 
 const getPost = async (req,res) => {
   try{
     const post = await Post.findOne({_id: req.params.id})
-    res.status(200).json(post)
+    return res.status(200).json(post)
   }catch(err){
-    res.status(404).json({message: err.message})
+    return res.status(404).json({message: err.message})
   }
 }
 
