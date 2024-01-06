@@ -23,26 +23,30 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   async function loadPostData(postId: string) {
 
-      const loadedPostData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response.data));
-      const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
-      setPostData({
-          postText: loadedPostData.text,
-          postDisplayedName: loadedPostData.displayName,
-          postUsername: loadedPostData.username,
-          postReceivers: loadedPostData.receivers,
-          postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
-          postLikesCounter: loadedPostData.impressions.likes.number,
-          postDislikesCounter: loadedPostData.impressions.dislikes.number,
-          postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
-          postImpressionChosen: impressionAlreadyChosenByUser,
-          postViews: loadedPostData.impressions.views.number
-      })
+      const loadedPostData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response?.data));
+      if (loadedPostData) {
+        const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
+        setPostData({
+            postText: loadedPostData.text,
+            postDisplayedName: loadedPostData.displayName,
+            postUsername: loadedPostData.username,
+            postReceivers: loadedPostData.receivers,
+            postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
+            postLikesCounter: loadedPostData.impressions.likes.number,
+            postDislikesCounter: loadedPostData.impressions.dislikes.number,
+            postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
+            postImpressionChosen: impressionAlreadyChosenByUser,
+            postViews: loadedPostData.impressions.views.number
+        })
+      }
   }
 
   async function sendReaction(reaction: string) {
       const response = await axios.patch(apiPostsURL+`/${postId}/impressions/${reaction}`,
                         {username: userDetails.username ?? "guestUser"})
-      console.log("sendReaction response.status: ", response.status)
+      console.log("sendReaction response.status: ", response?.status ?? "caricamento interrotto probabilmente")
+      /* praticamente se mentre sta ancora aspettando le risposte di una richiesta cambi pagina, la risposta della richiesta la dà
+      undefined. almeno credo di aver capito così. quindi ho messo controlli per il null ovunque */
   }
 
   /* pensata per essere usata solo in loadPostData */

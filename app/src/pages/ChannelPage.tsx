@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios from '@root/axiosConfig';
 
 import { channelsURL } from '../URLs';
 

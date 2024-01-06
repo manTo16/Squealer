@@ -115,6 +115,76 @@ const getUserImpressions = async (req,res) => {
     return res.status(500).json({message: err.message})
   }
 }
+
+const getUserImpressionsVeryLikes = async (req,res) => {
+  try {
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+
+    const response = user.impressedPostIds.veryLikes
+    return res.status(200).json(response)
+  }
+  catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const getUserImpressionsLikes = async (req,res) => {
+  try {
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+
+    const response = user.impressedPostIds.likes
+    return res.status(200).json(response)
+  }
+  catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const getUserImpressionsDislikes = async (req,res) => {
+  try {
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+
+    const response = user.impressedPostIds.dislikes
+    return res.status(200).json(response)
+  }
+  catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const getUserImpressionsVeryDislikes = async (req,res) => {
+  try {
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+
+    const response = user.impressedPostIds.veryDislikes
+    return res.status(200).json(response)
+  }
+  catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const getUserImpressionsViews = async (req,res) => {
+  try {
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+
+    const response = user.impressedPostIds.views
+    return res.status(200).json(response)
+  }
+  catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
    
 
 module.exports = {
@@ -125,5 +195,11 @@ module.exports = {
     updateUser,
     deleteUser,
     getUserChannels,
-    getUserImpressions
+    getUserImpressions,
+    getUserImpressionsVeryLikes,
+    getUserImpressionsLikes,
+    getUserImpressionsDislikes,
+    getUserImpressionsVeryDislikes,
+    getUserImpressionsViews
+
 }

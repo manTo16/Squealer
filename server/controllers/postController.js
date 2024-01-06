@@ -99,7 +99,7 @@ const updateImpressions = async (req,res) =>{
     const user = await User.findOne({username: username})
     if ((!user) && (username != "guestUser")) 
       return res.status(404).json({message: "user not found"})
-    console.log("updateImpressions: \n\tpostId: ", postId, "\n\timpression: ", impression, "\n\tusername: ", username)
+    //console.log("updateImpressions: \n\tpostId: ", postId, "\n\timpression: ", impression, "\n\tusername: ", username)
 
     switch(impression){
       case 'veryLike':

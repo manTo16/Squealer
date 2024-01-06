@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import axios from 'axios'
+import axios from '@root/axiosConfig'
 import Form from 'react-bootstrap/Form'
 import Container from 'react-bootstrap/Container'
 import ButtonBootstrap from 'react-bootstrap/Button'

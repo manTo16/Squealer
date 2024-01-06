@@ -12,7 +12,7 @@ import { useEffect, useState } from "react"
 const fetchFeedALL = async () => {
     //const numberOfPosts = 5;
     const response = await axios.get(apiPostsURL);
-    if (response.status === 200) {
+    if (response && response.status === 200) {
         const postList = response.data.map((post: {_id: string}) => (post._id))
         console.log("fetchFeedALL returns: ", postList)
         return postList
@@ -22,10 +22,17 @@ const fetchFeedALL = async () => {
 
 const fetchFeedFromChannel = async (channelName: string) => {
     const response = await axios.get(channelsURL+"/"+channelName)
-    if (response.status === 200) return response.data
+    if (response && response.status === 200) return response.data
     else return []
 }
 
+const fetchFeedFromUserImpressions = async (userName: string, visualizedImpression: ReactionType) => {
+    if (visualizedImpression == ReactionType.Default) return []
+    const response = await axios.get(apiUsersURL + "/" + userName + "/impressions/"+visualizedImpression+"s")
+    console.log("Feed fetchFeedFromUserImpressions response.data", response?.data)
+    if (response && response.status === 200) return response.data
+    else return []
+}
 
 
 export enum ReactionType {
@@ -49,55 +56,15 @@ NON DICHIARATE INSIEME channelName e userName non ha senso
 export default function Feed({channelName="", userName="", visualizedImpression=ReactionType.Default} : FeedProps) {
     const [postList, setPostList] = useState<string[]>([]);
 
-    const [userImpressions, setUserImpressions] = useState({
-        veryLikes: [],
-        likes: [],
-        dislikes: [],
-        veryDislikes: [],
-        views: []
-    })
-    const [impressionToVisualize, setImpressionToVisualize] = useState(visualizedImpression)
-
-    const fetchFeedFromUserImpressions = async (userName: string) => {
-        const response = await axios.get(apiUsersURL + "/" + userName + "/impressions")
-        setUserImpressions(response.data)
-        console.log("Feed fetchFeedFromUserImpressions response.data", response.data)
-    }
-
-    function switchImpressedPosts() {
-        switch(visualizedImpression) {
-            case ReactionType.VeryLike:
-                console.log("FEED sono dentro VeryLike")
-
-                setPostList(userImpressions.veryLikes)
-                break
-            case ReactionType.Like:
-                setPostList(userImpressions.likes)
-                break
-            case ReactionType.Dislike:
-                setPostList(userImpressions.dislikes)
-                break
-            case ReactionType.VeryDislike:
-                setPostList(userImpressions.veryDislikes)
-                break
-            case ReactionType.View:
-                setPostList(userImpressions.views)
-                break 
-            default:    //non dovrebbe succedere se non al limite nel caricamento
-                console.log("Feed switchImpressedPosts default???")
-                setPostList([])
-                break
-        }
-    }
-
     useEffect(() => {
+        setPostList([])  //questo serve per il feed utente, senza, se cambio visualizedImpression da fuori con uno stato, i post renderizzati qua non vengono cancellati
         const fetchPosts = async () => {
             console.log("Feed fetchPosts")
             let postIdsList = []
 
             if(userName) {
                 console.log("Feed dentro useEffect if(userName) userName: ", userName)
-                fetchFeedFromUserImpressions(userName)
+                postIdsList = await fetchFeedFromUserImpressions(userName, visualizedImpression)
             }
 
             switch(channelName) {
@@ -105,31 +72,18 @@ export default function Feed({channelName="", userName="", visualizedImpression=
                     //postIdsList rimane []
                     break
                 case "ALL":
-                    console.log("FEED sono dentro ALL")
-
                     postIdsList = await fetchFeedALL()
                     break
                 default:
                     postIdsList = await fetchFeedFromChannel(channelName)
             }
-            
+            console.log("Feed useEffect postIdsList: ", postIdsList)
             setPostList(postIdsList)
         }
         fetchPosts();
         //console.log("postList: ", postList)
-    }, [])
+    }, [visualizedImpression])
 
-    //catena di useEffect per gestire il feed utente
-    useEffect(() => {
-        if (userName) fetchFeedFromUserImpressions(userName)
-        console.log("Feed useEffect impressionToVisualize")
-    }, [impressionToVisualize, visualizedImpression])
-
-    useEffect(() => {
-        switchImpressedPosts()
-        console.log("Feed useEffect userImpressions")
-    }, [userImpressions])
-    
     //useeffect di DEBUG
     useEffect(() => {
         console.log("Feed postList: ", postList)
@@ -138,9 +92,10 @@ export default function Feed({channelName="", userName="", visualizedImpression=
     return (
         <>
            {
-            postList.map((postId: string, index: number) => (
-                <Post key={index} postId={postId} />
-            ))
+            postList.map((postId: string, index: number) => {
+                console.log("Feed postList.map postId: ", postId);
+                return <Post key={index} postId={postId} />;
+            })
            }
         </>
     )

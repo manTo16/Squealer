@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import axios from '@root/axiosConfig'
 import { channelsURL, apiUsersURL } from '../URLs'
 import Form from 'react-bootstrap/Form'
 import Feed, { ReactionType } from "@components/Feed/Feed"
@@ -93,6 +93,7 @@ export default function TrendingPage() {
            userName={usernameReaction ? usernameReaction : userDetails.username}
            visualizedImpression={reactionType}
            />
+           <p>{reactionType}</p>
         </div>
     )
 }

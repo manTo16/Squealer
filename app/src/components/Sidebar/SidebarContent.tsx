@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Logout from '../svg/LogoutSvg';
 
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '@root/axiosConfig';
 import { channelsURL,apiUsersURL } from '../../URLs';
 
 import { useState, useEffect } from 'react';

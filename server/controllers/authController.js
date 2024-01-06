@@ -27,7 +27,7 @@ const login = async (req,res) =>{
     const user = await User.findOne({username:username});
     if (!user) return res.status(400).json({message: "User not fount"});
     const checkPW = await bcrypt.compare(password,user.password);
-    const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '1hr'});
+    const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
     res.status(200).json({token,user})
   }catch(err){
