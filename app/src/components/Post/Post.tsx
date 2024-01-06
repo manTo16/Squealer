@@ -153,6 +153,9 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
     }
   }
 
+  const mentionsRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
+  const postTextArray = postData.postText.split(' ');
+
   return (
       <div className="post">
           <div className="postWrapper">
@@ -176,7 +179,21 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                   </div>
               </div>
               <div className="postCenter text-break">
-                  <span className="postText">{postData.postText}</span>
+                  <span className="postText">
+                  {postTextArray.map((word, index) => {
+                      if (mentionsRegex.test(word)) {
+                          // Resetta l'espressione regolare
+                          mentionsRegex.lastIndex = 0;
+                          return (
+                              <Button key={index} variant="dark">
+                                  {word}
+                              </Button>
+                          );
+                      } else {
+                          return word + ' ';
+                      }
+                  })}
+                  </span>
                   <img className="postImg" src="/assets/post/2.jpg" alt="" />
               </div>
               <div className="postBottom">

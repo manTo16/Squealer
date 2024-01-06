@@ -14,7 +14,8 @@ const {
   getUserImpressionsLikes,
   getUserImpressionsDislikes,
   getUserImpressionsVeryDislikes,
-  getUserImpressionsViews
+  getUserImpressionsViews,
+  return200
 } = require ('../controllers/userController.js')
 
 
@@ -29,5 +30,6 @@ router.route('/:userName/impressions/likes').get(getUserImpressionsLikes)
 router.route('/:userName/impressions/dislikes').get(getUserImpressionsDislikes)
 router.route('/:userName/impressions/veryDislikes').get(getUserImpressionsVeryDislikes)
 router.route('/:userName/impressions/views').get(getUserImpressionsViews)
+router.route('/:userName/impressions/none').get(return200)
 
 module.exports = router

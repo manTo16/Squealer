@@ -185,6 +185,11 @@ const getUserImpressionsViews = async (req,res) => {
     return res.status(500).json({message: err.message})
   }
 }
+
+//modo pigro per evitare un errorino
+const return200 = async (req,res) => {
+  return res.status(200)
+}
    
 
 module.exports = {
@@ -200,6 +205,7 @@ module.exports = {
     getUserImpressionsLikes,
     getUserImpressionsDislikes,
     getUserImpressionsVeryDislikes,
-    getUserImpressionsViews
+    getUserImpressionsViews,
+    return200
 
 }

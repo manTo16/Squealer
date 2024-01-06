@@ -25,6 +25,10 @@ const postSchema = mongoose.Schema({
     type: [String],
     default: []
   },
+  mentions: {
+    type: [String],
+    default: []
+  },
   impressions: {
     veryLikes: {
       number: {

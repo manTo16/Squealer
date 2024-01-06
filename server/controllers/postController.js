@@ -2,15 +2,9 @@ const User = require('../models/userModel')
 const Post = require('../models/postModel')
 const Channel = require('../models/channelModel')
 
+const { checkReceiverSyntax, parseTextForMentions } = require('./utils/postUtils')
+
 //poi magari spostiamo la funzione in un altro file che includiamo qua
-const checkReceiverSyntax = (receiver) => {
-  if (receiver != "") {
-    if ( (receiver[0] == "@") || (receiver[0] == "§") ) {
-      return true;
-    }
-  }
-  return false;
-}
 
 
 
@@ -20,9 +14,14 @@ const createPost = async (req,res) => {
     const user = await User.findOne({_id: userId});
 
     //rimuovi elementi vuoti dall'array dei destinatari
+    console.log("FIN qua ci arrivo") //togliere DEBUG
     const receiversCopy = receivers.filter(checkReceiverSyntax);
 
     receiversCopy.map((receiver) => console.log("receiver: ", receiver))
+    console.log("FIN QUA ARRIVO 2") //DEBUG togliere
+    /* prendi menzioni dal testo del post */
+    const mentions = parseTextForMentions(text)
+    console.log("createPost mentions: ", mentions)
 
     const newPost = new Post({
       postId: "",
@@ -31,23 +30,25 @@ const createPost = async (req,res) => {
       displayName: user.displayName,
       text: text,
       receivers: receiversCopy,
+      mentions: mentions
     })
     //res.status(400).json({message: JSON.stringify(user.username) })
     await newPost.save();
 
     /* aggiungi il post ai canali ai quali è destinato */
-    
     receiversCopy.filter(receiver => receiver[0] === "§").map(async (receiver) => {
       console.log("createPost filter map receiver: ", receiver)      
       let channel = await Channel.findOne({channelName: receiver.slice(1)})
       console.log("createPost filter map channel._id: ", channel._id)
-      if(channel) {console.log("createPost sono dentro l'if")
-      console.log("createPost channel: ", channel)
-      console.log("createPost newPost._id: ", newPost._id)
-      channel.postsIds.push(newPost._id)
-      await channel.save()
+      if(channel) {
+        console.log("createPost sono dentro l'if")
+        console.log("createPost channel: ", channel)
+        console.log("createPost newPost._id: ", newPost._id)
+        channel.postsIds.push(newPost._id)
+        await channel.save()
       }
     })
+
 
     return res.status(200).json({message: "post created"});
   }catch(err){
@@ -86,7 +87,7 @@ const getPost = async (req,res) => {
   }
 }
 
-const updateImpressions = async (req,res) =>{
+const updateImpressions = async (req,res) => {
   try{
     const postId = req.params.id
     const post = await Post.findOne({_id: postId})
@@ -237,11 +238,25 @@ const updateImpressions = async (req,res) =>{
   }
 }
 
+const getPostMentions = async (req,res) => {
+  try {
+      const postId = req.params.id
+    
+      const post = await Post.findOne({postId: postId})
+      if (!post) return res.status(404).json({message: "post not found"})
+    
+      return res.status(200).json(post)
+  } catch (error) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 
 module.exports = {
   createPost,
   getFeed,
   getFeedIds,
   getPost,
-  updateImpressions
+  updateImpressions,
+  getPostMentions
 }
