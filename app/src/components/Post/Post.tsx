@@ -32,6 +32,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postDisplayedName: loadedPostData.displayName,
             postUsername: loadedPostData.username,
             userImg: userImage,
+            postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
             postReceivers: loadedPostData.receivers,
             postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
             postLikesCounter: loadedPostData.impressions.likes.number,
@@ -41,6 +42,21 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postViews: loadedPostData.impressions.views.number
         })
       }
+  }
+
+  function generateAddressURL(address: string) {
+    let URLstring = ""
+    switch(address[0]) {
+      case "§":
+        URLstring = `/channels/${address.slice(1)}`
+        break
+      case "@":
+        URLstring = `/users/${address.slice(1)}`
+        break
+      default:
+        break
+    }
+    return URLstring
   }
 
   const [showReceivers, setShowReceivers] = useState(false)
@@ -72,6 +88,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
       postDisplayedName: "",
       postUsername: "",
       userImg: "",
+      postCreationDate: "",
       postReceivers: [],
       postVeryLikesCounter: 0,
       postLikesCounter: 0,
@@ -198,7 +215,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                   <div className="postReceivers d-flex flex-wrap">
                     {postData.postReceivers.map((str, index) => (
                       <div key={index} className="p-2 flex-fill">
-                        <Button variant="dark">{str}</Button>
+                        <Button variant="dark" href={generateAddressURL(str)}>{str}</Button>
                       </div>
                     ))}
                   </div>
@@ -211,7 +228,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                           // Resetta l'espressione regolare
                           mentionsRegex.lastIndex = 0;
                           return (
-                              <Button key={index} variant="dark">
+                              <Button key={index} variant="dark" href={generateAddressURL(word)}>
                                   {word}
                               </Button>
                           );
@@ -258,6 +275,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
                   </div>
                   <div className="postBottomRight">
+                      <p>{postData.postCreationDate}</p>
                       <span className="postCommentText">{postData.postViews} Views</span>
                   </div>
               </div>
