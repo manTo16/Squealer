@@ -21,6 +21,14 @@ const postSchema = mongoose.Schema({
     type: String,
     max: 300
   },
+  replyTo: {
+    type: String,
+    default: null
+  },
+  replies: {
+    type: [String],
+    default: []
+  },
   receivers: {
     type: [String],
     default: []

@@ -48,7 +48,7 @@ const createPost = async (req,res) => {
     })
 
 
-    return res.status(200).json({message: "post created"});
+    return res.status(200).json(newPost.postId);
   }catch(err){
     return res.status(409).json({message: err.message})
   }
@@ -225,6 +225,9 @@ const updateImpressions = async (req,res) => {
           user?.impressedPostIds.views.push(postId)
         }
         break
+      default:
+        return res.status(200)
+        break
     }
     await post.save()
     await user?.save()
@@ -243,7 +246,51 @@ const getPostMentions = async (req,res) => {
       if (!post) return res.status(404).json({message: "post not found"})
     
       return res.status(200).json(post)
-  } catch (error) {
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+/*
+il post che fa da risposta deve essere già stato creato
+il post nel body (replyPost) è la risposta al post che sta nei params (mainPost)
+*/
+const addReply = async (req,res) => {
+  try {
+    const mainPostId = req.params.id
+    const {replyPostId} = req.body
+
+    const mainPost = await Post.findOne({postId: mainPostId})
+    if (!mainPost) return res.status(404).json({message: ("main post ", mainPostId, " not found")})
+
+    const replyPost = await Post.findOne({postId: replyPostId})
+    if (!replyPost) return res.status(404).json({message: ("reply post ", replyPostId, " not found")})
+
+    replyPost.replyTo = mainPostId
+    await replyPost.save()
+
+    mainPost.replies.push(replyPostId)
+    await mainPost.save()
+
+    return res.status(200).json(replyPostId)
+    
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const getReplies = async (req,res) => {
+  try {
+    const postId = req.params.id
+    
+    const post = await Post.findOne({postId: postId})
+    if (!post) return res.status(404).json({message: "post not found"})
+  
+    const repliesArray = post.replies
+  
+    return res.status(200).json(repliesArray)
+
+  } catch (err) {
     return res.status(500).json({message: err.message})
   }
 }
@@ -255,5 +302,7 @@ module.exports = {
   getFeedIds,
   getPost,
   updateImpressions,
-  getPostMentions
+  getPostMentions,
+  addReply,
+  getReplies
 }

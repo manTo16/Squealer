@@ -23,6 +23,7 @@ import CardBody from "@components/newPost/CardBody";
 import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
+import Post from "@components/Post/Post";
 
 var cacca = "img";
 
@@ -79,7 +80,7 @@ export default function NewPostPage() {
     /* aggiorna l'array di destinatari modificando solo l'indice corrispondente al campo modificato */
     setReceivers(receivers => receivers.map((receiver, index) =>
       index == receiversArrayIndex-1 ? inputText : receiver));
-    console.log("destinatario: ",inputText) //DEBUG
+    console.log("destinatario: ", inputText) //DEBUG
   }
 
   const handleSubmit = async (event:React.MouseEvent<HTMLButtonElement>) => {
@@ -89,7 +90,11 @@ export default function NewPostPage() {
       const response = await axios.post(apiPostsURL,
         {userId: userDetails._id,text, receivers},
         { headers: {"Authorization": `Bearer ${userToken}`}}
-        ).then(()=>{
+        ).then((response) => {
+          if (idPostVisualizzato) axios.put(`${apiPostsURL}/${idPostVisualizzato}/replies`,
+                                            {replyPostId: response.data})
+        })
+        .then(()=>{
           console.log('ora sei quiaaaa')
           alert('Post created')
           navigate('/')
@@ -117,6 +122,9 @@ export default function NewPostPage() {
     }
     console.log(receivers)
   }
+
+  const [replyTo, setReplyTo] = useState("")
+  const [idPostVisualizzato, setIdPostVisualizzato] = useState("")   //tutte prove per ora, poi miglioro
 
   const[Type, setType] = useState('txt');
   
@@ -239,6 +247,19 @@ export default function NewPostPage() {
             </Card.Body>
           </Card>
         </Col>
+      </Row>
+      
+      <Row>
+        <p>(questa interfaccia qua sotto è tutta da rifare. ma prima penso meglio al sistema di risposte. che per come è ora potrebbero uscire anche dei thread, che sarebbe carino)</p>
+        <p>in risposta a:</p>
+        <input type="text" placeholder="metti l'id del post" onChange={(e) => setReplyTo(e.target.value)}/>  
+        <button onClick={() => setIdPostVisualizzato(replyTo)}>cerca post</button>
+        {
+          idPostVisualizzato ?
+          <Post postId={idPostVisualizzato} />
+          :
+          <></>
+              }
       </Row>
     </Container>
   )  

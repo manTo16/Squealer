@@ -9,8 +9,9 @@ import axios from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
 import { MutableRefObject, useEffect, useRef, useState } from "react"
-import { Stack } from "react-bootstrap"
+import { Collapse, Stack } from "react-bootstrap"
 import { Button, Row, Col } from "react-bootstrap"
+import Feed from "@components/Feed/Feed"
 import Heartbreak from "@components/svg/Reaction/HeartbreakSvg"
 import Dislike from "@components/svg/Reaction/DislikeSvg"
 
@@ -29,6 +30,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
         const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
         setPostData({
             postText: loadedPostData.text,
+            postIsReplyTo: loadedPostData.replyTo,
+            postReplies: loadedPostData.replies,
             postDisplayedName: loadedPostData.displayName,
             postUsername: loadedPostData.username,
             userImg: userImage,
@@ -63,8 +66,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   async function sendReaction(reaction: string) {
       const response = await axios.patch(apiPostsURL+`/${postId}/impressions/${reaction}`,
-                        {username: userDetails.username ?? "guestUser"})
-      console.log("sendReaction response.status: ", response?.status ?? "caricamento interrotto probabilmente")
+                        {username: userDetails.username ?? "guestUser"}) 
+      console.log("sendReaction response.status: ", response?.status ?? "caricamento interrotto probabilmente") 
       /* praticamente se mentre sta ancora aspettando le risposte di una richiesta cambi pagina, la risposta della richiesta la dà
       undefined. almeno credo di aver capito così. quindi ho messo controlli per il null ovunque */
   }
@@ -85,6 +88,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   const [postData, setPostData] = useState({
       postText: "",
+      postIsReplyTo: "",
+      postReplies: [],
       postDisplayedName: "",
       postUsername: "",
       userImg: "",
@@ -101,7 +106,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   async function getUserPropic (username: string) {
     const response = await axios.get(apiUsersURL+`/${username}/propic`)
     let userImage = ''
-    if (response.status == 200) 
+    if (response && response.status == 200) 
       userImage = response.data
     return userImage
   }
@@ -182,6 +187,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
       console.log(e)
     }
   }
+
+  const [showReplies, setShowReplies] = useState(false)
 
   const mentionsRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
   const postTextArray = postData.postText.split(' ');
@@ -276,10 +283,18 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                   </div>
                   <div className="postBottomRight">
                       <p>{postData.postCreationDate}</p>
-                      <span className="postCommentText">{postData.postViews} Views</span>
+                      <span className="postViewsCounter">{postData.postViews} Views</span>
+                      <span><Button size="sm" onClick={() => setShowReplies(!showReplies)}>{showReplies ? "Nascondi risposte" : "Mostra risposte"}</Button></span>
                   </div>
               </div>
           </div>
+          <Collapse in={showReplies} mountOnEnter={true}>
+            <div style={{borderLeft: "5px solid gray"}}>
+
+            <div>risposte</div>
+            <div><Feed postRepliesId={postId}></Feed></div>
+            </div>
+          </Collapse>
       </div>
   )
 }

@@ -34,6 +34,13 @@ const fetchFeedFromUserImpressions = async (userName: string, visualizedImpressi
     else return []
 }
 
+const fetchFeedFromPostReplies = async (postId: string) => {
+    const response = await axios.get(`${apiPostsURL}/${postId}/replies`)
+    console.log("Feed postId ", postId, " replies: ", response?.data)
+    if (response && response.status === 200) return response.data
+    else return []
+}
+
 
 export enum ReactionType {
     VeryLike = 'veryLike',
@@ -46,14 +53,19 @@ export enum ReactionType {
 
 interface FeedProps {
     channelName?: string;
+    postRepliesId?: string;
     userName?: string;
     visualizedImpression?: ReactionType;
 }
 
 /*
-NON DICHIARATE INSIEME channelName e userName non ha senso
+NON DICHIARATE INSIEME tutti i props non ha senso
+vanno usati così:
+    channelName                         oppure
+    postRepliesId                       oppure
+    userName e visualizedImpression
 */
-export default function Feed({channelName="", userName="", visualizedImpression=ReactionType.Default} : FeedProps) {
+export default function Feed({channelName="", postRepliesId="", userName="", visualizedImpression=ReactionType.Default} : FeedProps) {
     const [postList, setPostList] = useState<string[]>([]);
 
     useEffect(() => {
@@ -62,9 +74,14 @@ export default function Feed({channelName="", userName="", visualizedImpression=
             console.log("Feed fetchPosts")
             let postIdsList = []
 
-            if(userName) {
+            if (userName) {
                 console.log("Feed dentro useEffect if(userName) userName: ", userName)
                 postIdsList = await fetchFeedFromUserImpressions(userName, visualizedImpression)
+            }
+
+            else if (postRepliesId) {
+                console.log("Feed dentro useEffect if(postRepliesId) postRepliesId: ", postRepliesId)
+                postIdsList = await fetchFeedFromPostReplies(postRepliesId)
             }
 
             switch(channelName) {
@@ -92,7 +109,7 @@ export default function Feed({channelName="", userName="", visualizedImpression=
     return (
         <>
            {
-            postList.map((postId: string, index: number) => {
+            postList && postList.map((postId: string, index: number) => {
                 console.log("Feed postList.map postId: ", postId);
                 return <Post key={index} postId={postId} />;
             })
