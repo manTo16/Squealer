@@ -14,6 +14,8 @@ import { Button, Row, Col } from "react-bootstrap"
 import Feed from "@components/Feed/Feed"
 import Heartbreak from "@components/svg/Reaction/HeartbreakSvg"
 import Dislike from "@components/svg/Reaction/DislikeSvg"
+import Char from "@components/svg/CharSvg"
+import Eye from "@components/svg/ViewsSvg"
 
 
 
@@ -196,8 +198,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   return (
       <div className="post">
           <div className="postWrapper">
-              <div className="postTop">
-                  <Stack direction="horizontal">
+              <Row>
+                  <Col>
                       <img 
                           width={35}
                           className="rounded-circle"
@@ -206,16 +208,24 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                       />
                       <span className="p-2">{postData.postDisplayedName}</span>
                       <span className="p-2 text-secondary">{postData.postUsername}</span>
-                      <Button className="btn-dark" variant="outline-secondary" size="sm">
-                        <span className="p-2 showReceiversButton"
+                      <Button className="outline-secondary" variant="outline-secondary" size="sm">
+                        <span className="p-0 showReceiversButton"
                         onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
                       </Button>
-                  </Stack>
-                  <div className="postTopRight">
-                      <span className="postCharUsed">{postTextLength}</span>
-                      {/* <VDots /> */}
-                  </div>
-              </div>
+                  </Col>
+                  <Col xs="auto" sm="auto" lg="auto" md="auto">
+                    <Stack direction="vertical" gap={1}>
+                      <div className="d-flex justify-content-end">
+                        <span>{postTextLength}</span>
+                        <Char className="mx-1 align-self-center" height='24px'/>
+                      </div>
+                      <div className="d-flex justify-content-end">
+                        <span className="d-flex justify-content-end">{postData.postViews}</span>
+                        <Eye className="mx-1 align-self-center" height='24px'/>
+                      </div>
+                    </Stack>
+                  </Col>
+              </Row>
               <div className="postCenter text-break">
                 {showReceivers ?
                 (
@@ -247,46 +257,55 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                 )
                 }
               </div>
-              <div className="postBottom">
-                  <div className="postBottomLeft">
-                    <ButtonGroup>
-                      <Button
-                      variant="dark"
-                      onClick={()=>handleImpressions('veryLike')}
-                      disabled={postData.postImpressionChosen == "veryLike"}
-                      >
-                        <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
-                      </Button>
+              <Row>
+                <Col>
+                  <ButtonGroup>
+                    <Button
+                    variant="dark"
+                    onClick={()=>handleImpressions('veryLike')}
+                    disabled={postData.postImpressionChosen == "veryLike"}
+                    >
+                      <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
+                    </Button>
 
-                      <Button
-                      variant="dark"
-                      onClick={()=>handleImpressions('like')}
-                      disabled={postData.postImpressionChosen == "like"}>
-                        <Like className="likeIcon" /> {postData.postLikesCounter}
-                      </Button>
+                    <Button
+                    variant="dark"
+                    onClick={()=>handleImpressions('like')}
+                    disabled={postData.postImpressionChosen == "like"}>
+                      <Like className="likeIcon" /> {postData.postLikesCounter}
+                    </Button>
 
-                      <Button
-                      variant="dark"
-                      onClick={()=>handleImpressions('dislike')}
-                      disabled={postData.postImpressionChosen == "dislike"}>
-                        <Dislike className="likeIcon" /> {postData.postDislikesCounter}
-                      </Button>
+                    <Button
+                    variant="dark"
+                    onClick={()=>handleImpressions('dislike')}
+                    disabled={postData.postImpressionChosen == "dislike"}>
+                      <Dislike className="likeIcon" /> {postData.postDislikesCounter}
+                    </Button>
 
-                      <Button
-                      variant="dark"
-                      onClick={()=>handleImpressions('veryDislike')}
-                      disabled={postData.postImpressionChosen == "veryDislike"}>
-                        <Heartbreak  className="likeIcon"/> {postData.postVeryDislikesCounter}
-                      </Button>
-                    </ButtonGroup>
-
-                  </div>
-                  <div className="postBottomRight">
-                      <p>{postData.postCreationDate}</p>
-                      <span className="postViewsCounter">{postData.postViews} Views</span>
-                      <span><Button size="sm" onClick={() => setShowReplies(!showReplies)}>{showReplies ? "Nascondi risposte" : "Mostra risposte"}</Button></span>
-                  </div>
-              </div>
+                    <Button
+                    variant="dark"
+                    onClick={()=>handleImpressions('veryDislike')}
+                    disabled={postData.postImpressionChosen == "veryDislike"}>
+                      <Heartbreak  className="likeIcon"/> {postData.postVeryDislikesCounter}
+                    </Button>
+                  </ButtonGroup>
+                  </Col>
+                  <Col  xs="auto" sm="auto" lg="auto" md="auto">
+                    <Stack direction="vertical" gap={0}>
+                      <div className="d-flex justify-content-end">
+                        <p className="mb-1">{postData.postCreationDate}</p>
+                      </div>
+                        <span>
+                          <Button 
+                            variant="outline-light" 
+                            size="sm" 
+                            onClick={() => setShowReplies(!showReplies)}>
+                              {showReplies ? "Nascondi risposte" : "Mostra risposte"}
+                          </Button>
+                        </span>
+                    </Stack>
+                </Col>
+              </Row>
           </div>
           <Collapse in={showReplies} mountOnEnter={true}>
             <div style={{borderLeft: "5px solid gray"}}>
