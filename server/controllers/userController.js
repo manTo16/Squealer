@@ -193,7 +193,9 @@ const return200 = async (req,res) => {
 
 const getUserImage = async (req,res) => {
   try {
+    console.log("entro in getUserImage")
     username = req.params.userName
+    console.log("getUserImage username: ", username)
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
     

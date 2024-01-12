@@ -11,7 +11,8 @@ import { apiPostsURL, apiUsersURL } from "../../URLs"
 import { MutableRefObject, useEffect, useRef, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
 import { Button, Row, Col } from "react-bootstrap"
-import Feed from "@components/Feed/Feed"
+import Feed, { ReactionType } from "@components/Feed/Feed"
+import PostPlaceholder from "./PostPlaceholder"
 import Heartbreak from "@components/svg/Reaction/HeartbreakSvg"
 import Dislike from "@components/svg/Reaction/DislikeSvg"
 import Char from "@components/svg/CharSvg"
@@ -24,13 +25,37 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const defaultValue = {}
   const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
 
+  const [isLoading, setIsLoading] = useState(true)  //considero caricato un post quando è tutto pronto tranne l'immagine dell'utente
+
   async function loadPostData(postId: string) {
 
       const loadedPostData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response?.data));
       if (loadedPostData) {
-        const userImage = await getUserPropic(loadedPostData.username)
+        //const userImage = await getUserPropic(loadedPostData.username)
         const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
         setPostData({
+            postText: loadedPostData.text,
+            postIsReplyTo: loadedPostData.replyTo,
+            postReplies: loadedPostData.replies,
+            postDisplayedName: loadedPostData.displayName,
+            postUsername: loadedPostData.username,
+            userImg: "",
+            postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
+            postReceivers: loadedPostData.receivers,
+            postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
+            postLikesCounter: loadedPostData.impressions.likes.number,
+            postDislikesCounter: loadedPostData.impressions.dislikes.number,
+            postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
+            postImpressionChosen: impressionAlreadyChosenByUser,
+            postViews: loadedPostData.impressions.views.number
+        })
+        setIsLoading(false)
+        console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
+
+        const userImage = getUserPropic(loadedPostData.username).
+        then((userImage) => {
+          console.log("AAAAAAAAAAAAAAAA")
+          setPostData({
             postText: loadedPostData.text,
             postIsReplyTo: loadedPostData.replyTo,
             postReplies: loadedPostData.replies,
@@ -46,6 +71,9 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postImpressionChosen: impressionAlreadyChosenByUser,
             postViews: loadedPostData.impressions.views.number
         })
+          console.log("POST POSTDATA AGGIORNATO CON PROPIC: ", userImage)
+        })
+
       }
   }
 
@@ -106,7 +134,9 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   });
 
   async function getUserPropic (username: string) {
+    console.log("Post getUserPropic parte richiesta: ",apiUsersURL+`/${username}/propic`)
     const response = await axios.get(apiUsersURL+`/${username}/propic`)
+    console.log("Post getUserPropic risposta richiesta: ", response)
     let userImage = ''
     if (response && response.status == 200) 
       userImage = response.data
@@ -120,7 +150,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   let postTextLength = 0;
 
   useEffect(() => {
-      loadPostData(postId);
+      loadPostData(postId)
       sendReaction('view')
   }, [])
 
@@ -131,7 +161,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
       aggiorna lo stato causa il loro svolgimento col valore precedente dello stato.
       metterle qui dentro ci assicura che lo stato sia effettivamente aggiornato */
   useEffect(() => {
-    sendReaction(chosenReaction)
+    if (chosenReaction != ReactionType.Default) sendReaction(chosenReaction)
 
     let updatedPostData = {...postData}
     switch(chosenReaction) {
@@ -194,6 +224,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   const mentionsRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
   const postTextArray = postData.postText.split(' ');
+
+  if (isLoading) return (<PostPlaceholder />)
 
   return (
       <div className="post">

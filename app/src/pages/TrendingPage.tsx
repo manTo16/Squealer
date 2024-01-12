@@ -4,6 +4,8 @@ import { channelsURL, apiUsersURL } from '../URLs'
 import Form from 'react-bootstrap/Form'
 import Feed, { ReactionType } from "@components/Feed/Feed"
 
+import PostPlaceholder from '@components/Post/PostPlaceholder'
+
 export default function TrendingPage() {
     const [channelName,setChannelName] = useState("")
     //const isLoggedIn = !!localStorage.getItem('token')
@@ -93,6 +95,10 @@ export default function TrendingPage() {
            visualizedImpression={reactionType}
            />
            <p>{reactionType}</p>
+
+           
+           <PostPlaceholder />
         </div>
+
     )
 }

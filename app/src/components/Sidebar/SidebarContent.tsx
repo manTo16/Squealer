@@ -26,8 +26,9 @@ export default function SidebarContent() {
     const loadChannels = async () => {
       const response = await axios.get(apiUsersURL+`/${username}/channels`,
       { headers: {"Authorization": `Bearer ${userToken}`}})
-      let channelsArray = response.data
-      console.log("loadChannels channelsarray", channelsArray)
+      let channelsArray = []
+      if (response && response.status === 200) channelsArray = response.data
+      console.log("loadChannels channelsarray", channelsArray, "(response.status: ", response?.status, ")")
       return channelsArray
     }
 
