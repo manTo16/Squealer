@@ -53,7 +53,10 @@ export enum ReactionType {
 
 interface FeedProps {
     channelName?: string;
+
     postRepliesId?: string;
+    handleNumberOfReplies?: (numberOfReplies: number) => void;
+
     userName?: string;
     visualizedImpression?: ReactionType;
 }
@@ -61,11 +64,11 @@ interface FeedProps {
 /*
 NON DICHIARATE INSIEME tutti i props non ha senso
 vanno usati così:
-    channelName                         oppure
-    postRepliesId                       oppure
+    channelName                                oppure
+    postRepliesId e handleNumberOfReplies      oppure
     userName e visualizedImpression
 */
-export default function Feed({channelName="", postRepliesId="", userName="", visualizedImpression=ReactionType.Default} : FeedProps) {
+export default function Feed({channelName="", postRepliesId="", handleNumberOfReplies=()=>{}, userName="", visualizedImpression=ReactionType.Default} : FeedProps) {
     const [postList, setPostList] = useState<string[]>([]);
 
     useEffect(() => {
@@ -104,6 +107,8 @@ export default function Feed({channelName="", postRepliesId="", userName="", vis
     //useeffect di DEBUG
     useEffect(() => {
         console.log("Feed postList: ", postList)
+        handleNumberOfReplies(postList.length)
+        console.log("Feed postList.length: ", postList.length, " ", channelName, postRepliesId, userName)
     }, [postList])
     
     return (

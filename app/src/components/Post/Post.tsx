@@ -50,11 +50,11 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postViews: loadedPostData.impressions.views.number
         })
         setIsLoading(false)
-        console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
+        //console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
 
         const userImage = getUserPropic(loadedPostData.username).
         then((userImage) => {
-          console.log("AAAAAAAAAAAAAAAA")
+          //console.log("AAAAAAAAAAAAAAAA")
           setPostData({
             postText: loadedPostData.text,
             postIsReplyTo: loadedPostData.replyTo,
@@ -71,7 +71,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             postImpressionChosen: impressionAlreadyChosenByUser,
             postViews: loadedPostData.impressions.views.number
         })
-          console.log("POST POSTDATA AGGIORNATO CON PROPIC: ", userImage)
+          //console.log("POST POSTDATA AGGIORNATO CON PROPIC: ", userImage)
         })
 
       }
@@ -134,9 +134,9 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   });
 
   async function getUserPropic (username: string) {
-    console.log("Post getUserPropic parte richiesta: ",apiUsersURL+`/${username}/propic`)
+    //console.log("Post getUserPropic parte richiesta: ",apiUsersURL+`/${username}/propic`)
     const response = await axios.get(apiUsersURL+`/${username}/propic`)
-    console.log("Post getUserPropic risposta richiesta: ", response)
+    //console.log("Post getUserPropic risposta richiesta: ", response)
     let userImage = ''
     if (response && response.status == 200) 
       userImage = response.data
@@ -220,7 +220,18 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
     }
   }
 
+  const [showShowRepliesButton, setShowShowRepliesButton] = useState(false) //lo so fa ridere
+
+  const handleRepliesNumber = (numberOfReplies: number) => {
+    console.log("Post numero risposte: ", numberOfReplies)
+    setPostRepliesNumber(numberOfReplies)
+    if (numberOfReplies === 0) setShowShowRepliesButton(false)
+    else setShowShowRepliesButton(true)
+  }
+
   const [showReplies, setShowReplies] = useState(false)
+
+  const [postRepliesNumber, setPostRepliesNumber] = useState(0)
 
   const mentionsRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
   const postTextArray = postData.postText.split(' ');
@@ -328,22 +339,24 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                         <p className="mb-1">{postData.postCreationDate}</p>
                       </div>
                         <span>
+                          { showShowRepliesButton &&
                           <Button 
                             variant="outline-light" 
                             size="sm" 
                             onClick={() => setShowReplies(!showReplies)}>
-                              {showReplies ? "Nascondi risposte" : "Mostra risposte"}
+                              {showReplies ? "Nascondi risposte" : `Mostra ${postRepliesNumber} rispost${postRepliesNumber === 1 ? `a` : `e`}`}
                           </Button>
+                          }
                         </span>
                     </Stack>
                 </Col>
               </Row>
           </div>
-          <Collapse in={showReplies} mountOnEnter={true}>
+          <Collapse in={showReplies} mountOnEnter={false}>
             <div style={{borderLeft: "5px solid gray"}}>
 
             <div>risposte</div>
-            <div><Feed postRepliesId={postId}></Feed></div>
+            <div><Feed postRepliesId={postId} handleNumberOfReplies={handleRepliesNumber}></Feed></div>
             </div>
           </Collapse>
       </div>
