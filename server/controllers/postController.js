@@ -295,6 +295,22 @@ const getReplies = async (req,res) => {
   }
 }
 
+//creata per essere usata dal NewPost per copiare i destinatari quando si risponde ad un post. il post riceve questa informazione dal getPost
+const getReceivers = async(req,res) => {
+  try {
+    const postId = req.params.id
+    
+    const post = await Post.findOne({postId: postId})
+    if (!post) return res.status(404).json({message: "post not found"})
+  
+    const receiversArray = post.receivers
+  
+    return res.status(200).json(receiversArray)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 
 module.exports = {
   createPost,
@@ -304,5 +320,6 @@ module.exports = {
   updateImpressions,
   getPostMentions,
   addReply,
-  getReplies
+  getReplies,
+  getReceivers
 }

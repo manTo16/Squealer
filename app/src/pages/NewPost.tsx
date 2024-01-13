@@ -14,7 +14,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from '@root/axiosConfig'
 import { apiPostsURL } from "../URLs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Stack } from "react-bootstrap";
 import Text from "@components/svg/TextSvg";
 import Add from "@components/svg/AddSvg";
@@ -24,6 +24,7 @@ import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
 import Post from "@components/Post/Post";
+import { AxiosError } from "axios";
 
 var cacca = "img";
 
@@ -31,6 +32,9 @@ export default function NewPostPage() {
   const defaultValue = {}
   const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
   const userToken = localStorage.getItem("token") ?? "";
+
+  const { replyPostId } = useParams<{ replyPostId?: string }>();
+  
   
   var Dchar = 1024;
 
@@ -52,6 +56,19 @@ export default function NewPostPage() {
     //if not logged in, redirects to login page
     if(!userToken) {
       navigate("/login");
+    }
+    else {
+      if (replyPostId) {
+        setReplyTo(replyPostId)
+
+        const fetchReplyToReceivers = async () => {
+          const receiversArray = await getReplyToReceivers(replyPostId)
+          console.log("NewPost useEffect fetchReplyToReceivers receiversArray: ", receiversArray)
+          setNReceivers(receiversArray?.length ?? 0)
+          setReceivers(receiversArray ?? [])
+        }
+        fetchReplyToReceivers()
+      }
     }
   }, [])
 
@@ -91,7 +108,7 @@ export default function NewPostPage() {
         {userId: userDetails._id,text, receivers},
         { headers: {"Authorization": `Bearer ${userToken}`}}
         ).then((response) => {
-          if (idPostVisualizzato) axios.put(`${apiPostsURL}/${idPostVisualizzato}/replies`,
+          if (replyTo) axios.put(`${apiPostsURL}/${replyTo}/replies`,
                                             {replyPostId: response.data})
         })
         .then(()=>{
@@ -124,7 +141,59 @@ export default function NewPostPage() {
   }
 
   const [replyTo, setReplyTo] = useState("")
-  const [idPostVisualizzato, setIdPostVisualizzato] = useState("")   //tutte prove per ora, poi miglioro
+
+  const renderReplyPost = (replyPostId: string) => {
+    try {
+      return <Post postId={replyPostId} />;
+    } catch (error) {
+      if (error instanceof Error && 'response' in error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.status === 404) {
+          console.log("NewPost renderReplyPost 404 con replyPostId ", replyPostId);
+        } else {
+          throw error;
+        }
+      }
+      return null;
+    }
+  }
+
+  const getReplyToReceivers = async (postId: string) => {
+    try {
+      const receiversArray = await axios.get(apiPostsURL+`/${postId}/receivers`).
+      then((response) => {
+        if (response && response.status === 200) {
+          console.log("NewPost getReplyToReceivers response.data: ", response.data)
+          return response.data
+        }
+        else return []
+      })
+      return receiversArray
+    }
+
+    catch (error) {
+      if (error instanceof Error && 'response' in error) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response && axiosError.response.status === 404) {
+          console.log("NewPost getReplyToReceivers 404 con postId ", postId);
+        } else {
+          throw error;
+        }
+      }
+      return []
+    }
+
+    /*
+    nella prima interfaccia per rispondere bisognava mettere l'id del post a cui rispondere.
+    salvo il codice della barra di input per fare prima caso mai volessi rimetterlo per provare
+    <input type="text" placeholder="metti l'id del post" onChange={(e) => setReplyTo(e.target.value)} value={replyTo}/>  
+    non è possibile rimetterlo perchè ora il post visualizzato sotto (quello a cui si risponde) viene
+    caricato al caricamento della pagina usando l'id nell'url e non viene più aggiornato
+    quindi caso mai si volesse rimettere sta cosa andrebbero cambiate due o tre cosette
+    se va tutto bene comunque non la rimetteremo mai più questa barra in realtà quindi tutto questo commento si può ignorare
+    */
+
+  }
 
   const[Type, setType] = useState('txt');
   
@@ -155,12 +224,12 @@ export default function NewPostPage() {
                   <ButtonGroup className="ms-auto" aria-label="Basic example">
                     <Button 
                       className="btn-transparent"
-                      disabled={nReceivers>100}
+                      disabled={nReceivers>100 || (replyPostId ? true : false)}
                       onClick={handleAddReceivers}>
                     <Add/></Button>
                     <Button
                       className="btn-transparent"
-                      disabled={nReceivers<1}
+                      disabled={nReceivers<1 || (replyPostId ? true : false)}
                       onClick={handleRemoveReceivers}>
                     <Remove/></Button>
                   </ButtonGroup>
@@ -168,7 +237,12 @@ export default function NewPostPage() {
               </Card.Text>
               
               <div className="d-flex flex-wrap">
-              {[...Array(nReceivers)].map((_, i) => (
+              {replyPostId ?
+              receivers.map((receiver) => (
+                <p>{receiver}</p>
+              ))
+              :
+              [...Array(nReceivers)].map((_, i) => (
                 <ReceiverInputField key={i} 
                 _inputField={i + 1} 
                 handleReceiverInputChange={handleReceiverInputChange} 
@@ -250,16 +324,16 @@ export default function NewPostPage() {
       </Row>
       
       <Row>
-        <p>(questa interfaccia qua sotto è tutta da rifare. ma prima penso meglio al sistema di risposte. che per come è ora potrebbero uscire anche dei thread, che sarebbe carino)</p>
+        <p>(questa interfaccia qua sotto si può migliorare. non saprei cos'altro aggiungere. ora come ora ti colleghi a questa pagina usando un url generato dal bottone rispondi al post nei post e l'unica cosa che cambia dal NewPost normale è che c'è il post qua sotto e i destinatari non si possono cambiare. a proposito, la grafica dei destinatari si può rifare. magari mettendoli in un grigiolino per far capire che non si possono cambiare. magari mettendoci dei bottoni cliccabili chi sa. stiamo comunque attenti al sistema di risposte. che per come è ora potrebbero uscire anche dei thread, che sarebbe carino)</p>
         <p>in risposta a:</p>
-        <input type="text" placeholder="metti l'id del post" onChange={(e) => setReplyTo(e.target.value)}/>  
-        <button onClick={() => setIdPostVisualizzato(replyTo)}>cerca post</button>
+        
+        
         {
-          idPostVisualizzato ?
-          <Post postId={idPostVisualizzato} />
+          replyTo ?
+          renderReplyPost(replyTo)
           :
           <></>
-              }
+        }
       </Row>
     </Container>
   )  

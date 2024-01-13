@@ -8,7 +8,8 @@ const {
   updateImpressions,
   getPostMentions,
   addReply,
-  getReplies
+  getReplies,
+  getReceivers
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
@@ -17,4 +18,6 @@ router.route('/:id').get(getPost)
 router.route('/:id/impressions/:impression').patch(updateImpressions)
 router.route('/:id/mentions').get(getPostMentions)
 router.route('/:id/replies').put(addReply).get(getReplies)
+router.route('/:id/receivers').get(getReceivers)
+
 module.exports = router

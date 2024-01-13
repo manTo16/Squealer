@@ -5,7 +5,7 @@ import Like from "../svg/Reaction/LikeSvg"
 import Heart from "../svg/Reaction/HeartSvg"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
 import { MutableRefObject, useEffect, useRef, useState } from "react"
@@ -17,6 +17,7 @@ import Heartbreak from "@components/svg/Reaction/HeartbreakSvg"
 import Dislike from "@components/svg/Reaction/DislikeSvg"
 import Char from "@components/svg/CharSvg"
 import Eye from "@components/svg/ViewsSvg"
+import { useNavigate, useParams } from "react-router-dom"
 
 
 
@@ -24,56 +25,75 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
   const defaultValue = {}
   const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  const navigate = useNavigate()
+
+  const { id } = useParams<{ id?: string }>();
 
   const [isLoading, setIsLoading] = useState(true)  //considero caricato un post quando è tutto pronto tranne l'immagine dell'utente
 
   async function loadPostData(postId: string) {
 
-      const loadedPostData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response?.data));
-      if (loadedPostData) {
-        //const userImage = await getUserPropic(loadedPostData.username)
-        const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
-        setPostData({
-            postText: loadedPostData.text,
-            postIsReplyTo: loadedPostData.replyTo,
-            postReplies: loadedPostData.replies,
-            postDisplayedName: loadedPostData.displayName,
-            postUsername: loadedPostData.username,
-            userImg: "",
-            postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
-            postReceivers: loadedPostData.receivers,
-            postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
-            postLikesCounter: loadedPostData.impressions.likes.number,
-            postDislikesCounter: loadedPostData.impressions.dislikes.number,
-            postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
-            postImpressionChosen: impressionAlreadyChosenByUser,
-            postViews: loadedPostData.impressions.views.number
-        })
-        setIsLoading(false)
-        //console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
+    if (postId === 'getFromUrl') postId = id ?? ""
 
-        const userImage = getUserPropic(loadedPostData.username).
-        then((userImage) => {
-          //console.log("AAAAAAAAAAAAAAAA")
+      try {
+        const loadedPostData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response?.data));
+        if (loadedPostData) {
+          //const userImage = await getUserPropic(loadedPostData.username)
+          const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
           setPostData({
-            postText: loadedPostData.text,
-            postIsReplyTo: loadedPostData.replyTo,
-            postReplies: loadedPostData.replies,
-            postDisplayedName: loadedPostData.displayName,
-            postUsername: loadedPostData.username,
-            userImg: userImage,
-            postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
-            postReceivers: loadedPostData.receivers,
-            postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
-            postLikesCounter: loadedPostData.impressions.likes.number,
-            postDislikesCounter: loadedPostData.impressions.dislikes.number,
-            postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
-            postImpressionChosen: impressionAlreadyChosenByUser,
-            postViews: loadedPostData.impressions.views.number
-        })
-          //console.log("POST POSTDATA AGGIORNATO CON PROPIC: ", userImage)
-        })
-
+              postText: loadedPostData.text,
+              postIsReplyTo: loadedPostData.replyTo,
+              postReplies: loadedPostData.replies,
+              postDisplayedName: loadedPostData.displayName,
+              postUsername: loadedPostData.username,
+              userImg: "",
+              postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
+              postReceivers: loadedPostData.receivers,
+              postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
+              postLikesCounter: loadedPostData.impressions.likes.number,
+              postDislikesCounter: loadedPostData.impressions.dislikes.number,
+              postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
+              postImpressionChosen: impressionAlreadyChosenByUser,
+              postViews: loadedPostData.impressions.views.number
+          })
+          setIsLoading(false)
+          //console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
+  
+          const userImage = getUserPropic(loadedPostData?.username ?? "").
+          then((userImage) => {
+            //console.log("AAAAAAAAAAAAAAAA")
+            setPostData({
+              postText: loadedPostData.text,
+              postIsReplyTo: loadedPostData.replyTo,
+              postReplies: loadedPostData.replies,
+              postDisplayedName: loadedPostData.displayName,
+              postUsername: loadedPostData.username,
+              userImg: userImage ?? "",
+              postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
+              postReceivers: loadedPostData.receivers,
+              postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
+              postLikesCounter: loadedPostData.impressions.likes.number,
+              postDislikesCounter: loadedPostData.impressions.dislikes.number,
+              postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
+              postImpressionChosen: impressionAlreadyChosenByUser,
+              postViews: loadedPostData.impressions.views.number
+          })
+            //console.log("POST POSTDATA AGGIORNATO CON PROPIC: ", userImage)
+          })
+  
+        }
+      } catch (error) {
+        if (error instanceof Error && 'response' in error) {
+          const axiosError = error as AxiosError;
+          if (axiosError.response && axiosError.response.status === 404) {
+            console.log("Post loadPostData 404 con postId ", postId);
+            // Gestisci l'errore 404 come preferisci, ad esempio mostrando un messaggio all'utente
+            setIsLoading(false);
+          } else {
+            // Se l'errore non è un 404, rilancia l'errore
+            throw error;
+          }
+        }
       }
   }
 
@@ -151,7 +171,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   useEffect(() => {
       loadPostData(postId)
-      sendReaction('view')
+      if (postData.postUsername) sendReaction('view')
   }, [])
 
       /* queste cose sono dentro uno useEffect invece che dentro handleImpressions
@@ -223,7 +243,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const [showShowRepliesButton, setShowShowRepliesButton] = useState(false) //lo so fa ridere
 
   const handleRepliesNumber = (numberOfReplies: number) => {
-    console.log("Post numero risposte: ", numberOfReplies)
+    //console.log("Post numero risposte: ", numberOfReplies)
     setPostRepliesNumber(numberOfReplies)
     if (numberOfReplies === 0) setShowShowRepliesButton(false)
     else setShowShowRepliesButton(true)
@@ -255,6 +275,11 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                         <span className="p-0 showReceiversButton"
                         onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
                       </Button>
+                      <span>
+                        <Button onClick={() => navigate(`/newPost/reply/${postId}`)}>
+                          rispondi al post
+                        </Button>
+                      </span>
                   </Col>
                   <Col xs="auto" sm="auto" lg="auto" md="auto">
                     <Stack direction="vertical" gap={1}>
@@ -356,7 +381,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             <div style={{borderLeft: "5px solid gray"}}>
 
             <div>risposte</div>
-            <div><Feed postRepliesId={postId} handleNumberOfReplies={handleRepliesNumber}></Feed></div>
+            <div><Feed postRepliesId={(postId === 'getFromUrl' ? id : postId)} handleNumberOfReplies={handleRepliesNumber}></Feed></div>
             </div>
           </Collapse>
       </div>

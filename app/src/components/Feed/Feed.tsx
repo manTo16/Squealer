@@ -1,7 +1,7 @@
 import "./feed.css"
 import Post from "../Post/Post"
 
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { apiPostsURL, channelsURL, apiUsersURL } from "../../URLs"
 
 import { useEffect, useState } from "react"
@@ -35,10 +35,23 @@ const fetchFeedFromUserImpressions = async (userName: string, visualizedImpressi
 }
 
 const fetchFeedFromPostReplies = async (postId: string) => {
-    const response = await axios.get(`${apiPostsURL}/${postId}/replies`)
-    console.log("Feed postId ", postId, " replies: ", response?.data)
-    if (response && response.status === 200) return response.data
-    else return []
+    try {
+        const response = await axios.get(`${apiPostsURL}/${postId}/replies`)
+        console.log("Feed postId ", postId, " replies: ", response?.data)
+        if (response && response.status === 200) return response.data
+        else return []
+        
+    } catch (error) {
+        if (error instanceof Error && 'response' in error) {
+            const axiosError = error as AxiosError;
+            if (axiosError.response && axiosError.response.status === 404) {
+              console.log("Feed fetchFeedFromPostReplies 404 con postId ", postId);
+            } else {
+              throw error;
+            }
+          }
+          return []
+    }
 }
 
 
@@ -74,16 +87,16 @@ export default function Feed({channelName="", postRepliesId="", handleNumberOfRe
     useEffect(() => {
         setPostList([])  //questo serve per il feed utente, senza, se cambio visualizedImpression da fuori con uno stato, i post renderizzati qua non vengono cancellati
         const fetchPosts = async () => {
-            console.log("Feed fetchPosts")
+            //console.log("Feed fetchPosts")
             let postIdsList = []
 
             if (userName) {
-                console.log("Feed dentro useEffect if(userName) userName: ", userName)
+                //console.log("Feed dentro useEffect if(userName) userName: ", userName)
                 postIdsList = await fetchFeedFromUserImpressions(userName, visualizedImpression)
             }
 
             else if (postRepliesId) {
-                console.log("Feed dentro useEffect if(postRepliesId) postRepliesId: ", postRepliesId)
+                //console.log("Feed dentro useEffect if(postRepliesId) postRepliesId: ", postRepliesId)
                 postIdsList = await fetchFeedFromPostReplies(postRepliesId)
             }
 
@@ -97,7 +110,7 @@ export default function Feed({channelName="", postRepliesId="", handleNumberOfRe
                 default:
                     postIdsList = await fetchFeedFromChannel(channelName)
             }
-            console.log("Feed useEffect postIdsList: ", postIdsList)
+            //console.log("Feed useEffect postIdsList: ", postIdsList)
             setPostList(postIdsList)
         }
         fetchPosts();
@@ -106,16 +119,16 @@ export default function Feed({channelName="", postRepliesId="", handleNumberOfRe
 
     //useeffect di DEBUG
     useEffect(() => {
-        console.log("Feed postList: ", postList)
+        //console.log("Feed postList: ", postList)
         handleNumberOfReplies(postList.length)
-        console.log("Feed postList.length: ", postList.length, " ", channelName, postRepliesId, userName)
+        //console.log("Feed postList.length: ", postList.length, " ", channelName, postRepliesId, userName)
     }, [postList])
     
     return (
         <>
            {
             postList && postList.map((postId: string, index: number) => {
-                console.log("Feed postList.map postId: ", postId);
+                //console.log("Feed postList.map postId: ", postId);
                 return <Post key={index} postId={postId} />;
             })
            }
