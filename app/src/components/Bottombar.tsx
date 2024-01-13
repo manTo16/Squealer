@@ -14,6 +14,7 @@ import FireButton from './svg/BottomBarSvg/FireButton';
 import AddButton from './svg/BottomBarSvg/AddButton';
 import QuestionButton from './svg/BottomBarSvg/QuestionButton';
 import GroupButton from './svg/BottomBarSvg/GroupButton';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -28,6 +29,8 @@ export default function Bottombar(
   window.addEventListener("resize", () => onHeightChange(divHtmlElementRef.current?.clientHeight ?? 0))
 
   const divHtmlElementRef = useRef<HTMLDivElement>(null)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     onHeightChange(divHtmlElementRef.current?.clientHeight ?? 0)
@@ -46,7 +49,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                  <Button variant="outline-light" href="/" className='btn-transparent'>
+                  <Button onClick={()=>{navigate("/")}} variant="outline-light"  className='btn-transparent'>
                     <HomeButton />
                   </Button>
               </Nav.Item>
@@ -54,7 +57,7 @@ export default function Bottombar(
     
             <Col>
               <Nav.Item>
-                <Button variant="outline-light" href="/trendingPage" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/trendingPage")}} variant="outline-light" className='btn-transparent'>
                   <FireButton/>
                 </Button>
               </Nav.Item>
@@ -62,7 +65,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                <Button variant="outline-light" href="/newPost" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/newPost")}} variant="outline-light" className='btn-transparent'>
                   <AddButton />
                 </Button>
               </Nav.Item>
@@ -70,7 +73,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                <Button variant="outline-light" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/")}} variant="outline-light" className='btn-transparent'>
                   <QuestionButton/>
                 </Button>
               </Nav.Item>
@@ -78,7 +81,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                <Button variant="outline-light" href="/profile" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/profile")}} variant="outline-light" className='btn-transparent'>
                   <GroupButton/> 
                 </Button>
               </Nav.Item>

@@ -59,10 +59,10 @@ export default function SidebarContent() {
         ) :
         (
         <div className="d-flex justify-content-around pt-4">
-          <Button variant="outline-light" href="/login">
+          <Button onClick={()=>{navigate("/login")}} variant="outline-light">
             LogIn
           </Button>
-          <Button variant="outline-light" href="/register">
+          <Button onClick={()=>{navigate("/register")}} variant="outline-light">
             Register
           </Button>
         </div>
@@ -79,7 +79,7 @@ export default function SidebarContent() {
           displayedChannels.map((channelName, index) =>
           <Button key={index} 
           className="mb-2"
-          href={`/channels/${channelName}`}
+          onClick={() => {navigate(`/channels/${channelName}`)}}
           variant="outline-light">
             {channelName}
           </Button>  )

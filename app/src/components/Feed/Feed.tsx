@@ -40,7 +40,7 @@ const fetchFeedFromPostReplies = async (postId: string) => {
         console.log("Feed postId ", postId, " replies: ", response?.data)
         if (response && response.status === 200) return response.data
         else return []
-        
+
     } catch (error) {
         if (error instanceof Error && 'response' in error) {
             const axiosError = error as AxiosError;
@@ -115,7 +115,8 @@ export default function Feed({channelName="", postRepliesId="", handleNumberOfRe
         }
         fetchPosts();
         //console.log("postList: ", postList)
-    }, [visualizedImpression])
+    }, [visualizedImpression, channelName])
+    //ho aggiunto channelName qua perchè così quando passi da una pagina /channels/canale1 a /channels/canale2 carica effettivamente il feed. altrimenti rimane bloccato al primo (usando useNavigate)
 
     //useeffect di DEBUG
     useEffect(() => {

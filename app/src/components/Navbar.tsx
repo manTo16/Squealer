@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 
 import "./Navbar.scss"
@@ -46,10 +46,12 @@ export default function Navbar(
 
         <NavbarBootstrap.Brand className="d-flex align-items-center">
           <SidebarComponent />
+          <Link to="/" style={{ textDecoration: 'none' }} className="align-middle">
           <a style={{ textDecoration: 'none' }} className="align-middle" href="/">
             <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-middle mx-2" />
             <span className='Logo'>Squealer</span>
           </a>
+          </Link>
         </NavbarBootstrap.Brand>
         <DropdownCharSM />
         <ProfileSM/>
