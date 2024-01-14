@@ -21,6 +21,7 @@
     "jsx": "react-jsx",
     "paths": {
       "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@root/*": ["./*"]
     }
   },

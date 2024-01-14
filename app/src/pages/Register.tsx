@@ -69,6 +69,7 @@ export default function Register() {
             <Form.Label> Choose displayed name </Form.Label>
             <Form.Group className='mb-3 w-80'>
                 <Form.Control 
+                  autoFocus
                   onChange={(e)=>setDisplayName(e.target.value)}
                   value={displayName}
                   placeholder="type displayed name here"

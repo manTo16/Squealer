@@ -1,30 +1,34 @@
-import Video from "../components/svg/VideoSvg";
-import LocationButton from "../components/svg/LocationSvg";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from '@root/axiosConfig'
+import { AxiosError } from "axios";
+import { apiPostsURL } from "../URLs";
+
+import React, { useEffect, useState } from 'react';
+
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ReceiverInputField from "@components/newPost/ReceiverInputField";
 import CardFooter from 'react-bootstrap/CardFooter'
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
 import Container from 'react-bootstrap/Container'
-import Media from "../components/svg/MediaSvg";
-import React, { useEffect, useState } from 'react';
-import Card from 'react-bootstrap/Card';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import axios from '@root/axiosConfig'
-import { apiPostsURL } from "../URLs";
-import { useNavigate, useParams } from "react-router-dom";
+import Card from 'react-bootstrap/Card';
 import { Stack } from "react-bootstrap";
+
+import ReceiverInputField from "@components/newPost/ReceiverInputField";
+import CardBody from "@components/newPost/CardBody";
+import Post from "@components/Post/Post";
+
+import Video from "@components/svg/VideoSvg";
+import LocationButton from "@components/svg/LocationSvg";
+import Media from "@components/svg/MediaSvg";
 import Text from "@components/svg/TextSvg";
 import Add from "@components/svg/AddSvg";
 import Remove from "@components/svg/RemoveSvg";
-import CardBody from "@components/newPost/CardBody";
 import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
-import Post from "@components/Post/Post";
-import { AxiosError } from "axios";
 
 var cacca = "img";
 
@@ -40,7 +44,7 @@ export default function NewPostPage() {
 
   const [text,setText] = useState("");
   const [receivers, setReceivers] = useState<string[]>([""]);
-  const [nReceivers, setNReceivers] = useState(1);
+  const [nReceivers, setNReceivers] = useState(0);
 
   const [charCount, setCharCount] = useState(0);
 

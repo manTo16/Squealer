@@ -18,3 +18,8 @@ https://www.joshwcomeau.com/react/the-perils-of-rehydration/
 questo tizio dice che quando devi caricare le cose un po' alla volta, tipo mentre aspetti l'arrivo di una fetch, è meglio caricare un componente con dello spazio vuoto piuttosto che un componente default che nel caso viene cambiato. 
 il senso sarebbe meglio lasciare degli spazi vuoti dove mettere componenti piuttosto che mettere componenti e poi cambiarli. dice perchè rischiano di crearsi dei bug dove i componenti si creano nel punto sbagliato. 
 comunque è una cosa abbastanza fine, forse non ci servirà neanche. comunque essendo anche molto specifica e spiegata bene la tengo
+
+### auto focus elementi input
+https://blog.logrocket.com/how-to-autofocus-using-react-hooks/
+
+basta mettere autoFocus nelle proprietà altrimenti qua c'è uno useEffect strano che ho già messo in src/hooks

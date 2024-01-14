@@ -59,6 +59,7 @@ export default function ReceiverInputField(
                     aria-label="Username"
                     aria-describedby="basic-addon1"
                     as="input"
+                    autoFocus
                     onChange={(event:React.ChangeEvent<HTMLInputElement>)=>
                         {handleReceiverInputChange(event, fieldId, selectedReciver)}}
                 />

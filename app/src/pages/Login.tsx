@@ -52,7 +52,7 @@ export default function Login() {
             <h1>Log in to Squealer</h1>
             <Form.Label> Username </Form.Label>
             <Form.Group className='mb-3 w-80'>
-                <Form.Control onChange={(e)=>setUsername(e.target.value)} value={username} placeholder="type username here" aria-label="username"/>
+                <Form.Control autoFocus onChange={(e)=>setUsername(e.target.value)} value={username} placeholder="type username here" aria-label="username"/>
             </Form.Group>
             <Form.Label> Password </Form.Label>
             <Form.Group className='mb-3 w-80'>

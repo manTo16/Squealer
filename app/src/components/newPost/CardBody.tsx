@@ -1,9 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
+import useAutoFocus from '@hooks/useAutoFocus';
+
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import TestGeolocation from '@components/Geolocation/Geolocation';
 import { ButtonGroup, Dropdown } from 'react-bootstrap';
+
+import TestGeolocation from '@components/Geolocation/Geolocation';
+
 import IconPaste from '@components/svg/PasteSvg';
 import IconUpload from '@components/svg/UploadSvg';
 import IconCamera from '@components/svg/CameraSvg';
@@ -27,6 +31,9 @@ export default function CardBody({
 
   const[MediaType, setMediaType] = useState('paste');
 
+  const textInput = useAutoFocus();
+
+
   const handleMediaType = (eventKey: string | null) => {
     if (eventKey === null) return;
     setMediaType(eventKey);
@@ -37,11 +44,12 @@ export default function CardBody({
   if (type === 'txt') {
     return (
       <>
-      <Form.Label>Scrivi il tuo squal</Form.Label>
+      <Form.Label>Scrivi il tuo squeal</Form.Label>
       <InputGroup>
         <InputGroup.Text>{charCount}</InputGroup.Text>
         <Form.Control 
           as="textarea" 
+          autoFocus
           aria-label="With textarea" 
           className="shareInput bg-dark text-white"
           placeholder="Squillo calde nei paraggi"
