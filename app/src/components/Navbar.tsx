@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import "./Navbar.scss"
 
 import ContainerBootstrap from 'react-bootstrap/Container';
-import NavBootstrap from 'react-bootstrap/Nav';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
 
 import SidebarComponent from './Sidebar/SidebarComponent';
@@ -14,8 +13,6 @@ import DropdownCharSM from './Char indicator/DropdownChar4SM';
 import DropdownCharLG from './Char indicator/Char4LGscreen';
 import ProfileLG from './Profile options/ProfileLG';
 import ProfileSM from './Profile options/ProfileSM';
-import Bell from './svg/BellSvg'
-import Logout from './svg/LogoutSvg';
 import Logo from '../assets/Squealer.png'
 
 
@@ -27,7 +24,6 @@ export default function Navbar(
 
   const isLoggedIn = !!localStorage.getItem('token')
   // const isLoggedIn = true
-  const navigate = useNavigate()
 
   const divHtmlElementRef = useRef<HTMLDivElement>(null)
 

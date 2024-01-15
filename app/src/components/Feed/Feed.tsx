@@ -26,8 +26,17 @@ const fetchFeedFromChannel = async (channelName: string) => {
     else return []
 }
 
+export enum ReactionType {
+    VeryLike = 'veryLike',
+    Like = 'like',
+    Dislike = 'dislike',
+    VeryDislike = 'veryDislike',
+    View = 'view',
+    Default = 'none'
+}
+
 const fetchFeedFromUserImpressions = async (userName: string, visualizedImpression: ReactionType) => {
-    if (visualizedImpression == ReactionType.Default) return []
+    if (visualizedImpression === ReactionType.Default) return []
     const response = await axios.get(apiUsersURL + "/" + userName + "/impressions/"+visualizedImpression+"s")
     console.log("Feed fetchFeedFromUserImpressions response.data", response?.data)
     if (response && response.status === 200) return response.data
@@ -54,15 +63,6 @@ const fetchFeedFromPostReplies = async (postId: string) => {
     }
 }
 
-
-export enum ReactionType {
-    VeryLike = 'veryLike',
-    Like = 'like',
-    Dislike = 'dislike',
-    VeryDislike = 'veryDislike',
-    View = 'view',
-    Default = 'none'
-}
 
 interface FeedProps {
     channelName?: string;

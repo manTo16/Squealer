@@ -4,7 +4,6 @@ import HomeButton from "../svg/BottomBarSvg/HomeButton"
 import FireButton from "../svg/BottomBarSvg/FireButton"
 import AddButton from "../svg/BottomBarSvg/AddButton"
 import QuestionButton from "../svg/BottomBarSvg/QuestionButton"
-import GroupButton from "../svg/BottomBarSvg/GroupButton"
 import { useNavigate } from "react-router-dom"
 
 

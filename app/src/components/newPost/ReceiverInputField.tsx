@@ -1,4 +1,4 @@
-import { Card, FloatingLabel } from "react-bootstrap"
+import { FloatingLabel } from "react-bootstrap"
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -16,7 +16,6 @@ export default function ReceiverInputField(
   
     const [fieldId, setFieldId] = useState(_inputField);
 
-    const [receiver, setReceiver] = useState("");
 
     const [selectedReciver, setSelectedReciver] = useState('to');
     const [thersDest, setThersDest] = useState('warning');

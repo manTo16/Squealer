@@ -3,7 +3,7 @@ import Logout from '../svg/LogoutSvg';
 
 import { useNavigate } from 'react-router-dom';
 import axios from '@root/axiosConfig';
-import { channelsURL,apiUsersURL } from '../../URLs';
+import { apiUsersURL } from '../../URLs';
 
 import { useState, useEffect } from 'react';
 

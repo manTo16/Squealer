@@ -1,4 +1,3 @@
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import SearchLogo from '../svg/SearchSvg';
 import './searchbar.css'; // Importa il file CSS per stili personalizzati
 

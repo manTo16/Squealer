@@ -1,6 +1,4 @@
 import "./post.scss"
-import VDots from "../svg/VDotsSvg"
-import propic from "../../assets/person/9.png"
 import Like from "../svg/Reaction/LikeSvg"
 import Heart from "../svg/Reaction/HeartSvg"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -8,7 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
-import { MutableRefObject, useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
 import { Button, Row, Col } from "react-bootstrap"
 import Feed, { ReactionType } from "@components/Feed/Feed"
@@ -59,8 +57,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           setIsLoading(false)
           //console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
   
-          const userImage = getUserPropic(loadedPostData?.username ?? "").
-          then((userImage) => {
+          const userImage = getUserPropic(loadedPostData?.username ?? "")
+          .then((userImage) => {
             //console.log("AAAAAAAAAAAAAAAA")
             setPostData({
               postText: loadedPostData.text,
@@ -158,7 +156,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
     const response = await axios.get(apiUsersURL+`/${username}/propic`)
     //console.log("Post getUserPropic risposta richiesta: ", response)
     let userImage = ''
-    if (response && response.status == 200) 
+    if (response && response.status === 200) 
       userImage = response.data
     return userImage
   }
@@ -181,7 +179,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
       aggiorna lo stato causa il loro svolgimento col valore precedente dello stato.
       metterle qui dentro ci assicura che lo stato sia effettivamente aggiornato */
   useEffect(() => {
-    if (chosenReaction != ReactionType.Default) sendReaction(chosenReaction)
+    if (chosenReaction !== ReactionType.Default) sendReaction(chosenReaction)
 
     let updatedPostData = {...postData}
     switch(chosenReaction) {
@@ -331,7 +329,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                     <Button
                     variant="dark"
                     onClick={()=>handleImpressions('veryLike')}
-                    disabled={postData.postImpressionChosen == "veryLike"}
+                    disabled={postData.postImpressionChosen === "veryLike"}
                     >
                       <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
                     </Button>
@@ -339,21 +337,21 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                     <Button
                     variant="dark"
                     onClick={()=>handleImpressions('like')}
-                    disabled={postData.postImpressionChosen == "like"}>
+                    disabled={postData.postImpressionChosen === "like"}>
                       <Like className="likeIcon" /> {postData.postLikesCounter}
                     </Button>
 
                     <Button
                     variant="dark"
                     onClick={()=>handleImpressions('dislike')}
-                    disabled={postData.postImpressionChosen == "dislike"}>
+                    disabled={postData.postImpressionChosen === "dislike"}>
                       <Dislike className="likeIcon" /> {postData.postDislikesCounter}
                     </Button>
 
                     <Button
                     variant="dark"
                     onClick={()=>handleImpressions('veryDislike')}
-                    disabled={postData.postImpressionChosen == "veryDislike"}>
+                    disabled={postData.postImpressionChosen === "veryDislike"}>
                       <Heartbreak  className="likeIcon"/> {postData.postVeryDislikesCounter}
                     </Button>
                   </ButtonGroup>

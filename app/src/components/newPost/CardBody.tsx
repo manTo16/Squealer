@@ -3,8 +3,6 @@ import useAutoFocus from '@hooks/useAutoFocus';
 
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { ButtonGroup, Dropdown } from 'react-bootstrap';
 
 import TestGeolocation from '@components/Geolocation/Geolocation';
 

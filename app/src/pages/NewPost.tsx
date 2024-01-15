@@ -30,7 +30,6 @@ import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
 
-var cacca = "img";
 
 export default function NewPostPage() {
   const defaultValue = {}
@@ -100,7 +99,7 @@ export default function NewPostPage() {
     
     /* aggiorna l'array di destinatari modificando solo l'indice corrispondente al campo modificato */
     setReceivers(receivers => receivers.map((receiver, index) =>
-      index == receiversArrayIndex-1 ? inputText : receiver));
+      index === receiversArrayIndex-1 ? inputText : receiver));
     console.log("destinatario: ", inputText) //DEBUG
   }
 
@@ -164,8 +163,8 @@ export default function NewPostPage() {
 
   const getReplyToReceivers = async (postId: string) => {
     try {
-      const receiversArray = await axios.get(apiPostsURL+`/${postId}/receivers`).
-      then((response) => {
+      const receiversArray = await axios.get(apiPostsURL+`/${postId}/receivers`)
+      .then((response) => {
         if (response && response.status === 200) {
           console.log("NewPost getReplyToReceivers response.data: ", response.data)
           return response.data
@@ -215,7 +214,7 @@ export default function NewPostPage() {
             <Card.Header>
             <div className="tags">
               <Stack direction="horizontal" gap={2}>
-                <img src={`${userDetails.userImage}`} width={50} className="rounded-circle"/>
+                <img src={`${userDetails.userImage}`} alt="user profile picture" width={50} className="rounded-circle"/>
                 <span className="p-2 displayedName">{userDetails.displayName}</span>
                 <span className="p-2 tagName">{'@'+userDetails.username}</span>
               </Stack>

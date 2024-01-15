@@ -36,7 +36,7 @@ function App() {
   }, [navbarHeight, bottombarHeight])
 
   const location = useLocation();
-  const renderSidebars = (location.pathname != "/login" && location.pathname != "/register")
+  const renderSidebars = (location.pathname !== "/login" && location.pathname !== "/register")
   
   return (
     <div>
