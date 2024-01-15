@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import ChannelPage from './pages/ChannelPage';
+import SearchPage from './pages/SearchPage';
 
 import Bottombar from './components/Bottombar';
 import Navbar from './components/Navbar';
@@ -70,6 +71,7 @@ function App() {
             <Route path='/profile'               element={<ProfilePage />}   />
             <Route path='/channels/:channelName' element={<ChannelPage />} />
             <Route path='/posts/:id'         element={<Post postId='getFromUrl' />} />
+            <Route path='/search/:query'              element={<SearchPage />} />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
 

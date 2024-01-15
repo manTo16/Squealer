@@ -63,6 +63,26 @@ const fetchFeedFromPostReplies = async (postId: string) => {
     }
 }
 
+export enum SearchResultType {
+    Posts = 'posts',
+    Channels = 'channels',
+    Users = 'users',
+    Default = 'none'
+}
+
+const fetchFeedFromSearchQuery = async (query: string, searchParameter: SearchResultType) => {
+    let postIds = []
+    switch (searchParameter) {
+    case SearchResultType.Posts:
+        postIds = await axios.get(`${apiPostsURL}/search/byText/${query}`)
+                    .then(response => response.data)
+        break
+    default:
+        break
+   }
+   return postIds
+}
+
 
 interface FeedProps {
     channelName?: string;
@@ -72,6 +92,9 @@ interface FeedProps {
 
     userName?: string;
     visualizedImpression?: ReactionType;
+
+    searchQuery?: string;
+    searchResult?: SearchResultType
 }
 
 /*
@@ -79,9 +102,14 @@ NON DICHIARATE INSIEME tutti i props non ha senso
 vanno usati così:
     channelName                                oppure
     postRepliesId e handleNumberOfReplies      oppure
-    userName e visualizedImpression
+    userName e visualizedImpression            oppure
+    searchQuery e searchResult
 */
-export default function Feed({channelName="", postRepliesId="", handleNumberOfReplies=()=>{}, userName="", visualizedImpression=ReactionType.Default} : FeedProps) {
+export default function Feed({channelName="", 
+                    postRepliesId="", handleNumberOfReplies=()=>{}, 
+                    userName="", visualizedImpression=ReactionType.Default,
+                    searchQuery="", searchResult=SearchResultType.Default
+                } : FeedProps) {
     const [postList, setPostList] = useState<string[]>([]);
 
     useEffect(() => {
@@ -98,6 +126,10 @@ export default function Feed({channelName="", postRepliesId="", handleNumberOfRe
             else if (postRepliesId) {
                 //console.log("Feed dentro useEffect if(postRepliesId) postRepliesId: ", postRepliesId)
                 postIdsList = await fetchFeedFromPostReplies(postRepliesId)
+            }
+
+            else if (searchQuery) {
+                postIdsList = await fetchFeedFromSearchQuery(searchQuery, searchResult)
             }
 
             switch(channelName) {

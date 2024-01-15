@@ -16,7 +16,9 @@ const {
   getUserImpressionsVeryDislikes,
   getUserImpressionsViews,
   return200,
-  getUserImage
+  getUserImage,
+  searchUserByDisplayName,
+  searchUserByUsername
 } = require ('../controllers/userController.js')
 
 
@@ -33,5 +35,8 @@ router.route('/:userName/impressions/dislikes').get(getUserImpressionsDislikes)
 router.route('/:userName/impressions/veryDislikes').get(getUserImpressionsVeryDislikes)
 router.route('/:userName/impressions/views').get(getUserImpressionsViews)
 router.route('/:userName/impressions/none').get(return200)
+
+router.route('/search/byDisplayName/:name').get(searchUserByDisplayName)
+router.route('/search/byUsername/:name').get(searchUserByUsername)
 
 module.exports = router

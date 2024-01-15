@@ -311,6 +311,21 @@ const getReceivers = async(req,res) => {
   }
 }
 
+const searchPostByText = async(req,res) => {
+  try {
+    const query = req.params.query
+    console.log("searchPostByText query: ", query)
+
+    const posts = await Post.find({ text: { $regex: new RegExp(query, 'i') }}, 'postId -_id')
+    postIds = posts.map(post => post.postId)
+    console.log("searchPostByText postIds: ", postIds)
+    return res.status(200).json(postIds)
+
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 
 module.exports = {
   createPost,
@@ -321,5 +336,6 @@ module.exports = {
   getPostMentions,
   addReply,
   getReplies,
-  getReceivers
+  getReceivers,
+  searchPostByText
 }

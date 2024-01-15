@@ -206,6 +206,43 @@ const getUserImage = async (req,res) => {
   }
 }   
 
+/*
+ritorna gli username.
+non so bene come fare.
+per ora l'idea è che ritorna l'username e poi il frontend fa altre richieste
+per prendere tutti i dati di ciascun utente, come facciamo col post
+
+oppure si potrebbe fare che qua ritorna username e display name e il frontend 
+fa un controllino per prendere solo la parte di array che gli interessa
+diciamo se vediamo che ci troviamo a fare richieste che prendono tutti i dati
+di un utente per poi usare solo il display name allora magari facciamo così
+*/
+const searchUserByDisplayName = async (req,res) => {
+  try {
+    const query = req.params.name
+
+    const users = await User.find({ displayName: { $regex: new RegExp(query, 'i') }}, 'username -_id')
+    usernames = users.map(user => user.username)
+
+    return res.status(200).json(usernames)
+  } catch (error) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const searchUserByUsername = async (req,res) => {
+  try {
+    const query = req.params.name
+
+    const users = await User.find({ username: { $regex: new RegExp(query, 'i') }}, 'username -_id')
+    usernames = users.map(user => user.username)
+
+    return res.status(200).json(usernames)
+  } catch (error) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
     getAllUsers,
     //addNewUser,
@@ -221,5 +258,7 @@ module.exports = {
     getUserImpressionsVeryDislikes,
     getUserImpressionsViews,
     return200,
-    getUserImage
+    getUserImage,
+    searchUserByDisplayName,
+    searchUserByUsername
 }

@@ -125,6 +125,19 @@ const getChannelPostIds = async (req, res) => {
   }
 }
 
+const searchChannelByChannelName = async (req, res) => {
+  try {
+    const query = req.params.channelName
+
+    const channels = await Channel.find({ channelName: { $regex: new RegExp(query, 'i') }}, 'channelName -_id')
+    channelnames = channels.map(channel => channel.channelName)
+
+    return res.status(200).json(channelnames)
+  } catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 // const getChannel = async (req,res) =>{
 //   const id = req.params.id
 //   const channel = Channel.findOne({_id:id})
@@ -138,5 +151,6 @@ const getChannelPostIds = async (req, res) => {
 module.exports = {
   createChannel,
   addUserToChannel,
-  getChannelPostIds
+  getChannelPostIds,
+  searchChannelByChannelName
 }

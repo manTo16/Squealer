@@ -9,7 +9,8 @@ const {
   getPostMentions,
   addReply,
   getReplies,
-  getReceivers
+  getReceivers,
+  searchPostByText
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
@@ -19,5 +20,7 @@ router.route('/:id/impressions/:impression').patch(updateImpressions)
 router.route('/:id/mentions').get(getPostMentions)
 router.route('/:id/replies').put(addReply).get(getReplies)
 router.route('/:id/receivers').get(getReceivers)
+
+router.route('/search/byText/:query').get(searchPostByText)
 
 module.exports = router
