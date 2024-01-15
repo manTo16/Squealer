@@ -16,6 +16,7 @@ import Dislike from "@components/svg/Reaction/DislikeSvg"
 import Char from "@components/svg/CharSvg"
 import Eye from "@components/svg/ViewsSvg"
 import { useNavigate, useParams } from "react-router-dom"
+import Answer from "@components/svg/AnswerSvg";
 
 
 
@@ -261,23 +262,24 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           <div className="postWrapper">
               <Row>
                   <Col>
+                    <a href={`/users/${postData.postDisplayedName}`} className="text-decoration-none text-white">
                       <img 
-                          width={35}
-                          className="rounded-circle"
-                          src={`${postData.userImg}`}
-                          alt="" 
+                        width={35}
+                        className="rounded-circle"
+                        src={`${postData.userImg}`}
+                        alt="" 
                       />
                       <span className="p-2">{postData.postDisplayedName}</span>
                       <span className="p-2 text-secondary">{postData.postUsername}</span>
-                      <Button className="outline-secondary" variant="outline-secondary" size="sm">
-                        <span className="p-0 showReceiversButton"
-                        onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
+                    </a>
+                    <Button className="outline-secondary" variant="outline-secondary" size="sm">
+                      <span className="p-0 showReceiversButton"
+                      onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
+                    </Button>
+                    
+                      <Button className="btn btn-transparent mx-2" onClick={() => navigate(`/newPost/reply/${postId}`)}>
+                        <Answer className="likeIcon" />
                       </Button>
-                      <span>
-                        <Button onClick={() => navigate(`/newPost/reply/${postId}`)}>
-                          rispondi al post
-                        </Button>
-                      </span>
                   </Col>
                   <Col xs="auto" sm="auto" lg="auto" md="auto">
                     <Stack direction="vertical" gap={1}>
@@ -378,7 +380,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           <Collapse in={showReplies} mountOnEnter={false}>
             <div style={{borderLeft: "5px solid gray"}}>
 
-            <div>risposte</div>
+            <div className="mx-1">risposte</div>
             <div><Feed postRepliesId={(postId === 'getFromUrl' ? id : postId)} handleNumberOfReplies={handleRepliesNumber}></Feed></div>
             </div>
           </Collapse>
