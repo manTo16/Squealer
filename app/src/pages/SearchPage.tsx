@@ -24,6 +24,7 @@ export default function SearchPage() {
             const channelsArray = await axios.get(`${channelsURL}/search/byChannelName/${query}`)
             .then(response => response.data)
             setDisplayedChannels(channelsArray)
+            console.log("SearchPage useEffect loadChannels channelsArray: ", channelsArray)
         }
         loadChannels()
 
@@ -35,7 +36,7 @@ export default function SearchPage() {
         loadUsernames()
     
         // fetch channels data only if logged in
-      }, [])
+      }, [query])
     
 
     return (
@@ -55,7 +56,6 @@ export default function SearchPage() {
             </ToggleButtonGroup>
         </div>
         {selectedButton === 1 &&
-
             <Feed searchQuery={query} searchResult={SearchResultType.Posts} />
         }
 

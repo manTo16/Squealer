@@ -243,6 +243,30 @@ const searchUserByUsername = async (req,res) => {
   }
 }
 
+const searchUserByDisplayNameOneResult = async (req,res) => {
+  try {
+    const query = req.params.name
+
+    const users = await User.findOne({ displayName: { $regex: new RegExp(query, 'i') }}, 'username -_id')
+
+    return res.status(200).json(users)
+  } catch (error) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const searchUserByUsernameOneResult = async (req,res) => {
+  try {
+    const query = req.params.name
+
+    const users = await User.findOne({ username: { $regex: new RegExp(query, 'i') }}, 'username -_id')
+
+    return res.status(200).json(users)
+  } catch (error) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
     getAllUsers,
     //addNewUser,
@@ -260,5 +284,7 @@ module.exports = {
     return200,
     getUserImage,
     searchUserByDisplayName,
-    searchUserByUsername
+    searchUserByUsername,
+    searchUserByDisplayNameOneResult,
+    searchUserByUsernameOneResult
 }

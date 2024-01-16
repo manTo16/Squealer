@@ -138,6 +138,18 @@ const searchChannelByChannelName = async (req, res) => {
   }
 }
 
+const searchChannelByChannelNameOneResult = async (req, res) => {
+  try {
+    const query = req.params.channelName
+
+    const channels = await Channel.findOne({ channelName: { $regex: new RegExp(query, 'i') }}, 'channelName -_id').then(response => response?.channelName)
+
+    return res.status(200).json(channels ? [channels] : [])
+  } catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 // const getChannel = async (req,res) =>{
 //   const id = req.params.id
 //   const channel = Channel.findOne({_id:id})
@@ -152,5 +164,6 @@ module.exports = {
   createChannel,
   addUserToChannel,
   getChannelPostIds,
-  searchChannelByChannelName
+  searchChannelByChannelName,
+  searchChannelByChannelNameOneResult
 }

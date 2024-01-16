@@ -1,16 +1,25 @@
+import SearchBarPopup from '@components/SearchBarPopup';
 import SearchLogo from '../svg/SearchSvg';
 import './searchbar.css'; // Importa il file CSS per stili personalizzati
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Searchbar() {
+  const navigate = useNavigate()
+
+  const [showSearchBarPopup, setShowSearchBarPopup] = useState(false)
+
   return (
     <div className="d-flex align-items-center flex-grow-1" style={{ padding: '10px' }}>
       <div className='searchBar flex-grow-1'> {/* Utilizzo di flex-grow per espandere l'input */}
-        <SearchLogo className='searchIcon'/>
-        <input
+        <SearchLogo className='searchIcon' onClick={() => navigate("/")}/>
+        <input onClick={() => setShowSearchBarPopup(true)}
           placeholder='Trova amici, post o video'
           className='searchInput'
         />
       </div>
+
+      <SearchBarPopup show={showSearchBarPopup} handleShow={setShowSearchBarPopup} />
     </div>
   );
 }

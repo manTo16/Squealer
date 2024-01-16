@@ -18,7 +18,9 @@ const {
   return200,
   getUserImage,
   searchUserByDisplayName,
-  searchUserByUsername
+  searchUserByUsername,
+  searchUserByDisplayNameOneResult,
+  searchUserByUsernameOneResult
 } = require ('../controllers/userController.js')
 
 
@@ -38,5 +40,8 @@ router.route('/:userName/impressions/none').get(return200)
 
 router.route('/search/byDisplayName/:name').get(searchUserByDisplayName)
 router.route('/search/byUsername/:name').get(searchUserByUsername)
+router.route('/search/byDisplayName/oneResult/:name').get(searchUserByDisplayName)
+router.route('/search/byUsername/oneResult/:name').get(searchUserByUsername)
+
 
 module.exports = router

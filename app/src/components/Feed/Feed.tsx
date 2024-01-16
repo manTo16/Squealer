@@ -147,7 +147,7 @@ export default function Feed({channelName="",
         }
         fetchPosts();
         //console.log("postList: ", postList)
-    }, [visualizedImpression, channelName])
+    }, [visualizedImpression, channelName, searchQuery])
     //ho aggiunto channelName qua perchè così quando passi da una pagina /channels/canale1 a /channels/canale2 carica effettivamente il feed. altrimenti rimane bloccato al primo (usando useNavigate)
 
     //useeffect di DEBUG
