@@ -3,6 +3,7 @@ import Options from "./Options";
 import Feed from "@components/Feed/Feed";
 import User from "./User";
 import Utente from "./User";
+import { useNavigate, useParams } from "react-router-dom"
 
 
 interface proSideProps {
@@ -10,9 +11,10 @@ interface proSideProps {
 }
 
 export default function ProfileSide({
-  type
+    type
 }: proSideProps) {
-
+    
+    const { query } = useParams<{query?: string}>()
     const isLoggedIn = !!localStorage.getItem('token')
     const defaultValue = {}
     const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
@@ -26,7 +28,8 @@ export default function ProfileSide({
     } else if (type === 'channels') {
         return (
             <>
-            {/* Cards con tutti i canali a cui è iscritto */}
+            <Feed searchQuery={query} searchRoute="search/byUsername" />    
+            <h1>A</h1>
             </>
         );
     } else if (type === 'options') {

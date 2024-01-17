@@ -1,6 +1,7 @@
 import { Col, Row, Stack } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 import { useState } from 'react';
 
 export default function Utente (){
@@ -11,21 +12,16 @@ export default function Utente (){
   return(
     <Form className='bg-dark rounded p-2 m-1'>
       <Row>
-        <Col>
+        <Col xs="auto" sm="auto" lg="auto" md="auto">
           <Button 
             className='btn btn-outline-dark'
             style={{background: 'transparent'}}
             // onClick={() => window.location.reload()}          
           >
-            <img src={`${userDetails.userImage}`} alt="user profile picture" width={250} className='rounded-circle'/>
+            <Image src={`${userDetails.userImage}`} alt="user profile picture" width={250} fluid className='rounded-circle'/>
           </Button>
         </Col>
-        <Col>
-        {/* <div>
-          <h4>Nome: {userDetails.displayName}</h4>
-          <h4>User: {'@'+userDetails.username}</h4>
-          <h4>Dchar: {userDetails.dailyChar}</h4>
-        </div> */}
+        <Col xs={12} sm={4}>
         <div className='pt-3'>
           <Row>
             <Col><h5>Nome:</h5></Col>
