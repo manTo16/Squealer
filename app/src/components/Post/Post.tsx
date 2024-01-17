@@ -258,142 +258,144 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   if (isLoading) return (<PostPlaceholder />)
 
   return (
-      <div className="post">
-          <div className="postWrapper">
-              <Row>
-                  <Col className="align-self-top">
-                    <div className="d-inline-flex flex-row align-self-center">
-                      <Button 
-                        onClick={() => navigate(`/users/${postData.postDisplayedName}`)}
-                        className="text-decoration-none text-white btn btn-dark postInfo p-1">
-                        <img 
-                          width={25}
-                          className="rounded-circle"
-                          src={`${postData.userImg}`}
-                          alt="" 
-                        />
-                        <div className="d-inline-flex flex-column text-wrap mx-1">
-                          <span>
-                            {postData.postDisplayedName}
-                            <span className="text-secondary mx-1">
-                              {postData.postUsername}
-                            </span>
-                          </span>
-                        </div>
-                      </Button> 
-                    </div>
-                    <Button className="btn btn-dark postInfo py-2 mx-1" size="sm">
-                      <span className="p-0 showReceiversButton"
-                      onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
-                    </Button>
-                    
-                      <Button className="btn btn-dark postInfo" onClick={() => navigate(`/newPost/reply/${postId}`)}>
-                        <Answer/>
-                      </Button>
-                  </Col>
-                  <Col xs="auto" sm="auto" lg="auto" md="auto">
-                    <Stack direction="vertical" gap={1}>
-                      <div className="d-flex justify-content-end">
-                        <span>{postTextLength}</span>
-                        <Char className="mx-1 align-self-center" height='24px'/>
-                      </div>
-                      <div className="d-flex justify-content-end">
-                        <span className="d-flex justify-content-end">{postData.postViews}</span>
-                        <Eye className="mx-1 align-self-center" height='24px'/>
-                      </div>
-                    </Stack>
-                  </Col>
-              </Row>
-              <div className="postCenter text-break">
-                {showReceivers ?
-                (
-                  <div className="postReceivers d-flex flex-wrap">
-                    {postData.postReceivers.map((str, index) => (
-                      <div key={index} className="p-2 flex-fill">
-                        <Button variant="dark" href={generateAddressURL(str)}>{str}</Button>
-                      </div>
-                    ))}
-                  </div>
-                )
-                :
-                (
-                  <span className="postText">
-                  {postTextArray.map((word, index) => {
-                      if (mentionsRegex.test(word)) {
-                          // Resetta l'espressione regolare
-                          mentionsRegex.lastIndex = 0;
-                          return (
-                              <Button key={index} variant="dark" href={generateAddressURL(word)}>
-                                  {word}
-                              </Button>
-                          );
-                      } else {
-                          return word + ' ';
-                      }
-                  })}
+    <div className="post">
+      <div className="postWrapper">
+        <Row>
+          <Col className="align-self-top">
+            <div className="d-inline-flex flex-row align-self-center">
+              <Button 
+                onClick={() => navigate(`/users/${postData.postDisplayedName}`)}
+                className="text-decoration-none text-white btn btn-dark postInfo p-1">
+                <img 
+                  width={25}
+                  className="rounded-circle"
+                  src={`${postData.userImg}`}
+                  alt="" 
+                />
+                <div className="d-inline-flex flex-column text-wrap mx-1">
+                  <span>
+                    {postData.postDisplayedName}
+                    <span className="text-secondary mx-1">
+                      {postData.postUsername}
+                    </span>
                   </span>
-                )
-                }
-              </div>
-              <Row>
-                <Col>
-                  <ButtonGroup>
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('veryLike')}
-                    disabled={postData.postImpressionChosen === "veryLike"}
-                    >
-                      <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
-                    </Button>
-
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('like')}
-                    disabled={postData.postImpressionChosen === "like"}>
-                      <Like className="likeIcon" /> {postData.postLikesCounter}
-                    </Button>
-
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('dislike')}
-                    disabled={postData.postImpressionChosen === "dislike"}>
-                      <Dislike className="likeIcon" /> {postData.postDislikesCounter}
-                    </Button>
-
-                    <Button
-                    variant="dark"
-                    onClick={()=>handleImpressions('veryDislike')}
-                    disabled={postData.postImpressionChosen === "veryDislike"}>
-                      <Heartbreak  className="likeIcon"/> {postData.postVeryDislikesCounter}
-                    </Button>
-                  </ButtonGroup>
-                  </Col>
-                  <Col  xs="auto" sm="auto" lg="auto" md="auto">
-                    <Stack direction="vertical" gap={0}>
-                      <div className="d-flex justify-content-end">
-                        <p className="mb-1">{postData.postCreationDate}</p>
-                      </div>
-                        <span>
-                          { showShowRepliesButton &&
-                          <Button 
-                            variant="outline-light" 
-                            size="sm" 
-                            onClick={() => setShowReplies(!showReplies)}>
-                              {showReplies ? "Nascondi risposte" : `Mostra ${postRepliesNumber} rispost${postRepliesNumber === 1 ? `a` : `e`}`}
-                          </Button>
-                          }
-                        </span>
-                    </Stack>
-                </Col>
-              </Row>
-          </div>
-          <Collapse in={showReplies} mountOnEnter={false}>
-            <div style={{borderLeft: "5px solid gray"}}>
-
-            <div className="mx-1">risposte</div>
-            <div><Feed postRepliesId={(postId === 'getFromUrl' ? id : postId)} handleNumberOfReplies={handleRepliesNumber}></Feed></div>
+                </div>
+              </Button> 
             </div>
-          </Collapse>
+            <Button className="btn btn-dark postInfo py-2 mx-1" size="sm">
+              <span className="p-0 showReceiversButton"
+              onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
+            </Button>        
+            <Button className="btn btn-dark postInfo" onClick={() => navigate(`/newPost/reply/${postId}`)}>
+              <Answer/>
+            </Button>
+          </Col>
+
+          <Col xs="auto" sm="auto" lg="auto" md="auto">
+            <Stack direction="vertical" gap={1}>
+              <div className="d-flex justify-content-end">
+                <span>{postTextLength}</span>
+                <Char className="mx-1 align-self-center" height='24px'/>
+              </div>
+              <div className="d-flex justify-content-end">
+                <span className="d-flex justify-content-end">{postData.postViews}</span>
+                <Eye className="mx-1 align-self-center" height='24px'/>
+              </div>
+            </Stack>
+          </Col>
+        </Row>
+        <div className="postCenter text-break">
+          {showReceivers ?
+          (
+            <div className="postReceivers d-flex flex-wrap">
+              {postData.postReceivers.map((str, index) => (
+                <div key={index} className="p-2 flex-fill">
+                  <Button variant="dark" href={generateAddressURL(str)}>{str}</Button>
+                </div>
+              ))}
+            </div>
+          )
+          :
+          (
+            <span className="postText">
+            {postTextArray.map((word, index) => {
+                if (mentionsRegex.test(word)) {
+                    // Resetta l'espressione regolare
+                    mentionsRegex.lastIndex = 0;
+                    return (
+                        <Button key={index} variant="dark" href={generateAddressURL(word)}>
+                            {word}
+                        </Button>
+                    );
+                } else {
+                    return word + ' ';
+                }
+            })}
+            </span>
+          )
+          }
+        </div>
+        <Row>
+          <Col>
+            <ButtonGroup>
+              <Button
+              variant="dark"
+              onClick={()=>handleImpressions('veryLike')}
+              disabled={postData.postImpressionChosen === "veryLike"}
+              >
+                <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
+              </Button>
+
+              <Button
+              variant="dark"
+              onClick={()=>handleImpressions('like')}
+              disabled={postData.postImpressionChosen === "like"}>
+                <Like className="likeIcon" /> {postData.postLikesCounter}
+              </Button>
+
+              <Button
+              variant="dark"
+              onClick={()=>handleImpressions('dislike')}
+              disabled={postData.postImpressionChosen === "dislike"}>
+                <Dislike className="likeIcon" /> {postData.postDislikesCounter}
+              </Button>
+
+              <Button
+              variant="dark"
+              onClick={()=>handleImpressions('veryDislike')}
+              disabled={postData.postImpressionChosen === "veryDislike"}>
+                <Heartbreak  className="likeIcon"/> {postData.postVeryDislikesCounter}
+              </Button>
+            </ButtonGroup>
+          </Col>
+
+          <Col  xs="auto" sm="auto" lg="auto" md="auto">
+            <Stack direction="vertical" gap={0}>
+              <div className="d-flex justify-content-end">
+                <p className="mb-1">{postData.postCreationDate}</p>
+              </div>
+              <span>
+                { showShowRepliesButton &&
+                <Button 
+                  variant="outline-light" 
+                  size="sm" 
+                  onClick={() => setShowReplies(!showReplies)}>
+                    {showReplies ? "Nascondi risposte" : `Mostra ${postRepliesNumber} rispost${postRepliesNumber === 1 ? `a` : `e`}`}
+                </Button>
+                }
+              </span>
+            </Stack>
+          </Col>
+        </Row>
       </div>
+      
+      <Collapse in={showReplies} mountOnEnter={false}>
+        <div style={{borderLeft: "5px solid gray"}}>
+
+        <div className="mx-1">risposte</div>
+        <div><Feed postRepliesId={(postId === 'getFromUrl' ? id : postId)} handleNumberOfReplies={handleRepliesNumber}></Feed></div>
+        </div>
+      </Collapse>
+    </div>
   )
 }
