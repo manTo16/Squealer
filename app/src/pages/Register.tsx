@@ -117,7 +117,7 @@ export default function Register() {
                   type='file'
                   accept='.jpeg, .png, .jpg'
                   name='image'
-                  onChange={(e)=>handleImageUpload(e)}/>                
+                  onChange={(e)=>handleImageUpload(e)}/>
             </InputGroup>
             {/* 
             <Form.Label>Select Image(s)</Form.Label>

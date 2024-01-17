@@ -1,8 +1,9 @@
-import SearchBarPopup from '@components/SearchBarPopup';
+import SearchBarPopup from '@components/Searchbar/SearchBarPopup';
 import SearchLogo from '../svg/SearchSvg';
 import './searchbar.css'; // Importa il file CSS per stili personalizzati
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap/lib/InputGroup';
 
 export default function Searchbar() {
   const navigate = useNavigate()

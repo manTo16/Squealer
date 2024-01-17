@@ -1,6 +1,8 @@
 import React from "react";
 import Options from "./Options";
 import Feed from "@components/Feed/Feed";
+import User from "./User";
+import Utente from "./User";
 
 
 interface proSideProps {
@@ -18,8 +20,7 @@ export default function ProfileSide({
     if (type === 'profile') {
         return (
             <>
-            {/*Feed, con tutti i post dell'utente  */}
-            <Feed  userName={userDetails.username}/>
+                <Utente/>
             </>
         );
     } else if (type === 'channels') {

@@ -261,17 +261,26 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
       <div className="post">
           <div className="postWrapper">
               <Row>
-                  <Col>
-                    <a href={`/users/${postData.postDisplayedName}`} className="text-decoration-none text-white btn btn-dark postInfo">
-                      <img 
-                        width={25}
-                        className="rounded-circle"
-                        src={`${postData.userImg}`}
-                        alt="" 
-                      />
-                      <span className="p-1">{postData.postDisplayedName}</span>
-                      <span className="p-1 text-secondary">{postData.postUsername}</span>
-                    </a>
+                  <Col className="align-self-top">
+                    <div className="d-inline-flex flex-row align-self-center">
+                      <a href={`/users/${postData.postDisplayedName}`} 
+                        className="text-decoration-none text-white btn btn-dark postInfo p-1">
+                        <img 
+                          width={25}
+                          className="rounded-circle"
+                          src={`${postData.userImg}`}
+                          alt="" 
+                        />
+                        <div className="d-inline-flex flex-column text-wrap mx-1">
+                          <span>
+                            {postData.postDisplayedName}
+                            <span className="text-secondary mx-1">
+                              {postData.postUsername}
+                            </span>
+                          </span>
+                        </div>
+                      </a>
+                    </div>
                     <Button className="btn btn-dark postInfo py-2 mx-1" size="sm">
                       <span className="p-0 showReceiversButton"
                       onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
