@@ -4,6 +4,8 @@ import { Button, Form, Modal } from "react-bootstrap"
 import { apiUsersURL, channelsURL } from "../../URLs";
 import { useNavigate } from "react-router-dom";
 
+import { generateAddressURL } from "@utils/URLs"
+
 interface SearchBarPopupProps {
   show: boolean;
   handleShow: (input: boolean) => void;
@@ -67,12 +69,14 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
 
       userResults = concatNoDuplicates(partialUserResults1, partialUserResults2)
 
-      setUserResults(userResults)
+      const userResultsAt = userResults.map(result => result = "@"+result)
+
+      setUserResults(userResultsAt)
     }
     updateUserResults()
 
     const updateChannelResults = async () => {
-      setChannelResults(await getChannelResults(searchQuery))
+      setChannelResults(await getChannelResults(searchQuery).then(results => results.map((result: string) => result = "§"+result)))
     }
     updateChannelResults()
 
@@ -104,7 +108,16 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
         <div> 
         {
           results.map((result, index) => {
-            return <p className="text-white" key={index}>{result}</p>
+            return (
+            <div>
+            <Button key={index} variant="dark" onClick={() => {
+                                                navigate(generateAddressURL(result))
+                                                handleShow(false)}}>
+              {result}
+            </Button>
+            </div>
+            )
+            
           })
         } 
         </div>

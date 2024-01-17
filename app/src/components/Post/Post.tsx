@@ -18,6 +18,8 @@ import Eye from "@components/svg/ViewsSvg"
 import { useNavigate, useParams } from "react-router-dom"
 import Answer from "@components/svg/AnswerSvg";
 
+import { generateAddressURL } from "@utils/URLs"
+
 
 
 export default function Post({postId = "defaultId"}: {postId?: string}) {
@@ -40,7 +42,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           //const userImage = await getUserPropic(loadedPostData.username)
           const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
           setChosenReaction(impressionAlreadyChosenByUser)
-          console.log("Post loadPostDAta impressionAlreadyChosenByUser: ", impressionAlreadyChosenByUser)
+          //console.log("Post loadPostDAta impressionAlreadyChosenByUser: ", impressionAlreadyChosenByUser)
           setPostData({
               postText: loadedPostData.text,
               postIsReplyTo: loadedPostData.replyTo,
@@ -96,21 +98,6 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           }
         }
       }
-  }
-
-  function generateAddressURL(address: string) {
-    let URLstring = ""
-    switch(address[0]) {
-      case "§":
-        URLstring = `/channels/${address.slice(1)}`
-        break
-      case "@":
-        URLstring = `/users/${address.slice(1)}`
-        break
-      default:
-        break
-    }
-    return URLstring
   }
 
   const [showReceivers, setShowReceivers] = useState(false)
@@ -285,7 +272,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                 </div>
               </Button> 
             </div>
-            <Button className="btn btn-dark postInfo py-2 mx-1" size="sm">
+            <Button className="btn btn-dark postInfo py-2 mx-1" size="sm" disabled={postData.postReceivers.length === 0}>
               <span className="p-0 showReceiversButton"
               onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
             </Button>        
@@ -326,7 +313,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                     // Resetta l'espressione regolare
                     mentionsRegex.lastIndex = 0;
                     return (
-                        <Button key={index} variant="dark" href={generateAddressURL(word)}>
+                        <Button key={index} variant="dark" onClick={() => {navigate(generateAddressURL(word))}}>
                             {word}
                         </Button>
                     );
