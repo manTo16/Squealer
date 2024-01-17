@@ -262,23 +262,23 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           <div className="postWrapper">
               <Row>
                   <Col>
-                    <a href={`/users/${postData.postDisplayedName}`} className="text-decoration-none text-white">
+                    <a href={`/users/${postData.postDisplayedName}`} className="text-decoration-none text-white btn btn-dark postInfo">
                       <img 
-                        width={35}
+                        width={25}
                         className="rounded-circle"
                         src={`${postData.userImg}`}
                         alt="" 
                       />
-                      <span className="p-2">{postData.postDisplayedName}</span>
-                      <span className="p-2 text-secondary">{postData.postUsername}</span>
+                      <span className="p-1">{postData.postDisplayedName}</span>
+                      <span className="p-1 text-secondary">{postData.postUsername}</span>
                     </a>
-                    <Button className="outline-secondary" variant="outline-secondary" size="sm">
+                    <Button className="btn btn-dark postInfo py-2 mx-1" size="sm">
                       <span className="p-0 showReceiversButton"
                       onClick={() => setShowReceivers(!showReceivers)}>{showReceivers ? ("Post") : ("Destinatari")}</span>
                     </Button>
                     
-                      <Button className="btn btn-transparent mx-2" onClick={() => navigate(`/newPost/reply/${postId}`)}>
-                        <Answer className="likeIcon" />
+                      <Button className="btn btn-dark postInfo" onClick={() => navigate(`/newPost/reply/${postId}`)}>
+                        <Answer/>
                       </Button>
                   </Col>
                   <Col xs="auto" sm="auto" lg="auto" md="auto">

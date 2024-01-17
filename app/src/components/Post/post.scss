@@ -64,11 +64,10 @@
     margin: 20px 0;
 }
 
-.postImg {
-    margin-top: 20px;
-    width: 100%;
-    max-height: 500px;
-    object-fit: contain;
+.postInfo {
+    height: 39px;
+    // @extend .btn;
+    // @extend .btn-dark;
 }
 
 .postBottom {
