@@ -10,7 +10,8 @@ const {
   addReply,
   getReplies,
   getReceivers,
-  searchPostByText
+  searchPostByText,
+  searchPostByUsername
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
@@ -22,5 +23,6 @@ router.route('/:id/replies').put(addReply).get(getReplies)
 router.route('/:id/receivers').get(getReceivers)
 
 router.route('/search/byText/:query').get(searchPostByText)
+router.route('/search/byUsername/:query').get(searchPostByUsername)
 
 module.exports = router

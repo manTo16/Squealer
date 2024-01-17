@@ -63,24 +63,20 @@ const fetchFeedFromPostReplies = async (postId: string) => {
     }
 }
 
-export enum SearchResultType {
-    Posts = 'posts',
-    Channels = 'channels',
-    Users = 'users',
-    Default = 'none'
-}
-
-const fetchFeedFromSearchQuery = async (query: string, searchParameter: SearchResultType) => {
+const fetchFeedFromSearchQuery = async (query: string, searchRoute: string) => {
+    if (!searchRoute) return []
+    
     let postIds = []
-    switch (searchParameter) {
-    case SearchResultType.Posts:
-        postIds = await axios.get(`${apiPostsURL}/search/byText/${query}`)
-                    .then(response => response.data)
-        break
-    default:
-        break
-   }
-   return postIds
+    if (searchRoute[0] !== "/") searchRoute = "/"+searchRoute
+    if (searchRoute[searchRoute.length - 1] !== "/") searchRoute = searchRoute + "/"
+    try {
+        postIds = await axios.get(`${apiPostsURL}${searchRoute}${query}`)
+        .then(response => response.data)
+        return postIds
+    } catch (error) {
+        console.log(`Feed fetchFeedFromSearchQuery error in request: ${apiPostsURL}${searchRoute}${query}: `, error)
+    }
+    return []
 }
 
 
@@ -94,7 +90,7 @@ interface FeedProps {
     visualizedImpression?: ReactionType;
 
     searchQuery?: string;
-    searchResult?: SearchResultType
+    searchRoute?: string;
 }
 
 /*
@@ -103,12 +99,14 @@ vanno usati così:
     channelName                                oppure
     postRepliesId e handleNumberOfReplies      oppure
     userName e visualizedImpression            oppure
-    searchQuery e searchResult
+    searchQuery e searchRoute
+
+    in searchRoute NON mettete la parte iniziale delle api dei post: /posts lo mette in automatico
 */
 export default function Feed({channelName="", 
                     postRepliesId="", handleNumberOfReplies=()=>{}, 
                     userName="", visualizedImpression=ReactionType.Default,
-                    searchQuery="", searchResult=SearchResultType.Default
+                    searchQuery="", searchRoute=""
                 } : FeedProps) {
     const [postList, setPostList] = useState<string[]>([]);
 
@@ -129,7 +127,7 @@ export default function Feed({channelName="",
             }
 
             else if (searchQuery) {
-                postIdsList = await fetchFeedFromSearchQuery(searchQuery, searchResult)
+                postIdsList = await fetchFeedFromSearchQuery(searchQuery, searchRoute)
             }
 
             switch(channelName) {
