@@ -263,7 +263,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
               <Row>
                   <Col className="align-self-top">
                     <div className="d-inline-flex flex-row align-self-center">
-                      <a href={`/users/${postData.postDisplayedName}`} 
+                      <Button 
+                        onClick={() => navigate(`/users/${postData.postDisplayedName}`)}
                         className="text-decoration-none text-white btn btn-dark postInfo p-1">
                         <img 
                           width={25}
@@ -279,7 +280,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                             </span>
                           </span>
                         </div>
-                      </a>
+                      </Button> 
                     </div>
                     <Button className="btn btn-dark postInfo py-2 mx-1" size="sm">
                       <span className="p-0 showReceiversButton"
