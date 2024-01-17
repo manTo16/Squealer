@@ -1,4 +1,4 @@
-import Feed, { SearchResultType } from "@components/Feed/Feed"
+import Feed from "@components/Feed/Feed"
 import axios from "@root/axiosConfig"
 import { useEffect, useState } from "react"
 import { Button, ToggleButton, ToggleButtonGroup } from "react-bootstrap"
@@ -56,7 +56,7 @@ export default function SearchPage() {
             </ToggleButtonGroup>
         </div>
         {selectedButton === 1 &&
-            <Feed searchQuery={query} searchResult={SearchResultType.Posts} />
+            <Feed searchQuery={query} searchRoute="search/byText/" />
         }
 
         {selectedButton === 2 &&
