@@ -39,6 +39,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
         if (loadedPostData) {
           //const userImage = await getUserPropic(loadedPostData.username)
           const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
+          setChosenReaction(impressionAlreadyChosenByUser)
+          console.log("Post loadPostDAta impressionAlreadyChosenByUser: ", impressionAlreadyChosenByUser)
           setPostData({
               postText: loadedPostData.text,
               postIsReplyTo: loadedPostData.replyTo,
@@ -162,7 +164,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
     return userImage
   }
 
-  /* viene modificata solo in handleImpressions
+  /* viene modificata solo in handleImpressions 
+  e in loadPostData per far sì che i counter vengano decrementati correttamente anche al primo caricamento della pagina nel caso in cui sia già stato messo like ad un post
   solo in quella funzione c'è il controllo che i non loggati non possono reagire */
   const [chosenReaction, setChosenReaction] = useState("none")
 
