@@ -65,6 +65,31 @@ const userSchema = mongoose.Schema(
         type: [String],
         default: []
       }
+    },
+
+    verified: {
+      type: Boolean,
+      default: false
+    },
+    pro: {
+      type: Boolean,
+      default: false
+    },
+    smm: {
+      type: Boolean,
+      default: false,
+    },
+    personalSMM: {
+      type: String,
+      default: "",
+    },
+    smmClients: {
+      type: [String],
+      default: []
+    },
+    moderator: {
+      type: Boolean,
+      default: false,
     }
   }
 )

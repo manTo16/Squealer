@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 
+const { registrationDailyChars, registrationWeeklyChars, registrationMonthlyChars } = require('./utils/characterCountValues')
+
 const register = async (req,res) => {
   const {username,email,displayName,password,userImage}=req.body;
   const salt = await bcrypt.genSalt();
@@ -11,7 +13,10 @@ const register = async (req,res) => {
     email,
     displayName,
     userImage,
-    password: hashedPassword
+    password: hashedPassword,
+    dailyChar: registrationDailyChars,
+    weeklyChar: registrationWeeklyChars,
+    monthlyChar: registrationMonthlyChars
   })
   try{
     const newUser = await user.save()
