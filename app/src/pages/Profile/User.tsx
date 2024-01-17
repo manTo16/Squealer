@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import { useState } from 'react';
+import Feed from '@components/Feed/Feed';
 
 export default function Utente (){
   const isLoggedIn = !!localStorage.getItem('token')
@@ -43,9 +44,14 @@ export default function Utente (){
             <Col><h5>mChar:</h5></Col>
             <Col><h5>{userDetails.monthlyChar}</h5></Col>
           </Row>
+          <Row className='py-4'>
+            <Button variant="success">Compra altri caratteri per i tuoi squeal</Button>
+          </Row>
         </div>
         </Col>
       </Row>
+      <hr/>
+      <Feed searchQuery={userDetails.username} searchRoute="search/byUsername"/>
     </Form>
   )
 }

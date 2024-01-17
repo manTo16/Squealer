@@ -28,7 +28,7 @@ export default function ProfileSide({
     } else if (type === 'channels') {
         return (
             <>
-            <Feed searchQuery={query} searchRoute="search/byUsername" />    
+            {/* <Feed searchQuery={query}  />     */}
             <h1>A</h1>
             </>
         );
