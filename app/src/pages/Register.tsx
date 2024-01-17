@@ -41,6 +41,7 @@ export default function Register() {
     }
     axios.post(apiAuthURL+'/register', {username,displayName,email,password, userImage })
     .then(()=>{
+      console.log('inizio')
       alert('Success!')
       setUsername('')
       setDisplayName('')

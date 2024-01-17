@@ -50,10 +50,8 @@ export default function Navbar(
           </Link>
         </NavbarBootstrap.Brand>
         <DropdownCharSM />
-        <ProfileSM/>
         <Searchbar />
         <DropdownCharLG />
-        <ProfileLG />
       </ContainerBootstrap>
     </NavbarBootstrap>
 
