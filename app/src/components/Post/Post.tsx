@@ -254,7 +254,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           <Col className="align-self-top">
             <div className="d-inline-flex flex-row align-self-center">
               <Button 
-                onClick={() => navigate(`/users/${postData.postDisplayedName}`)}
+                onClick={() => navigate(`/users/${postData.postUsername}`)}
                 className="text-decoration-none text-white btn btn-dark postInfo p-1">
                 <img 
                   width={25}

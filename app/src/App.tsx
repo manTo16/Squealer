@@ -22,6 +22,7 @@ import UserInfo from '@components/UserInfo';
 import SidebarContent from '@components/Sidebar/SidebarContent';
 import ProfilePage from './pages/Profile/Profile';
 import Post from '@components/Post/Post';
+import UserPage from './pages/Profile/User';
 
 
 
@@ -61,17 +62,18 @@ function App() {
           >
 
           <Routes>
-            <Route path='/'                      element={<Home />}          />
-            <Route path='/login'                 element={<Login />}         />
-            <Route path='/register'              element={<Register />}      />
-            <Route path='/newPost'               element={<NewPostPage />}   />
-            <Route path='/newPost/reply/:replyPostId' element={<NewPostPage />} />
-            <Route path='/trendingPage'          element={<TrendingPage />}  />
-            <Route path='/feed'                  element={<Feed />}          />
-            <Route path='/profile'               element={<ProfilePage />}   />
-            <Route path='/channels/:channelName' element={<ChannelPage />} />
-            <Route path='/posts/:id'         element={<Post postId='getFromUrl' />} />
-            <Route path='/search/:query'              element={<SearchPage />} />
+            <Route path='/'                           element={<Home />}                      />
+            <Route path='/login'                      element={<Login />}                     />
+            <Route path='/register'                   element={<Register />}                  />
+            <Route path='/newPost'                    element={<NewPostPage />}               />
+            <Route path='/newPost/reply/:replyPostId' element={<NewPostPage />}               />
+            <Route path='/trendingPage'               element={<TrendingPage />}              />
+            <Route path='/feed'                       element={<Feed />}                      />
+            <Route path='/profile'                    element={<ProfilePage />}               />
+            <Route path='/channels/:channelName'      element={<ChannelPage />}               />
+            <Route path='/posts/:id'                  element={<Post postId='getFromUrl' />}  />
+            <Route path='/search/:query'              element={<SearchPage />}                />
+            <Route path='/users/:username'            element={<UserPage />}                    />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
 
