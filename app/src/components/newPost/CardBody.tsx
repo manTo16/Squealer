@@ -16,6 +16,7 @@ interface CardBodyProps {
   charCount: number;
   textLines: number;
   Dchar: number;
+  txtReadOnly: boolean;
 }
 
 export default function CardBody({
@@ -23,7 +24,8 @@ export default function CardBody({
   onInputChange,
   charCount,
   textLines,
-  Dchar
+  Dchar,
+  txtReadOnly
 }: CardBodyProps) {
   const [inputValue, setInputValue] = useState<string>(''); // Specifica il tipo string per inputValue
 
@@ -42,15 +44,16 @@ export default function CardBody({
   if (type === 'txt') {
     return (
       <>
-      <Form.Label>Scrivi il tuo squeal</Form.Label>
+      <Form.Label>{txtReadOnly ? ("Quota caratteri finita!") : ("Scrivi il tuo squeal")}</Form.Label>
       <InputGroup>
         <InputGroup.Text>{charCount}</InputGroup.Text>
         <Form.Control 
           as="textarea" 
+          readOnly={txtReadOnly}
           autoFocus
           aria-label="With textarea" 
           className="shareInput bg-dark text-white"
-          placeholder="Squillo calde nei paraggi"
+          placeholder={txtReadOnly ? "Quota caratteri finita!" : "Squillo calde nei paraggi"}
           onChange={onInputChange}
           rows={textLines}
           maxLength={Dchar}

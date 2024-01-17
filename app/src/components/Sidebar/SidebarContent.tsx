@@ -7,7 +7,11 @@ import { apiUsersURL } from '../../URLs';
 
 import { useState, useEffect } from 'react';
 
-export default function SidebarContent() {
+
+
+export default function SidebarContent(
+  { handleShow = (input: boolean) => {} }: { handleShow?: (input: boolean) => void }
+  ) {
   const userToken = localStorage.getItem('token');
   const defaultValue = {}
   const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
@@ -16,6 +20,7 @@ export default function SidebarContent() {
 
   const handleLogout = (e:React.MouseEvent<HTMLButtonElement>) => {
     localStorage.clear()
+    handleShow(false)
     navigate('/')
     window.location.reload();
   }
@@ -59,10 +64,16 @@ export default function SidebarContent() {
         ) :
         (
         <div className="d-flex justify-content-around pt-4">
-          <Button onClick={()=>{navigate("/login")}} variant="outline-light">
+          <Button onClick={()=>{
+                                navigate("/login")
+                                handleShow(false)}} 
+            variant="outline-light">
             LogIn
           </Button>
-          <Button onClick={()=>{navigate("/register")}} variant="outline-light">
+          <Button onClick={()=>{
+                                navigate("/register")
+                                handleShow(false)}} 
+            variant="outline-light">
             Register
           </Button>
         </div>
@@ -76,13 +87,21 @@ export default function SidebarContent() {
         {
         userToken ? 
         (
+          <>
+          {
           displayedChannels.map((channelName, index) =>
           <Button key={index} 
           className="mb-2"
           onClick={() => {navigate(`/channels/${channelName}`)}}
           variant="outline-light">
             {channelName}
-          </Button>  )
+          </Button>  )}
+          
+          <Button
+          onClick={() => {navigate("/charShop"); handleShow(false)}}>
+            Compra caratteri
+          </Button>
+          </>
           ):
         (
         <>

@@ -48,6 +48,12 @@ export default function TrendingPage() {
             <button onClick={createChannel}>create channel</button>
             {/*<button onClick={cosa}>addusertochannel</button>*/}
 
+            <h1>prove caratteri</h1>
+            <button
+            onClick={() => {axios.put(apiUsersURL+"/zedong/characters", {daily: -1, weekly: 105, monthly: -1})}}>manda richiesta put</button>
+
+            <button
+            onClick={() => {axios.patch(apiUsersURL+"/zedong/characters", {daily: -1, weekly: +1, monthly: 1})}}>manda patch</button>
             <h1>questo è solo un esempio di come si potrebbe vedere la cronologia di un utente</h1>
             <h2>visto che ogni utente salva in campi diversi post ai quali ha reagito in modo diverso</h2>
             <p>qui si vedono i post a cui l'utente loggato ha reagito. probabilmente più avanti farò in modo di vedere anche i post che un utente ha creato</p>

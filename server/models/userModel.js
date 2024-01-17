@@ -43,6 +43,10 @@ const userSchema = mongoose.Schema(
       type: Number,
       default: 0
     },
+    debtChar: {
+      type: Number,
+      default: 0
+    },
     userImage: String,
     impressedPostIds: {
       veryLikes: {

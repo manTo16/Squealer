@@ -201,7 +201,7 @@ const getUserImage = async (req,res) => {
     
     const response = user.userImage
     return res.status(200).json(response)
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({message: err.message})
   }
 }   
@@ -225,7 +225,7 @@ const searchUserByDisplayName = async (req,res) => {
     usernames = users.map(user => user.username)
 
     return res.status(200).json(usernames)
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({message: err.message})
   }
 }
@@ -238,7 +238,7 @@ const searchUserByUsername = async (req,res) => {
     usernames = users.map(user => user.username)
 
     return res.status(200).json(usernames)
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({message: err.message})
   }
 }
@@ -250,7 +250,7 @@ const searchUserByDisplayNameOneResult = async (req,res) => {
     const users = await User.findOne({ displayName: { $regex: new RegExp(query, 'i') }}, 'username -_id')
 
     return res.status(200).json(users)
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({message: err.message})
   }
 }
@@ -262,7 +262,84 @@ const searchUserByUsernameOneResult = async (req,res) => {
     const users = await User.findOne({ username: { $regex: new RegExp(query, 'i') }}, 'username -_id')
 
     return res.status(200).json(users)
-  } catch (error) {
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+//questa è pensata per la moderator dashboard
+const setUserCharacters = async (req,res) => {
+  try {
+    const username = req.params.userName
+    const { daily, weekly, monthly } = req.body
+
+    const user = await User.findOne({username: username})
+
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    user.dailyChar = daily < 0 ? user.dailyChar : daily
+    user.weeklyChar = weekly < 0 ? user.weeklyChar : weekly
+    user.monthlyChar = monthly < 0 ? user.monthlyChar : monthly
+
+    await user.save()
+
+    return res.status(200)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const updateUserCharacters = async (req,res) => {
+  try {
+    const username = req.params.userName
+    const { daily, weekly, monthly } = req.body
+
+    const user = await User.findOne({username: username})
+
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    if (user.debtChar === 0) {
+      user.dailyChar += daily
+      user.weeklyChar += weekly
+      user.monthlyChar += monthly
+
+      if (Math.min(user.dailyChar, user.weeklyChar, user.monthlyChar) < 0) 
+        user.debtChar = -Math.min(user.dailyChar, user.weeklyChar, user.monthlyChar)
+      if (user.dailyChar < 0) user.dailyChar = 0
+      if (user.weeklyChar < 0) user.weeklyChar = 0
+      if (user.monthlyChar < 0) user.monthlyChar = 0
+    }
+
+    else {
+      /* ALLORA
+      pensandoci ha più senso fare che la update ha un unico elemento nel body della richiesta e tutti i contatori
+      di caratteri vengono aumentati dello stesso valore. però sarebbe da pensare. per sicurezza per ora lascio con 3 cosi
+      al massimo ne mettiamo uno unico
+      */
+      user.debtChar -= daily
+    }
+
+    
+
+    await user.save()
+    return res.status(200).json({daily: user.dailyChar, weekly: user.weeklyChar, monthly: user.monthlyChar})
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const getUserDebt = async (req,res) => {
+  try {
+    const username = req.params.userName
+
+    const user = await User.findOne({username: username})
+
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    const debt = user.debtChar
+
+    return res.status(200).json(debt)
+  } catch (err) {
     return res.status(500).json({message: err.message})
   }
 }
@@ -286,5 +363,8 @@ module.exports = {
     searchUserByDisplayName,
     searchUserByUsername,
     searchUserByDisplayNameOneResult,
-    searchUserByUsernameOneResult
+    searchUserByUsernameOneResult,
+    setUserCharacters,
+    updateUserCharacters,
+    getUserDebt
 }

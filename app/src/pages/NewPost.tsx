@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axios from '@root/axiosConfig'
 import { AxiosError } from "axios";
-import { apiPostsURL } from "../URLs";
+import { apiPostsURL, apiUsersURL } from "../URLs";
 
 import React, { useEffect, useState } from 'react';
 
@@ -14,7 +14,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card';
-import { Stack } from "react-bootstrap";
+import { Accordion, Stack } from "react-bootstrap";
 
 import ReceiverInputField from "@components/newPost/ReceiverInputField";
 import CardBody from "@components/newPost/CardBody";
@@ -29,6 +29,7 @@ import Remove from "@components/svg/RemoveSvg";
 import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
+import { getPersonalUserData } from "@utils/userData";
 
 
 export default function NewPostPage() {
@@ -72,6 +73,13 @@ export default function NewPostPage() {
         }
         fetchReplyToReceivers()
       }
+
+      (async () => {
+        await getPersonalUserData(userDetails.username)
+        setDisplayDailyChars(userDetails.dailyChar)
+        setDisplayWeeklyChars(userDetails.weeklyChar)
+        setDisplayMonthlyChars(userDetails.monthlyChar)
+      })()
     }
   }, [])
 
@@ -117,8 +125,16 @@ export default function NewPostPage() {
           if (replyTo) axios.put(`${apiPostsURL}/${replyTo}/replies`,
                                             {replyPostId: response.data})
         })
+        .then(() => {
+          //toglie caratteri utente dal database
+          axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
+                            {daily: -charCount, weekly: -charCount, monthly: -charCount})
+        })
+        .then(() => {
+          //aggiorna dati utente in locale
+          axios.get(apiUsersURL+'/'+userDetails.username).then(response => response.data).then(userData => localStorage.setItem('user',JSON.stringify(userData)))
+        })
         .then(()=>{
-          console.log('ora sei quiaaaa')
           alert('Post created')
           navigate('/')
         })
@@ -201,6 +217,11 @@ export default function NewPostPage() {
 
   }
 
+  const [displayDailyChars, setDisplayDailyChars] = useState(0)
+  const [displayWeeklyChars, setDisplayWeeklyChars] = useState(0)
+  const [displayMonthlyChars, setDisplayMonthlyChars] = useState(0)
+
+
   const[Type, setType] = useState('txt');
   
   const handleType = (eventKey: string | null) => {
@@ -209,8 +230,89 @@ export default function NewPostPage() {
   };
 
   return(
-    
     <Container>
+      <Row>
+        <p>Quota giornaliera: {userDetails.dailyChar} {userDetails.dailyChar - charCount}</p>
+        <p>Quota settimanale: {userDetails.weeklyChar} {userDetails.weeklyChar - charCount}</p>
+        <p>Quota mensile: {userDetails.monthlyChar} {userDetails.monthlyChar - charCount}</p>
+        {
+          userDetails.debtChar > 0 ?
+          (
+            <>
+            <Accordion>
+              <Accordion.Item eventKey="1">
+                <div style={{backgroundColor: "#dc3545"}}>
+                <Accordion.Header>
+                ATTENZIONE: hai accumulato del debito di caratteri!
+                </Accordion.Header>
+                </div>
+                <Accordion.Body>
+                <p>attualmente, devi acquistare {userDetails.debtChar} caratteri per postare</p>
+                <p>in alternativa, puoi aspettare la prossima paghetta di caratteri</p>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="2">
+                <Accordion.Header>
+                  Comprare caratteri necessari
+                </Accordion.Header>
+                <Accordion.Body>
+                  per poter postare di nuovo, dirigiti al <Button onClick={() => navigate("/charShop")}>negozio di caratteri</Button> e sana il tuo debito
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            
+            </>
+          ) :
+          ( userDetails.dailyChar - charCount <= 0 || userDetails.weeklyChar - charCount <= 0 || userDetails.monthlyChar - charCount <= 0 ?
+            (
+              <Accordion>
+              <Accordion.Item eventKey="1">
+                <div style={{backgroundColor: "#dc3545"}}>
+                <Accordion.Header>
+                ATTENZIONE: hai esaurito i caratteri!
+                </Accordion.Header>
+                </div>
+                <Accordion.Body>
+                Se decidi di pubblicare comunque il tuo squeal, andrai in debito di {charCount - Math.min(userDetails.dailyChar, userDetails.weeklyChar, userDetails.monthlyChar)} caratteri. 
+                Ciò significa che non potrai pubblicare altri squeal finchè il tuo debito non sarà risanato!
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="2">
+                <Accordion.Header>
+                  Comprare caratteri
+                </Accordion.Header>
+                <Accordion.Body>
+                  Per poter acquistare nuovi caratteri, puoi dirigerti al <Button onClick={() => navigate("/charShop")}>negozio di caratteri</Button> e acquistarne quanti desideri.
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="3">
+                <Accordion.Header>
+                  Attendere prossimo reset quota
+                </Accordion.Header>
+                <Accordion.Body>
+                  <p>In alternativa, puoi aspettare che la tua quota di caratteri venga ricolmata domani / prossima settimana / mese prossimo.</p>
+                  <p>Ma dovresti aspettare. In alternativa, puoi <Button onClick={() => navigate("/charShop")}>spendere tutti i tuoi risparmi!</Button></p>
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="4">
+                <Accordion.Header>
+                  Caratteri premio 
+                </Accordion.Header>
+                <Accordion.Body>
+                  <p>Sapevi che se i tuoi post diventano popolari, ricevi caratteri da poter usare per pubblicare nuovi squeal?</p>
+                  <p>Controlla lo stato dei tuoi post, o assumi un Social Media Manager per farlo al posto tuo. Chi sa, da un giorno all'altro, un tuo post potrebbe diventare virale.</p>
+                  <p>Ma si sa, chi vive sperando muore cagando. <Button onClick={() => navigate("/charShop")}>Prendi ora in mano il tuo futuro!</Button></p>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+            ) :
+            (
+              <></>
+            )
+          )
+        }
+      </Row>
+
       <Row className="justify-content-md-center">
         <Col xs={12} g={{ span: 6, offset: 3 }}>
           <Card bg='dark' text='white'>
@@ -220,6 +322,7 @@ export default function NewPostPage() {
                 <img src={`${userDetails.userImage}`} alt="user profile picture" width={50} className="rounded-circle"/>
                 <span className="p-2 displayedName">{userDetails.displayName}</span>
                 <span className="p-2 tagName">{'@'+userDetails.username}</span>
+                <span>{charCount}</span>
               </Stack>
             </div>
             </Card.Header>
@@ -265,6 +368,7 @@ export default function NewPostPage() {
                   charCount={charCount}
                   textLines={textLines}
                   Dchar={Dchar}
+                  txtReadOnly={userDetails.debtChar > 0}
                 />
               </Card.Text>
 
@@ -320,7 +424,8 @@ export default function NewPostPage() {
 
                   <Button 
                   className="p-2 ms-auto btn-secondary"
-                  onClick={handleSubmit}>
+                  onClick={handleSubmit}
+                  disabled={userDetails.debtChar > 0 || charCount < 1}>
                     Squeal</Button>
                 </Stack>
               </CardFooter>

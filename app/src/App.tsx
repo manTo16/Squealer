@@ -23,6 +23,7 @@ import SidebarContent from '@components/Sidebar/SidebarContent';
 import ProfilePage from './pages/Profile/Profile';
 import Post from '@components/Post/Post';
 import UserPage from './pages/Profile/User';
+import CharShopPage from './pages/CharShopPage';
 
 
 
@@ -74,6 +75,7 @@ function App() {
             <Route path='/posts/:id'                  element={<Post postId='getFromUrl' />}  />
             <Route path='/search/:query'              element={<SearchPage />}                />
             <Route path='/users/:username'            element={<UserPage />}                    />
+            <Route path='/charShop'                   element={<CharShopPage />}      />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
 

@@ -20,7 +20,10 @@ const {
   searchUserByDisplayName,
   searchUserByUsername,
   searchUserByDisplayNameOneResult,
-  searchUserByUsernameOneResult
+  searchUserByUsernameOneResult,
+  setUserCharacters,
+  updateUserCharacters,
+  getUserDebt
 } = require ('../controllers/userController.js')
 
 
@@ -40,8 +43,10 @@ router.route('/:userName/impressions/none').get(return200)
 
 router.route('/search/byDisplayName/:name').get(searchUserByDisplayName)
 router.route('/search/byUsername/:name').get(searchUserByUsername)
-router.route('/search/byDisplayName/oneResult/:name').get(searchUserByDisplayName)
-router.route('/search/byUsername/oneResult/:name').get(searchUserByUsername)
+router.route('/search/byDisplayName/oneResult/:name').get(searchUserByDisplayNameOneResult)
+router.route('/search/byUsername/oneResult/:name').get(searchUserByUsernameOneResult)
 
+router.route('/:userName/characters/').put(setUserCharacters).patch(updateUserCharacters)
+router.route('/:userName/debt').get(getUserDebt)
 
 module.exports = router
