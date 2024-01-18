@@ -7,6 +7,9 @@ import Feed from '@components/Feed/Feed';
 import { useEffect, useState } from "react"
 import { apiUsersURL } from '@root/src/URLs';
 import axios, { AxiosError } from "axios"
+import WeeklyCalendar from '@components/svg/CharSvg/wCharSvg';
+import MonthlyCalendar from '@components/svg/CharSvg/mCharSvg';
+import DailyCalendar from '@components/svg/CharSvg/dCharSvg';
 
 interface UserProps {
   user?: string;
@@ -64,27 +67,24 @@ export default function UserPage ({
         <Col xs={12} sm={4}>
         <div className='pt-3'>
           <Row>
-            <Col><h5>Nome:</h5></Col>
-            <Col><h5>{userData.displayName}</h5></Col>
+            <Col lg={6} xs={6}><h5>Nome:</h5></Col>
+            <Col lg={6} xs={6}><h5>{userData.displayName}</h5></Col>
           </Row>
           <Row>
-            <Col><h5>User:</h5></Col>
-            <Col><h5>{'@'+userData.username}</h5></Col>
+            <Col lg={6} xs={6}><h5>User:</h5></Col>
+            <Col lg={6} xs={6}><h5>{'@'+userData.username}</h5></Col>
           </Row>
           <Row>
-            <Col><h5>dChar:</h5></Col>
-            <Col><h5>{userData.dailyChar}</h5></Col>
+            <Col lg={6} xs={6} className='d-flex align-text-center justify-content-start'> <DailyCalendar/> </Col>
+            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userDetails.dailyChar}</h5></Col>
           </Row>
           <Row>
-            <Col><h5>wChar:</h5></Col>
-            <Col><h5>{userData.weeklyChar}</h5></Col>
+            <Col lg={6} xs={6} className='d-flex align-text-center justify-content-start'> <WeeklyCalendar/> </Col>
+            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userDetails.weeklyChar}</h5></Col>
           </Row>
           <Row>
-            <Col><h5>mChar:</h5></Col>
-            <Col><h5>{userData.monthlyChar}</h5></Col>
-          </Row>
-          <Row className='py-4'>
-            <Button variant="success">Compra altri caratteri per i tuoi squeal</Button>
+            <Col lg={6} xs={6} className='d-flex align-text-center justify-content-start'> <MonthlyCalendar/> </Col>
+            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userDetails.monthlyChar}</h5></Col>
           </Row>
         </div>
         </Col>

@@ -49,9 +49,7 @@ export default function Navbar(
           </a>
           </Link>
         </NavbarBootstrap.Brand>
-        <DropdownCharSM />
         <Searchbar />
-        <DropdownCharLG />
       </ContainerBootstrap>
     </NavbarBootstrap>
 

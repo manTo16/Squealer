@@ -11,11 +11,13 @@ export default function ThirdColumn() {
   const navigate = useNavigate()
 
     return(
-        <div className="buttons-wrapper d-flex flex-column align-items-start">
+        <div className="m-1 "
+        //  className="d-flex flex-column align-items-start"
+         >
           <Button 
             onClick={()=>{navigate("/")}} 
             variant="outline-light" 
-            className="w-50 d-flex align-items-center m-1"
+            className="w-100 mb-1 d-flex justify-content-left align-items-center"
           >
             <HomeButton className="mx-2"/>
             <span className="mx-2">Home</span>
@@ -24,7 +26,7 @@ export default function ThirdColumn() {
           <Button 
             onClick={()=>{navigate("/trendingPage")}} 
             variant="outline-light" 
-            className="w-50 d-flex align-items-center m-1"
+            className="w-100 mb-1 d-flex justify-content-left align-items-center"
           >
             <FireButton className="mx-2"/>
             <span className="mx-2">Trending</span>
@@ -33,7 +35,7 @@ export default function ThirdColumn() {
           <Button 
             onClick={()=>{navigate("/newPost")}} 
             variant="outline-light" 
-            className="w-50 d-flex align-items-center m-1"
+            className="w-100 mb-1 d-flex justify-content-left align-items-center"
           >
             <AddButton className="mx-2"/>
             <span className="mx-2">New Post</span>
@@ -42,8 +44,7 @@ export default function ThirdColumn() {
           <Button 
             onClick={()=>{navigate("/question")}}
             variant="outline-light"
-            className="w-50 d-flex
-            align-items-center m-1"
+            className="w-100 mb-1 d-flex justify-content-left align-items-center"
           >
             <QuestionButton className="mx-2"/>
             <span className="mx-2">Question</span>

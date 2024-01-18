@@ -31,6 +31,7 @@ export default function SidebarContent(
     const loadChannels = async () => {
       const response = await axios.get(apiUsersURL+`/${username}/channels`,
       { headers: {"Authorization": `Bearer ${userToken}`}})
+      console.log("loadChannels response", response)
       let channelsArray = []
       if (response && response.status === 200) channelsArray = response.data
       console.log("loadChannels channelsarray", channelsArray, "(response.status: ", response?.status, ")")
@@ -101,7 +102,8 @@ export default function SidebarContent(
               onClick={() => {navigate(`/channels/${channelName}`)}}
               variant="outline-light">
               {channelName}
-            </Button>  )}
+            </Button>  )
+            }
           
           </>
           ):
