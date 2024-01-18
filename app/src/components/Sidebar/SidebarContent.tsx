@@ -81,7 +81,8 @@ export default function SidebarContent(
         )
       }
 
-      <h3 className="normal-text mt-5 mb-3 text-center">Canali consigliati</h3>
+      { userToken ? ( <h3 className="normal-text mt-5 mb-3 text-center">I tuoi canali</h3> ) : (<h3 className="normal-text mt-5 mb-3 text-center">Canali consigliati</h3>) }
+
       <hr/>
       <div className="channels-wrapper p-2">
         

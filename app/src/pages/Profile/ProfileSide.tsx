@@ -12,7 +12,7 @@ import { apiUsersURL } from '../../URLs';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { Col, Row } from "react-bootstrap";
-
+import Badge from 'react-bootstrap/Badge';
 
 interface proSideProps {
     type: string;
@@ -65,7 +65,12 @@ export default function ProfileSide({
                     displayedChannels.map((channelName, index) =>
                     <Card bg="dark" text="white">
                         <Card.Body>
-                        <Card.Title>{channelName}</Card.Title>
+                        <Card.Title>
+                            <span >{channelName}</span>
+                            <Badge className="m-1" bg="success">Proprietario</Badge>
+                            <Badge className="m-1" bg="warning" text="dark">Scrittore</Badge>
+                            <Badge className="m-1" bg="primary">Lettore</Badge>
+                        </Card.Title>
                         <Card.Text>
                             This is a wider card with supporting text below as a natural lead-in
                             to additional content. This content is a little bit longer.
