@@ -5,7 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 
 import TestGeolocation from '@components/Geolocation/Geolocation';
-
+import Button from 'react-bootstrap/Button';
 import IconPaste from '@components/svg/PasteSvg';
 import IconUpload from '@components/svg/UploadSvg';
 import IconCamera from '@components/svg/CameraSvg';
@@ -39,14 +39,17 @@ export default function CardBody({
     setMediaType(eventKey);
   };
 
-  // const [charCount, setCharCount] = useState(0);
+  const charState = charCount >= Dchar ? 'danger' : 'light';
+    
 
   if (type === 'txt') {
     return (
       <>
       <Form.Label>{txtReadOnly ? ("Quota caratteri finita!") : ("Scrivi il tuo squeal")}</Form.Label>
       <InputGroup>
-        <InputGroup.Text>{charCount}</InputGroup.Text>
+        <Button variant={charState}>
+          {charCount}/{Dchar}
+        </Button>     
         <Form.Control 
           as="textarea" 
           readOnly={txtReadOnly}
@@ -56,7 +59,7 @@ export default function CardBody({
           placeholder={txtReadOnly ? "Quota caratteri finita!" : "Squillo calde nei paraggi"}
           onChange={onInputChange}
           rows={textLines}
-          maxLength={Dchar}
+          // maxLength={Dchar}
         />
       </InputGroup>
       </>

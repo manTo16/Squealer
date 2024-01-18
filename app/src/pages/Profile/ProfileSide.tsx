@@ -61,7 +61,7 @@ export default function ProfileSide({
                     displayedChannels.map((channelName, index) =>
                     <Button key={index} 
                     className="mb-2 w-100"
-                    onClick={() => {navigate(`/channe ls/${channelName}`)}}
+                    onClick={() => {navigate(`/channels/${channelName}`)}}
                     variant="outline-light">
                     {channelName}
                     </Button>  )

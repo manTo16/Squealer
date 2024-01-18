@@ -322,7 +322,6 @@ export default function NewPostPage() {
                 <img src={`${userDetails.userImage}`} alt="user profile picture" width={50} className="rounded-circle"/>
                 <span className="p-2 displayedName">{userDetails.displayName}</span>
                 <span className="p-2 tagName">{'@'+userDetails.username}</span>
-                <span>{charCount}</span>
               </Stack>
             </div>
             </Card.Header>
@@ -367,7 +366,7 @@ export default function NewPostPage() {
                   onInputChange={handleInputChange}
                   charCount={charCount}
                   textLines={textLines}
-                  Dchar={Dchar}
+                  Dchar={userDetails.dailyChar}
                   txtReadOnly={userDetails.debtChar > 0}
                 />
               </Card.Text>
