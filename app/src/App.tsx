@@ -24,6 +24,7 @@ import ProfilePage from './pages/Profile/Profile';
 import Post from '@components/Post/Post';
 import UserPage from './pages/Profile/User';
 import CharShopPage from './pages/CharShopPage';
+import QuestionPage from './pages/QuestionPage';
 
 
 
@@ -74,8 +75,9 @@ function App() {
             <Route path='/channels/:channelName'      element={<ChannelPage />}               />
             <Route path='/posts/:id'                  element={<Post postId='getFromUrl' />}  />
             <Route path='/search/:query'              element={<SearchPage />}                />
-            <Route path='/users/:username'            element={<UserPage />}                    />
-            <Route path='/charShop'                   element={<CharShopPage />}      />
+            <Route path='/users/:username'            element={<UserPage />}                  />
+            <Route path='/charShop'                   element={<CharShopPage />}              />
+            <Route path='/question'                   element={<QuestionPage />}              />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
 

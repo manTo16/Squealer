@@ -88,19 +88,21 @@ export default function SidebarContent(
         userToken ? 
         (
           <>
-          {
-          displayedChannels.map((channelName, index) =>
-          <Button key={index} 
-          className="mb-2"
-          onClick={() => {navigate(`/channels/${channelName}`)}}
-          variant="outline-light">
-            {channelName}
-          </Button>  )}
+            <Button
+              className="mb-2" variant='success'
+              onClick={() => {navigate("/charShop"); handleShow(false)}}>
+              Compra caratteri
+            </Button>
+            
+            {
+            displayedChannels.map((channelName, index) =>
+            <Button key={index} 
+              className="mb-2"
+              onClick={() => {navigate(`/channels/${channelName}`)}}
+              variant="outline-light">
+              {channelName}
+            </Button>  )}
           
-          <Button
-          onClick={() => {navigate("/charShop"); handleShow(false)}}>
-            Compra caratteri
-          </Button>
           </>
           ):
         (

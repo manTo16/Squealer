@@ -3,6 +3,7 @@ import ThirdColumn from './ThirdColumn/ThirdColumn'
 import Char4LG from './Char indicator/Char4LGscreen'
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import { Col, Row } from 'react-bootstrap';
 
 
 function UserInfo() {
@@ -29,8 +30,14 @@ function UserInfo() {
       </Button>
       {/* <a style={{ textDecoration: 'none' }} className="d-flex justify-content-around" href="/profile">
       </a> */}
-      <Char4LG />
-      <ThirdColumn />
+      <Row>
+        <Col>
+          <Char4LG />
+        </Col>  
+        <Col>
+          <ThirdColumn />
+        </Col>
+      </Row>
     </div>
   )
 }
