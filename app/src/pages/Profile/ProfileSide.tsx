@@ -9,6 +9,9 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { apiUsersURL } from '../../URLs';
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup';
+import { Col, Row } from "react-bootstrap";
 
 
 interface proSideProps {
@@ -56,19 +59,48 @@ export default function ProfileSide({
         return (
             <>
                 <h1>Channels List</h1>
+                <CardGroup>
                 { userToken ? (
                     <> {
                     displayedChannels.map((channelName, index) =>
-                    <Button key={index} 
-                    className="mb-2 w-100"
-                    onClick={() => {navigate(`/channels/${channelName}`)}}
-                    variant="outline-light">
-                    {channelName}
-                    </Button>  )
-                    } </>
+                    <Card bg="dark" text="white">
+                        <Card.Body>
+                        <Card.Title>{channelName}</Card.Title>
+                        <Card.Text>
+                            This is a wider card with supporting text below as a natural lead-in
+                            to additional content. This content is a little bit longer.
+                        </Card.Text>
+                        </Card.Body>
+                        <Card.Footer>
+                            <Row>
+                                <Col lg={8}>
+                                    <small className="text-secondary">Last updated 3 mins ago</small>
+                                </Col>
+                                <Col lg={4}>
+                                    <Button
+                                        onClick={() => {navigate(`/channels/${channelName}`)}}
+                                        variant="outline-light"
+                                    >Vai al Canale</Button>
+                                </Col>
+                            </Row>
+                        </Card.Footer>
+                    </Card>
+                    
+                    
+                    // <Button 
+                    //     key={index} 
+                    //     className="mb-2 w-100"
+                    //     onClick={() => {navigate(`/channels/${channelName}`)}}
+                    //     variant="outline-light"
+                    // >
+                    //     {channelName}
+                    // </Button>  
+                    )} </>
                 ) : (
                     <div>Please log in to see your channels</div>
                 )}
+                </CardGroup>
+
             </>
         );
     } else if (type === 'options') {

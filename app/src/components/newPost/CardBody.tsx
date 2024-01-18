@@ -39,7 +39,7 @@ export default function CardBody({
     setMediaType(eventKey);
   };
 
-  const charState = charCount >= Dchar ? 'danger' : 'light';
+  const charState = charCount < Dchar ? 'light' : charCount == Dchar ? 'warning' : 'danger';
     
 
   if (type === 'txt') {
