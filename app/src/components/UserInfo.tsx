@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ThirdColumn from './ThirdColumn/ThirdColumn'
 import Char4LG from './Char indicator/Char4LGscreen'
 import { useNavigate } from 'react-router-dom';
@@ -8,13 +8,12 @@ import WeeklyCalendar from './svg/CharSvg/wCharSvg';
 import MonthlyCalendar from './svg/CharSvg/mCharSvg';
 import DailyCalendar from './svg/CharSvg/dCharSvg';
 import Container from 'react-bootstrap/Container';
-import Badge from 'react-bootstrap/Badge';
 
 function UserInfo() {
   const isLoggedIn = !!localStorage.getItem('token')
-  const defaultValue = {}
-  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  //console.log(localStorage.getItem('user'))
+
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+  
 
   const navigate = useNavigate()
 

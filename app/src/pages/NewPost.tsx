@@ -3,7 +3,7 @@ import axios from '@root/axiosConfig'
 import { AxiosError } from "axios";
 import { apiPostsURL, apiUsersURL } from "../URLs";
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -29,12 +29,13 @@ import Remove from "@components/svg/RemoveSvg";
 import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
-import { getPersonalUserData } from "@utils/userData";
+import { UserContext, getPersonalUserData } from "@utils/userData";
 
 
 export default function NewPostPage() {
-  const defaultValue = {}
-  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  //const defaultValue = {}
+  //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const userToken = localStorage.getItem("token") ?? "";
 
   const { replyPostId } = useParams<{ replyPostId?: string }>();
@@ -75,7 +76,7 @@ export default function NewPostPage() {
       }
 
       (async () => {
-        await getPersonalUserData(userDetails.username)
+        fetchUserData()
         setDisplayDailyChars(userDetails.dailyChar)
         setDisplayWeeklyChars(userDetails.weeklyChar)
         setDisplayMonthlyChars(userDetails.monthlyChar)
@@ -137,6 +138,11 @@ export default function NewPostPage() {
         .then(()=>{
           alert('Post created')
           navigate('/')
+        })
+        .then(()=>{
+          //aggiorna dati utente in locale
+          console.log("ENTRO IN GETPERSONAUSERDATA")
+          fetchUserData()
         })
       //window.location.reload();
       console.log("receivers: ", receivers)  //DEBUG

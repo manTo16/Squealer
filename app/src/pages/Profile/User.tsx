@@ -4,12 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import { useNavigate, useParams } from "react-router-dom"
 import Feed from '@components/Feed/Feed';
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { apiUsersURL } from '@root/src/URLs';
 import axios, { AxiosError } from "axios"
 import WeeklyCalendar from '@components/svg/CharSvg/wCharSvg';
 import MonthlyCalendar from '@components/svg/CharSvg/mCharSvg';
 import DailyCalendar from '@components/svg/CharSvg/dCharSvg';
+import { UserContext } from '@utils/userData';
+
 
 interface UserProps {
   user?: string;
@@ -20,8 +22,9 @@ export default function UserPage ({
   } : UserProps ) {
 
   const isLoggedIn = !!localStorage.getItem('token')
-  const defaultValue = {}
-  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  //const defaultValue = {}
+  //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate()
   const actualUser = () => {

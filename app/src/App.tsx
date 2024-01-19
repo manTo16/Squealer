@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -26,10 +26,27 @@ import UserPage from './pages/Profile/User';
 import CharShopPage from './pages/CharShopPage';
 import QuestionPage from './pages/QuestionPage';
 
-
+import { UserContext, getPersonalUserData } from '@utils/userData';
 
 function App() {
   const isLoggedIn = !!localStorage.getItem('token')
+  const localUserDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
+
+  const [userDetails, setUserDetails] = useState(localUserDetails)
+  const fetchUserData = async () => {
+    setUserDetails(await getPersonalUserData(localUserDetails.username))
+  }
+  const updateUserDataFromLS = () => {
+    setUserDetails(localUserDetails)
+  }
+
+  useEffect(() => {
+    if (isLoggedIn) fetchUserData().then(() => setIsLoading(false))
+    else {
+      setUserDetails(localUserDetails)
+      setIsLoading(false)
+    }
+  }, [])
 
   const [navbarHeight, setNavbarHeight] = useState(0)
   const [bottombarHeight, setBottombarHeight] = useState(0)
@@ -41,9 +58,12 @@ function App() {
 
   const location = useLocation();
   const renderSidebars = (location.pathname !== "/login" && location.pathname !== "/register")
+
+  const [isLoading, setIsLoading] = useState(true)
   
   return (
     <div>
+      <UserContext.Provider value={{userDetails, fetchUserData, updateUserDataFromLS}}>
       <Navbar
       onHeightChange={setNavbarHeight} />
 
@@ -107,7 +127,8 @@ function App() {
         <Bottombar
         onHeightChange={setBottombarHeight}/>
       </div>
-      
+
+      </UserContext.Provider>
     </div>
   );
 }

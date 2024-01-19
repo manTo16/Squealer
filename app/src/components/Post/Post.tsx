@@ -6,7 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
 import { Button, Row, Col } from "react-bootstrap"
 import Feed, { ReactionType } from "@components/Feed/Feed"
@@ -19,13 +19,15 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import Answer from "@components/svg/AnswerSvg";
 
 import { generateAddressURL } from "@utils/URLs"
+import { UserContext } from "@utils/userData";
 
 
 
 export default function Post({postId = "defaultId"}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
-  const defaultValue = {}
-  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  //const defaultValue = {}
+  //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const navigate = useNavigate()
 
   const { id } = useParams<{ id?: string }>();

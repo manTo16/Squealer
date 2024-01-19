@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from '@root/axiosConfig';
 import { apiUsersURL } from '../../URLs';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { UserContext } from '@utils/userData';
 
 
 
@@ -13,8 +14,9 @@ export default function SidebarContent(
   { handleShow = (input: boolean) => {} }: { handleShow?: (input: boolean) => void }
   ) {
   const userToken = localStorage.getItem('token');
-  const defaultValue = {}
-  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  //const defaultValue = {}
+  //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const username = userDetails.username
   const navigate = useNavigate()
 
@@ -28,6 +30,7 @@ export default function SidebarContent(
   const [displayedChannels, setDisplayedChannels] = useState<string[]>([])
 
   useEffect(() => {
+    updateUserDataFromLS()
     const loadChannels = async () => {
       const response = await axios.get(apiUsersURL+`/${username}/channels`,
       { headers: {"Authorization": `Bearer ${userToken}`}})
@@ -42,8 +45,8 @@ export default function SidebarContent(
       setDisplayedChannels(await loadChannels());
     }
 
-    // fetch channels data only if logged in
-    if (userToken) fetchChannels();
+    // carica i dati dei canali solo se sei loggato e se ha caricato in tempo i dati dell'utente
+    if (userToken && username) fetchChannels();
   }, [])
   
   return(
