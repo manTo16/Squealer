@@ -89,6 +89,7 @@ export default function SidebarContent(
         <div className='d-flex flex-column'>
           <Button
             className="m-2" variant='light'
+            onClick={() => navigate("/createChannel")}
           >
             Crea Canale
           </Button>
