@@ -8,6 +8,8 @@ import WeeklyCalendar from './svg/CharSvg/wCharSvg';
 import MonthlyCalendar from './svg/CharSvg/mCharSvg';
 import DailyCalendar from './svg/CharSvg/dCharSvg';
 import Container from 'react-bootstrap/Container';
+import { UserContext } from '@utils/userData';
+import Badge from 'react-bootstrap/Badge';
 
 function UserInfo() {
   const isLoggedIn = !!localStorage.getItem('token')
