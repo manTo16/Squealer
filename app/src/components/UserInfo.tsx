@@ -1,21 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React from 'react'
 import ThirdColumn from './ThirdColumn/ThirdColumn'
 import Char4LG from './Char indicator/Char4LGscreen'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { Col, Row } from 'react-bootstrap';
 import WeeklyCalendar from './svg/CharSvg/wCharSvg';
 import MonthlyCalendar from './svg/CharSvg/mCharSvg';
 import DailyCalendar from './svg/CharSvg/dCharSvg';
 import Container from 'react-bootstrap/Container';
-import { UserContext } from '@utils/userData';
 
 function UserInfo() {
-
   const isLoggedIn = !!localStorage.getItem('token')
-
-  const { userDetails, updateUserData } = useContext(UserContext)
-  
+  const defaultValue = {}
+  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  //console.log(localStorage.getItem('user'))
 
   const navigate = useNavigate()
 

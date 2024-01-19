@@ -26,21 +26,10 @@ import UserPage from './pages/Profile/User';
 import CharShopPage from './pages/CharShopPage';
 import QuestionPage from './pages/QuestionPage';
 
-import { UserContext, getPersonalUserData } from '@utils/userData';
 
 
 function App() {
   const isLoggedIn = !!localStorage.getItem('token')
-  const localUserDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
-
-  const [userDetails, setUserDetails] = useState(null)
-  const updateUserData = async () => {
-    setUserDetails(await getPersonalUserData(localUserDetails.username))
-  }
-
-  useEffect(() => {
-    updateUserData().then(() => setIsLoading(false))
-  }, [])
 
   const [navbarHeight, setNavbarHeight] = useState(0)
   const [bottombarHeight, setBottombarHeight] = useState(0)
@@ -53,13 +42,8 @@ function App() {
   const location = useLocation();
   const renderSidebars = (location.pathname !== "/login" && location.pathname !== "/register")
   
-  const [isLoading, setIsLoading] = useState(true)
-
-  if (isLoading) return (<><p>loading</p></>)
-
   return (
     <div>
-      <UserContext.Provider value={{userDetails, updateUserData}}>
       <Navbar
       onHeightChange={setNavbarHeight} />
 
@@ -124,7 +108,6 @@ function App() {
         onHeightChange={setBottombarHeight}/>
       </div>
       
-      </UserContext.Provider>
     </div>
   );
 }

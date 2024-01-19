@@ -3,7 +3,7 @@ import axios from '@root/axiosConfig'
 import { AxiosError } from "axios";
 import { apiPostsURL, apiUsersURL } from "../URLs";
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -29,13 +29,12 @@ import Remove from "@components/svg/RemoveSvg";
 import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
-import { UserContext, getPersonalUserData } from "@utils/userData";
+import { getPersonalUserData } from "@utils/userData";
 
 
 export default function NewPostPage() {
-  //const defaultValue = {}
-  //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, updateUserData } = useContext(UserContext)
+  const defaultValue = {}
+  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
   const userToken = localStorage.getItem("token") ?? "";
 
   const { replyPostId } = useParams<{ replyPostId?: string }>();
@@ -131,15 +130,13 @@ export default function NewPostPage() {
           axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
                             {daily: -charCount, weekly: -charCount, monthly: -charCount})
         })
-        //so che l'ordine di questi due then sembra invertito, ma se prima aggiorni i dati utente e poi cambi pagina la barra laterale non aggiorna il numero di caratteri
         .then(() => {
-          alert('Post created')
-          navigate('/')
+          //aggiorna dati utente in locale
+          axios.get(apiUsersURL+'/'+userDetails.username).then(response => response.data).then(userData => localStorage.setItem('user',JSON.stringify(userData)))
         })
         .then(()=>{
-          //aggiorna dati utente in locale
-          console.log("ENTRO IN GETPERSONAUSERDATA")
-          updateUserData()
+          alert('Post created')
+          navigate('/')
         })
       //window.location.reload();
       console.log("receivers: ", receivers)  //DEBUG
@@ -369,7 +366,7 @@ export default function NewPostPage() {
                   onInputChange={handleInputChange}
                   charCount={charCount}
                   textLines={textLines}
-                  Dchar={Math.min(userDetails.dailyChar, userDetails.weeklyChar, userDetails.monthlyChar)}
+                  Dchar={userDetails.dailyChar}
                   txtReadOnly={userDetails.debtChar > 0}
                 />
               </Card.Text>

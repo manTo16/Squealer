@@ -6,7 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
 import { Button, Row, Col } from "react-bootstrap"
 import Feed, { ReactionType } from "@components/Feed/Feed"
@@ -19,15 +19,13 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 import Answer from "@components/svg/AnswerSvg";
 
 import { generateAddressURL } from "@utils/URLs"
-import { UserContext } from "@utils/userData";
 
 
 
 export default function Post({postId = "defaultId"}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
-  //const defaultValue = {}
-  //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, updateUserData } = useContext(UserContext)
+  const defaultValue = {}
+  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
   const navigate = useNavigate()
 
   const { id } = useParams<{ id?: string }>();
@@ -245,7 +243,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const [postRepliesNumber, setPostRepliesNumber] = useState(0)
 
   const mentionsRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
-  const linkRegex = /^http(s)?:\/\/[a-zA-Z0-9\/:%&()=?.\-+]+/g;
+  const linkRegex = /^\$[a-zA-Z0-9\/:%&()=?.\-+]+/g;
   const postTextArray = postData.postText.split(' ');
 
   if (isLoading) return (<PostPlaceholder />)
