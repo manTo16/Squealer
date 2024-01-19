@@ -12,6 +12,7 @@ import MonthlyCalendar from '@components/svg/CharSvg/mCharSvg';
 import DailyCalendar from '@components/svg/CharSvg/dCharSvg';
 import { UserContext } from '@utils/userData';
 
+
 interface UserProps {
   user?: string;
 }
@@ -34,7 +35,6 @@ export default function UserPage ({
     !isLoggedIn ? navigate('/login') : console.log("logged in");
     console.log("username: ", username)
     if (username) {
-      console.log("USERNAME: ", username)
       loadUserData();
     } else {
       actualUser();
@@ -79,15 +79,15 @@ export default function UserPage ({
           </Row>
           <Row>
             <Col lg={6} xs={6} className='d-flex align-text-center justify-content-start'> <DailyCalendar/> </Col>
-            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userData.dailyChar}</h5></Col>
+            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userDetails.dailyChar}</h5></Col>
           </Row>
           <Row>
             <Col lg={6} xs={6} className='d-flex align-text-center justify-content-start'> <WeeklyCalendar/> </Col>
-            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userData.weeklyChar}</h5></Col>
+            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userDetails.weeklyChar}</h5></Col>
           </Row>
           <Row>
             <Col lg={6} xs={6} className='d-flex align-text-center justify-content-start'> <MonthlyCalendar/> </Col>
-            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userData.monthlyChar}</h5></Col>
+            <Col lg={6} xs={6} className='pt-1 d-flex align-text-center justify-content-start'><h5>{userDetails.monthlyChar}</h5></Col>
           </Row>
         </div>
         </Col>

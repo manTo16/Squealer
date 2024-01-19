@@ -131,8 +131,11 @@ export default function NewPostPage() {
           axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
                             {daily: -charCount, weekly: -charCount, monthly: -charCount})
         })
-        //so che l'ordine di questi due then sembra invertito, ma se prima aggiorni i dati utente e poi cambi pagina la barra laterale non aggiorna il numero di caratteri
         .then(() => {
+          //aggiorna dati utente in locale
+          axios.get(apiUsersURL+'/'+userDetails.username).then(response => response.data).then(userData => localStorage.setItem('user',JSON.stringify(userData)))
+        })
+        .then(()=>{
           alert('Post created')
           navigate('/')
         })
@@ -369,7 +372,7 @@ export default function NewPostPage() {
                   onInputChange={handleInputChange}
                   charCount={charCount}
                   textLines={textLines}
-                  Dchar={Math.min(userDetails.dailyChar, userDetails.weeklyChar, userDetails.monthlyChar)}
+                  Dchar={userDetails.dailyChar}
                   txtReadOnly={userDetails.debtChar > 0}
                 />
               </Card.Text>

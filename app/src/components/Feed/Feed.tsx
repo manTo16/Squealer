@@ -46,7 +46,7 @@ const fetchFeedFromUserImpressions = async (userName: string, visualizedImpressi
 const fetchFeedFromPostReplies = async (postId: string) => {
     try {
         const response = await axios.get(`${apiPostsURL}/${postId}/replies`)
-        //console.log("Feed postId ", postId, " replies: ", response?.data)
+        console.log("Feed postId ", postId, " replies: ", response?.data)
         if (response && response.status === 200) return response.data
         else return []
 

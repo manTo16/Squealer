@@ -14,7 +14,7 @@ export default function CharShopPage() {
 
         await fetchUserData()
 
-        //userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
+        userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
 
         setDisplayDailyChars(userDetails.dailyChar)
         setDisplayWeeklyChars(userDetails.weeklyChar)

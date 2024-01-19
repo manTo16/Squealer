@@ -245,7 +245,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const [postRepliesNumber, setPostRepliesNumber] = useState(0)
 
   const mentionsRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
-  const linkRegex = /^http(s)?:\/\/[a-zA-Z0-9\/:%&()=?.\-+]+/g;
+  const linkRegex = /^\$[a-zA-Z0-9\/:%&()=?.\-+]+/g;
   const postTextArray = postData.postText.split(' ');
 
   if (isLoading) return (<PostPlaceholder />)

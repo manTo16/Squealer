@@ -108,7 +108,15 @@ export default function SidebarContent(
               {channelName}
             </Button>  )
             }
+
+            <hr/>
+
+            <h3 className="normal-text mt-2 mb-3 text-center">Iscrizioni</h3> 
           
+            {
+              
+            }
+
           </>
           ):
         (

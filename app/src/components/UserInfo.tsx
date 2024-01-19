@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import ThirdColumn from './ThirdColumn/ThirdColumn'
 import Char4LG from './Char indicator/Char4LGscreen'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { Col, Row } from 'react-bootstrap';
 import WeeklyCalendar from './svg/CharSvg/wCharSvg';
@@ -11,7 +11,6 @@ import Container from 'react-bootstrap/Container';
 import { UserContext } from '@utils/userData';
 
 function UserInfo() {
-
   const isLoggedIn = !!localStorage.getItem('token')
 
   const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
