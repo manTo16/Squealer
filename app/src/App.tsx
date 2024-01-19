@@ -24,6 +24,7 @@ import ProfilePage from './pages/Profile/Profile';
 import Post from '@components/Post/Post';
 import UserPage from './pages/Profile/User';
 import CharShopPage from './pages/CharShopPage';
+import ChannelCreationPage from './pages/ChannelCreationPage';
 import QuestionPage from './pages/QuestionPage';
 
 import { UserContext, getPersonalUserData } from '@utils/userData';
@@ -97,6 +98,7 @@ function App() {
             <Route path='/search/:query'              element={<SearchPage />}                />
             <Route path='/users/:username'            element={<UserPage />}                  />
             <Route path='/charShop'                   element={<CharShopPage />}              />
+            <Route path='/createChannel'              element={<ChannelCreationPage />}       />
             <Route path='/question'                   element={<QuestionPage />}              />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
