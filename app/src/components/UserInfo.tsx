@@ -8,6 +8,7 @@ import WeeklyCalendar from './svg/CharSvg/wCharSvg';
 import MonthlyCalendar from './svg/CharSvg/mCharSvg';
 import DailyCalendar from './svg/CharSvg/dCharSvg';
 import Container from 'react-bootstrap/Container';
+import Badge from 'react-bootstrap/Badge';
 
 function UserInfo() {
   const isLoggedIn = !!localStorage.getItem('token')
@@ -37,15 +38,15 @@ function UserInfo() {
         <Col lg="auto" className='m-2'>
           <Row>
             <Col lg="auto" className='d-flex align-text-center justify-content-center'> <DailyCalendar/> </Col>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h5>{userDetails.dailyChar}</h5></Col>
+            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h5><Badge pill bg="secondary">{userDetails.dailyChar}</Badge></h5></Col>
           </Row>
           <Row>
             <Col lg="auto" className='d-flex align-text-center justify-content-center'> <WeeklyCalendar/> </Col>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h5>{userDetails.weeklyChar}</h5></Col>
+            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h5><Badge pill bg="secondary">{userDetails.weeklyChar}</Badge></h5></Col>
           </Row>
           <Row>
             <Col lg="auto" className='d-flex align-text-center justify-content-center'> <MonthlyCalendar/> </Col>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h5>{userDetails.monthlyChar}</h5></Col>
+            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h5><Badge pill bg="secondary">{userDetails.monthlyChar}</Badge></h5></Col>
           </Row>
         </Col>  
         <Col lg={{ span: "auto", offset: 1}}>

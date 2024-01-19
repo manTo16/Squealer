@@ -57,20 +57,20 @@ export default function ProfileSide({
         );
     } else if (type === 'channels') {
         return (
-            <>
+            <div className="rounded bg-dark bt-2">
                 <h1>Channels List</h1>
                 { userToken ? (
                     
                     <Row xs={1} md={2} className="g-4">
                     {displayedChannels.map((channelName, index) =>
                         <Col key={index}>
-                        <Card bg="dark" text="white">
+                        <Card bg="dark" border="success" text="white">
                             <Card.Body>
                             <Card.Title>
-                                <span >{channelName}</span>
-                                <Badge className="m-1" bg="success">Proprietario</Badge>
-                                <Badge className="m-1" bg="warning" text="dark">Scrittore</Badge>
-                                <Badge className="m-1" bg="primary">Lettore</Badge>    
+                                <span >{channelName}</span> 
+                                <Badge pill className="m-1" bg="success">Proprietario</Badge>
+                                <Badge pill className="m-1" bg="warning" text="dark">Scrittore</Badge>
+                                <Badge pill className="m-1" bg="primary">Lettore</Badge>    
                             </Card.Title>
                             <Card.Text>
                                 This is a longer card with supporting text below as a natural
@@ -87,7 +87,7 @@ export default function ProfileSide({
                     <div>Please log in to see your channels</div>
                 )}
 
-            </>
+            </div>
         );
     } else if (type === 'options') {
         return (

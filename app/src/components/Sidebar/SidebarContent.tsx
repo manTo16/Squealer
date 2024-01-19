@@ -53,7 +53,7 @@ export default function SidebarContent(
         userToken ? 
         (
         <div className="d-flex justify-content-around pt-4">
-          <Button className="Logout" 
+          <Button 
           variant="outline-light"
           onClick={handleLogout}>
             <div className='d-flex align-items-center'>
@@ -80,8 +80,8 @@ export default function SidebarContent(
         </div>
         )
       }
-
-      { userToken ? ( <h3 className="normal-text mt-5 mb-3 text-center">I tuoi canali</h3> ) : (<h3 className="normal-text mt-5 mb-3 text-center">Canali consigliati</h3>) }
+      <hr />
+      { userToken ? ( <h3 className="normal-text mt-3 mb-3 text-center">I tuoi canali</h3> ) : (<h3 className="normal-text mt-3 mb-3 text-center">Canali consigliati</h3>) }
 
       <hr/>
       <div className="channels-wrapper p-2">
