@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from '@root/axiosConfig';
 import { apiUsersURL } from '../../URLs';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { UserContext } from '@utils/userData';
 
 
 
@@ -13,8 +14,9 @@ export default function SidebarContent(
   { handleShow = (input: boolean) => {} }: { handleShow?: (input: boolean) => void }
   ) {
   const userToken = localStorage.getItem('token');
-  const defaultValue = {}
-  const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  //const defaultValue = {}
+  //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+  const { userDetails, updateUserData } = useContext(UserContext)
   const username = userDetails.username
   const navigate = useNavigate()
 

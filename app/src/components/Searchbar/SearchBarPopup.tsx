@@ -25,9 +25,9 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
     if (query) {
       const result = await axios.get(apiUsersURL+`/search/byUsername/oneResult/${query}`)
               .then(response => response.data)
-      return result
+      if (result) return result
     }
-    else return []
+    return []
     
   }
 
@@ -35,15 +35,24 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
     if (query) {
       const result = await axios.get(apiUsersURL+`/search/byDisplayName/oneResult/${query}`)
               .then(response => response.data)
-      return result
+      if (result) return result
     }
-    else return []
+    return []
     
   }
 
   function concatNoDuplicates(array1: string[], array2: string[]): string[] {
-    const set = new Set(array1.concat(array2));
-    return Array.from(set);
+    console.log("concatNoDuplicates arra1: ", array1 )
+    console.log("concatNoDuplicates arra2: ", array2 )
+    try {
+      const set = new Set(array1.concat(array2));
+      console.log("set: ", set)
+      return Array.from(set);
+    } catch (error) {
+      console.log("CATCH")
+      if (array1.length === 0) return array2
+    }
+    return []
   }
 
   const getChannelResults = async (query: string) => {
@@ -66,10 +75,15 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
       let userResults = []
       const partialUserResults1 = await getUserResultsByUsername(searchQuery)
       const partialUserResults2 = await getUserResultsByDisplayName(searchQuery)
+      console.log("partialUserResults1: ", partialUserResults1)
+      console.log("partialUserResults2: ", partialUserResults2)
 
       userResults = concatNoDuplicates(partialUserResults1, partialUserResults2)
 
       const userResultsAt = userResults.map(result => result = "@"+result)
+
+      console.log("userResults: ", userResults)
+      console.log("userResultsAt: ", userResultsAt)
 
       setUserResults(userResultsAt)
     }

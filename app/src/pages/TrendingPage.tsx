@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import axios from '@root/axiosConfig'
 import { channelsURL, apiUsersURL } from '../URLs'
 import Form from 'react-bootstrap/Form'
 import Feed, { ReactionType } from "@components/Feed/Feed"
 
 import PostPlaceholder from '@components/Post/PostPlaceholder'
+import { UserContext } from '@utils/userData'
 
 export default function TrendingPage() {
     const [channelName,setChannelName] = useState("")
     //const isLoggedIn = !!localStorage.getItem('token')
-    const defaultValue = {}
-    const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+    //const defaultValue = {}
+    //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+    const { userDetails, updateUserData } = useContext(UserContext)
     //console.log(localStorage.getItem('user'))
     const userToken = localStorage.getItem('token')
     const createChannel = () => {
