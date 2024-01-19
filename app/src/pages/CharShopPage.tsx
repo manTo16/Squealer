@@ -1,18 +1,20 @@
 import { Button } from "react-bootstrap";
 import { apiUsersURL } from "../URLs";
 import axios from "@root/axiosConfig";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-import { getPersonalUserData } from "@utils/userData";
+import { UserContext, getPersonalUserData } from "@utils/userData";
 
 export default function CharShopPage() {
-    var userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
+    //var userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
+
+    const { userDetails, updateUserData } = useContext(UserContext)
 
     const updatePersonalUserData = async () => {
 
         await getPersonalUserData(userDetails.username)
 
-        userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
+        //userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
 
         setDisplayDailyChars(userDetails.dailyChar)
         setDisplayWeeklyChars(userDetails.weeklyChar)
