@@ -84,7 +84,24 @@ export default function SidebarContent(
         )
       }
       <hr />
-      { userToken ? ( <h3 className="normal-text mt-3 mb-3 text-center">I tuoi canali</h3> ) : (<h3 className="normal-text mt-3 mb-3 text-center">Canali consigliati</h3>) }
+      { userToken ? ( 
+      <>
+        <div className='d-flex flex-column'>
+          <Button
+            className="m-2" variant='light'
+          >
+            Crea Canale
+          </Button>
+          <Button
+            className="m-2" variant='success'
+            onClick={() => {navigate("/charShop"); handleShow(false)}}>
+            Compra caratteri
+          </Button>
+        </div>
+        <hr />
+      <h3 className="normal-text mt-3 mb-3 text-center">I tuoi canali</h3> 
+      </>
+      ) : (<h3 className="normal-text mt-3 mb-3 text-center">Canali consigliati</h3>) }
 
       <hr/>
       <div className="channels-wrapper p-2">
@@ -93,12 +110,6 @@ export default function SidebarContent(
         userToken ? 
         (
           <>
-            <Button
-              className="mb-2" variant='success'
-              onClick={() => {navigate("/charShop"); handleShow(false)}}>
-              Compra caratteri
-            </Button>
-            
             {
             displayedChannels.map((channelName, index) =>
             <Button key={index} 

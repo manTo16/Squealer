@@ -87,9 +87,9 @@ export default function NewPostPage() {
   //calcola le linee da assegnare al componente ponendoci un limite, impostato in modo che la textarea non occupi più di metà schermo
   const getTextLines = (textarea: HTMLTextAreaElement) => {
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
-    
+
     //a volte l'altezza di default della linea di scrittura della textarea è >= 24*2 e questa funzione non va bene
-    if (lineHeight > 40) return 12
+    if (parseInt(getComputedStyle(textarea).height) > 40) return 12
     //const maxHeight = textarea.parentElement?.clientHeight;  //non funziona, il componente cardbody si allunga dinamicamente
     const maxHeight = window.innerHeight / 3
     

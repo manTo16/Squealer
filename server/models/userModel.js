@@ -31,6 +31,10 @@ const userSchema = mongoose.Schema(
       type: [String],
       default: []
     },
+    ownedChannels: {
+      type: [String],
+      default: []
+    },
     dailyChar: {
       type: Number,
       default: 0
