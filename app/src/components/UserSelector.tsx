@@ -1,30 +1,51 @@
-import { useState } from 'react';
+import axios from '@root/axiosConfig';
+import { useContext, useEffect, useState } from 'react';
 import { Badge, Button, Form, InputGroup, CloseButton, Collapse, ListGroup } from 'react-bootstrap';
+import { apiUsersURL } from '../URLs';
+import { UserContext } from '@utils/userData';
 
 interface UserSelectorProps {
     placeholderText?: string;
-    suggestions?: string[];
+    buttons: string[];
+    setButtons: (newButtons: string[]) => void;
 }
 
-export default function UserSelector({placeholderText="Inserisci il nome dell'utente", suggestions=["a", "b", "c"]} : UserSelectorProps) {
+export default function UserSelector({placeholderText="Inserisci il nome dell'utente", buttons, setButtons} : UserSelectorProps) {
+
   const [inputText, setInputText] = useState("");
-  const [buttons, setButtons] = useState<string[]>([]);
+  //const [buttons, setButtons] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState([])
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false)
 
   const handleAddClick = () => {
-    setButtons(prevButtons => [...prevButtons, inputText]);
+    setButtons([...buttons, inputText]);
     setInputText("");
     setShowSuggestions(false);
   };
 
   const handleDeleteClick = (index: number) => {
-    setButtons(prevButtons => prevButtons.filter((_, i) => i !== index));
+    setButtons(buttons.filter((_, i) => i !== index));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
+    if (!showSuggestions && e.target.value !== "") setSuggestionsLoading(true)
     setShowSuggestions(e.target.value !== "");
   };
+
+  const fetchSuggestions = async (username: string, resultsNumber: number = 5) => {
+    const response = axios.get(apiUsersURL+`/search/byUsername/${resultsNumber}/${username}`).then(response => response.data)
+    return response
+  }
+
+  useEffect(() => {
+    const loadSuggestions = async () => {
+        setSuggestions(await fetchSuggestions(inputText))
+        setSuggestionsLoading(false)
+    }
+    loadSuggestions()
+  }, [inputText])
 
   return (
     <>
@@ -41,9 +62,15 @@ export default function UserSelector({placeholderText="Inserisci il nome dell'ut
       </InputGroup>
       <Collapse in={showSuggestions}>
         <ListGroup>
-          {suggestions.map((suggestion, index) => (
-            <ListGroup.Item key={index}>{suggestion}</ListGroup.Item>
-          ))}
+          {suggestionsLoading ? 
+          (
+            <ListGroup.Item>loading</ListGroup.Item>
+          ) :
+          (
+            suggestions.map((suggestion, index) => (
+                <ListGroup.Item key={index} onClick={() => setInputText(suggestion)}>{suggestion}</ListGroup.Item>
+            ))
+          )}
         </ListGroup>
       </Collapse>
       {buttons.map((buttonText, index) => (

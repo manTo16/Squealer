@@ -89,7 +89,7 @@ export default function SidebarContent(
         <div className='d-flex flex-column'>
           <Button
             className="m-2" variant='light'
-            onClick={() => navigate("/createChannel")}
+            onClick={() => {navigate("/createChannel"); handleShow(false)}}
           >
             Crea Canale
           </Button>
@@ -115,7 +115,7 @@ export default function SidebarContent(
             displayedChannels.map((channelName, index) =>
             <Button key={index} 
               className="mb-2"
-              onClick={() => {navigate(`/channels/${channelName}`)}}
+              onClick={() => {navigate(`/channels/${channelName}`); handleShow(false)}}
               variant="outline-light">
               {channelName}
             </Button>  )

@@ -28,6 +28,7 @@ import ChannelCreationPage from './pages/ChannelCreationPage';
 import QuestionPage from './pages/QuestionPage';
 
 import { UserContext, getPersonalUserData } from '@utils/userData';
+import ChannelSettingsPage from './pages/ChannelSettingPage';
 
 function App() {
   const isLoggedIn = !!localStorage.getItem('token')
@@ -94,6 +95,7 @@ function App() {
             <Route path='/feed'                       element={<Feed />}                      />
             <Route path='/profile'                    element={<ProfilePage />}               />
             <Route path='/channels/:channelName'      element={<ChannelPage />}               />
+            <Route path='/channels/:channelName/settings' element={<ChannelSettingsPage />}       />
             <Route path='/posts/:id'                  element={<Post postId='getFromUrl' />}  />
             <Route path='/search/:query'              element={<SearchPage />}                />
             <Route path='/users/:username'            element={<UserPage />}                  />

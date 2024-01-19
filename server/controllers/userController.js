@@ -199,7 +199,7 @@ fa un controllino per prendere solo la parte di array che gli interessa
 diciamo se vediamo che ci troviamo a fare richieste che prendono tutti i dati
 di un utente per poi usare solo il display name allora magari facciamo così
 */
-const searchUserByDisplayName = async (req,res) => {
+const searchUserByDisplayNameALL = async (req,res) => {
   try {
     const query = req.params.name
 
@@ -212,7 +212,7 @@ const searchUserByDisplayName = async (req,res) => {
   }
 }
 
-const searchUserByUsername = async (req,res) => {
+const searchUserByUsernameALL = async (req,res) => {
   try {
     const query = req.params.name
 
@@ -244,6 +244,34 @@ const searchUserByUsernameOneResult = async (req,res) => {
     const user = await User.findOne({ username: { $regex: new RegExp(query, 'i') }}, 'username -_id')
 
     return res.status(200).json(user ? [user.username] : [])
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const searchUserByDisplayNameNResults = async (req,res) => {
+  try {
+    const query = req.params.name
+    const nResults = req.params.nResults
+
+    const users = await User.find({ displayName: { $regex: new RegExp(query, 'i') }}, 'username -_id').limit(nResults)
+    usernames = users.map(user => user.username)
+
+    return res.status(200).json(usernames)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const searchUserByUsernameNResults = async (req,res) => {
+  try {
+    const query = req.params.name
+    const nResults = req.params.nResults
+
+    const users = await User.find({ username: { $regex: new RegExp(query, 'i') }}, 'username -_id').limit(nResults)
+    usernames = users.map(user => user.username)
+
+    return res.status(200).json(usernames)
   } catch (err) {
     return res.status(500).json({message: err.message})
   }
@@ -342,11 +370,13 @@ module.exports = {
     getUserImpressionsViews,
     return200,
     getUserImage,
-    searchUserByDisplayName,
-    searchUserByUsername,
+    searchUserByDisplayNameALL,
+    searchUserByUsernameALL,
     searchUserByDisplayNameOneResult,
     searchUserByUsernameOneResult,
     setUserCharacters,
     updateUserCharacters,
-    getUserDebt
+    getUserDebt,
+    searchUserByUsernameNResults,
+    searchUserByDisplayNameNResults,
 }

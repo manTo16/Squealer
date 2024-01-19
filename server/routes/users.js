@@ -17,13 +17,15 @@ const {
   getUserImpressionsViews,
   return200,
   getUserImage,
-  searchUserByDisplayName,
-  searchUserByUsername,
+  searchUserByDisplayNameALL,
+  searchUserByUsernameALL,
   searchUserByDisplayNameOneResult,
   searchUserByUsernameOneResult,
   setUserCharacters,
   updateUserCharacters,
-  getUserDebt
+  getUserDebt,
+  searchUserByUsernameNResults,
+  searchUserByDisplayNameNResults,
 } = require ('../controllers/userController.js')
 
 
@@ -41,10 +43,12 @@ router.route('/:userName/impressions/veryDislikes').get(getUserImpressionsVeryDi
 router.route('/:userName/impressions/views').get(getUserImpressionsViews)
 router.route('/:userName/impressions/none').get(return200)
 
-router.route('/search/byDisplayName/:name').get(searchUserByDisplayName)
-router.route('/search/byUsername/:name').get(searchUserByUsername)
+router.route('/search/byDisplayName/:name').get(searchUserByDisplayNameALL)
+router.route('/search/byUsername/:name').get(searchUserByUsernameALL)
 router.route('/search/byDisplayName/oneResult/:name').get(searchUserByDisplayNameOneResult)
 router.route('/search/byUsername/oneResult/:name').get(searchUserByUsernameOneResult)
+router.route('/search/byUsername/:nResults/:name').get(searchUserByUsernameNResults)
+router.route('/search/byUsername/:nResults/:name').get(searchUserByDisplayNameNResults)
 
 router.route('/:userName/characters/').put(setUserCharacters).patch(updateUserCharacters)
 router.route('/:userName/debt').get(getUserDebt)

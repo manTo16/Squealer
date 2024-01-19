@@ -23,7 +23,7 @@ const checkUserPermissions = async (username,channelName,role) => {
 
 const createChannel = async (req,res) => {
   try{
-    const {channelName, username, reserved} = req.body
+    const {channelName, username, owners, writers, readers, reserved} = req.body
     const user = await User.findOne({username:username})
 
     let channelNameAdjusted = channelName
@@ -35,13 +35,21 @@ const createChannel = async (req,res) => {
     if ((reserved) && (channelNameAdjusted != channelNameAdjusted.toUpperCase()))     return res.status(403).json({message: "reserved channels can contain only uppercase characters"})
     if ((!reserved) && (channelNameAdjusted != channelNameAdjusted.toLowerCase()))    return res.status(403).json({message: "normal channels can contain only lowercase characters"})
     
+    const dbChannel = await Channel.findOne({channelName: channelNameAdjusted})
+    if (dbChannel)                                                                    return res.status(409).json({message: "channel name already taken"})
+
     const channel = new Channel({
       channelName: channelNameAdjusted,
       reserved: reserved,
-      //usernames.owners[0]: username
+      usernames: {
+        owners: owners,
+        writers: writers,
+        readers: readers,
+        subs: [username]
+      }
     })
-    channel.usernames.owners.push(username)
     user.channels.push(channel.channelName)
+    user.ownedChannels.push(channel.channelName)
     await user.save()
     const newChannel = await channel.save()
     return res.status(201).json(newChannel)
