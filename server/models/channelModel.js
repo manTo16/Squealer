@@ -6,6 +6,10 @@ const channelSchema = mongoose.Schema({
     unique: true,
     required: true
   },
+  description: {
+    type: String,
+    default: ""
+  },
   reserved: {
     type: Boolean,
     required: true
@@ -14,7 +18,7 @@ const channelSchema = mongoose.Schema({
     type: [String],
     default: []
   },
-  usernames: {
+  usernames: {  
       owners: {
           type: [String],
           default: []
@@ -24,6 +28,10 @@ const channelSchema = mongoose.Schema({
           default: []
       },
       readers: {
+          type: [String],
+          default: []
+      },
+      subs: {
           type: [String],
           default: []
       }

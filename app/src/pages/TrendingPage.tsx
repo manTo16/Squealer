@@ -105,7 +105,7 @@ export default function TrendingPage() {
            <p>{reactionType}</p>
 
            
-           <PostPlaceholder />
+           {/* <PostPlaceholder /> */}
         </div>
 
     )

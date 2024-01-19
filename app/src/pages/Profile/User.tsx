@@ -1,9 +1,9 @@
-import { Col, Row, Stack } from 'react-bootstrap';
+import { ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import { useNavigate, useParams } from "react-router-dom"
-import Feed from '@components/Feed/Feed';
+import Feed, { ReactionType } from "@components/Feed/Feed"
 import { useContext, useEffect, useState } from "react"
 import { apiUsersURL } from '@root/src/URLs';
 import axios, { AxiosError } from "axios"
@@ -11,6 +11,10 @@ import WeeklyCalendar from '@components/svg/CharSvg/wCharSvg';
 import MonthlyCalendar from '@components/svg/CharSvg/mCharSvg';
 import DailyCalendar from '@components/svg/CharSvg/dCharSvg';
 import { UserContext } from '@utils/userData';
+import Heart from '@components/svg/Reaction/HeartSvg';
+import Like from '@components/svg/Reaction/LikeSvg';
+import Dislike from '@components/svg/Reaction/DislikeSvg';
+import Heartbreak from '@components/svg/Reaction/HeartbreakSvg';
 
 
 interface UserProps {
@@ -55,6 +59,8 @@ export default function UserPage ({
     monthlyChar: 0
   })
 
+  const [reactionType, setReactionType] = useState(ReactionType.Default)
+  
   return(
     <Form className='bg-dark rounded p-2 m-1'>
       <Row>
@@ -94,8 +100,22 @@ export default function UserPage ({
       </Row>
       <hr/>
 
-      <Feed searchQuery={userData.username} searchRoute="search/byUsername"/>
-
+      <h3>Visualizza: </h3>
+      <ButtonGroup aria-label="Basic example">
+        <Button variant="secondary" onClick={() => setReactionType(ReactionType.Default)}>Post</Button>
+        <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryLike)}><Heart/></Button>
+        <Button variant="secondary" onClick={() => setReactionType(ReactionType.Like)}><Like/></Button>
+        <Button variant="secondary" onClick={() => setReactionType(ReactionType.Dislike)}><Dislike/></Button>
+        <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryDislike)}><Heartbreak/></Button>
+      </ButtonGroup>
+      { 
+      reactionType === ReactionType.Default ? (
+          <Feed searchQuery={userData.username} searchRoute="search/byUsername"/>
+        ) : (
+          <Feed userName={userData.username} visualizedImpression={reactionType} />
+        )
+      }
+    
     </Form>
   )
 }
