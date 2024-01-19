@@ -59,52 +59,33 @@ export default function ProfileSide({
         return (
             <>
                 <h1>Channels List</h1>
-                <CardGroup>
                 { userToken ? (
-                    <> {
-                    displayedChannels.map((channelName, index) =>
-                    <Card bg="dark" text="white">
-                        <Card.Body>
-                        <Card.Title>
-                            <span >{channelName}</span>
-                            <Badge className="m-1" bg="success">Proprietario</Badge>
-                            <Badge className="m-1" bg="warning" text="dark">Scrittore</Badge>
-                            <Badge className="m-1" bg="primary">Lettore</Badge>
-                        </Card.Title>
-                        <Card.Text>
-                            This is a wider card with supporting text below as a natural lead-in
-                            to additional content. This content is a little bit longer.
-                        </Card.Text>
-                        </Card.Body>
-                        <Card.Footer>
-                            <Row>
-                                <Col lg={8}>
-                                    <small className="text-secondary">Last updated 3 mins ago</small>
-                                </Col>
-                                <Col lg={4}>
-                                    <Button
-                                        onClick={() => {navigate(`/channels/${channelName}`)}}
-                                        variant="outline-light"
-                                    >Vai al Canale</Button>
-                                </Col>
-                            </Row>
-                        </Card.Footer>
-                    </Card>
                     
-                    
-                    // <Button 
-                    //     key={index} 
-                    //     className="mb-2 w-100"
-                    //     onClick={() => {navigate(`/channels/${channelName}`)}}
-                    //     variant="outline-light"
-                    // >
-                    //     {channelName}
-                    // </Button>  
-                    )} </>
+                    <Row xs={1} md={2} className="g-4">
+                    {displayedChannels.map((channelName, index) =>
+                        <Col key={index}>
+                        <Card bg="dark" text="white">
+                            <Card.Body>
+                            <Card.Title>
+                                <span >{channelName}</span>
+                                <Badge className="m-1" bg="success">Proprietario</Badge>
+                                <Badge className="m-1" bg="warning" text="dark">Scrittore</Badge>
+                                <Badge className="m-1" bg="primary">Lettore</Badge>    
+                            </Card.Title>
+                            <Card.Text>
+                                This is a longer card with supporting text below as a natural
+                                lead-in to additional content. This content is a little bit
+                                longer.
+                            </Card.Text>
+                            </Card.Body>
+                        </Card>
+                        </Col>
+                    )}
+                    </Row>
+
                 ) : (
                     <div>Please log in to see your channels</div>
                 )}
-                </CardGroup>
 
             </>
         );
