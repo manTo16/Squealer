@@ -8,11 +8,11 @@ import { UserContext, getPersonalUserData } from "@utils/userData";
 export default function CharShopPage() {
     //var userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
 
-    const { userDetails, updateUserData } = useContext(UserContext)
+    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
 
     const updatePersonalUserData = async () => {
 
-        await getPersonalUserData(userDetails.username)
+        await fetchUserData()
 
         //userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
 
@@ -29,7 +29,7 @@ export default function CharShopPage() {
 
 
     const checkIfInDebt = async (username: string) => {
-        const userDebt = await axios.get(apiUsersURL+'/'+username+'/debt').then(response => response.data)
+        const userDebt = await axios.get(apiUsersURL+'/'+username+'/debt').then(response => response?.data ?? 0)
 
         return (userDebt > 0)
     } 

@@ -12,7 +12,7 @@ export default function TrendingPage() {
     //const isLoggedIn = !!localStorage.getItem('token')
     //const defaultValue = {}
     //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-    const { userDetails, updateUserData } = useContext(UserContext)
+    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
     //console.log(localStorage.getItem('user'))
     const userToken = localStorage.getItem('token')
     const createChannel = () => {

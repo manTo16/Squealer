@@ -71,29 +71,11 @@ const getUserPosts = async (req,res) => {
     }
   }
 
-
-/*
-questa qui mi ha mandato un errore 500 non ho capito perchè
-almeno credo fosse questa? era un axios error e c'era l'url di quest'api nel responseURL
-ah ok trovato 
-
-il jwt expired mi sembra lo dia tipo dopo un'oretta circa
-quindi o lo togliamo oppure almeno dobbiamo trovare il modo di fare il catch e rimandare alla pagina di login
-
-readyState: 4
-response: '{"message":"jwt expired"}'
-responseText: '{"message":"jwt expired"}'
-responseType: ""
-responseURL: "http://localhost:3001/users/liamilmagnifico/channels"
-responseXML: null
-status: 500
-statusText: "Internal Server Error"
-timeout: 0
-*/
 const getUserChannels = async (req,res) =>{
   try{
     const username = req.params.userName
     const user = await User.findOne({username})
+    if (!user) return res.status(404).json({message: "user not found"})
     const channelList = user.channels
     return res.status(200).json(channelList)
   }catch(err){

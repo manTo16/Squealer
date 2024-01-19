@@ -23,7 +23,7 @@ export default function UserPage ({
   const isLoggedIn = !!localStorage.getItem('token')
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, updateUserData } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const { username } = useParams<{ username?: string }>();
   const navigate = useNavigate()
   const actualUser = () => {

@@ -27,7 +27,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, updateUserData } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const navigate = useNavigate()
 
   const { id } = useParams<{ id?: string }>();

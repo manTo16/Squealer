@@ -14,7 +14,7 @@ function UserInfo() {
 
   const isLoggedIn = !!localStorage.getItem('token')
 
-  const { userDetails, updateUserData } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   
 
   const navigate = useNavigate()

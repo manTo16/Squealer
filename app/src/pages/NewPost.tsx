@@ -35,7 +35,7 @@ import { UserContext, getPersonalUserData } from "@utils/userData";
 export default function NewPostPage() {
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, updateUserData } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const userToken = localStorage.getItem("token") ?? "";
 
   const { replyPostId } = useParams<{ replyPostId?: string }>();
@@ -76,7 +76,7 @@ export default function NewPostPage() {
       }
 
       (async () => {
-        await getPersonalUserData(userDetails.username)
+        fetchUserData()
         setDisplayDailyChars(userDetails.dailyChar)
         setDisplayWeeklyChars(userDetails.weeklyChar)
         setDisplayMonthlyChars(userDetails.monthlyChar)
@@ -139,7 +139,7 @@ export default function NewPostPage() {
         .then(()=>{
           //aggiorna dati utente in locale
           console.log("ENTRO IN GETPERSONAUSERDATA")
-          updateUserData()
+          fetchUserData()
         })
       //window.location.reload();
       console.log("receivers: ", receivers)  //DEBUG

@@ -34,12 +34,19 @@ function App() {
   const localUserDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
 
   const [userDetails, setUserDetails] = useState(null)
-  const updateUserData = async () => {
+  const fetchUserData = async () => {
     setUserDetails(await getPersonalUserData(localUserDetails.username))
+  }
+  const updateUserDataFromLS = () => {
+    setUserDetails(localUserDetails)
   }
 
   useEffect(() => {
-    updateUserData().then(() => setIsLoading(false))
+    if (isLoggedIn) fetchUserData().then(() => setIsLoading(false))
+    else {
+      setUserDetails(localUserDetails)
+      setIsLoading(false)
+    }
   }, [])
 
   const [navbarHeight, setNavbarHeight] = useState(0)
@@ -59,7 +66,7 @@ function App() {
 
   return (
     <div>
-      <UserContext.Provider value={{userDetails, updateUserData}}>
+      <UserContext.Provider value={{userDetails, fetchUserData, updateUserDataFromLS}}>
       <Navbar
       onHeightChange={setNavbarHeight} />
 

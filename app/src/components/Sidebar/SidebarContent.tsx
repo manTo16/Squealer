@@ -16,7 +16,7 @@ export default function SidebarContent(
   const userToken = localStorage.getItem('token');
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, updateUserData } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const username = userDetails.username
   const navigate = useNavigate()
 
@@ -30,6 +30,7 @@ export default function SidebarContent(
   const [displayedChannels, setDisplayedChannels] = useState<string[]>([])
 
   useEffect(() => {
+    updateUserDataFromLS()
     const loadChannels = async () => {
       const response = await axios.get(apiUsersURL+`/${username}/channels`,
       { headers: {"Authorization": `Bearer ${userToken}`}})
@@ -44,8 +45,8 @@ export default function SidebarContent(
       setDisplayedChannels(await loadChannels());
     }
 
-    // fetch channels data only if logged in
-    if (userToken) fetchChannels();
+    // carica i dati dei canali solo se sei loggato e se ha caricato in tempo i dati dell'utente
+    if (userToken && username) fetchChannels();
   }, [])
   
   return(
