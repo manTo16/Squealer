@@ -30,7 +30,10 @@ import IconPaste from "@components/svg/PasteSvg";
 import IconUpload from "@components/svg/UploadSvg";
 import IconCamera from "@components/svg/CameraSvg";
 import { UserContext, getPersonalUserData } from "@utils/userData";
-
+import DailyCalendar from "@components/svg/CharSvg/dCharSvg";
+import MonthlyCalendar from "@components/svg/CharSvg/mCharSvg";
+import WeeklyCalendar from "@components/svg/CharSvg/wCharSvg";
+import Alert from 'react-bootstrap/Alert';
 
 export default function NewPostPage() {
   //const defaultValue = {}
@@ -238,79 +241,101 @@ export default function NewPostPage() {
   return(
     <Container>
       <Row>
-        <p>Quota giornaliera: {userDetails.dailyChar} {userDetails.dailyChar - charCount}</p>
-        <p>Quota settimanale: {userDetails.weeklyChar} {userDetails.weeklyChar - charCount}</p>
-        <p>Quota mensile: {userDetails.monthlyChar} {userDetails.monthlyChar - charCount}</p>
+        
         {
-          userDetails.debtChar > 0 ?
+          userDetails.debtChar > 0 ?    // se l'utente ha già debito di caratteri
           (
-            <>
-            <Accordion>
-              <Accordion.Item eventKey="1">
-                <div style={{backgroundColor: "#dc3545"}}>
-                <Accordion.Header>
-                ATTENZIONE: hai accumulato del debito di caratteri!
-                </Accordion.Header>
-                </div>
-                <Accordion.Body>
-                <p>attualmente, devi acquistare {userDetails.debtChar} caratteri per postare</p>
-                <p>in alternativa, puoi aspettare la prossima paghetta di caratteri</p>
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="2">
-                <Accordion.Header>
-                  Comprare caratteri necessari
-                </Accordion.Header>
-                <Accordion.Body>
-                  per poter postare di nuovo, dirigiti al <Button onClick={() => navigate("/charShop")}>negozio di caratteri</Button> e sana il tuo debito
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-            
-            </>
+            <Alert key="danger" variant="danger">
+              <Alert.Heading>ATTENZIONE: hai accumulato del debito di caratteri!</Alert.Heading>
+              <p>attualmente, devi acquistare {userDetails.debtChar} caratteri per postare <br/>
+              In alternativa, puoi aspettare la prossima paghetta di caratteri</p>
+              <hr />
+              <Alert.Heading>Comprare caratteri necessari</Alert.Heading>
+              <p>per poter postare di nuovo, dirigiti al Negozio e sana il tuo debito</p>
+              <div className="d-flex justify-content-end">
+                <Button onClick={() => navigate("/charShop")} variant="success">
+                  Negozio
+                </Button>
+              </div>
+            </Alert>
           ) :
           ( userDetails.dailyChar - charCount <= 0 || userDetails.weeklyChar - charCount <= 0 || userDetails.monthlyChar - charCount <= 0 ?
             (
-              <Accordion>
-              <Accordion.Item eventKey="1">
-                <div style={{backgroundColor: "#dc3545"}}>
-                <Accordion.Header>
-                ATTENZIONE: hai esaurito i caratteri!
-                </Accordion.Header>
-                </div>
-                <Accordion.Body>
-                Se decidi di pubblicare comunque il tuo squeal, andrai in debito di {charCount - Math.min(userDetails.dailyChar, userDetails.weeklyChar, userDetails.monthlyChar)} caratteri. 
-                Ciò significa che non potrai pubblicare altri squeal finchè il tuo debito non sarà risanato!
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="2">
-                <Accordion.Header>
-                  Comprare caratteri
-                </Accordion.Header>
-                <Accordion.Body>
-                  Per poter acquistare nuovi caratteri, puoi dirigerti al <Button onClick={() => navigate("/charShop")}>negozio di caratteri</Button> e acquistarne quanti desideri.
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="3">
-                <Accordion.Header>
-                  Attendere prossimo reset quota
-                </Accordion.Header>
-                <Accordion.Body>
-                  <p>In alternativa, puoi aspettare che la tua quota di caratteri venga ricolmata domani / prossima settimana / mese prossimo.</p>
-                  <p>Ma dovresti aspettare. In alternativa, puoi <Button onClick={() => navigate("/charShop")}>spendere tutti i tuoi risparmi!</Button></p>
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="4">
-                <Accordion.Header>
-                  Caratteri premio 
-                </Accordion.Header>
-                <Accordion.Body>
-                  <p>Sapevi che se i tuoi post diventano popolari, ricevi caratteri da poter usare per pubblicare nuovi squeal?</p>
-                  <p>Controlla lo stato dei tuoi post, o assumi un Social Media Manager per farlo al posto tuo. Chi sa, da un giorno all'altro, un tuo post potrebbe diventare virale.</p>
-                  <p>Ma si sa, chi vive sperando muore cagando. <Button onClick={() => navigate("/charShop")}>Prendi ora in mano il tuo futuro!</Button></p>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+            //   
+            //     </Accordion.Header>
+            //     <Accordion.Body>
+            //       Per poter acquistare nuovi caratteri, puoi dirigerti al <Button onClick={() => navigate("/charShop")}>negozio di caratteri</Button> e acquistarne quanti desideri.
+            //     </Accordion.Body>
+            //   </Accordion.Item>
+            //   <Accordion.Item eventKey="3">
+            //     <Accordion.Header>
+            //       Attendere prossimo reset quota
+            //     </Accordion.Header>
+            //     <Accordion.Body>
+            //       <p>In alternativa, puoi aspettare che la tua quota di caratteri venga ricolmata domani / prossima settimana / mese prossimo.</p>
+            //       <p>Ma dovresti aspettare. In alternativa, puoi <Button onClick={() => navigate("/charShop")}>spendere tutti i tuoi risparmi!</Button></p>
+            //     </Accordion.Body>
+            //   </Accordion.Item>
+            //   <Accordion.Item eventKey="4">
+            //     <Accordion.Header>
+            //       Caratteri premio 
+            //     </Accordion.Header>
+            //     <Accordion.Body>
+            //       <p>Sapevi che se i tuoi post diventano popolari, ricevi caratteri da poter usare per pubblicare nuovi squeal?</p>
+            //       <p>Controlla lo stato dei tuoi post, o assumi un Social Media Manager per farlo al posto tuo. Chi sa, da un giorno all'altro, un tuo post potrebbe diventare virale.</p>
+            //       <p>Ma si sa, chi vive sperando muore cagando. <Button onClick={() => navigate("/charShop")}>Prendi ora in mano il tuo futuro!</Button></p>
+            //     </Accordion.Body>
+            //   </Accordion.Item>
+            // </Accordion>
+
+              <Alert key="danger" variant="danger">
+                <Alert.Heading>ATTENZIONE: hai esaurito i caratteri!</Alert.Heading>
+                  <p>Se decidi di pubblicare comunque il tuo squeal, andrai in debito di 
+                    <strong> {charCount - Math.min(userDetails.dailyChar, userDetails.weeklyChar, userDetails.monthlyChar)} </strong> caratteri. 
+                    Ciò significa che non potrai pubblicare altri squeal finchè il tuo debito non sarà risanato!
+                  </p>
+                  <hr />
+                  <Alert.Heading>Cosa puoi fare?</Alert.Heading>
+                  <Accordion className="pt-2">
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>
+                        Compra altri caratteri
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p>per poter postare ancora dirigiti al Negozio</p>
+                        <div className="d-flex justify-content-end">
+                        <Button onClick={() => navigate("/charShop")} variant="success">Negozio</Button>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                      <Accordion.Header>
+                        Attendere prossimo reset quota
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p>In alternativa, puoi aspettare che la tua quota di caratteri venga ricolmata domani / prossima settimana / mese prossimo.</p>
+                        <p>Ma dovresti aspettare. In alternativa, puoi...</p>
+                        <div className="d-flex justify-content-end">
+                        <Button onClick={() => navigate("/charShop")} variant="success">Spendere tutti i tuoi risparmi</Button>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="2">
+                      <Accordion.Header>
+                        Caratteri premio 
+                      </Accordion.Header>
+                      <Accordion.Body>
+                        <p>Sapevi che se i tuoi post diventano popolari, ricevi caratteri da poter usare per pubblicare nuovi squeal?</p>
+                        <p>Controlla lo stato dei tuoi post, o assumi un Social Media Manager per farlo al posto tuo. Chi sa, da un giorno all'altro, un tuo post potrebbe diventare virale.</p>
+                        <p>Ma si sa, chi vive sperando muore cagando.</p>
+                        <div className="d-flex justify-content-end">
+                          <Button onClick={() => navigate("/charShop")} variant="success">Prendi ora in mano il tuo futuro!</Button>
+                        </div>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+              </Alert>
+
             ) :
             (
               <></>
@@ -440,9 +465,6 @@ export default function NewPostPage() {
       </Row>
       
       <Row>
-        <p>(questa interfaccia qua sotto si può migliorare. non saprei cos'altro aggiungere. ora come ora ti colleghi a questa pagina usando un url generato dal bottone rispondi al post nei post e l'unica cosa che cambia dal NewPost normale è che c'è il post qua sotto e i destinatari non si possono cambiare. a proposito, la grafica dei destinatari si può rifare. magari mettendoli in un grigiolino per far capire che non si possono cambiare. magari mettendoci dei bottoni cliccabili chi sa. stiamo comunque attenti al sistema di risposte. che per come è ora potrebbero uscire anche dei thread, che sarebbe carino)</p>
-        <p>in risposta a:</p>
-        
         
         {
           replyTo ?

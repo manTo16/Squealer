@@ -20,10 +20,10 @@ function UserInfo() {
   const navigate = useNavigate()
 
   return (
-    <Container className="bg-dark rounded">
+    <Container className="bg-dark p-2 rounded">
       <Row>
         <Button 
-          className='btn btn-outline-dark d-flex'
+          className='btn btn-outline-dark d-flex m-2'
           style={{background: 'transparent'}}
           onClick={() => navigate("/profile")}
         >
