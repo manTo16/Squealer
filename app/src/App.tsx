@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -32,7 +32,7 @@ function App() {
   const isLoggedIn = !!localStorage.getItem('token')
   const localUserDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
 
-  const [userDetails, setUserDetails] = useState(null)
+  const [userDetails, setUserDetails] = useState(localUserDetails)
   const fetchUserData = async () => {
     setUserDetails(await getPersonalUserData(localUserDetails.username))
   }
@@ -58,6 +58,8 @@ function App() {
 
   const location = useLocation();
   const renderSidebars = (location.pathname !== "/login" && location.pathname !== "/register")
+
+  const [isLoading, setIsLoading] = useState(true)
   
   return (
     <div>
@@ -125,7 +127,8 @@ function App() {
         <Bottombar
         onHeightChange={setBottombarHeight}/>
       </div>
-      
+
+      </UserContext.Provider>
     </div>
   );
 }

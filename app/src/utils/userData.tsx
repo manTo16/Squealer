@@ -22,4 +22,5 @@ export const getPersonalUserData = async (username: string) => {
     const user = response?.data ?? {}
     console.log("getPersonaUserData checkpoint 2/3")
     localStorage.setItem('user',JSON.stringify(user))
+    return user
 }
