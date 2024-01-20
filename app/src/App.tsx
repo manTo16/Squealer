@@ -65,6 +65,7 @@ function App() {
   return (
     <div>
       <UserContext.Provider value={{userDetails, fetchUserData, updateUserDataFromLS}}>
+        
       <Navbar
       onHeightChange={setNavbarHeight} />
 

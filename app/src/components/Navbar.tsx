@@ -6,6 +6,26 @@ import SidebarComponent from './Sidebar/SidebarComponent';
 import Searchbar from './Searchbar/Searchbar';
 import Logo from '../assets/Squealer.png'
 
+/*
+ERRORE IN CONSOLE
+
+Warning: validateDOMNesting(...): <a> cannot appear as a descendant of <a>.
+a
+a
+LinkWithRef@http://localhost:3000/static/js/bundle.js:64975:9
+span
+./node_modules/react-bootstrap/esm/NavbarBrand.js/_c<@http://localhost:3000/static/js/bundle.js:35900:105
+div
+./node_modules/react-bootstrap/esm/Container.js/_c<@http://localhost:3000/static/js/bundle.js:32709:103
+nav
+./node_modules/react-bootstrap/esm/Navbar.js/_c<@http://localhost:3000/static/js/bundle.js:35819:70
+div
+Navbar@http://localhost:3000/static/js/bundle.js:77667:16
+div
+App@http://localhost:3000/static/js/bundle.js:76561:88
+Router@http://localhost:3000/static/js/bundle.js:67044:7
+BrowserRouter@http://localhost:3000/static/js/bundle.js:64849:7
+*/
 
 
 export default function Navbar(

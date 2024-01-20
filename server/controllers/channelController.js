@@ -23,7 +23,7 @@ const checkUserPermissions = async (username,channelName,role) => {
 
 const createChannel = async (req,res) => {
   try{
-    const {channelName, username, owners, writers, readers, reserved} = req.body
+    const {channelName, username, description, owners, writers, readers, reserved} = req.body
     const user = await User.findOne({username:username})
 
     let channelNameAdjusted = channelName
@@ -40,6 +40,7 @@ const createChannel = async (req,res) => {
 
     const channel = new Channel({
       channelName: channelNameAdjusted,
+      description: description,
       reserved: reserved,
       usernames: {
         owners: owners,
@@ -179,6 +180,34 @@ const getChannelData = async (req, res) => {
     return res.status(200).json(channel)
   } catch(err) {
     return res.status(500).json({message: err.message})
+  }
+}
+
+//non ho ancora provato se funziona
+const updateChannelData = async (req, res) => {
+  const { channelName } = req.params;
+  const { description, reserved, usernames } = req.body;
+
+  try {
+    const updatedChannel = await Channel.findOneAndUpdate(
+      { channelName },
+      { 
+        description, 
+        reserved, 
+        "usernames.owners": usernames.owners,
+        "usernames.writers": usernames.writers,
+        "usernames.readers": usernames.readers
+      },
+      { new: true }
+    );
+
+    if (!updatedChannel) {
+      return res.status(404).json({ error: 'channel not found' });
+    }
+
+    res.json(updatedChannel);
+  } catch (error) {
+    res.status(500).json({message: err.message});
   }
 }
 

@@ -17,6 +17,9 @@ export default function ChannelCreationPage() {
 
   const [channelName, setChannelName] = useState("");
   const [showSyntaxWarning, setShowSyntaxWarning] = useState(false);
+
+  const [channelDescription, setChannelDescription] = useState("")
+
   const [canWrite, setCanWrite] = useState(true);
   const [canRead, setCanRead] = useState(true);
 
@@ -61,6 +64,7 @@ export default function ChannelCreationPage() {
     axios.post(channelsURL+"/", 
     {
         channelName: channelName,
+        description: channelDescription,
         username: userDetails.username,
         owners: submitOwners,
         writers: submitWriters,
@@ -103,6 +107,10 @@ export default function ChannelCreationPage() {
       </Collapse>
       <FloatingLabel controlId="floatingChannelNameId" label="Nome Canale" className="text-secondary">
         <Form.Control type="text" placeholder="Nome canale" autoFocus onChange={(e) => setChannelName(e.target.value)} isInvalid={showSyntaxWarning} />
+      </FloatingLabel>
+
+      <FloatingLabel controlId="floatingChannelDescriptionId" label="Descrizione Canale" className="text-secondary mt-4 mb-4">
+        <Form.Control type="text" placeholder="Descrizione canale" onChange={(e) => setChannelDescription(e.target.value)} />
       </FloatingLabel>
 
       <p className='mt-3'>Aggiungi amministratori del canale</p>

@@ -38,9 +38,8 @@ export default function Bottombar(
 
 
   return (
-    <div ref={divHtmlElementRef}>
-
-    <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="w-100 fixed-bottom">
+    <>
+    <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="w-100 fixed-bottom" ref={divHtmlElementRef}>
       <Nav className="d-flex flex-grow-1"> 
         <Container className='justify-content-center py-2'>
             <Row>
@@ -90,7 +89,7 @@ export default function Bottombar(
       </Nav>
     </Navbar>
   
-    </div>
+    </>
 
   );
 }
