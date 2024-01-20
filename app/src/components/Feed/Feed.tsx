@@ -1,4 +1,3 @@
-import "./feed.css"
 import Post from "../Post/Post"
 
 import axios, { AxiosError } from "axios"

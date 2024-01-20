@@ -7,8 +7,6 @@ import Button from 'react-bootstrap/Button';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 
-import "./Bottombar.css"
-
 import HomeButton from './svg/BottomBarSvg/HomeButton';
 import FireButton from './svg/BottomBarSvg/FireButton';
 import AddButton from './svg/BottomBarSvg/AddButton';
@@ -42,9 +40,9 @@ export default function Bottombar(
   return (
     <div ref={divHtmlElementRef}>
 
-    <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="bottom-navbar">
+    <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="w-100 fixed-bottom">
       <Nav className="d-flex flex-grow-1"> 
-        <Container className='justify-content-center ca'>
+        <Container className='justify-content-center py-2'>
             <Row>
 
             <Col>
