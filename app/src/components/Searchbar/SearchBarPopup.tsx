@@ -9,17 +9,25 @@ import { generateAddressURL } from "@utils/URLs"
 interface SearchBarPopupProps {
   show: boolean;
   handleShow: (input: boolean) => void;
+
+  queryValue?: string;
+  setQueryValue?: (value: string) => void;
 }
 
-export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps) {
+export default function SearchBarPopup({show, handleShow, queryValue="", setQueryValue=()=>{}} : SearchBarPopupProps) {
   const navigate = useNavigate()
 
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState(queryValue)
 
   const [results, setResults] = useState<string[]>([])
 
   const [userResults, setUserResults] = useState<string[]>([])
   const [channelResults, setChannelResults] = useState<string[]>([])
+
+  const setSearchQueryAll = (value: string) => {
+    setSearchQuery(value)
+    setQueryValue(value)
+  }
 
   const getUserResultsByUsername = async (query: string) => {
     if (query) {
@@ -59,6 +67,9 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
   }
 
 
+  useEffect(() => {
+    setSearchQuery(queryValue)
+  }, [queryValue])
 
   useEffect(() => {
     setResults([])
@@ -103,8 +114,15 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
     <>
     <Modal show={show} onHide={() => handleShow(false)}>
       <Modal.Header style={{backgroundColor: '#282828', color: 'white'}} closeButton>
-        <Form.Control style={{backgroundColor: '#272729'}} className="bg-secondary text-white" type="text" placeholder="Cerca" onChange={(e) => setSearchQuery(e.target.value)} autoFocus />
+        <Form.Control 
+        style={{backgroundColor: '#272729'}} 
+        className="bg-secondary text-white" 
+        type="text" placeholder="Cerca" 
+        onChange={(e) => setSearchQueryAll(e.target.value)} 
+        value={searchQuery}
+        autoFocus />
       </Modal.Header>
+
       <Modal.Body style={{backgroundColor: '#282828', color: 'white'}}>
         <div> 
         {
@@ -123,6 +141,7 @@ export default function SearchBarPopup({show, handleShow} : SearchBarPopupProps)
         } 
         </div>
       </Modal.Body>
+
       <Modal.Footer style={{backgroundColor: '#282828', color: 'white'}}>
         <Button variant="secondary" onClick={() => {
                               handleShow(false)

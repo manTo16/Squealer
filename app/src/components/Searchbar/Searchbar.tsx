@@ -10,6 +10,7 @@ export default function Searchbar() {
   const navigate = useNavigate()
 
   const [showSearchBarPopup, setShowSearchBarPopup] = useState(false)
+  const [searchBarInput, setSearchBarInput] = useState("")
 
   return (
     <>
@@ -22,10 +23,12 @@ export default function Searchbar() {
             onClick={() => setShowSearchBarPopup(true)}
             placeholder='Trova amici, post o video'
             aria-label="Username"
+            value={searchBarInput}
+            onChange={(e) => setSearchBarInput(e.target.value)}
           />
         </InputGroup>
 
-        <SearchBarPopup show={showSearchBarPopup} handleShow={setShowSearchBarPopup} />
+        <SearchBarPopup show={showSearchBarPopup} handleShow={setShowSearchBarPopup} queryValue={searchBarInput} setQueryValue={setSearchBarInput}/>
       </div>
 
     </>
