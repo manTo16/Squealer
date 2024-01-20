@@ -10,6 +10,7 @@ import UserSelector from "@components/UserSelector";
 import { UserContext } from "@utils/userData";
 import Edit from "@components/svg/EditSvg";
 import IconSave from "@components/svg/SaveSvg";
+import IconUsergroupAdd from "@components/svg/UsergroupAddSvg";
 
 
 export default function ChannelSettingsPage() {
@@ -158,9 +159,9 @@ export default function ChannelSettingsPage() {
                             <span className="fw-bold">{channelData.usernames.owners.join(', ')}</span>
                             <Button 
                                 onClick={() => setIsModifyingOwners(true)}
-                                className="ms-auto"
+                                className="ms-auto bg-transparent btn-outline-dark text-white"
                             >
-                                <Edit/>
+                                <IconUsergroupAdd/>
                             </Button>
                         </div>)
                         }

@@ -61,7 +61,8 @@ function App() {
   const renderSidebars = (location.pathname !== "/login" && location.pathname !== "/register")
 
   const [isLoading, setIsLoading] = useState(true)
-  
+
+
   return (
     <div>
       <UserContext.Provider value={{userDetails, fetchUserData, updateUserDataFromLS}}>
