@@ -80,7 +80,10 @@ export default function ChannelCreationPage() {
           }
         })
     .then(() => {
-        navigate("/")
+      fetchUserData()
+    })
+    .then(() => {
+      navigate("/")
     })
   }
 
