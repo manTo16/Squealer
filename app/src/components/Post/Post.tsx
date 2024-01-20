@@ -250,7 +250,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   if (isLoading) return (<PostPlaceholder />)
 
   return (
-    <div className="w-100 border-bottom border-4 border-black" style={{backgroundColor: '#1a1a1b'}}>
+    <div className="w-100 border-bottom border-3 border-dark" style={{backgroundColor: '#1a1a1b'}}>
       <div className="p-2">
         <Row>
           <Col className="align-self-top">

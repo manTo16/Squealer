@@ -1,14 +1,9 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-
 import ContainerBootstrap from 'react-bootstrap/Container';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
-
 import SidebarComponent from './Sidebar/SidebarComponent';
 import Searchbar from './Searchbar/Searchbar';
-
-import ProfileLG from './Profile options/ProfileLG';
-import ProfileSM from './Profile options/ProfileSM';
 import Logo from '../assets/Squealer.png'
 
 

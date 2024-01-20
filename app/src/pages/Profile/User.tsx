@@ -1,4 +1,4 @@
-import { ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
+import { Badge, ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
@@ -62,7 +62,7 @@ export default function UserPage ({
   const [reactionType, setReactionType] = useState(ReactionType.Default)
   
   return(
-    <Form className='bg-dark rounded p-2 m-1'>
+    <Form className='bg-dark rounded p-3 m-0'>
       <Row>
         <Col xs="auto" sm="auto" lg="auto" md="auto">
           <Button 
@@ -99,15 +99,16 @@ export default function UserPage ({
         </Col>
       </Row>
       <hr/>
-
-      <h3>Visualizza: </h3>
-      <ButtonGroup aria-label="Basic example">
-        <Button variant="secondary" onClick={() => setReactionType(ReactionType.Default)}>Post</Button>
-        <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryLike)}><Heart/></Button>
-        <Button variant="secondary" onClick={() => setReactionType(ReactionType.Like)}><Like/></Button>
-        <Button variant="secondary" onClick={() => setReactionType(ReactionType.Dislike)}><Dislike/></Button>
-        <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryDislike)}><Heartbreak/></Button>
-      </ButtonGroup>
+      <div className='d-flex'>
+        <h4>Visualizza: <Badge pill bg="success"> {reactionType === ReactionType.Default ? 'post' : reactionType} </Badge> </h4>
+        <ButtonGroup aria-label="Basic example" className='pb-2 ms-auto'>
+          <Button variant="secondary" onClick={() => setReactionType(ReactionType.Default)}>Post</Button>
+          <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryLike)}><Heart/></Button>
+          <Button variant="secondary" onClick={() => setReactionType(ReactionType.Like)}><Like/></Button>
+          <Button variant="secondary" onClick={() => setReactionType(ReactionType.Dislike)}><Dislike/></Button>
+          <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryDislike)}><Heartbreak/></Button>
+        </ButtonGroup>
+      </div>
       { 
       reactionType === ReactionType.Default ? (
           <Feed searchQuery={userData.username} searchRoute="search/byUsername"/>
