@@ -8,7 +8,7 @@ import Feed from '@components/Feed/Feed';
 import { Button } from 'react-bootstrap';
 import Gear from '@components/svg/GearSvg';
 
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { UserContext } from '@utils/userData';
 
 const ChannelPage: React.FC = () => {
@@ -16,6 +16,13 @@ const ChannelPage: React.FC = () => {
   const { channelName } = useParams<{ channelName: string }>();
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = `§${channelName}`;
+    return () => {
+      document.title = 'Squealer';
+    };
+  }, [channelName]);
 
   return (
     <div>
@@ -28,15 +35,16 @@ const ChannelPage: React.FC = () => {
               <Badge pill bg="success" className='mt-2 ms-2'>Proprietario</Badge>
             </h5>
           }
-          
-          {
-            userDetails.ownedChannels.includes(channelName) &&
-            <Button
-              onClick={() => navigate(`/channels/${channelName}/settings`)} 
-              className='bg-transparent btn-outline-dark text-white'>
-                <Gear/>
-            </Button>
-          }          
+          <div className='ms-auto'>
+            {
+              userDetails.ownedChannels.includes(channelName) &&
+              <Button
+                onClick={() => navigate(`/channels/${channelName}/settings`)} 
+                className=' bg-transparent btn-outline-dark text-white'>
+                  <Gear/>
+              </Button>
+            }    
+          </div>      
         </div>
         
         <Feed channelName={channelName} />

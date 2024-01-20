@@ -34,6 +34,13 @@ export default function UserPage ({
   const actualUser = () => {
     setUserData(userDetails)
   }
+
+  useEffect(() => {
+    document.title = `@${username}`;
+    return () => {
+      document.title = 'Squealer';
+    };
+  }, [username]);
   
   useEffect(() => {
     !isLoggedIn ? navigate('/login') : console.log("logged in");
