@@ -7,7 +7,7 @@ export default function Home() {
   const isLoggedIn = !!localStorage.getItem('token')
 
   return (
-    <div className="full-height home">
+    <div className="home">
         <Feed channelName='ALL'/>
     </div>
   );

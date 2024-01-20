@@ -52,7 +52,7 @@ export default function SidebarContent(
   }, [])
   
   return(
-  <div className='bg-dark rounded'>
+  <div className='bg-dark rounded overflow-auto'>
 
       {
         userToken ? 
