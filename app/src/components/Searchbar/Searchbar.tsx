@@ -16,7 +16,7 @@ export default function Searchbar() {
     <>
       <div className=" d-flex align-items-center flex-grow-1 my-2">
         <InputGroup className="">
-          <Button variant='success' id="button-addon1" onClick={() => navigate("/")}>
+          <Button variant='success' id="button-addon1" onClick={() => navigate(`/search/${searchBarInput}`)}>
             <SearchLogo />
           </Button>
           <Form.Control
