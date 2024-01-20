@@ -14,9 +14,9 @@ export default function Searchbar() {
 
   return (
     <>
-      <div className=" d-flex align-items-center flex-grow-1 my-2">
+      <div className="d-flex d-none d-sm-block align-items-center flex-grow-1 my-2">
         <InputGroup className="">
-          <Button variant='success' id="button-addon1" onClick={() => navigate(`/search/${searchBarInput}`)}>
+          <Button variant='success' id="button-addon1" onClick={() => setShowSearchBarPopup(true)}>
             <SearchLogo />
           </Button>
           <Form.Control
@@ -30,7 +30,9 @@ export default function Searchbar() {
 
         <SearchBarPopup show={showSearchBarPopup} handleShow={setShowSearchBarPopup} queryValue={searchBarInput} setQueryValue={setSearchBarInput}/>
       </div>
-
+      <div className='d-sm-none'>
+        <Button variant='success' id="button-addon1" onClick={() => setShowSearchBarPopup(true)}><SearchLogo /></Button>
+      </div>
     </>
   );
 }

@@ -80,7 +80,7 @@ function App() {
         }
 
         {/* <SidebarComponent /> */}
-        <Col xs={12} lg={6} className='content-wrapper'>
+        <Col xs={12} lg={6} className='content-wrapper p-0'>
           <div style={{
             // overflow: "scroll", 
           height: window.innerHeight - navbarHeight - bottombarHeight - 10}}
@@ -113,9 +113,15 @@ function App() {
         {renderSidebars && (
         isLoggedIn ?
         (
-          <Col xs={0} lg={3} className='d-none d-lg-block'>
+          <>
+      
+          <Col xs={0} lg={2} className='d-none d-lg-block'>
             <UserInfo />
           </Col>
+           <Col xs={0} lg={1}>
+            <></>
+          </Col>
+          </>
         )
         :
         (

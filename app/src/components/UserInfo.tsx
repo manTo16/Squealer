@@ -19,21 +19,32 @@ function UserInfo() {
   const navigate = useNavigate()
 
   return (
-    <Container className="bg-dark p-2 rounded">
+    <Container className="bg-dark p-2 rounded-bottom">
       <Row>
-        <Button 
-          className='btn btn-outline-dark d-flex m-2'
-          style={{background: 'transparent'}}
-          onClick={() => navigate("/profile")}
-        >
-          <img src={`${userDetails.userImage}`} alt="user profile picture" width={100} className='py-4 rounded-circle'/>
-          <div className='p-3 text-white'>
-            <h3>{userDetails.displayName}</h3> 
-            <h4>{'@'+userDetails.username}</h4>
-          </div>
-        </Button>
-        
+        <Col lg={12} xs={0}>
+          <Button 
+            className='btn w-100 btn-outline-dark m-0 p-0'
+            style={{background: 'transparent'}}
+            onClick={() => navigate("/profile")}
+          >
+            <Row>
+              <Col>
+               <img src={`${userDetails.userImage}`} alt="user profile picture" className='w-100 rounded-circle'/>
+              </Col>
+            </Row>
+            <hr className='text-white' />
+            <Row className='text-white'>
+              <Col lg={12}>
+                <h3>{userDetails.displayName}</h3> 
+              </Col>
+              <Col lg={12}>
+                <h4>{'@'+userDetails.username}</h4>
+              </Col>
+            </Row>
+          </Button>
+        </Col>
       </Row>
+      <hr />
       <Row>
         <Col lg="auto" className='m-2'>
           <Row>
@@ -49,10 +60,9 @@ function UserInfo() {
             <Col lg="auto" className='d-flex align-text-center justify-content-center'><h3><Badge pill bg="secondary">{userDetails.monthlyChar}</Badge></h3></Col>
           </Row>
         </Col>  
-        <Col lg={{ span: "auto", offset: 1}}>
-          <ThirdColumn />
-        </Col>
       </Row>
+      <hr/>
+        <ThirdColumn />
     </Container>
   )
 }

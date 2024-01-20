@@ -1,10 +1,15 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import ContainerBootstrap from 'react-bootstrap/Container';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
 import SidebarComponent from './Sidebar/SidebarComponent';
 import Searchbar from './Searchbar/Searchbar';
 import Logo from '../assets/Squealer.png'
+import { Badge, Col, Nav, Row } from 'react-bootstrap';
+import WeeklyCalendar from './svg/CharSvg/wCharSvg';
+import { UserContext } from '@utils/userData';
+import MonthlyCalendar from './svg/CharSvg/mCharSvg';
+import DailyCalendar from './svg/CharSvg/dCharSvg';
 
 /*
 ERRORE IN CONSOLE
@@ -36,6 +41,8 @@ export default function Navbar(
   const isLoggedIn = !!localStorage.getItem('token')
   // const isLoggedIn = true
 
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+
   const divHtmlElementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -48,7 +55,7 @@ export default function Navbar(
   return (
     <div ref={divHtmlElementRef}>
 
-    <NavbarBootstrap expand="lg" className="p-0 navbar-expand-lg navbar-dark bg-dark container-fluid mb-2">
+    <NavbarBootstrap expand="lg" className="p-0 navbar-expand-lg navbar-dark bg-dark container-fluid pb-2">
       <ContainerBootstrap>
 
         <NavbarBootstrap.Brand className="d-flex align-items-center">
@@ -62,6 +69,13 @@ export default function Navbar(
         </NavbarBootstrap.Brand>
         <Searchbar />
       </ContainerBootstrap>
+    </NavbarBootstrap>
+    <NavbarBootstrap expand="sm" className='d-lg-none navbar-dark bg-dark d-flex justify-content-center align-items-center pb-0'>
+        <DailyCalendar/><h3><Badge pill bg="secondary">{userDetails.dailyChar}</Badge></h3>
+        <div className="vr mx-3" />
+        <WeeklyCalendar/><h3><Badge pill bg="secondary">{userDetails.weeklyChar}</Badge></h3>
+        <div className="vr mx-3" />
+        <MonthlyCalendar/><h3><Badge pill bg="secondary">{userDetails.monthlyChar}</Badge></h3>
     </NavbarBootstrap>
 
     </div>
