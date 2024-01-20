@@ -10,22 +10,25 @@ export default function Searchbar() {
   const navigate = useNavigate()
 
   const [showSearchBarPopup, setShowSearchBarPopup] = useState(false)
+  const [searchBarInput, setSearchBarInput] = useState("")
 
   return (
     <>
       <div className=" d-flex align-items-center flex-grow-1 my-2">
         <InputGroup className="">
-          <Button variant='success' id="button-addon1" onClick={() => navigate("/")}>
+          <Button variant='success' id="button-addon1" onClick={() => navigate(`/search/${searchBarInput}`)}>
             <SearchLogo />
           </Button>
           <Form.Control
             onClick={() => setShowSearchBarPopup(true)}
             placeholder='Trova amici, post o video'
             aria-label="Username"
+            value={searchBarInput}
+            onChange={(e) => setSearchBarInput(e.target.value)}
           />
         </InputGroup>
 
-        <SearchBarPopup show={showSearchBarPopup} handleShow={setShowSearchBarPopup} />
+        <SearchBarPopup show={showSearchBarPopup} handleShow={setShowSearchBarPopup} queryValue={searchBarInput} setQueryValue={setSearchBarInput}/>
       </div>
 
     </>
