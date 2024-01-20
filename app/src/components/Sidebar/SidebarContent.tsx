@@ -46,7 +46,9 @@ export default function SidebarContent(
     }
 
     // carica i dati dei canali solo se sei loggato e se ha caricato in tempo i dati dell'utente
-    if (userToken && username) fetchChannels();
+    //if (userToken && username) fetchChannels();
+    //alla fine è abbastanza inutile chiamare questa funzione. se teniamo aggiornato l'userDetails sta tutto lì
+    //tra un po' magari eliminiamo direttamente il codice. per ora lo teniamo magari alla fine serve
   }, [])
   
   return(
@@ -112,7 +114,7 @@ export default function SidebarContent(
         (
           <>
             {
-            displayedChannels.map((channelName, index) =>
+            userDetails.ownedChannels.map((channelName: string, index: number) =>
             <Button key={index} 
               className="mb-2"
               onClick={() => {navigate(`/channels/${channelName}`); handleShow(false)}}
@@ -126,7 +128,13 @@ export default function SidebarContent(
             <h3 className="normal-text mt-2 mb-3 text-center">Iscrizioni</h3> 
           
             {
-              
+              userDetails.channels.map((channelName: string, index: number) =>
+              <Button key={index} 
+                className="mb-2"
+                onClick={() => {navigate(`/channels/${channelName}`); handleShow(false)}}
+                variant="outline-light">
+                {channelName}
+              </Button>  )
             }
 
           </>

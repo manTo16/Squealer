@@ -168,10 +168,25 @@ const searchChannelByChannelNameOneResult = async (req, res) => {
 //   }
 // }
 
+const getChannelData = async (req, res) => {
+  try {
+    const channelName = req.params.channelName
+    
+    const channel = await Channel.findOne({channelName: channelName})
+
+    if (!channel) return res.status(404).json({message: "channel not found"})
+
+    return res.status(200).json(channel)
+  } catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
   createChannel,
   addUserToChannel,
   getChannelPostIds,
   searchChannelByChannelName,
-  searchChannelByChannelNameOneResult
+  searchChannelByChannelNameOneResult,
+  getChannelData
 }

@@ -6,11 +6,14 @@ const {
   addUserToChannel,
   getChannelPostIds,
   searchChannelByChannelName,
-  searchChannelByChannelNameOneResult
+  searchChannelByChannelNameOneResult,
+  getChannelData
 } = require('../controllers/channelController.js')
 
 router.route('/').post(verifyToken,createChannel)
 router.route('/:channelName').post(addUserToChannel).get(getChannelPostIds)
+
+router.route('/data/:channelName').get(getChannelData)
 
 router.route('/search/byChannelName/:channelName').get(searchChannelByChannelName)
 router.route('/search/byChannelName/oneResult/:channelName').get(searchChannelByChannelNameOneResult)

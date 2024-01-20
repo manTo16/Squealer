@@ -6,9 +6,13 @@ import { channelsURL } from '../URLs';
 
 import Feed from '@components/Feed/Feed';
 import { Button } from 'react-bootstrap';
+import { useContext } from 'react';
+import { UserContext } from '@utils/userData';
 
 const ChannelPage: React.FC = () => {
-  const { channelName } = useParams<{ channelName: string }>();
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+
+  const { channelName } = useParams<{ channelName: string }>()
 
   const navigate = useNavigate()
 
@@ -16,7 +20,9 @@ const ChannelPage: React.FC = () => {
     <div>
         <div className='d-flex mb-2 p-2 bg-dark rounded'>
           <h1 className='m-0'>§{channelName}</h1>
-          <span><Button onClick={() => navigate(`/channels/${channelName}/settings`)}>rotella ingranaggio</Button></span>
+          { userDetails.ownedChannels.includes(channelName) &&
+            <span><Button onClick={() => navigate(`/channels/${channelName}/settings`)}>rotella ingranaggio</Button></span>
+          }
         </div>
         
         <Feed channelName={channelName} />
