@@ -19,7 +19,7 @@ export default function UserSelector({placeholderText="Inserisci il nome dell'ut
   const [suggestionsLoading, setSuggestionsLoading] = useState(false)
 
   const handleAddClick = () => {
-    setButtons([...buttons, inputText]);
+    if (inputText && !buttons.includes(inputText)) setButtons([...buttons, inputText]);
     setInputText("");
     setShowSuggestions(false);
   };

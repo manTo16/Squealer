@@ -185,15 +185,19 @@ const getChannelData = async (req, res) => {
 
 //non ho ancora provato se funziona
 const updateChannelData = async (req, res) => {
-  const { channelName } = req.params;
-  const { description, reserved, usernames } = req.body;
-
   try {
+    const { channelName } = req.params;
+    const { description, usernames } = req.body;
+
+    console.log("updateChannelData channelName, description, usernames: ", channelName, description, usernames)
+
+    const channelOld = await Channel.findOne({channelName: channelName})
+    if (!channelOld) return res.status(404).json({message: "channel not found"})
+
     const updatedChannel = await Channel.findOneAndUpdate(
       { channelName },
       { 
         description, 
-        reserved, 
         "usernames.owners": usernames.owners,
         "usernames.writers": usernames.writers,
         "usernames.readers": usernames.readers
@@ -201,9 +205,29 @@ const updateChannelData = async (req, res) => {
       { new: true }
     );
 
+    //aggiorna nuovi proprietari
+    await usernames.owners.map(async (username) => {
+      user = await User.findOne({username: username})
+      if (user && !user.ownedChannels.includes(channelName)) {
+        user.ownedChannels.push(channelName)
+        await user.save()
+      }
+    })
+    //rimuovi canale da proprietari rimossi
+    await channelOld.usernames.owners.filter(owner => !usernames.owners.includes(owner))
+    .map(async (username) => {
+      user = await User.findOne({username: username})
+      if (user) {
+        user.ownedChannels = user.ownedChannels.filter(channel => channel !== channelName)
+        await user.save()
+      }
+    })
+
     if (!updatedChannel) {
       return res.status(404).json({ error: 'channel not found' });
     }
+
+    console.log("updateChannelData updatedChannel: ", updatedChannel)
 
     res.json(updatedChannel);
   } catch (error) {
@@ -217,5 +241,6 @@ module.exports = {
   getChannelPostIds,
   searchChannelByChannelName,
   searchChannelByChannelNameOneResult,
-  getChannelData
+  getChannelData,
+  updateChannelData
 }
