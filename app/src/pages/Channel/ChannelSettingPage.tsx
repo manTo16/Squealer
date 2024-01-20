@@ -8,6 +8,8 @@ import { Accordion, Button, Card, Form, ListGroup } from "react-bootstrap";
 
 import UserSelector from "@components/UserSelector";
 import { UserContext } from "@utils/userData";
+import Edit from "@components/svg/EditSvg";
+import IconSave from "@components/svg/SaveSvg";
 
 
 export default function ChannelSettingsPage() {
@@ -93,141 +95,146 @@ export default function ChannelSettingsPage() {
     )
 
     return (
-        <>
         <div className="h-100 overflow-auto">
-        <h1>{channelData.channelName}</h1>
-        <Card className="mb-4">
-        <Card.Header>
-        <Card.Title>
-            Descrizione del Canale 
-            <span>
-                {isModifyingDescription ?
-                (
-                    <Button
-                    onClick={() => setIsModifyingDescription(false)}
-                    >Salva</Button>
-                ) :
-                (
-                    <Button
-                    onClick={() => setIsModifyingDescription(true)}
-                    >modifica icona penna?</Button>
-                )
+            <h1>{channelData.channelName}</h1>
+             <Card className="mb-4 bg-dark">  {/* description */}
+                <Card.Header>
+                    <Card.Title>
+                        <div className="d-flex align-items-center">
+                        Descrizione del Canale 
+                            <div className="ms-auto">
+                                { isModifyingDescription ?
+                                    (
+                                        <Button
+                                        onClick={() => setIsModifyingDescription(false)}
+                                        className='bg-transparent btn-outline-dark text-white'
+                                        ><IconSave/></Button>
+                                    ) : (
+                                        <span><Button
+                                        onClick={() => setIsModifyingDescription(true)}
+                                        className='bg-transparent btn-outline-dark text-white'
+                                        ><Edit/></Button></span>
+                                    )
+                                }
+                            </div>
+                        </div> 
+                    </Card.Title>
+                </Card.Header>
 
-                }
-                
-            </span> 
-        </Card.Title>
-        </Card.Header>
-
-        <Card.Body>
-            
-            
-            {isModifyingDescription ? 
-            (
-                <Form.Control autoFocus onChange={(e) => setChannelData({...channelData, description: e.target.value})} value={channelData.description} />
-            ) :
-            (
-                <Card.Text>
-                    {channelData.description ? channelData.description : "Sembra che il tuo canale non abbia una descrizione. Aggiungila pure!"}
-                </Card.Text>
-            )
-            }
-            
-        </Card.Body>
-        </Card>
-
-
-        <Accordion defaultActiveKey="0" alwaysOpen>
-        <Accordion.Item eventKey="0">
-            <Card>
-            <Card.Header>
-                <Accordion.Button>
-                Gestisci proprietari
-                </Accordion.Button>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
                 <Card.Body>
-                    {isModifyingOwners ?
-                    (<>
-                        <UserSelector buttons={channelData.usernames.owners} setButtons={setOwners} />
-                        <Button onClick={() => setIsModifyingOwners(false)}>Salva</Button>
-                    </>) :
-                    (<>
-                        {channelData.usernames.owners.join(', ')} <Button onClick={() => setIsModifyingOwners(true)}>modifica</Button>
-                    </>)
-                    }
-                </Card.Body>
-            </Accordion.Collapse>
-            </Card>
-        </Accordion.Item>
-
-        <Accordion.Item eventKey="1">
-            <Card>
-            <Card.Header>
-                <Accordion.Button>
-                Impostazioni scrittura
-                </Accordion.Button>
-            </Card.Header>
-            <Accordion.Collapse eventKey="1">
-                <Card.Body>
-                    {isModifyingWriters ?
-                    (<>
-                    <UserSelector buttons={channelData.usernames.writers} setButtons={setWriters} />
-                    <Button onClick={() => setIsModifyingWriters(false)}>salva</Button>
-                    </>) :
-                    (<>
-                    <Button onClick={() => setIsModifyingWriters(true)}>modifica</Button>
-                    <Form.Check 
-                    type="checkbox"
-                    label="Chiunque può postare"/>
-                    <p>Chi può postare:</p>
-                    {channelData.usernames.writers.join(', ')}
-                    </>)
-
+                    
+                    
+                    {isModifyingDescription ? 
+                    (
+                        <Form.Control autoFocus onChange={(e) => setChannelData({...channelData, description: e.target.value})} value={channelData.description} />
+                    ) :
+                    (
+                        <Card.Text>
+                            {channelData.description ? channelData.description : "Sembra che il tuo canale non abbia una descrizione. Aggiungila pure!"}
+                        </Card.Text>
+                    )
                     }
                     
                 </Card.Body>
-            </Accordion.Collapse>
             </Card>
-        </Accordion.Item>
 
-        <Accordion.Item eventKey="2">
-            <Card>
-            <Card.Header>
-                <Accordion.Button>
-                Impostazioni lettura
-                </Accordion.Button>
-            </Card.Header>
-            <Accordion.Collapse eventKey="2">
-                <Card.Body>
-                    <Form.Check 
-                    type="checkbox"
-                    label="Chiunque può leggere"/>
-                    <p>Chi può leggere il contenuto del canale:</p>
-                    {channelData.usernames.readers.join(', ')}
-                </Card.Body>
-            </Accordion.Collapse>
-            </Card>
-        </Accordion.Item>
 
-        <Accordion.Item eventKey="3">
-            <Card>
-            <Card.Header>
-                <Accordion.Button>
-                Iscritti (numeroiscritti)
-                </Accordion.Button>
-            </Card.Header>
-            <Accordion.Collapse eventKey="3">
-                <Card.Body>{channelData.usernames.subs.join(', ')}</Card.Body>
-            </Accordion.Collapse>
-            </Card>
-        </Accordion.Item>
-        </Accordion>
+            <Accordion defaultActiveKey="0" alwaysOpen>
+            <Accordion.Item eventKey="0">
+                <Card>
+                <Card.Header>
+                    <Accordion.Button>
+                    Gestisci proprietari
+                    </Accordion.Button>
+                </Card.Header>
+                <Accordion.Collapse eventKey="0">
+                    <Card.Body>
+                        {isModifyingOwners ?
+                        (<>
+                            <UserSelector buttons={channelData.usernames.owners} setButtons={setOwners} />
+                            <Button onClick={() => setIsModifyingOwners(false)}>Salva</Button>
+                        </>) :
+                        (<div className="d-flex align-items-center">
+                            <span className="fw-bold">{channelData.usernames.owners.join(', ')}</span>
+                            <Button 
+                                onClick={() => setIsModifyingOwners(true)}
+                                className="ms-auto"
+                            >
+                                <Edit/>
+                            </Button>
+                        </div>)
+                        }
+                    </Card.Body>
+                </Accordion.Collapse>
+                </Card>
+            </Accordion.Item>
 
-        <Button onClick={() => navigate(`/channels/${channelName}`)}>Annulla modifiche</Button>
-        <Button>Salva modifiche</Button>
+            <Accordion.Item eventKey="1">
+                <Card>
+                <Card.Header>
+                    <Accordion.Button>
+                    Impostazioni scrittura
+                    </Accordion.Button>
+                </Card.Header>
+                <Accordion.Collapse eventKey="1">
+                    <Card.Body>
+                        {isModifyingWriters ?
+                        (<>
+                        <UserSelector buttons={channelData.usernames.writers} setButtons={setWriters} />
+                        <Button onClick={() => setIsModifyingWriters(false)}>salva</Button>
+                        </>) :
+                        (<>
+                        <Button onClick={() => setIsModifyingWriters(true)}>modifica</Button>
+                        <Form.Check 
+                        type="checkbox"
+                        label="Chiunque può postare"/>
+                        <p>Chi può postare:</p>
+                        {channelData.usernames.writers.join(', ')}
+                        </>)
+
+                        }
+                        
+                    </Card.Body>
+                </Accordion.Collapse>
+                </Card>
+            </Accordion.Item>
+
+            <Accordion.Item eventKey="2">
+                <Card>
+                <Card.Header>
+                    <Accordion.Button>
+                    Impostazioni lettura
+                    </Accordion.Button>
+                </Card.Header>
+                <Accordion.Collapse eventKey="2">
+                    <Card.Body>
+                        <Form.Check 
+                        type="checkbox"
+                        label="Chiunque può leggere"/>
+                        <p>Chi può leggere il contenuto del canale:</p>
+                        {channelData.usernames.readers.join(', ')}
+                    </Card.Body>
+                </Accordion.Collapse>
+                </Card>
+            </Accordion.Item>
+
+            <Accordion.Item eventKey="3">
+                <Card>
+                <Card.Header>
+                    <Accordion.Button>
+                    Iscritti (numeroiscritti)
+                    </Accordion.Button>
+                </Card.Header>
+                <Accordion.Collapse eventKey="3">
+                    <Card.Body>{channelData.usernames.subs.join(', ')}</Card.Body>
+                </Accordion.Collapse>
+                </Card>
+            </Accordion.Item>
+            </Accordion>
+
+            <Button onClick={() => navigate(`/channels/${channelName}`)}>Annulla modifiche</Button>
+            <Button>Salva modifiche</Button>
 
         </div>
-        </>
     )
 }

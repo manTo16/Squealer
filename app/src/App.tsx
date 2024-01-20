@@ -86,22 +86,22 @@ function App() {
           >
 
           <Routes>
-            <Route path='/'                           element={<Home />}                      />
-            <Route path='/login'                      element={<Login />}                     />
-            <Route path='/register'                   element={<Register />}                  />
-            <Route path='/newPost'                    element={<NewPostPage />}               />
-            <Route path='/newPost/reply/:replyPostId' element={<NewPostPage />}               />
-            <Route path='/trendingPage'               element={<TrendingPage />}              />
-            <Route path='/feed'                       element={<Feed />}                      />
-            <Route path='/profile'                    element={<ProfilePage />}               />
-            <Route path='/channels/:channelName'      element={<ChannelPage />}               />
+            <Route path='/'                               element={<Home />}                      />
+            <Route path='/login'                          element={<Login />}                     />
+            <Route path='/register'                       element={<Register />}                  />
+            <Route path='/newPost'                        element={<NewPostPage />}               />
+            <Route path='/newPost/reply/:replyPostId'     element={<NewPostPage />}               />
+            <Route path='/trendingPage'                   element={<TrendingPage />}              />
+            <Route path='/feed'                           element={<Feed />}                      />
+            <Route path='/profile'                        element={<ProfilePage />}               />
+            <Route path='/channels/:channelName'          element={<ChannelPage />}               />
             <Route path='/channels/:channelName/settings' element={<ChannelSettingsPage />}       />
-            <Route path='/posts/:id'                  element={<Post postId='getFromUrl' />}  />
-            <Route path='/search/:query'              element={<SearchPage />}                />
-            <Route path='/users/:username'            element={<UserPage />}                  />
-            <Route path='/charShop'                   element={<CharShopPage />}              />
-            <Route path='/createChannel'              element={<ChannelCreationPage />}       />
-            <Route path='/question'                   element={<QuestionPage />}              />
+            <Route path='/posts/:id'                      element={<Post postId='getFromUrl' />}  />
+            <Route path='/search/:query'                  element={<SearchPage />}                />
+            <Route path='/users/:username'                element={<UserPage />}                  />
+            <Route path='/charShop'                       element={<CharShopPage />}              />
+            <Route path='/createChannel'                  element={<ChannelCreationPage />}       />
+            <Route path='/question'                       element={<QuestionPage />}              />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
 

@@ -21,12 +21,21 @@ const ChannelPage: React.FC = () => {
     <div>
         <div className='d-flex align-items-center mb-2 p-2 bg-dark rounded'>
           <h1 className='m-0'>§{channelName}</h1>
-          {/* // pensavo che potrebero starci i badge di chi è loggato qua su */}
-          {userDetails.ownedChannels.includes(channelName) && <h5><Badge pill bg="success" className='mt-2 ms-2'>Proprietario</Badge></h5>}
-          {/* <h5><Badge pill bg="warning" text="dark" className='mt-2 ms-2'>Scrittore</Badge></h5>
-          <h5><Badge pill bg="primary" className='mt-2 ms-2'>Lettore</Badge></h5> */}
-          { userDetails.ownedChannels.includes(channelName) &&
-            <span><Button onClick={() => navigate(`/channels/${channelName}/settings`)} className='bg-transparent btn-outline-dark text-white ms-auto'><Gear/></Button></span>
+
+          {
+            userDetails.ownedChannels.includes(channelName) && 
+            <h5>
+              <Badge pill bg="success" className='mt-2 ms-2'>Proprietario</Badge>
+            </h5>
+          }
+          
+          {
+            userDetails.ownedChannels.includes(channelName) &&
+            <Button
+              onClick={() => navigate(`/channels/${channelName}/settings`)} 
+              className='bg-transparent btn-outline-dark text-white'>
+                <Gear/>
+            </Button>
           }          
         </div>
         
