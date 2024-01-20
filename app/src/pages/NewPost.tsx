@@ -261,33 +261,6 @@ export default function NewPostPage() {
           ) :
           ( userDetails.dailyChar - charCount <= 0 || userDetails.weeklyChar - charCount <= 0 || userDetails.monthlyChar - charCount <= 0 ?
             (
-            //   
-            //     </Accordion.Header>
-            //     <Accordion.Body>
-            //       Per poter acquistare nuovi caratteri, puoi dirigerti al <Button onClick={() => navigate("/charShop")}>negozio di caratteri</Button> e acquistarne quanti desideri.
-            //     </Accordion.Body>
-            //   </Accordion.Item>
-            //   <Accordion.Item eventKey="3">
-            //     <Accordion.Header>
-            //       Attendere prossimo reset quota
-            //     </Accordion.Header>
-            //     <Accordion.Body>
-            //       <p>In alternativa, puoi aspettare che la tua quota di caratteri venga ricolmata domani / prossima settimana / mese prossimo.</p>
-            //       <p>Ma dovresti aspettare. In alternativa, puoi <Button onClick={() => navigate("/charShop")}>spendere tutti i tuoi risparmi!</Button></p>
-            //     </Accordion.Body>
-            //   </Accordion.Item>
-            //   <Accordion.Item eventKey="4">
-            //     <Accordion.Header>
-            //       Caratteri premio 
-            //     </Accordion.Header>
-            //     <Accordion.Body>
-            //       <p>Sapevi che se i tuoi post diventano popolari, ricevi caratteri da poter usare per pubblicare nuovi squeal?</p>
-            //       <p>Controlla lo stato dei tuoi post, o assumi un Social Media Manager per farlo al posto tuo. Chi sa, da un giorno all'altro, un tuo post potrebbe diventare virale.</p>
-            //       <p>Ma si sa, chi vive sperando muore cagando. <Button onClick={() => navigate("/charShop")}>Prendi ora in mano il tuo futuro!</Button></p>
-            //     </Accordion.Body>
-            //   </Accordion.Item>
-            // </Accordion>
-
               <Alert key="danger" variant="danger">
                 <Alert.Heading>ATTENZIONE: hai esaurito i caratteri!</Alert.Heading>
                   <p>Se decidi di pubblicare comunque il tuo squeal, andrai in debito di 

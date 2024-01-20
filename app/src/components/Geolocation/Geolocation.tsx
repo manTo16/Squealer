@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet'
-import { Marker, Popup } from "react-leaflet";
+import { LatLngTuple } from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+
 
 export default function TestGeolocation() {
   const [userLocation, setUserLocation] = useState<{
@@ -28,6 +29,8 @@ export default function TestGeolocation() {
     } 
   };
 
+  const position: LatLngTuple = [userLocation?.latitude || 0, userLocation?.longitude || 0];
+
   return (
     <>
       <Row>
@@ -47,12 +50,15 @@ export default function TestGeolocation() {
       <hr/>
       <Row>
         <Col>
-        <MapContainer center={[46.7334981, 12.2871083]} zoom={13} scrollWheelZoom={false}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-        </MapContainer>
+          
+
+          <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: '400px'}}>
+              <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={position}>A</Marker> 
+          </MapContainer>
         </Col>
       </Row>
     </>

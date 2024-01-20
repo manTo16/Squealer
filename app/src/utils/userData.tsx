@@ -17,10 +17,15 @@ export const UserContext = createContext({
 aggiorna l'item 'user' nel local storage
 */
 export const getPersonalUserData = async (username: string) => {
-    const response = await axios.get(apiUsersURL+'/'+username)
+    console.log("UserData, username: ", username);
+    let response = {data: null};
+    if (username) {response = await axios.get(apiUsersURL+'/'+username)}
     console.log("getPersonaUserData checkpoint 1/3")
     const user = response?.data ?? {}
     console.log("getPersonaUserData checkpoint 2/3")
     localStorage.setItem('user',JSON.stringify(user))
+    console.log("getPersonaUserData checkpoint 3/3")
+    console.log("UserDataResponse: ", response)
+    console.log("UserDataUser: ", user)
     return user
 }

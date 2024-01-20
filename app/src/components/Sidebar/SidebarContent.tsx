@@ -113,7 +113,7 @@ export default function SidebarContent(
         userToken ? 
         (
           <>
-            {
+            {userDetails.ownedChannels && 
             userDetails.ownedChannels.map((channelName: string, index: number) =>
             <Button key={index} 
               className="mb-2"
@@ -127,7 +127,7 @@ export default function SidebarContent(
 
             <h3 className="normal-text mt-2 mb-3 text-center">Iscrizioni</h3> 
           
-            {
+            {userDetails.channels && 
               userDetails.channels.map((channelName: string, index: number) =>
               <Button key={index} 
                 className="mb-2"
