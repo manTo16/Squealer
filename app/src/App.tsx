@@ -11,12 +11,11 @@ import NewPostPage from './pages/NewPost';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import ChannelPage from './pages/ChannelPage';
+import ChannelPage from './pages/Channel/ChannelPage';
 import SearchPage from './pages/SearchPage';
 
 import Bottombar from './components/Bottombar';
 import Navbar from './components/Navbar';
-import "./components/Bottombar.css"
 import Feed from './components/Feed/Feed';
 import UserInfo from '@components/UserInfo';
 import SidebarContent from '@components/Sidebar/SidebarContent';
@@ -24,11 +23,11 @@ import ProfilePage from './pages/Profile/Profile';
 import Post from '@components/Post/Post';
 import UserPage from './pages/Profile/User';
 import CharShopPage from './pages/CharShopPage';
-import ChannelCreationPage from './pages/ChannelCreationPage';
+import ChannelCreationPage from './pages/Channel/ChannelCreationPage';
 import QuestionPage from './pages/QuestionPage';
 
 import { UserContext, getPersonalUserData } from '@utils/userData';
-import ChannelSettingsPage from './pages/ChannelSettingPage';
+import ChannelSettingsPage from './pages/Channel/ChannelSettingPage';
 
 function App() {
   const isLoggedIn = !!localStorage.getItem('token')

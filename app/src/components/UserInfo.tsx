@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import ThirdColumn from './ThirdColumn/ThirdColumn'
-import Char4LG from './Char indicator/Char4LGscreen'
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { Col, Row } from 'react-bootstrap';

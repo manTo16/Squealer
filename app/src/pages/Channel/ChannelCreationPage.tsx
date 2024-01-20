@@ -3,7 +3,7 @@ import { Alert, Button, Collapse, FloatingLabel, Form } from 'react-bootstrap';
 import UserSelector from "@components/UserSelector";
 import { UserContext } from '@utils/userData';
 import axios from '@root/axiosConfig';
-import { channelsURL } from '../URLs';
+import { channelsURL } from '../../URLs';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 

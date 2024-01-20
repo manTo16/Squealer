@@ -1,4 +1,3 @@
-import "./post.scss"
 import Like from "../svg/Reaction/LikeSvg"
 import Heart from "../svg/Reaction/HeartSvg"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -251,8 +250,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   if (isLoading) return (<PostPlaceholder />)
 
   return (
-    <div className="post">
-      <div className="postWrapper">
+    <div className="w-100 border-bottom border-4 border-black" style={{backgroundColor: '#1a1a1b'}}>
+      <div className="p-2">
         <Row>
           <Col className="align-self-top">
             <div className="d-inline-flex flex-row align-self-center">
@@ -297,7 +296,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             </Stack>
           </Col>
         </Row>
-        <div className="postCenter text-break">
+        <div className="py-2 pb-3 text-break">
           {showReceivers ?
           (
             <div className="postReceivers d-flex flex-wrap">
@@ -344,28 +343,28 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
               onClick={()=>handleImpressions('veryLike')}
               disabled={postData.postImpressionChosen === "veryLike"}
               >
-                <Heart className="likeIcon" /> {postData.postVeryLikesCounter}
+                <Heart style={{width: '24px', height: '24px'}} /> {postData.postVeryLikesCounter}
               </Button>
 
               <Button
               variant="dark"
               onClick={()=>handleImpressions('like')}
               disabled={postData.postImpressionChosen === "like"}>
-                <Like className="likeIcon" /> {postData.postLikesCounter}
+                <Like style={{width: '24px', height: '24px'}} /> {postData.postLikesCounter}
               </Button>
 
               <Button
               variant="dark"
               onClick={()=>handleImpressions('dislike')}
               disabled={postData.postImpressionChosen === "dislike"}>
-                <Dislike className="likeIcon" /> {postData.postDislikesCounter}
+                <Dislike style={{width: '24px', height: '24px'}} /> {postData.postDislikesCounter}
               </Button>
 
               <Button
               variant="dark"
               onClick={()=>handleImpressions('veryDislike')}
               disabled={postData.postImpressionChosen === "veryDislike"}>
-                <Heartbreak  className="likeIcon"/> {postData.postVeryDislikesCounter}
+                <Heartbreak style={{width: '24px', height: '24px'}} /> {postData.postVeryDislikesCounter}
               </Button>
             </ButtonGroup>
           </Col>
