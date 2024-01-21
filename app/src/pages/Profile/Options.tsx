@@ -26,8 +26,9 @@ export default function Options() {
   }
 
   return(
-    <Form className='bg-dark rounded p-2 m-1'>
+    <Form className='bg-dark rounded p-2'>
       <h2 className='p-2'>Modifica profilo</h2>  
+      <hr />
       <Row>
         <Col>
           <h4>Cambia Password</h4>
@@ -39,8 +40,7 @@ export default function Options() {
               <Form.Control type="password" placeholder="Password" className='bg-dark text-light'/>
               <Form.Label>Conferma nuova passwor</Form.Label>
               <Form.Control type="password" placeholder="Password" className='bg-dark text-light'/>
-              <p className='text-secondary pt-2' style={{fontSize: '11px'}}>Assicurati che la password sia di almeno 8 caratteri O almeno 6 caratteri includendo numeri e lettere minuscole</p>
-              <Button type="submit" className="btn btn-dark border-light">
+              <Button type="submit" className="btn btn-dark border-light mt-1" disabled>
                 Cambia password 
               </Button>
           </Form.Group>

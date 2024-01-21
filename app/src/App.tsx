@@ -74,8 +74,10 @@ function App() {
       <Row xs={12} lg={12} className='justify-content-md-center'>
 
         {renderSidebars &&
-        <Col xs={0} lg={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
-          <SidebarContent />
+        <Col xs={0} lg={3} xxl={{ span: 2, offset: 1 }} className='d-none d-lg-block'>
+          <div style={{height: window.innerHeight - navbarHeight - bottombarHeight - 10}}>
+            <SidebarContent />
+          </div>
         </Col>
         }
 
@@ -118,7 +120,7 @@ function App() {
           <Col xs={0} lg={2} className='d-none d-lg-block'>
             <UserInfo />
           </Col>
-           <Col xs={0} lg={1}>
+           <Col xs={0} xxl={1}>
             <></>
           </Col>
           </>
@@ -126,18 +128,21 @@ function App() {
         :
         (
           /* colonna vuota visto che da sloggati si possono leggere solo i canali principali */
-          <Col xs = {0} lg = {3} className='d-none d-lg-block'> <></> </Col>
+          <Col xs = {0} lg={3} className='d-none d-lg-block'> <></> </Col>
         )
       
         )}
         
       </Row>
       </Container>
-
-      <div className='d-lg-none bottom-navbar'>
-        <Bottombar
-        onHeightChange={setBottombarHeight}/>
-      </div>
+      <Row>
+        <Col >
+          <div className='d-lg-none'>
+            <Bottombar
+            onHeightChange={setBottombarHeight}/>
+          </div>
+        </Col>
+      </Row>
 
       </UserContext.Provider>
     </div>

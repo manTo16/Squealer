@@ -35,8 +35,8 @@ export default function ProfilePage (){
 
   return (
     <>
-      <Container fluid className="p-0 rounded full-height home">
-        <Nav fill variant="underline" className='px-5 navbar-dark bg-dark' defaultActiveKey={"Profile"}>
+      <Container fluid className="p-0 full-height home">
+        <Nav fill variant="underline" className='rounded-bottom mx-1 px-5 navbar-dark bg-dark' defaultActiveKey={"Profile"}>
           <Nav.Item>
             <Nav.Link eventKey={"Profile"} className='text-light' onClick={()=>handleSide('profile')}>
               <User/>
@@ -56,7 +56,7 @@ export default function ProfilePage (){
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <Row className='p-2'>
+        <Row className='p-2 mx-0'>
           <ProfileSide 
               type={side}/>
         </Row>

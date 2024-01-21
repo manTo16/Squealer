@@ -319,7 +319,7 @@ export default function NewPostPage() {
 
       <Row className="justify-content-md-center">
         <Col xs={12} g={{ span: 6, offset: 3 }}>
-          <Card bg='dark' text='white'>
+          <Card bg='dark' text='white' className="mt-3">
             <Card.Header>
             <div className="tags">
               <Stack direction="horizontal" gap={2}>
