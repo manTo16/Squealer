@@ -247,11 +247,11 @@ export default function NewPostPage() {
           (
             <Alert key="danger" variant="danger">
               <Alert.Heading>ATTENZIONE: hai accumulato del debito di caratteri!</Alert.Heading>
-              <p>attualmente, devi acquistare {userDetails.debtChar} caratteri per postare <br/>
+              <p>Attualmente, devi acquistare {userDetails.debtChar} caratteri per poter nuovamente postare <br/>
               In alternativa, puoi aspettare la prossima paghetta di caratteri</p>
               <hr />
               <Alert.Heading>Comprare caratteri necessari</Alert.Heading>
-              <p>per poter postare di nuovo, dirigiti al Negozio e sana il tuo debito</p>
+              <p>Per poter postare di nuovo, dirigiti al Negozio e sana il tuo debito</p>
               <div className="d-flex justify-content-end">
                 <Button onClick={() => navigate("/charShop")} variant="success">
                   Negozio
@@ -275,7 +275,7 @@ export default function NewPostPage() {
                         Compra altri caratteri
                       </Accordion.Header>
                       <Accordion.Body>
-                        <p>per poter postare ancora dirigiti al Negozio</p>
+                        <p>Puoi comprare caratteri con cui postare diregendoti al Negozio</p>
                         <div className="d-flex justify-content-end">
                         <Button onClick={() => navigate("/charShop")} variant="success">Negozio</Button>
                         </div>
@@ -300,7 +300,7 @@ export default function NewPostPage() {
                       <Accordion.Body>
                         <p>Sapevi che se i tuoi post diventano popolari, ricevi caratteri da poter usare per pubblicare nuovi squeal?</p>
                         <p>Controlla lo stato dei tuoi post, o assumi un Social Media Manager per farlo al posto tuo. Chi sa, da un giorno all'altro, un tuo post potrebbe diventare virale.</p>
-                        <p>Ma si sa, chi vive sperando muore cagando.</p>
+                        <p>Ma si sa. Chi vive sperando, muore cagando.</p>
                         <div className="d-flex justify-content-end">
                           <Button onClick={() => navigate("/charShop")} variant="success">Prendi ora in mano il tuo futuro!</Button>
                         </div>

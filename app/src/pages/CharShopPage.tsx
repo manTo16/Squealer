@@ -10,16 +10,13 @@ export default function CharShopPage() {
 
     const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
 
+
     const updatePersonalUserData = async () => {
 
         await fetchUserData()
 
         //userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
 
-        setDisplayDailyChars(userDetails.dailyChar)
-        setDisplayWeeklyChars(userDetails.weeklyChar)
-        setDisplayMonthlyChars(userDetails.monthlyChar)
-        setDisplayDebt(userDetails.debtChar)
     }
 
     const [displayDailyChars, setDisplayDailyChars] = useState(0)
@@ -34,6 +31,10 @@ export default function CharShopPage() {
         return (userDebt > 0)
     } 
 
+    const fetchDebt = async () => {
+        setUserInDebt(await checkIfInDebt(userDetails.username))
+    }
+
     const buyChars = async (numChars: number) => {
         if (numChars < 0) return
 
@@ -47,15 +48,22 @@ export default function CharShopPage() {
     const [userInDebt, setUserInDebt] = useState(false)
 
     useEffect(() => {
-        const setDebt = async () => {
-            setUserInDebt(await checkIfInDebt(userDetails.username))
-        }
-        setDebt()
+        fetchDebt()
     }, [])
 
     useEffect(() => {
         updatePersonalUserData();
-      }, [userInDebt]);
+    }, [userInDebt]);
+
+    useEffect(() => {
+        setDisplayDailyChars(userDetails.dailyChar)
+        setDisplayWeeklyChars(userDetails.weeklyChar)
+        setDisplayMonthlyChars(userDetails.monthlyChar)
+        fetchDebt()
+        setDisplayDebt(userDetails.debtChar)
+    }, [userDetails])
+
+
 
     return(
         <>

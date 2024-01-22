@@ -14,6 +14,7 @@ const createPost = async (req,res) => {
     const user = await User.findOne({_id: userId});
 
     //rimuovi elementi vuoti dall'array dei destinatari
+    console.log("createPost receivers: ", receivers)
     const receiversCopy = receivers.filter(checkReceiverSyntax);
 
     receiversCopy.map((receiver) => console.log("receiver: ", receiver))

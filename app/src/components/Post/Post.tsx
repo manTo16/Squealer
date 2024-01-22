@@ -243,8 +243,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   const [postRepliesNumber, setPostRepliesNumber] = useState(0)
 
-  const mentionsRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
-  const linkRegex = /^\$[a-zA-Z0-9\/:%&()=?.\-+]+/g;
+  const mentionsRegex = /^@[a-zA-Z0-9-._]+$|^§([a-z0-9-]+|[A-Z0-9-]+)$/;
+  const urlRegex = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/;
   const postTextArray = postData.postText.split(' ');
 
   if (isLoading) return (<PostPlaceholder />)
@@ -319,9 +319,9 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                           {word}
                       </Button>
                   );
-              } else if (linkRegex.test(word)) {
+              } else if (urlRegex.test(word)) {
                   // Resetta l'espressione regolare
-                  linkRegex.lastIndex = 0;
+                  urlRegex.lastIndex = 0;
                   return (
                       <Link key={index} to={word.substring(1)}>
                           {word}

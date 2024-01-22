@@ -1,8 +1,8 @@
 
-const addressRegex = /([@][a-zA-Z0-9]+)|[§]([a-z0-9]+|[A-Z0-9]+)/g;
+const addressRegex = /^@[a-zA-Z0-9-._]+$|^§([a-z0-9-]+|[A-Z0-9-]+)$/;
 
 const checkReceiverSyntax = (receiver) => {
-    return (receiver == receiver.match(addressRegex))
+    return (addressRegex.test(receiver))
     /* vecchio controllo. ora abbiamo le espressioni regolari. molto più fighe
     if (receiver != "") {
         if ( (receiver[0] == "@") || (receiver[0] == "§") ) {

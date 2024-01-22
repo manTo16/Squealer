@@ -7,7 +7,7 @@ import { channelsURL } from '../../URLs';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const normalChannelRegex = /^([a-z0-9]+)$/;
+const normalChannelRegex = /^([a-z0-9-]+)$/;
 
 export default function ChannelCreationPage() {
   const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
@@ -46,6 +46,10 @@ export default function ChannelCreationPage() {
   const checkChannelNameSyntax = () => {
     return normalChannelRegex.test(channelName);
   };
+
+  const setChannelNameCorrectSyntax = (value: string) => {
+    setChannelName(value.replace(/\s/g, "-"))
+  } 
 
   useEffect(() => {
     setShowSyntaxWarning(!!channelName && !checkChannelNameSyntax());
@@ -106,7 +110,7 @@ export default function ChannelCreationPage() {
         </div>
       </Collapse>
       <FloatingLabel controlId="floatingChannelNameId" label="Nome Canale" className="text-secondary">
-        <Form.Control type="text" placeholder="Nome canale" autoFocus onChange={(e) => setChannelName(e.target.value)} isInvalid={showSyntaxWarning} />
+        <Form.Control type="text" placeholder="Nome canale" autoFocus onChange={(e) => setChannelNameCorrectSyntax(e.target.value)} value={channelName} isInvalid={showSyntaxWarning} />
       </FloatingLabel>
 
       <FloatingLabel controlId="floatingChannelDescriptionId" label="Descrizione Canale" className="text-secondary mt-4 mb-4">
