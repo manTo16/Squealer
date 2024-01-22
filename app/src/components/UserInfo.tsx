@@ -9,6 +9,8 @@ import DailyCalendar from './svg/CharSvg/dCharSvg';
 import Container from 'react-bootstrap/Container';
 import { UserContext } from '@utils/userData';
 import Badge from 'react-bootstrap/Badge';
+import IconPro from './svg/ProSvg';
+import IconVerified from './svg/VerifSvg';
 
 function UserInfo() {
   const isLoggedIn = !!localStorage.getItem('token')
@@ -35,7 +37,10 @@ function UserInfo() {
             <hr className='text-white' />
             <Row className='text-white'>
               <Col lg={12}>
-                <h3>{userDetails.displayName}</h3> 
+                <span>
+                <h3>{userDetails.displayName}<IconPro/><IconVerified/></h3>
+                </span>
+                
               </Col>
               <Col lg={12}>
                 <h4>{'@'+userDetails.username}</h4>

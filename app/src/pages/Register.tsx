@@ -4,12 +4,13 @@ import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import ButtonBootstrap from 'react-bootstrap/Button'
 import Logo from '../assets/Squealer.png'
+import gif from '../assets/volture-whait.gif'
 import { useNavigate } from 'react-router-dom'
 import { apiAuthURL, apiUsersURL } from '../URLs'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { convertToBase64 } from '../utils'
-import { InputGroup } from 'react-bootstrap'
+import { Badge, InputGroup } from 'react-bootstrap'
 
 export default function Register() {
   const [username,setUsername]=useState('')
@@ -19,6 +20,7 @@ export default function Register() {
   const [confirmPassword,setConfirmPassword]=useState('')
   const [userImage,setUserImage]=useState('')
   const navigate = useNavigate()
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -36,7 +38,7 @@ export default function Register() {
   const handleSubmit = (e:React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
     if (password!==confirmPassword){
-      alert('The passwords are different!')
+      setError(true)
       return;
     }
     axios.post(apiAuthURL+'/register', {username,displayName,email,password, userImage })
@@ -63,84 +65,113 @@ export default function Register() {
   
   return (
     <div> 
-      <Container className='auth-container'>
+      <Container className='pt-2 bg-dark rounded-bottom'>
+        <Row>
+          <Col>
+            <hr />
+            <div className='d-flex justify-content-center'>
+              <h1>Iscriviti a <strong><Badge pill bg="success">Squealer</Badge></strong></h1>
+            </div>
+            <hr />
+          </Col>
+        </Row>
         <Row>
           <Col xs={12} md={8}>
-            <h1>Sign up to Squealer</h1>
-            <Form.Label> Choose displayed name </Form.Label>
-            <Form.Group className='mb-3 w-80'>
-                <Form.Control 
-                  autoFocus
-                  onChange={(e)=>setDisplayName(e.target.value)}
-                  value={displayName}
-                  placeholder="type displayed name here"
-                  aria-label="username"/>
-            </Form.Group>
-            <Form.Label> Create username </Form.Label>
-            <Form.Group className='mb-3'>
-                <Form.Control
-                  onChange={(e)=>setUsername(e.target.value)}
-                  value={username}
-                  placeholder="type username here"
-                  aria-label="username"/>
-            </Form.Group>
-            <Form.Label> Your email </Form.Label>
-            <Form.Group className='mb-3'>
+            <Row>
+              <Col>
+                <Form.Label> Scegli il tuo nome </Form.Label>
+                <InputGroup className='mb-3 w-80'>
+                    <Form.Control 
+                      autoFocus
+                      onChange={(e)=>setDisplayName(e.target.value)}
+                      value={displayName}
+                      placeholder="type displayed name here"
+                      aria-label="username"/>
+                </InputGroup>
+              </Col>
+              <Col>
+                <Form.Label> Crea un username </Form.Label>
+                
+                <InputGroup className='mb-3'>
+                  <InputGroup.Text>@</InputGroup.Text>
+                  <Form.Control
+                    onChange={(e)=>setUsername(e.target.value)}
+                    value={username}
+                    placeholder="type username here"
+                    aria-label="username"/>
+                </InputGroup>
+              </Col>
+            </Row>
+            <Form.Label> La tua email </Form.Label>
+            <InputGroup className='mb-3'>
                 <Form.Control 
                   onChange={(e)=>setEmail(e.target.value)}
                   value={email}
+                  isInvalid={email.length>0 && !email.includes('@' && '.') }
                   placeholder="type email here"
                   aria-label="email"/>
-            </Form.Group>
-            <Form.Label> Create password </Form.Label>
-            <Form.Group className='mb-3'>
-                <Form.Control
-                  onChange={(e)=>setPassword(e.target.value)}
-                  value={password}
-                  placeholder="type password here"
-                  aria-label="password"
-                  type='password'/>
-            </Form.Group>
-            <Form.Label> Confirm Password </Form.Label>
-            <Form.Group className='mb-3'>
-                <Form.Control
-                  onChange={(e)=>setConfirmPassword(e.target.value)}
-                  value={confirmPassword}
-                  placeholder="type password again"
-                  aria-label="password"
-                  type='password'/>
-            </Form.Group>
-            <Form.Label> Upload profile picture</Form.Label>
-            <InputGroup className="mb-3">
-                <input 
-                  className="bg-dark text-white"
-                  aria-label="upload-image"
-                  type='file'
-                  accept='.jpeg, .png, .jpg'
-                  name='image'
-                  onChange={(e)=>handleImageUpload(e)}/>
             </InputGroup>
-            {/* 
-            <Form.Label>Select Image(s)</Form.Label>
-            <InputGroup className="mb-3">
-                <Form.Control 
-                    type="file" 
-                    className="shareInput bg-dark text-white"
-                    accept='image/*'
-                />
-                <InputGroup.Text></InputGroup.Text>
-            </InputGroup> 
-            */}
-            <ButtonBootstrap
-              onClick={handleSubmit}
-              type="submit"
-              className='my-3 red-buttons'>
+            <Row>
+              <Col>
+                <Form.Label> Crea una password </Form.Label>
+                <InputGroup className='mb-3'>
+                    <Form.Control
+                      onChange={(e)=>setPassword(e.target.value)}
+                      value={password}
+                      isInvalid={error || (password.length>0 && password.length<8) }
+                      placeholder="type password here"
+                      aria-label="password"
+                      type='password'/>
+                </InputGroup>
+                { error ? ( <><p className='text-danger'>Le password non corrispondono</p></> ) :( <></> ) }
+              </Col>
+              <Col>
+                <Form.Label> Conferma Password </Form.Label>
+                <InputGroup className='mb-3'>
+                    <Form.Control
+                      onChange={(e)=>setConfirmPassword(e.target.value)}
+                      value={confirmPassword}
+                      isInvalid={error || (password.length>0 && password.length<8) }
+                      placeholder="type password again"
+                      aria-label="password"
+                      type='password'/>
+                </InputGroup>
+              </Col>
+            </Row>
+            
+
+            <Form.Group controlId="formFileMultiple" className="mb-3">
+              <Form.Label>Carica una foto profilo</Form.Label>
+              <Form.Control 
+                type="file" 
+                accept=".jpeg, .png, .jpg"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageUpload(e)}
+              />
+            </Form.Group>
+            <br />
+            <hr />
+
+            <div className='d-flex justify-content-end'>
+              <ButtonBootstrap
+                onClick={handleSubmit}
+                type="submit"
+                variant='success'
+                className='my-3'
+              >
                 Sign up
               </ButtonBootstrap>
+            </div>
           </Col>
 
-          <Col className='d-flex justify-content-center align-items-center'>
+          <Col className='d-flex d-none d-md-block justify-content-center align-items-center'>
             <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/>
+            {/* <Figure>
+            <Figure.Image
+              width={171}
+              height={180}
+              alt="171x180"
+              src={gif}/>
+            </Figure>  */}
           </Col>
         </Row>
       </Container>
