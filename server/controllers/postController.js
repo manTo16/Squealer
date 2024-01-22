@@ -341,6 +341,19 @@ const searchPostByUsername = async(req,res) => {
   }
 }
 
+const searchPostByKeyword = async(req,res) => {
+  try {
+    const query = req.params.query
+
+    const posts = await Post.find({ receivers: { $in: ["#"+query] }}, 'postId -_id');
+    postIds = posts.map(post => post.postId)
+    return res.status(200).json(postIds)
+
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
   createPost,
   getFeed,
@@ -352,5 +365,6 @@ module.exports = {
   getReplies,
   getReceivers,
   searchPostByText,
-  searchPostByUsername
+  searchPostByUsername,
+  searchPostByKeyword
 }

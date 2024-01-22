@@ -1,5 +1,5 @@
 
-const addressRegex = /^@[a-zA-Z0-9-._]+$|^§([a-z0-9-]+|[A-Z0-9-]+)$/;
+const addressRegex = /^@[a-zA-Z0-9-._]+$|^§([a-z0-9-]+|[A-Z0-9-]+)$|^#[a-zA-Z0-9-_]+$/;
 
 const checkReceiverSyntax = (receiver) => {
     return (addressRegex.test(receiver))

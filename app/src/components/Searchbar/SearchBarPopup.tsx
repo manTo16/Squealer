@@ -143,9 +143,12 @@ export default function SearchBarPopup({show, handleShow, queryValue="", setQuer
       </Modal.Body>
 
       <Modal.Footer style={{backgroundColor: '#282828', color: 'white'}}>
-        <Button variant="secondary" onClick={() => {
-                              handleShow(false)
-                              navigate(`/search/${searchQuery}`)}}>
+        <Button variant="secondary" 
+        onClick={() => {
+                      handleShow(false)
+                      if (searchQuery.startsWith("#")) navigate(`/keywords/${searchQuery.slice(1)}`)
+                      else navigate(`/search/${searchQuery}`)
+                      }}>
           Più risultati
         </Button>
       </Modal.Footer>

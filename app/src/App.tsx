@@ -28,6 +28,8 @@ import QuestionPage from './pages/QuestionPage';
 
 import { UserContext, getPersonalUserData } from '@utils/userData';
 import ChannelSettingsPage from './pages/Channel/ChannelSettingPage';
+import { useParams } from 'next/navigation';
+import KeywordPage from './pages/KeywordPage';
 
 function App() {
   const isLoggedIn = !!localStorage.getItem('token')
@@ -105,6 +107,7 @@ function App() {
             <Route path='/charShop'                       element={<CharShopPage />}              />
             <Route path='/createChannel'                  element={<ChannelCreationPage />}       />
             <Route path='/question'                       element={<QuestionPage />}              />
+            <Route path='/keywords/:keyword'              element={<KeywordPage />} />
             {/* <Route path='/charShop'         element={< />}          /> */}
           </Routes>
 

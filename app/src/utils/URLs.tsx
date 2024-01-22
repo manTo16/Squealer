@@ -10,6 +10,9 @@ export function generateAddressURL(address: string) {
       case "@":
         URLstring = `/users/${address.slice(1)}`
         break
+      case "#":
+        URLstring = `/keywords/${address.slice(1)}`
+        break
       default:
         break
     }

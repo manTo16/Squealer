@@ -304,6 +304,8 @@ const updateUserCharacters = async (req,res) => {
     const username = req.params.userName
     const { daily, weekly, monthly } = req.body
 
+    console.log("ricevuta richiesta di aggiornamento di caratteri per ", username, "\ndaily ", daily, " weekly ", weekly, " monthly ", monthly)
+
     const user = await User.findOne({username: username})
 
     if (!user) return res.status(404).json({message: "user not found"})

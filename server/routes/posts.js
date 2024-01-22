@@ -11,7 +11,8 @@ const {
   getReplies,
   getReceivers,
   searchPostByText,
-  searchPostByUsername
+  searchPostByUsername,
+  searchPostByKeyword
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
@@ -24,5 +25,6 @@ router.route('/:id/receivers').get(getReceivers)
 
 router.route('/search/byText/:query').get(searchPostByText)
 router.route('/search/byUsername/:query').get(searchPostByUsername)
+router.route('/search/byKeyword/:query').get(searchPostByKeyword)
 
 module.exports = router

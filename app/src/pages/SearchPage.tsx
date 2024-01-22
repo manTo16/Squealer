@@ -35,7 +35,7 @@ export default function SearchPage() {
         }
         loadUsernames()
     
-        // fetch channels data only if logged in
+        
       }, [query])
     
 
@@ -52,6 +52,9 @@ export default function SearchPage() {
                 </ToggleButton>
                 <ToggleButton name="searchIn" id="selectUsers" value={3} onClick={() => setSelectedButton(3)}>
                     Utenti
+                </ToggleButton>
+                <ToggleButton name="searchIn" id="selectKeywords" value={4} onClick={() => setSelectedButton(4)}>
+                    Keyword
                 </ToggleButton>
             </ToggleButtonGroup>
         </div>
@@ -72,6 +75,9 @@ export default function SearchPage() {
         {selectedButton === 3 &&
         displayedUsernames.map((username, index) => 
         <p key={index}>{username}</p>)}
+
+        {selectedButton === 4 &&
+        <Feed searchQuery={query} searchRoute="/search/byKeyword/" />}
         </>
     )
 }

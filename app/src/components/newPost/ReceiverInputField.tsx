@@ -36,6 +36,10 @@ export default function ReceiverInputField(
                 setThersDest('light');
                 setDest('Channel');
                 break;
+            case 'keyword':
+                setSelectedReciver('#');
+                setThersDest('light');
+                setDest('Keyword');
         }
     };
 
@@ -58,6 +62,7 @@ export default function ReceiverInputField(
                 >
                 <Dropdown.Item eventKey="user">@ - User</Dropdown.Item>
                 <Dropdown.Item eventKey="channel">§ - Channel</Dropdown.Item>
+                <Dropdown.Item eventKey="keyword"># - Keyword</Dropdown.Item>
             </DropdownButton>
             <FloatingLabel
                 controlId="floatingInput"

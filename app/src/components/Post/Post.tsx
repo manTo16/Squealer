@@ -243,7 +243,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   const [postRepliesNumber, setPostRepliesNumber] = useState(0)
 
-  const mentionsRegex = /^@[a-zA-Z0-9-._]+$|^§([a-z0-9-]+|[A-Z0-9-]+)$/;
+  const mentionsRegex = /^@[a-zA-Z0-9-._]+$|^§([a-z0-9-]+|[A-Z0-9-]+)$|^#[a-zA-Z0-9-_]+$/; //questa deve rimanere uguale a addressRegex nel backend. se cambiate una cambiate anche l'altra
   const urlRegex = /^(((http|https):\/\/)|[www.])[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/;
   const postTextArray = postData.postText.split(/\s|\n/);
 
@@ -302,7 +302,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             <div className="postReceivers d-flex flex-wrap">
               {postData.postReceivers.map((str, index) => (
                 <div key={index} className="p-2 flex-fill">
-                  <Button variant="dark" href={generateAddressURL(str)}>{str}</Button>
+                  <Button variant="dark" onClick={() => navigate(generateAddressURL(str))}>{str}</Button>
                 </div>
               ))}
             </div>

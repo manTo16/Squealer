@@ -35,6 +35,40 @@ import MonthlyCalendar from "@components/svg/CharSvg/mCharSvg";
 import WeeklyCalendar from "@components/svg/CharSvg/wCharSvg";
 import Alert from 'react-bootstrap/Alert';
 
+/*ERRORE IN CONSOLE
+Warning: validateDOMNesting(...): <div> cannot appear as a descendant of <p>.
+div
+./node_modules/react-bootstrap/esm/ButtonGroup.js/_c<@http://localhost:3000/static/js/bundle.js:31782:105
+div
+./node_modules/react-bootstrap/esm/Stack.js/_c<@http://localhost:3000/static/js/bundle.js:36949:99
+p
+./node_modules/react-bootstrap/esm/CardText.js/_c<@http://localhost:3000/static/js/bundle.js:32323:102
+div
+./node_modules/react-bootstrap/esm/CardBody.js/_c<@http://localhost:3000/static/js/bundle.js:31929:102
+div
+./node_modules/react-bootstrap/esm/Card.js/_c<@http://localhost:3000/static/js/bundle.js:31858:98
+div
+./node_modules/react-bootstrap/esm/Col.js/_c<@http://localhost:3000/static/js/bundle.js:32540:14
+div
+./node_modules/react-bootstrap/esm/Row.js/_c<@http://localhost:3000/static/js/bundle.js:36877:97
+div
+./node_modules/react-bootstrap/esm/Container.js/_c<@http://localhost:3000/static/js/bundle.js:32709:103
+NewPostPage@http://localhost:3000/static/js/bundle.js:85699:56
+RenderedRoute@http://localhost:3000/static/js/bundle.js:66553:7
+Routes@http://localhost:3000/static/js/bundle.js:67258:7
+div
+div
+./node_modules/react-bootstrap/esm/Col.js/_c<@http://localhost:3000/static/js/bundle.js:32540:14
+div
+./node_modules/react-bootstrap/esm/Row.js/_c<@http://localhost:3000/static/js/bundle.js:36877:97
+div
+./node_modules/react-bootstrap/esm/Container.js/_c<@http://localhost:3000/static/js/bundle.js:32709:103
+div
+App@http://localhost:3000/static/js/bundle.js:76712:88
+Router@http://localhost:3000/static/js/bundle.js:67195:7
+BrowserRouter@http://localhost:3000/static/js/bundle.js:65000:7
+ */
+
 export default function NewPostPage() {
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
@@ -149,7 +183,8 @@ export default function NewPostPage() {
         })
         .then(() => {
           //toglie caratteri utente dal database
-          if (!onlyUsersInReceivers) axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
+          console.log("borra")
+          if (!onlyUsersInReceivers()) axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
                             {daily: -charCount, weekly: -charCount, monthly: -charCount})
         })
         .then(() => {
@@ -267,7 +302,7 @@ export default function NewPostPage() {
           (
             <Alert key="danger" variant="danger">
               <Alert.Heading>ATTENZIONE: hai accumulato del debito di caratteri!</Alert.Heading>
-              <p>Attualmente, devi acquistare {userDetails.debtChar} caratteri per poter nuovamente postare <br/>
+              <p>Attualmente, devi acquistare {userDetails.debtChar} caratteri per poter nuovamente postare. <br/>
               In alternativa, puoi aspettare la prossima paghetta di caratteri</p>
               <hr />
               <Alert.Heading>Comprare caratteri necessari</Alert.Heading>
@@ -393,7 +428,7 @@ export default function NewPostPage() {
                   charCount={charCount}
                   textLines={textLines}
                   Dchar={userDetails.dailyChar}
-                  txtReadOnly={userDetails.debtChar > 0}
+                  txtReadOnly={!onlyUsersInReceivers() && userDetails.debtChar > 0}
                   receiversOnlyUsers={onlyUsersInReceivers()}
                 />
               </Card.Text>
