@@ -7,8 +7,10 @@ import { apiUsersURL } from '../../URLs';
 
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '@utils/userData';
+import Figure from 'react-bootstrap/Figure';
+import gif from '../../assets/piggies-plane.gif';
 
-
+import "../../pages/Home.css";
 
 export default function SidebarContent(
   { handleShow = (input: boolean) => {} }: { handleShow?: (input: boolean) => void }
@@ -52,7 +54,7 @@ export default function SidebarContent(
   }, [])
   
   return(
-  <div className='bg-dark overflow-auto'>
+    <div className='bg-dark content-wrapper h-100'>
 
       {
         userToken ? 
@@ -88,7 +90,7 @@ export default function SidebarContent(
       <hr />
       { userToken ? ( 
       <>
-        <div className='d-flex flex-column'>
+        <div className='d-flex flex-column home'>
           <Button
             className="m-2" variant='light'
             onClick={() => {navigate("/createChannel"); handleShow(false)}}
@@ -107,7 +109,7 @@ export default function SidebarContent(
       ) : (<h3 className="normal-text mt-3 mb-3 text-center">Canali consigliati</h3>) }
 
       <hr/>
-      <div className="channels-wrapper p-2">
+      <div className="p-2" style={{display: 'grid'}}>
         
         {
         userToken ? 
@@ -153,6 +155,14 @@ export default function SidebarContent(
         <Button variant="outline-light m-1">
           cronologia
         </Button>
+        <hr />
+          <Figure>
+            <Figure.Image
+              width={171}
+              height={180}
+              alt="171x180"
+              src={gif}/>
+            </Figure> 
         </>
         )
         }

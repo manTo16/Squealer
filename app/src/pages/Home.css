@@ -29,7 +29,7 @@ body {
 }
 
 .content-wrapper {
-    height: 100%; /* Utilizza tutta l'altezza disponibile */
+    height: 100%; /*Utilizza tutta l'altezza disponibile*/
     overflow-y: auto; /* Abilita lo scroll verticale solo per il componente Feed */
     scrollbar-width: none;  /* Firefox */
 }
