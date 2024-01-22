@@ -322,10 +322,10 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
               } else if (urlRegex.test(word)) {
                   // Resetta l'espressione regolare
                   urlRegex.lastIndex = 0;
-                  return (
+                  return (<>
                       <Link key={index} to={word.substring(1)}>
                           {word}
-                      </Link>
+                      </Link> <span> </span></>
                   );
               } else {
                   return word + ' ';

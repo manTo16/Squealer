@@ -17,6 +17,7 @@ interface CardBodyProps {
   textLines: number;
   Dchar: number;
   txtReadOnly: boolean;
+  receiversOnlyUsers: boolean;
 }
 
 export default function CardBody({
@@ -25,7 +26,8 @@ export default function CardBody({
   charCount,
   textLines,
   Dchar,
-  txtReadOnly
+  txtReadOnly,
+  receiversOnlyUsers
 }: CardBodyProps) {
   const [inputValue, setInputValue] = useState<string>(''); // Specifica il tipo string per inputValue
 
@@ -39,7 +41,7 @@ export default function CardBody({
     setMediaType(eventKey);
   };
 
-  const charState = charCount < Dchar ? 'light' : charCount == Dchar ? 'warning' : 'danger';
+  const charState = receiversOnlyUsers ? 'info' : charCount < Dchar ? 'light' : charCount == Dchar ? 'warning' : 'danger';
     
 
   if (type === 'txt') {

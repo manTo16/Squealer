@@ -3,11 +3,11 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { useState, ChangeEvent } from "react";  
+import { useState, ChangeEvent, useEffect } from "react";  
 
 interface Props {
     _inputField: number;
-    handleReceiverInputChange: (event: ChangeEvent<HTMLInputElement>, receiversArrayIndex: number, receiverType: string) => void;
+    handleReceiverInputChange: (receiver: string, receiversArrayIndex: number, receiverType: string) => void;
 }
 
 
@@ -17,6 +17,7 @@ export default function ReceiverInputField(
     const [fieldId, setFieldId] = useState(_inputField);
 
 
+    const [inputText, setInputText] = useState("")
     const [selectedReciver, setSelectedReciver] = useState('to');
     const [thersDest, setThersDest] = useState('warning');
     const [Dest, setDest] = useState('to');
@@ -37,6 +38,15 @@ export default function ReceiverInputField(
                 break;
         }
     };
+
+    const handleThisInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setInputText(event.target.value)
+    }
+
+    //manda il testo all'elemento padre quando cambia o il testo o il destinatario
+    useEffect(() => {
+        handleReceiverInputChange(inputText, fieldId, selectedReciver)
+    }, [inputText, selectedReciver])
 
     return (
         <>
@@ -60,7 +70,7 @@ export default function ReceiverInputField(
                     as="input"
                     autoFocus
                     onChange={(event:React.ChangeEvent<HTMLInputElement>)=>
-                        {handleReceiverInputChange(event, fieldId, selectedReciver)}}
+                        {handleThisInputChange(event)}}
                 />
             </FloatingLabel>
         </InputGroup>

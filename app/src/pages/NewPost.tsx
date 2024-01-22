@@ -47,7 +47,7 @@ export default function NewPostPage() {
   var Dchar = 1024;
 
   const [text,setText] = useState("");
-  const [receivers, setReceivers] = useState<string[]>([""]);
+  const [receivers, setReceivers] = useState<string[]>([]);
   const [nReceivers, setNReceivers] = useState(0);
 
   const [charCount, setCharCount] = useState(0);
@@ -109,13 +109,31 @@ export default function NewPostPage() {
     setTextLines(getTextLines(event.target));
   };
 
-  const handleReceiverInputChange = (event: React.ChangeEvent<HTMLInputElement>, receiversArrayIndex: number, receiverType: string) => {
-    const inputText = receiverType + event.target.value;
+  const handleReceiverInputChange = (text: string, receiversArrayIndex: number, receiverType: string) => {
+    const inputText = receiverType + text;
     
     /* aggiorna l'array di destinatari modificando solo l'indice corrispondente al campo modificato */
     setReceivers(receivers => receivers.map((receiver, index) =>
       index === receiversArrayIndex-1 ? inputText : receiver));
     console.log("destinatario: ", inputText) //DEBUG
+  }
+
+  const onlyUsersInReceivers = () => {
+    let receiversCopy = receivers
+    //non considero i destinatari non settati bene (lasciati con "to" o con solo "@")
+    receiversCopy = receiversCopy.filter(receiver => { 
+      if (receiver) return ( receiver.length > 1 && receiver[0]+receiver[1] !== "to" ) 
+      else return false
+    })
+    //però se sono tutti lasciati con "to" allora lo squeal è pubblico ed è come se fosse indirizzato ad un canale
+    if (receiversCopy.length === 0)return false
+
+    //se una volta tolti i "to" rimangono solo @ allora sono solo utenti i destinatari
+    let returnValue = true
+    receiversCopy.map(receiver => { 
+      if (receiver) returnValue = returnValue && receiver[0] === "@" 
+    })
+    return returnValue
   }
 
   const handleSubmit = async (event:React.MouseEvent<HTMLButtonElement>) => {
@@ -131,7 +149,7 @@ export default function NewPostPage() {
         })
         .then(() => {
           //toglie caratteri utente dal database
-          axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
+          if (!onlyUsersInReceivers) axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
                             {daily: -charCount, weekly: -charCount, monthly: -charCount})
         })
         .then(() => {
@@ -226,6 +244,7 @@ export default function NewPostPage() {
 
   }
 
+  //non più usati perchè ora si vede tutto dalla barra laterale o superiore
   const [displayDailyChars, setDisplayDailyChars] = useState(0)
   const [displayWeeklyChars, setDisplayWeeklyChars] = useState(0)
   const [displayMonthlyChars, setDisplayMonthlyChars] = useState(0)
@@ -242,7 +261,8 @@ export default function NewPostPage() {
     <Container>
       <Row>
         
-        {
+        {onlyUsersInReceivers() ? 
+        ( <p className="bg-info mt-3">Stai mandando un messaggio privato. Non consumerai caratteri</p> ) : (    //se il post è un messaggio privato non visualizzo  avvisi
           userDetails.debtChar > 0 ?    // se l'utente ha già debito di caratteri
           (
             <Alert key="danger" variant="danger">
@@ -258,7 +278,7 @@ export default function NewPostPage() {
                 </Button>
               </div>
             </Alert>
-          ) :
+          ) :   //se l'utente non è in debito ma mandando questo post finisce i caratteri
           ( userDetails.dailyChar - charCount <= 0 || userDetails.weeklyChar - charCount <= 0 || userDetails.monthlyChar - charCount <= 0 ?
             (
               <Alert key="danger" variant="danger">
@@ -314,7 +334,7 @@ export default function NewPostPage() {
               <></>
             )
           )
-        }
+        )}
       </Row>
 
       <Row className="justify-content-md-center">
@@ -335,11 +355,13 @@ export default function NewPostPage() {
                   <span>Destinatari: {nReceivers}</span>
                   <ButtonGroup className="ms-auto" aria-label="Basic example">
                     <Button 
+                      variant="dark"
                       className="btn-transparent"
                       disabled={nReceivers>100 || (replyPostId ? true : false)}
                       onClick={handleAddReceivers}>
                     <Add/></Button>
                     <Button
+                      variant="dark"
                       className="btn-transparent"
                       disabled={nReceivers<1 || (replyPostId ? true : false)}
                       onClick={handleRemoveReceivers}>
@@ -372,6 +394,7 @@ export default function NewPostPage() {
                   textLines={textLines}
                   Dchar={userDetails.dailyChar}
                   txtReadOnly={userDetails.debtChar > 0}
+                  receiversOnlyUsers={onlyUsersInReceivers()}
                 />
               </Card.Text>
 
