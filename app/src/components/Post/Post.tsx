@@ -244,8 +244,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const [postRepliesNumber, setPostRepliesNumber] = useState(0)
 
   const mentionsRegex = /^@[a-zA-Z0-9-._]+$|^§([a-z0-9-]+|[A-Z0-9-]+)$/;
-  const urlRegex = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/;
-  const postTextArray = postData.postText.split(' ');
+  const urlRegex = /^(((http|https):\/\/)|[www.])[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/;
+  const postTextArray = postData.postText.split(/\s|\n/);
 
   if (isLoading) return (<PostPlaceholder />)
 
@@ -323,7 +323,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                   // Resetta l'espressione regolare
                   urlRegex.lastIndex = 0;
                   return (<>
-                      <Link key={index} to={word.substring(1)}>
+                      <Link key={index} to={word.startsWith("http") ? word : `https://${word}`}>
                           {word}
                       </Link> <span> </span></>
                   );

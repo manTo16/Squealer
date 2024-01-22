@@ -46,7 +46,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                  <Button onClick={()=>{navigate("/")}} variant="outline-light"  className='btn-transparent'>
+                  <Button onClick={()=>{navigate("/")}} variant="dark"  className='btn-transparent'>
                     <HomeButton />
                   </Button>
               </Nav.Item>
@@ -54,7 +54,7 @@ export default function Bottombar(
     
             <Col>
               <Nav.Item>
-                <Button onClick={()=>{navigate("/trendingPage")}} variant="outline-light" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/trendingPage")}} variant="dark" className='btn-transparent'>
                   <FireButton/>
                 </Button>
               </Nav.Item>
@@ -62,7 +62,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                <Button onClick={()=>{navigate("/newPost")}} variant="outline-light" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/newPost")}} variant="dark" className='btn-transparent'>
                   <AddButton />
                 </Button>
               </Nav.Item>
@@ -70,7 +70,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                <Button onClick={()=>{navigate("/")}} variant="outline-light" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/")}} variant="dark" className='btn-transparent'>
                   <QuestionButton/>
                 </Button>
               </Nav.Item>
@@ -78,7 +78,7 @@ export default function Bottombar(
 
             <Col>
               <Nav.Item>
-                <Button onClick={()=>{navigate("/profile")}} variant="outline-light" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/profile")}} variant="dark" className='btn-transparent'>
                   <GroupButton/> 
                 </Button>
               </Nav.Item>
