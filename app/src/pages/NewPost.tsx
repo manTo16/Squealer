@@ -183,7 +183,6 @@ export default function NewPostPage() {
         })
         .then(() => {
           //toglie caratteri utente dal database
-          console.log("borra")
           if (!onlyUsersInReceivers()) axios.patch(apiUsersURL+'/'+userDetails.username+'/characters',
                             {daily: -charCount, weekly: -charCount, monthly: -charCount})
         })

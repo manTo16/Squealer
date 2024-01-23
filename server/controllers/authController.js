@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
+const resizeBase64Image = require('./utils/imageManipulation')
 
 const { registrationDailyChars, registrationWeeklyChars, registrationMonthlyChars } = require('./utils/characterCountValues')
 
@@ -8,11 +9,13 @@ const register = async (req,res) => {
   const {username,email,displayName,password,userImage}=req.body;
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password,salt);
+  const userThumbnail = resizeBase64Image(userImage, 32, 32)
   const user = new User({
-    username,
-    email,
-    displayName,
-    userImage,
+    username: username,
+    email: email,
+    displayName: displayName,
+    userImage: userImage,
+    userImage32x32: userThumbnail,
     password: hashedPassword,
     dailyChar: registrationDailyChars,
     weeklyChar: registrationWeeklyChars,

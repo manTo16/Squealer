@@ -144,7 +144,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   async function getUserPropic (username: string) {
     //console.log("Post getUserPropic parte richiesta: ",apiUsersURL+`/${username}/propic`)
-    const response = await axios.get(apiUsersURL+`/${username}/propic`)
+    const response = await axios.get(apiUsersURL+`/${username}/propic-32`)
     //console.log("Post getUserPropic risposta richiesta: ", response)
     let userImage = ''
     if (response && response.status === 200) 
