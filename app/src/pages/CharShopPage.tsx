@@ -79,10 +79,16 @@ export default function CharShopPage() {
                     onClick={() => buyChars(userDetails.debtChar)}>Risana debito</Button>
             ) :
             (
-                <Button
-                onClick={() => buyChars(10)}>
-                    Compra 10 caratteri
-                </Button>
+                <>
+                    <Button
+                    onClick={() => buyChars(10)}>
+                        Compra 10 caratteri
+                    </Button>
+                    <Button
+                    onClick={() => buyChars(125)}>
+                        Compra 125 caratteri per un'immagine
+                    </Button>
+                </>
             )
         }
         

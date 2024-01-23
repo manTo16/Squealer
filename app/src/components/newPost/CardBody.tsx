@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import IconPaste from '@components/svg/PasteSvg';
 import IconUpload from '@components/svg/UploadSvg';
 import IconCamera from '@components/svg/CameraSvg';
+import PasteImageComponent from './PasteImage';
 
 interface CardBodyProps {
   type: string;
@@ -74,7 +75,18 @@ export default function CardBody({
     );
   } else if (type === 'pst') {
     return (
-        <h1>PST</h1>
+      <>
+      <Button variant={charState}>
+          {charCount}/{Dchar}
+        </Button>
+        <PasteImageComponent
+          onImagePaste={(image: string) => {
+            setInputValue(image);
+            onInputChange({ target: { value: image } } as ChangeEvent<HTMLTextAreaElement>);
+          }}
+          onChange={onInputChange}
+        />
+      </>
     );
   } else if (type === 'upl') {
     return (

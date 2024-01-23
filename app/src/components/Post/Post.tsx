@@ -21,6 +21,11 @@ import { generateAddressURL } from "@utils/URLs"
 import { UserContext } from "@utils/userData";
 
 
+import Image from 'react-bootstrap/Image';
+import Figure from 'react-bootstrap/Figure';
+import logo from "../../assets/Squealer.png"
+
+
 
 export default function Post({postId = "defaultId"}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
@@ -33,7 +38,17 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   const [isLoading, setIsLoading] = useState(true)  //considero caricato un post quando è tutto pronto tranne l'immagine dell'utente
 
+  const [isPostBodyAnImg, setIsPostBodyAnImg] = useState(false);
+
   async function loadPostData(postId: string) {
+
+    // controlli per il render delle immagini
+    /*
+      posttext = base64 
+      useState isPostBodyanIMG bool false
+
+    */
+    
 
     if (postId === 'getFromUrl') postId = id ?? ""
 
@@ -60,6 +75,11 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
               postImpressionChosen: impressionAlreadyChosenByUser,
               postViews: loadedPostData.impressions.views.number
           })
+
+          if (isBase64(loadedPostData.text)) {
+            setIsPostBodyAnImg(true);
+          } 
+
           setIsLoading(false)
           //console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
   
@@ -99,6 +119,10 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           }
         }
       }
+  }
+
+  function isBase64(str: string) {
+    return str.startsWith('data:image/');
   }
 
   const [showReceivers, setShowReceivers] = useState(false)
@@ -296,45 +320,60 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
             </Stack>
           </Col>
         </Row>
+        
+        
         <div className="py-2 pb-3 text-break">
-          {showReceivers ?
-          (
-            <div className="postReceivers d-flex flex-wrap">
-              {postData.postReceivers.map((str, index) => (
-                <div key={index} className="p-2 flex-fill">
-                  <Button variant="dark" onClick={() => navigate(generateAddressURL(str))}>{str}</Button>
+          {
+            showReceivers ? 
+              (
+                <div className="postReceivers d-flex flex-wrap">
+                  {postData.postReceivers.map((str, index) => (
+                    <div key={index} className="p-2 flex-fill">
+                      <Button variant="dark" onClick={() => navigate(generateAddressURL(str))}>{str}</Button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )
-          :
-          (
-            <span className="postText">
-            {postTextArray.map((word, index) => {
-              if (mentionsRegex.test(word)) {
-                  // Resetta l'espressione regolare
-                  mentionsRegex.lastIndex = 0;
-                  return (
-                      <Button key={index} variant="dark" onClick={() => {navigate(generateAddressURL(word))}}>
-                          {word}
-                      </Button>
-                  );
-              } else if (urlRegex.test(word)) {
-                  // Resetta l'espressione regolare
-                  urlRegex.lastIndex = 0;
-                  return (<>
-                      <Link key={index} to={word.startsWith("http") ? word : `https://${word}`}>
-                          {word}
-                      </Link> <span> </span></>
-                  );
-              } else {
-                  return word + ' ';
-              }
-            })}
-            </span>
-          )
+              ) : isPostBodyAnImg ? (
+                // <div>
+                //   <Image src={logo} />
+                // </div>
+                <Figure>
+                <Figure.Image
+                  width="100%"
+                  height={180}
+                  alt="171x180"
+                  src={`${postData.postText}`}
+                />
+              </Figure>
+              ) : (
+                <span className="postText">
+                {postTextArray.map((word, index) => {
+                  if (mentionsRegex.test(word)) {
+                      // Resetta l'espressione regolare
+                      mentionsRegex.lastIndex = 0;
+                      return (
+                          <Button key={index} variant="dark" onClick={() => {navigate(generateAddressURL(word))}}>
+                              {word}
+                          </Button>
+                      );
+                  } else if (urlRegex.test(word)) {
+                      // Resetta l'espressione regolare
+                      urlRegex.lastIndex = 0;
+                      return (<>
+                          <Link key={index} to={word.startsWith("http") ? word : `https://${word}`}>
+                              {word}
+                          </Link> <span> </span></>
+                      );
+                  } else {
+                      return word + ' ';
+                  }
+                })}
+                </span>
+              )
           }
         </div>
+
+
         <Row>
           <Col>
             <ButtonGroup>

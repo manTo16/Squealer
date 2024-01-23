@@ -138,9 +138,23 @@ export default function NewPostPage() {
   
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputText = event.target.value;
-    setCharCount(inputText.length);
-    setText(inputText)
-    setTextLines(getTextLines(event.target));
+    
+    console.log("tipo di input: ", Type)
+    console.log('inputText: ', inputText)
+
+    if (Type === 'txt') {
+      setCharCount(inputText.length);
+      setTextLines(getTextLines(event.target));
+      setText(inputText)
+    } else if (Type === 'pst') {
+      if (inputText.length > 0) { // se è stato incollato un immagine
+        setCharCount(125);        // imposto il numero di caratteri usati a 125
+        setText(inputText)
+      } else if (inputText.length === 0) { // se è stato cancellato il contenuto
+        setCharCount(0);
+        console.log('An empty string was passed');
+      }
+    }
   };
 
   const handleReceiverInputChange = (text: string, receiversArrayIndex: number, receiverType: string) => {
