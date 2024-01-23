@@ -143,10 +143,12 @@ export default function NewPostPage() {
     console.log('inputText: ', inputText)
 
     if (Type === 'txt') {
+      console.log('TXT')
       setCharCount(inputText.length);
       setTextLines(getTextLines(event.target));
       setText(inputText)
-    } else if (Type === 'pst') {
+    } else if (Type === 'pst' || Type === 'upl' || Type === 'cmr') {
+      console.log('IMMAGINI')
       if (inputText.length > 0) { // se è stato incollato un immagine
         setCharCount(125);        // imposto il numero di caratteri usati a 125
         setText(inputText)
@@ -472,7 +474,7 @@ export default function NewPostPage() {
                     </Dropdown.Item>
                     <Dropdown.Item 
                       className="btn btn-secondary"
-                      onClick={() => handleType('cmr')}
+                      onClick={() =>{ handleType('cmr'); console.log("cmr click")}}
                     >
                       <IconCamera/>
                     </Dropdown.Item>

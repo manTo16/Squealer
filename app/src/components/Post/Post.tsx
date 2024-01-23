@@ -39,16 +39,10 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   const [isLoading, setIsLoading] = useState(true)  //considero caricato un post quando è tutto pronto tranne l'immagine dell'utente
 
   const [isPostBodyAnImg, setIsPostBodyAnImg] = useState(false);
+  const [isPostBodyAGeolocation, setIsPostBodyAGeolocation] = useState(false);
+  const [isPostBodyAVideo, setIsPostBodyAVideo] = useState(false);
 
-  async function loadPostData(postId: string) {
-
-    // controlli per il render delle immagini
-    /*
-      posttext = base64 
-      useState isPostBodyanIMG bool false
-
-    */
-    
+  async function loadPostData(postId: string) {    
 
     if (postId === 'getFromUrl') postId = id ?? ""
 
@@ -216,7 +210,11 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
     setPostData(updatedPostData)
   }, [chosenReaction])
 
-  postTextLength = postData.postText.length;
+  if (isPostBodyAnImg) {
+    postTextLength = 125;
+  } else {
+    postTextLength = postData.postText.length;
+  }
 
   const handleImpressions = (impression:string) => {
     if (!isLoggedIn) {
@@ -286,7 +284,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                   width={25}
                   className="rounded-circle"
                   src={`${postData.userImg}`}
-                  alt="" 
+                  alt="profile pic" 
                 />
                 <div className="d-inline-flex flex-column text-wrap mx-1">
                   <span>
@@ -334,17 +332,19 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                   ))}
                 </div>
               ) : isPostBodyAnImg ? (
-                // <div>
-                //   <Image src={logo} />
-                // </div>
-                <Figure>
+                <div className="d-flex align-items-center justify-content-center bg-black rounded">
+                <Figure className="m-0">
                 <Figure.Image
                   width="100%"
                   height={180}
-                  alt="171x180"
+                  alt="post image"
+                  className="m-0"
                   src={`${postData.postText}`}
                 />
-              </Figure>
+                </Figure>
+                </div>
+              ) : isPostBodyAGeolocation ? (
+                <></>
               ) : (
                 <span className="postText">
                 {postTextArray.map((word, index) => {

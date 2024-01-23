@@ -1,14 +1,15 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useRef, useEffect } from 'react';
+import Webcam from "react-webcam";
+
 import useAutoFocus from '@hooks/useAutoFocus';
 
 import InputGroup from 'react-bootstrap/InputGroup';
+import { convertToBase64 } from '../../utils';
 import Form from 'react-bootstrap/Form';
+import IconCamera from "@components/svg/CameraSvg";
 
 import TestGeolocation from '@components/Geolocation/Geolocation';
 import Button from 'react-bootstrap/Button';
-import IconPaste from '@components/svg/PasteSvg';
-import IconUpload from '@components/svg/UploadSvg';
-import IconCamera from '@components/svg/CameraSvg';
 import PasteImageComponent from './PasteImage';
 
 interface CardBodyProps {
@@ -20,6 +21,12 @@ interface CardBodyProps {
   txtReadOnly: boolean;
   receiversOnlyUsers: boolean;
 }
+
+const videoConstraints = {
+  width: 1280,
+  height: 720,
+  facingMode: "user"
+};
 
 export default function CardBody({
   type,
@@ -36,6 +43,29 @@ export default function CardBody({
 
   const textInput = useAutoFocus();
 
+  const handleImageUpload = async (e:React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files == null) return;
+    const file = e.target.files[0];
+    const convertedImage: any = await convertToBase64(file)
+    console.log(convertedImage)
+    // setUserImage(convertedImage)
+    onInputChange({ target: { value: convertedImage } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }
+
+  const [imageSrc, setImageSrc] = useState(''); 
+
+
+  const webcamRef = React.useRef<Webcam | null>(null);
+
+  const capture = React.useCallback(() => {
+      setImageSrc(webcamRef.current?.getScreenshot() ?? '');
+      console.log("IMAGESOURCE", imageSrc);
+      onInputChange({ target: { value: imageSrc } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [webcamRef]);
+
+  const reset = () => {
+    setImageSrc('');
+  }
 
   const handleMediaType = (eventKey: string | null) => {
     if (eventKey === null) return;
@@ -67,12 +97,6 @@ export default function CardBody({
       </InputGroup>
       </>
     );
-  } else if (type === 'img') {
-    return (
-      <>
-        <h1>IMG</h1>
-      </> 
-    );
   } else if (type === 'pst') {
     return (
       <>
@@ -90,11 +114,55 @@ export default function CardBody({
     );
   } else if (type === 'upl') {
     return (
-        <h1>UPL</h1>
+      <Form.Group controlId="formFileMultiple" className="mb-3">
+      <Form.Label>Carica una foto profilo</Form.Label>
+      <Form.Control 
+        type="file" 
+        accept=".jpeg, .png, .jpg"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageUpload(e)}
+      />
+      </Form.Group>
     );
   } else if (type === 'cmr') {
     return (
-        <h1>CMR</h1>
+      <>
+        <div style={{ width: '100%', height: 'auto' }}>
+          {
+            imageSrc !== '' ? 
+            ( 
+              <div className='d-flex flex-column aling-items-center justify-content-center'>
+                <img src={imageSrc} alt="" />
+                {/* <div className=""> */}
+                  <Button className="mt-2" variant='danger' onClick={reset}>Reset</Button>
+                {/* </div> */}
+              </div> 
+            ) : (
+              <div className='d-flex flex-column aling-items-center justify-content-center'>
+                <Webcam
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  // className='rounded'
+                  style={{
+                    // position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    // height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center'
+                  }}
+                  videoConstraints={videoConstraints}
+                />
+                {/* <div className="d-flex align-items-center justify-content-center"> */}
+                  <Button className="mt-2" variant='success' onClick={capture}><IconCamera/></Button>
+              </div>
+            )
+          }        
+          
+          
+        </div>
+      </>
     );
   } else if (type === 'mp4') {
     return (
