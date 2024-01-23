@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const verifyToken = require('../middleware/auth')
 const {
+  getPosts,
   createPost,
   getFeedIds,
   getPost,
@@ -16,6 +17,9 @@ const {
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
+
+router.route('/test').get(getPosts)
+
 router.route('/:id').get(getPost)
 //router.route('/:username/posts').get(getUserPosts)
 router.route('/:id/impressions/:impression').patch(updateImpressions)
@@ -26,5 +30,6 @@ router.route('/:id/receivers').get(getReceivers)
 router.route('/search/byText/:query').get(searchPostByText)
 router.route('/search/byUsername/:query').get(searchPostByUsername)
 router.route('/search/byKeyword/:query').get(searchPostByKeyword)
+
 
 module.exports = router

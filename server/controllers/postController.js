@@ -354,7 +354,32 @@ const searchPostByKeyword = async(req,res) => {
   }
 }
 
+const getPosts = async (req,res) =>{
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const totalPosts = await Post.countDocuments();
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    const posts = await Post.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    res.json({
+      posts,
+      currentPage: page,
+      totalPages,
+    });
+  } catch (error) {
+    console.error('Errore durante il recupero dei post:', error);
+    res.status(500).json({ error: 'Errore del server' });
+  }
+}
+
 module.exports = {
+  getPosts,
   createPost,
   getFeed,
   getFeedIds,
