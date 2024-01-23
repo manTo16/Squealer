@@ -1,5 +1,6 @@
 //const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
+const { resizeBase64Image, addBase64ImageHeader } = require('./utils/imageManipulation')
 
 const getAllUsers = async (req,res)=>{
     try{
@@ -186,7 +187,34 @@ const getUserImage = async (req,res) => {
   } catch (err) {
     return res.status(500).json({message: err.message})
   }
-}   
+}  
+
+const getUserThumbnail = async (req,res) => {
+  try {
+    console.log("getUserThumbnail sto entrando")
+    username = req.params.userName
+    const user = await User.findOne({username: username})
+    if(!user) return res.status(404).json({message: "user not found"})
+
+    //se l'utente ha un'immagine profilo ma non una versione piccola per qualche motivo la genera sul momento
+    console.log("thumbnail userimage32: ", user.userImage32x32)
+    console.log("thumbanail userimage: ", !!user.userImage)
+    if (!user.userImage32x32 && user.userImage) {
+      console.log("ENTRO NELL IF")
+      user.userImage32x32 = addBase64ImageHeader(await resizeBase64Image(user.userImage, 32, 32))
+      await user.save()
+    }
+
+    const response = user.userImage32x32
+    
+    //se l'utente non ha immagine profilo ritorna una stringa vuota
+    console.log("getUserThumbnail sto uscendo ritrno: ", response)
+    return res.status(200).json(response)
+    
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
 
 /*
 ritorna gli username.
@@ -372,6 +400,7 @@ module.exports = {
     getUserImpressionsViews,
     return200,
     getUserImage,
+    getUserThumbnail,
     searchUserByDisplayNameALL,
     searchUserByUsernameALL,
     searchUserByDisplayNameOneResult,

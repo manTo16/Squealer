@@ -51,7 +51,14 @@ const userSchema = mongoose.Schema(
       type: Number,
       default: 0
     },
-    userImage: String,
+    userImage: {
+      type: String,
+      default: ""
+    },
+    userImage32x32: {
+      type: String,
+      default: ""
+    },
     impressedPostIds: {
       veryLikes: {
         type: [String],
