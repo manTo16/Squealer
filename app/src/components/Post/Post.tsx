@@ -24,6 +24,7 @@ import { UserContext } from "@utils/userData";
 import Image from 'react-bootstrap/Image';
 import Figure from 'react-bootstrap/Figure';
 import logo from "../../assets/Squealer.png"
+import Map from "@components/Geolocation/map";
 
 
 
@@ -72,14 +73,19 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
           if (isBase64(loadedPostData.text)) {
             setIsPostBodyAnImg(true);
-          } 
+          }          
+          
+          if (isCoordinates(loadedPostData.text)) {
+            console.log("CI SONO DELLE COORDINATE CAZZO!")
+            setIsPostBodyAGeolocation(true);
+          }
 
           setIsLoading(false)
           //console.log("POST LOADEDPOSTDATA.USERNAME: ", loadedPostData.username)
   
           const userImage = getUserPropic(loadedPostData?.username ?? "")
           .then((userImage) => {
-            //console.log("AAAAAAAAAAAAAAAA")
+            
             setPostData({
               postText: loadedPostData.text,
               postIsReplyTo: loadedPostData.replyTo,
@@ -113,6 +119,12 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
           }
         }
       }
+  }
+
+  function isCoordinates(str: string): boolean {
+    // Regex per numeri con un numero variabile di cifre intere e decimali, separati da una virgola e uno spazio
+    const regex = /^\d+\.\d+, \d+\.\d+$/;
+    return regex.test(str);
   }
 
   function isBase64(str: string) {
@@ -210,7 +222,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
     setPostData(updatedPostData)
   }, [chosenReaction])
 
-  if (isPostBodyAnImg) {
+  if (isPostBodyAnImg || isPostBodyAGeolocation) {
     postTextLength = 125;
   } else {
     postTextLength = postData.postText.length;
@@ -344,7 +356,11 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
                 </Figure>
                 </div>
               ) : isPostBodyAGeolocation ? (
-                <></>
+                <>
+                  <Map 
+                    crd={postData.postText}
+                  />
+                </>
               ) : (
                 <span className="postText">
                 {postTextArray.map((word, index) => {

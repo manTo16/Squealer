@@ -1,14 +1,24 @@
+import React, { useState } from "react";
 import { LatLngTuple } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 
 interface MapProps {
-    array: number[];
+    crd: string;
 }
 
-function Map({ array }: MapProps) {
-    const position: LatLngTuple = [array[0], array[1]];
+function Map({ crd }: MapProps) {
+    
+    const [userLocation, setUserLocation] = useState<{
+        latitude: number;
+        longitude: number;
+      } | null>(null);
 
-    // You can now use the 'array' prop inside your component
+    function coordinatesToLatLngTuple(coordinates: string): LatLngTuple {
+        const parts = coordinates.split(', ');
+        return [parseFloat(parts[0]), parseFloat(parts[1])];
+    }
+
+    const position: LatLngTuple = coordinatesToLatLngTuple(crd);
 
     return (
         <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: '400px'}}>

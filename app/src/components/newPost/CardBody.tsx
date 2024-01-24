@@ -176,7 +176,7 @@ export default function CardBody({
       </Form.Group>
     );
   } else if (type === 'gps') {
-    return <TestGeolocation/>;
+    return <TestGeolocation onChange={onInputChange} />;
   } else {
     return null;
   }

@@ -4,7 +4,7 @@ import Image from 'react-bootstrap/Image';
 
 interface PasteImageProps {
     onImagePaste: (image: string) => void;  
-    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;  
+    onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 export default function PasteImageComponent({ onImagePaste, onChange }: PasteImageProps) {

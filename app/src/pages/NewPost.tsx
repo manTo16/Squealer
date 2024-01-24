@@ -160,6 +160,11 @@ export default function NewPostPage() {
         setCharCount(0);
         console.log('An empty string was passed');
       }
+    } else if (Type === 'mp4') {
+    } else if (Type === 'gps') {
+      setCharCount(125);        // imposto il numero di caratteri usati a 125
+      setText(inputText)
+      console.log('GPS XD ', inputText)
     }
   };
 
@@ -401,6 +406,14 @@ export default function NewPostPage() {
                 <img src={`${userDetails.userImage}`} alt="user profile picture" width={50} className="rounded-circle"/>
                 <span className="p-2 displayedName">{userDetails.displayName}</span>
                 <span className="p-2 tagName">{'@'+userDetails.username}</span>
+                {Type !== 'txt' ? (
+                    <div className="ms-auto me-3">
+                      {charCount}
+                    </div>
+                  ) : (
+                    <>
+                    </>
+                  )}
               </Stack>
             </div>
             </Card.Header>
