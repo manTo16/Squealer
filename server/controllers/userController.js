@@ -191,16 +191,12 @@ const getUserImage = async (req,res) => {
 
 const getUserThumbnail = async (req,res) => {
   try {
-    console.log("getUserThumbnail sto entrando")
     username = req.params.userName
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
 
     //se l'utente ha un'immagine profilo ma non una versione piccola per qualche motivo la genera sul momento
-    console.log("thumbnail userimage32: ", user.userImage32x32)
-    console.log("thumbanail userimage: ", !!user.userImage)
     if (!user.userImage32x32 && user.userImage) {
-      console.log("ENTRO NELL IF")
       user.userImage32x32 = addBase64ImageHeader(await resizeBase64Image(user.userImage, 32, 32))
       await user.save()
     }
@@ -208,7 +204,6 @@ const getUserThumbnail = async (req,res) => {
     const response = user.userImage32x32
     
     //se l'utente non ha immagine profilo ritorna una stringa vuota
-    console.log("getUserThumbnail sto uscendo ritrno: ", response)
     return res.status(200).json(response)
     
   } catch (err) {
@@ -327,6 +322,7 @@ const setUserCharacters = async (req,res) => {
   }
 }
 
+//attenzione: se modificate questa funzione controllate anche updateUserCharactersWithParams in postUtils.js
 const updateUserCharacters = async (req,res) => {
   try {
     const username = req.params.userName

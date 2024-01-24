@@ -3,6 +3,7 @@ const Post = require('../models/postModel')
 const Channel = require('../models/channelModel')
 
 const { checkReceiverSyntax, parseTextForMentions } = require('./utils/postUtils')
+const { createPostInterval } = require('./utils/automaticPosts')
 
 //poi magari spostiamo la funzione in un altro file che includiamo qua
 
@@ -10,22 +11,21 @@ const { checkReceiverSyntax, parseTextForMentions } = require('./utils/postUtils
 
 const createPost = async (req,res) => {
   try{
-    const {userId, text, receivers} = req.body;
-    const user = await User.findOne({_id: userId});
+    const {username, text, receivers, repeatPostInterval} = req.body;
+    const user = await User.findOne({username: username});
 
     //rimuovi elementi vuoti dall'array dei destinatari
-    console.log("createPost receivers: ", receivers)
+    //console.log("createPost receivers: ", receivers)
     const receiversCopy = receivers.filter(checkReceiverSyntax);
 
     receiversCopy.map((receiver) => console.log("receiver: ", receiver))
     /* prendi menzioni dal testo del post */
     const mentions = parseTextForMentions(text)
-    console.log("createPost mentions: ", mentions)
+    //console.log("createPost mentions: ", mentions)
 
     const newPost = new Post({
       postId: "",
-      userId: userId,
-      username: user.username,
+      username: username,
       displayName: user.displayName,
       text: text,
       receivers: receiversCopy,
@@ -34,13 +34,15 @@ const createPost = async (req,res) => {
     //res.status(400).json({message: JSON.stringify(user.username) })
     await newPost.save();
 
+    console.log("creato post di ", username, " con destinatari ", receivers, " menzioni ", mentions, " di lunghezza ", text.length)
+
     /* aggiungi il post ai canali ai quali è destinato */
     receiversCopy.filter(receiver => receiver[0] === "§").map(async (receiver) => {
       console.log("createPost filter map receiver: ", receiver)      
       let channel = await Channel.findOne({channelName: receiver.slice(1)})
       console.log("createPost filter map channel._id: ", channel?._id)
       if(channel) {
-        console.log("createPost sono dentro l'if")
+        //console.log("createPost sono dentro l'if")
         console.log("createPost channel: ", channel)
         console.log("createPost newPost._id: ", newPost._id)
         channel.postsIds.push(newPost._id)
@@ -48,9 +50,28 @@ const createPost = async (req,res) => {
       }
     })
 
+    //se l'api ritorna -1 nell'intervalId significa che non è stata programmata nessuna ripetizione di post
+    let intervalId = -1
+    if (repeatPostInterval.interval !== 0) {
+      let unitMultiplier = 0
+      switch(repeatPostInterval.unit) {
+        case "Minuti":
+          unitMultiplier = 60
+          break
+        case "Ore":
+          unitMultiplier = 60 * 60
+          break
+        case "Giorni":
+          unitMultiplier = 60 * 60 * 24
+          break
+        default:
+          unitMultiplier = 0
+      }
+      intervalId = createPostInterval(username, text, receivers, 1000 * unitMultiplier * repeatPostInterval.interval)
+    }
 
-    return res.status(200).json(newPost.postId);
-  }catch(err){
+    return res.status(200).json({postId: newPost.postId, intervalId: intervalId});
+  } catch(err) {
     return res.status(409).json({message: err.message})
   }
 }

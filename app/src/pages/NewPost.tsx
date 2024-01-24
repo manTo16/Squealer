@@ -34,6 +34,7 @@ import DailyCalendar from "@components/svg/CharSvg/dCharSvg";
 import MonthlyCalendar from "@components/svg/CharSvg/mCharSvg";
 import WeeklyCalendar from "@components/svg/CharSvg/wCharSvg";
 import Alert from 'react-bootstrap/Alert';
+import AdvancedOptions from "@components/newPost/AdvancedOptions";
 
 /*ERRORE IN CONSOLE
 Warning: validateDOMNesting(...): <div> cannot appear as a descendant of <p>.
@@ -83,6 +84,9 @@ export default function NewPostPage() {
   const [text,setText] = useState("");
   const [receivers, setReceivers] = useState<string[]>([]);
   const [nReceivers, setNReceivers] = useState(0);
+
+  const [repeatPostInterval, setRepeatPostInterval] = useState(0)
+  const [repeatPostTimeUnit, setRepeatPostTimeUnit] = useState("Minuti")
 
   const [charCount, setCharCount] = useState(0);
 
@@ -190,8 +194,9 @@ export default function NewPostPage() {
     event.preventDefault()
     console.log('sei qui')
     try{
+      console.log("DEBUG")
       const response = await axios.post(apiPostsURL,
-        {userId: userDetails._id,text, receivers},
+        {username: userDetails.username, text: text, receivers: receivers, repeatPostInterval: {interval: repeatPostInterval, unit: repeatPostTimeUnit}},
         { headers: {"Authorization": `Bearer ${userToken}`}}
         ).then((response) => {
           if (replyTo) axios.put(`${apiPostsURL}/${replyTo}/replies`,
@@ -518,6 +523,12 @@ export default function NewPostPage() {
           :
           <></>
         }
+      </Row>
+
+      <Row>
+        <div className="mt-5">
+          <AdvancedOptions handleRepeatIntervalChange={setRepeatPostInterval} handleIntervalTimeUnitChange={setRepeatPostTimeUnit} />
+        </div>
       </Row>
     </Container>
   )  

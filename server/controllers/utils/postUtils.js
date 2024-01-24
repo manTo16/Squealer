@@ -19,10 +19,7 @@ const parseTextForMentions = (text) => {
     return matches;
 }
 
-
-
-
 module.exports = {
     checkReceiverSyntax,
-    parseTextForMentions
+    parseTextForMentions,
   };

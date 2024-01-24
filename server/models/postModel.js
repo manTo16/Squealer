@@ -7,7 +7,7 @@ const postSchema = mongoose.Schema({
   },
   userId:{
     type: String,
-    required: true
+    required: false
   },
   username:{
     type: String,
