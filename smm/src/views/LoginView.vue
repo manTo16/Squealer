@@ -5,8 +5,8 @@
       <h2 class="text-2xl font-bold mb-6 text-center">Login to Squealer For SMMs</h2>
       <form @submit.prevent="handleLogin">
         <div class="mb-4">
-          <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email</label>
-          <input type="email" id="email" v-model="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-emerald-500" placeholder="type email here..." required>
+          <label for="username" class="block text-gray-700 text-sm font-semibold mb-2">Username</label>
+          <input type="text" id="username" v-model="username" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-emerald-500" placeholder="type username here..." required>
         </div>
         <div class="mb-4">
           <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
@@ -20,17 +20,43 @@
 
 
 <script>
+import { apiAuthURL } from '@/URLs';
+import getLoggedUserData from '@/composables/getLoggedUserData.js';
+
+
 export default {
   name: 'LoginView',
   data() {
     return {
-      email: '',
+      username: '',
       password: '',
     };
   },
   methods: {
-    handleLogin() {
-      // logica da fare
+    async handleLogin() {
+      try {
+        const response = await fetch(apiAuthURL+'/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: this.username, password: this.password }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const token = data.token
+          localStorage.setItem('token', token)
+          localStorage.setItem('isUserLoggedIn', 'true')
+          getLoggedUserData(this.username);
+          alert('login successful')
+          this.$router.push({ name: 'home' });
+        } else {
+          console.error('Login error:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Login request error:', error);
+      }
     },
   },
 };

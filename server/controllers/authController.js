@@ -35,6 +35,9 @@ const login = async (req,res) =>{
     const user = await User.findOne({username:username});
     if (!user) return res.status(400).json({message: "User not fount"});
     const checkPW = await bcrypt.compare(password,user.password);
+    if (!checkPW){
+      return res.status(401).json({error:'Invalid credentials'})
+    }
     const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
     return res.status(200).json({token,user})
