@@ -17,3 +17,15 @@ axios.interceptors.response.use(
 );
 
 export default axios;
+
+export const deleteAccount = async (userId) => {
+  try {
+    console.log('1delete')
+    const response = await axios.delete(`/api/users/${userId}`);
+    console.log('2delete')
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+  console.log('3delete')
+};

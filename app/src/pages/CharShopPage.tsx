@@ -84,39 +84,6 @@ export default function CharShopPage() {
             </div>
         <hr />
             <div>
-                <Row>
-                    <Col>
-                        <DailyCalendar/>
-                    </Col>
-                    <Col>
-                        <p>Quota giornaliera: </p>
-                    </Col>
-                    <Col>
-                    <Badge bg="secondary" pill> {displayDailyChars} </Badge>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <WeeklyCalendar/>
-                    </Col>
-                    <Col>
-                        <p>Quota settimanale: </p>
-                    </Col>
-                    <Col>
-                    <Badge bg="secondary" pill> {displayWeeklyChars} </Badge>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <MonthlyCalendar/>
-                    </Col>
-                    <Col>
-                        <p>Quota mensile: </p>
-                    </Col>
-                    <Col>
-                        <Badge bg="secondary" pill> {displayMonthlyChars} </Badge>
-                    </Col>
-                </Row>
                 { userInDebt ? (
                 <Row className="bg-danger mx-1 rounded">
                     <Col>
@@ -129,7 +96,43 @@ export default function CharShopPage() {
                         <Badge bg="warning" className="text-black" pill> {displayDebt} </Badge>
                     </Col>
                 </Row>
-                ) : (<></>)}
+                ) : (
+                    <>
+                        <Row>
+                            <Col>
+                                <DailyCalendar/>
+                            </Col>
+                            <Col>
+                                <p>Quota giornaliera: </p>
+                            </Col>
+                            <Col>
+                            <Badge bg="secondary" pill> {displayDailyChars} </Badge>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <WeeklyCalendar/>
+                            </Col>
+                            <Col>
+                                <p>Quota settimanale: </p>
+                            </Col>
+                            <Col>
+                            <Badge bg="secondary" pill> {displayWeeklyChars} </Badge>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <MonthlyCalendar/>
+                            </Col>
+                            <Col>
+                                <p>Quota mensile: </p>
+                            </Col>
+                            <Col>
+                                <Badge bg="secondary" pill> {displayMonthlyChars} </Badge>
+                            </Col>
+                        </Row>
+                    </>
+                )}
             </div>
             <hr />
             {
