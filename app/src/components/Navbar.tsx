@@ -49,11 +49,32 @@ export default function Navbar(
       </ContainerBootstrap>
     </NavbarBootstrap>
     <NavbarBootstrap expand="sm" className='d-lg-none navbar-dark bg-dark d-flex justify-content-center align-items-center pb-0'>
-        <DailyCalendar/><h3><Badge pill bg="secondary">{userDetails.dailyChar}</Badge></h3>
-        <div className="vr mx-3" />
-        <WeeklyCalendar/><h3><Badge pill bg="secondary">{userDetails.weeklyChar}</Badge></h3>
-        <div className="vr mx-3" />
-        <MonthlyCalendar/><h3><Badge pill bg="secondary">{userDetails.monthlyChar}</Badge></h3>
+        <div className='d-flex flex-column justify-content-center'>
+          <DailyCalendar/>
+          <h3>
+            <Badge pill bg="secondary">
+              {userDetails.dailyChar}
+            </Badge>
+          </h3>
+        </div>
+          <div className="vr mx-3" />
+        <div className='d-flex flex-column'>
+          <WeeklyCalendar/>
+          <h3>
+            <Badge pill bg="secondary">
+              {userDetails.weeklyChar}
+            </Badge>
+          </h3>
+        </div>
+          <div className="vr mx-3" />
+        <div className='d-flex flex-column'>
+          <MonthlyCalendar/>
+          <h3>
+            <Badge pill bg="secondary">
+              {userDetails.monthlyChar}
+            </Badge>
+          </h3>
+        </div>
     </NavbarBootstrap>
 
     </div>

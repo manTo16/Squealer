@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LatLngTuple } from 'leaflet';
+import { Icon, LatLngTuple, divIcon } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 
 interface MapProps {
@@ -21,7 +21,7 @@ function Map({ crd }: MapProps) {
     const position: LatLngTuple = coordinatesToLatLngTuple(crd);
 
     return (
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: '400px'}}>
+        <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: '250px'}}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
