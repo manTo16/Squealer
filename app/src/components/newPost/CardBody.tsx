@@ -58,9 +58,10 @@ export default function CardBody({
   const webcamRef = React.useRef<Webcam | null>(null);
 
   const capture = React.useCallback(() => {
-      setImageSrc(webcamRef.current?.getScreenshot() ?? '');
+      const image = webcamRef.current?.getScreenshot() ?? ''
+      setImageSrc(image);
       console.log("IMAGESOURCE", imageSrc);
-      onInputChange({ target: { value: imageSrc } } as React.ChangeEvent<HTMLTextAreaElement>);
+      onInputChange({ target: { value: image } } as React.ChangeEvent<HTMLTextAreaElement>);
   }, [webcamRef]);
 
   const reset = () => {
