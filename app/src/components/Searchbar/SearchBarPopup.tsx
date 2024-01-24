@@ -128,8 +128,8 @@ export default function SearchBarPopup({show, handleShow, queryValue="", setQuer
         {
           results.map((result, index) => {
             return (
-            <div>
-            <Button key={index} variant="dark" onClick={() => {
+            <div key={index}>
+            <Button variant="dark" onClick={() => {
                                                 navigate(generateAddressURL(result))
                                                 handleShow(false)}}>
               {result}
