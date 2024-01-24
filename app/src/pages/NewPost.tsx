@@ -315,6 +315,7 @@ export default function NewPostPage() {
   const[Type, setType] = useState('txt');
   
   const handleType = (eventKey: string | null) => {
+    console.log("debug handleType eventkey: ", eventKey)
     if (eventKey === null) return;
     setType(eventKey);
   };

@@ -37,9 +37,7 @@ export default function CardBody({
   txtReadOnly,
   receiversOnlyUsers
 }: CardBodyProps) {
-  const [inputValue, setInputValue] = useState<string>(''); // Specifica il tipo string per inputValue
 
-  const[MediaType, setMediaType] = useState('paste');
 
   const textInput = useAutoFocus();
 
@@ -61,20 +59,20 @@ export default function CardBody({
       const image = webcamRef.current?.getScreenshot() ?? ''
       setImageSrc(image);
       console.log("IMAGESOURCE", imageSrc);
-      onInputChange({ target: { value: image } } as React.ChangeEvent<HTMLTextAreaElement>);
-  }, [webcamRef]);
+      console.log("debug capture type: ", type)
+      onInputChange({ target: { value: image, style: {lineHeight: '0px'} } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }, [webcamRef, type]);
 
   const reset = () => {
     setImageSrc('');
   }
 
-  const handleMediaType = (eventKey: string | null) => {
-    if (eventKey === null) return;
-    setMediaType(eventKey);
-  };
 
   const charState = receiversOnlyUsers ? 'info' : charCount < Dchar ? 'light' : charCount == Dchar ? 'warning' : 'danger';
-    
+
+  useEffect(() => {
+    console.log("debug dentro cardbody type: ", type)
+  }, [type])
 
   if (type === 'txt') {
     return (
@@ -106,7 +104,6 @@ export default function CardBody({
         </Button>
         <PasteImageComponent
           onImagePaste={(image: string) => {
-            setInputValue(image);
             onInputChange({ target: { value: image } } as ChangeEvent<HTMLTextAreaElement>);
           }}
           onChange={onInputChange}
