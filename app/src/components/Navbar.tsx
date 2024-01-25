@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useLocation, NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useContext, useRef } from 'react';
 import ContainerBootstrap from 'react-bootstrap/Container';
 import NavbarBootstrap from 'react-bootstrap/Navbar';
@@ -20,7 +20,7 @@ export default function Navbar(
 
   const isLoggedIn = !!localStorage.getItem('token')
   // const isLoggedIn = true
-
+  const location = useLocation()
   const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
 
   const divHtmlElementRef = useRef<HTMLDivElement>(null)
@@ -48,35 +48,41 @@ export default function Navbar(
         <Searchbar />
       </ContainerBootstrap>
     </NavbarBootstrap>
-    <NavbarBootstrap expand="sm" className='d-lg-none navbar-dark bg-dark d-flex justify-content-center align-items-center pb-0'>
-        <div className='d-flex flex-column justify-content-center'>
-          <DailyCalendar/>
-          <h3>
-            <Badge pill bg="secondary">
-              {userDetails.dailyChar}
-            </Badge>
-          </h3>
-        </div>
-          <div className="vr mx-3" />
-        <div className='d-flex flex-column'>
-          <WeeklyCalendar/>
-          <h3>
-            <Badge pill bg="secondary">
-              {userDetails.weeklyChar}
-            </Badge>
-          </h3>
-        </div>
-          <div className="vr mx-3" />
-        <div className='d-flex flex-column'>
-          <MonthlyCalendar/>
-          <h3>
-            <Badge pill bg="secondary">
-              {userDetails.monthlyChar}
-            </Badge>
-          </h3>
-        </div>
-    </NavbarBootstrap>
 
+    {
+      location.pathname !== '/charShop' ? (
+        <NavbarBootstrap expand="sm" className='d-lg-none navbar-dark bg-dark d-flex justify-content-center align-items-center pb-0'>
+            <div className='d-flex flex-column justify-content-center'>
+              <DailyCalendar/>
+              <h3>
+                <Badge pill bg="secondary">
+                  {userDetails.dailyChar}
+                </Badge>
+              </h3>
+            </div>
+              <div className="vr mx-3" />
+            <div className='d-flex flex-column'>
+              <WeeklyCalendar/>
+              <h3>
+                <Badge pill bg="secondary">
+                  {userDetails.weeklyChar}
+                </Badge>
+              </h3>
+            </div>
+              <div className="vr mx-3" />
+            <div className='d-flex flex-column'>
+              <MonthlyCalendar/>
+              <h3>
+                <Badge pill bg="secondary">
+                  {userDetails.monthlyChar}
+                </Badge>
+              </h3>
+            </div>
+        </NavbarBootstrap>
+      ) : (
+        <></>
+      )
+    }
     </div>
   );
 }
