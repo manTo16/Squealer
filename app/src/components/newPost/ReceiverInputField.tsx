@@ -60,9 +60,33 @@ export default function ReceiverInputField(
                 title={selectedReciver}
                 onSelect={handleSelect as any}
                 >
-                <Dropdown.Item eventKey="user">@ - User</Dropdown.Item>
-                <Dropdown.Item eventKey="channel">§ - Channel</Dropdown.Item>
-                <Dropdown.Item eventKey="keyword"># - Keyword</Dropdown.Item>
+                <Dropdown.Item eventKey="user">
+                    <div className="d-flex flex-row">
+                        <div>
+                          @
+                        </div>
+                        <div className=" mx-3"/>
+                        <div className="ms-auto">User</div>
+                    </div>
+                </Dropdown.Item>
+                <Dropdown.Item eventKey="channel">
+                    <div className="d-flex flex-row">
+                        <div>
+                            §
+                        </div>
+                        <div className=" mx-3"/>
+                        <div className="ms-auto">Channel</div>
+                    </div>
+                </Dropdown.Item>
+                <Dropdown.Item eventKey="keyword">
+                    <div className="d-flex flex-row">
+                        <div>
+                            #
+                        </div>
+                        <div className=" mx-3"/>
+                        <div className="ms-auto">Keyword</div>
+                    </div>
+                </Dropdown.Item>
             </DropdownButton>
             <FloatingLabel
                 controlId="floatingInput"

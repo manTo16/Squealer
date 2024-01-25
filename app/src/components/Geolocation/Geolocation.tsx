@@ -58,24 +58,28 @@ export default function TestGeolocation(
   return (
     <>
       <Row>
-        <Col lg={6} xs={6}>
-          <Button 
-            className="p-2 ms-auto"
-            variant="success" 
-            onClick={getUserLocation}
-          >
-            Posizione attuale
-          </Button>
-        </Col> 
-        <Col lg={6} xs={6}>
+        <Col className="d-flex flex-row">
+          <div>
+            <Button 
+              className="p-2 ms-auto"
+              variant="success" 
+              onClick={getUserLocation}
+            >
+              Posizione attuale
+            </Button>
+          </div>
           {userLocation && (
-            <div>
-              <h2>User Location</h2>
-              <div className="d-flex flex-row">
-                <p className="mx-3">Latitudine: {userLocation.latitude}</p>
-                <p>Longitudine: {userLocation.longitude}</p>
-              </div>
+            <>
+            {/* <div className="vr"/> */}
+            <div className="d-flex ms-auto justify-content-end">
+              {/* <h2>Coordinate</h2> */}
+              <div className="vr mx-3"/>
+              <div className="ms-2">
+                <p className="my-0">Latitudine: {userLocation.latitude}</p>
+                <p className="my-0">Longitudine: {userLocation.longitude}</p>
+              </div>  
             </div>
+            </>
           )}
         </Col>
       </Row>
@@ -95,7 +99,6 @@ export default function TestGeolocation(
               {locationObtained && <Marker position={position}>A</Marker>}
 
               {/* <Polyline pathOptions={color} positions={polyline} /> */}
-              <Circle center={position} pathOptions={color} radius={200} />
               
 
           </MapContainer>

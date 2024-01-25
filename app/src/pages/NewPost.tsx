@@ -14,7 +14,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card';
-import { Accordion, Stack } from "react-bootstrap";
+import { Accordion, Badge, Stack } from "react-bootstrap";
 
 import ReceiverInputField from "@components/newPost/ReceiverInputField";
 import CardBody from "@components/newPost/CardBody";
@@ -317,6 +317,7 @@ export default function NewPostPage() {
   const handleType = (eventKey: string | null) => {
     console.log("debug handleType eventkey: ", eventKey)
     if (eventKey === null) return;
+    setCharCount(0)
     setType(eventKey);
   };
 
@@ -409,14 +410,11 @@ export default function NewPostPage() {
                 <img src={`${userDetails.userImage}`} alt="user profile picture" width={50} className="rounded-circle"/>
                 <span className="p-2 displayedName">{userDetails.displayName}</span>
                 <span className="p-2 tagName">{'@'+userDetails.username}</span>
-                {Type !== 'txt' ? (
-                    <div className="ms-auto me-3">
-                      {charCount}
-                    </div>
-                  ) : (
-                    <>
-                    </>
-                  )}
+                  <div className="ms-auto me-3">
+                    <Badge pill bg="success">
+                      <h5>{charCount}/{userDetails.dailyChar}</h5>
+                    </Badge>
+                  </div>
               </Stack>
             </div>
             </Card.Header>
@@ -485,19 +483,41 @@ export default function NewPostPage() {
                       className="btn btn-secondary"
                       onClick={() => handleType('pst')}
                     >
-                      <IconPaste/>
+                      <div className="d-flex flex-row">
+                        <div>
+                          <IconPaste/> 
+                        </div>
+                        <div className="vr mx-3"/>
+                        <div className="ms-auto">Incolla dagli appunti</div>
+                      </div>
                     </Dropdown.Item>
+                    <Dropdown.Divider />
                     <Dropdown.Item 
                       className="btn btn-secondary"
                       onClick={() => handleType('upl')}
                     >
-                      <IconUpload/>
+                      <div className="d-flex flex-row">
+                        <div>
+                          <IconUpload/> 
+                        </div>
+                        <div className="vr mx-3"/>
+                        <div className="ms-auto">Carica un'immagine</div>
+                      </div>
+                      
                     </Dropdown.Item>
+                    <Dropdown.Divider />
                     <Dropdown.Item 
                       className="btn btn-secondary"
                       onClick={() =>{ handleType('cmr'); console.log("cmr click")}}
                     >
-                      <IconCamera/>
+                      <div className="d-flex flex-row">
+                        <div>
+                          <IconCamera/> 
+                        </div>
+                        <div className="vr mx-3"/>
+                        <div className="ms-auto">Scatta una foto</div>
+                      </div>
+                      
                     </Dropdown.Item>
                   </DropdownButton>
                   <Button

@@ -5,12 +5,16 @@ import Button from 'react-bootstrap/Button';
 import { useState, useContext } from 'react';
 import { UserContext } from '@utils/userData';
 import IconWarning from '@components/svg/WarningSvg';
-import { deleteAccount } from '@root/axiosConfig';
+import { deleteAccount, changePassword } from '@root/axiosConfig';
 
 export default function Options() {
   const [isPro, setIsPro] = useState(false);
   const [isVer, setIsVer] = useState(false);
   const [show, setShow] = useState(false);
+
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   const { userDetails } = useContext(UserContext)
 
@@ -24,6 +28,15 @@ export default function Options() {
   const handleProClick = () => {
       // Cambia lo stato opposto di isPro
       setIsPro(!isPro);
+  };
+
+  const handleChangePassword = async (newPassword: string) => {
+    const result = await changePassword(userDetails._id, newPassword);
+    if (result) {
+      // Gestisci il successo del cambio password
+    } else {
+      // Gestisci l'errore del cambio password
+    }
   };
 
   const handleDelete = () => {
@@ -45,16 +58,43 @@ export default function Options() {
             <hr/>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Vecchia password</Form.Label>
-                <Form.Control type="password" className='bg-dark text-light' placeholder="Password"/>
-                <Form.Label>Nuova password</Form.Label>
-                <Form.Control type="password" placeholder="Password" className='bg-dark text-light'/>
-                <Form.Label>Conferma nuova passwor</Form.Label>
-                <Form.Control type="password" placeholder="Password" className='bg-dark text-light'/>
-                <Button type="submit" className="btn btn-dark border-light mt-1" disabled>
+                <Form.Control 
+                  type="password" 
+                  className='bg-dark text-light' 
+                  placeholder="Password"
+                  autoComplete="on"
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+                <Form.Label className='mt-2'>
+                  Nuova password
+                </Form.Label>
+                <Form.Control 
+                  type="password" 
+                  placeholder="Password" 
+                  className='bg-dark text-light'
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                <Form.Label className='mt-2'>
+                  Conferma nuova password
+                </Form.Label>
+                <Form.Control 
+                  type="password" 
+                  placeholder="Password" 
+                  className='bg-dark text-light'
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                />
+                <hr />
+                <Button 
+                  type="submit" 
+                  className="btn d-flex ms-auto btn-dark border-light mt-1" 
+                  disabled
+                  onAbort={() => handleChangePassword('')}
+                >
                   Cambia password 
                 </Button>
             </Form.Group>
           </Col>
+
           <Col>
             <h4>Imposta il tipo di profilo</h4>
             <hr/>

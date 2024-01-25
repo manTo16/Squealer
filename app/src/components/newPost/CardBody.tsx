@@ -79,9 +79,9 @@ export default function CardBody({
       <>
       <Form.Label>{txtReadOnly ? ("Quota caratteri finita!") : ("Scrivi il tuo squeal")}</Form.Label>
       <InputGroup>
-        <Button variant={charState}>
+        {/* <Button variant={charState}>
           {charCount}/{Dchar}
-        </Button>     
+        </Button>      */}
         <Form.Control 
           as="textarea" 
           readOnly={txtReadOnly}
@@ -99,9 +99,6 @@ export default function CardBody({
   } else if (type === 'pst') {
     return (
       <>
-      <Button variant={charState}>
-          {charCount}/{Dchar}
-        </Button>
         <PasteImageComponent
           onImagePaste={(image: string) => {
             onInputChange({ target: { value: image } } as ChangeEvent<HTMLTextAreaElement>);

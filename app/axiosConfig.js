@@ -29,3 +29,13 @@ export const deleteAccount = async (userId) => {
   }
   console.log('3delete')
 };
+
+export async function changePassword(userId, newPassword) {
+  try {
+    const response = await axios.put(`/api/users/${userId}/password`, { password: newPassword });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
