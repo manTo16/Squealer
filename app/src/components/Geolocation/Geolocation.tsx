@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import { LatLngTuple } from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, useMap, Polyline, Circle } from 'react-leaflet'
 
 function ChangeView({ center, zoom }: { center: LatLngTuple, zoom: number }) {
   const map = useMap();
@@ -48,6 +48,13 @@ export default function TestGeolocation(
 
   const position: LatLngTuple = [userLocation?.latitude || 44.66, userLocation?.longitude || 10.81];
 
+  const polyline: LatLngTuple[] = [
+    [51.505, -0.09] as LatLngTuple,
+    [51.51, -0.1] as LatLngTuple,
+    [51.51, -0.12] as LatLngTuple,
+  ];
+  const color = { color: 'red' }
+
   return (
     <>
       <Row>
@@ -86,6 +93,11 @@ export default function TestGeolocation(
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {locationObtained && <Marker position={position}>A</Marker>}
+
+              {/* <Polyline pathOptions={color} positions={polyline} /> */}
+              <Circle center={position} pathOptions={color} radius={200} />
+              
+
           </MapContainer>
         </Col>
       </Row>

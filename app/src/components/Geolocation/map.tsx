@@ -1,34 +1,57 @@
-import React, { useState } from "react";
-import { Icon, LatLngTuple, divIcon } from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import React from "react";
+import { LatLngTuple } from 'leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, Circle } from 'react-leaflet'
+import { cookies } from "next/headers";
 
 interface MapProps {
-    crd: string;
+    coordinates: string;
+    isArea: boolean;
 }
 
-function Map({ crd }: MapProps) {
-    
-    const [userLocation, setUserLocation] = useState<{
-        latitude: number;
-        longitude: number;
-      } | null>(null);
+function coordinatesArrayToLatLngTuples(coordinates: string): LatLngTuple[] {
+    const coordinatesArray: string[] = splitStringByPlus(coordinates)
+  
+    return coordinatesArray.map(coordinates => {
+        const parts = coordinates.split(',');
+        return [parseFloat(parts[0]), parseFloat(parts[1])] as LatLngTuple;
+    });
+  }
+  
+function splitStringByPlus(input: string): string[] {
+    return input.split('+');
+}
 
-    function coordinatesToLatLngTuple(coordinates: string): LatLngTuple {
-        const parts = coordinates.split(', ');
-        return [parseFloat(parts[0]), parseFloat(parts[1])];
-    }
 
-    const position: LatLngTuple = coordinatesToLatLngTuple(crd);
+function Map({ coordinates, isArea }: MapProps) {
+    const crd: LatLngTuple[] = coordinatesArrayToLatLngTuples(coordinates);
+    const center: LatLngTuple = crd[0];
 
     return (
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: '250px'}}>
+        <>
+        <MapContainer 
+            center={center} 
+            zoom={13} 
+            style={{height: '250px'}}
+        >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position}>
-            </Marker> 
+            {crd.map((position, index) => (
+                <Marker key={index} position={position}></Marker>
+            ))}
+
+            <Polyline pathOptions={{color: 'blue'}} positions={crd} />
+            {
+                isArea ? (
+                    <Circle center={crd[0]} pathOptions={{color: 'red'}} radius={400} />
+                ) : (
+                    <></>
+                )
+            }
+
         </MapContainer>
+        </>
     );
 }
 

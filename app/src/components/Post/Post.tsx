@@ -1,7 +1,7 @@
 import Like from "../svg/Reaction/LikeSvg"
 import Heart from "../svg/Reaction/HeartSvg"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-
+import { Icon, LatLngTuple, divIcon } from 'leaflet';
 import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
@@ -28,7 +28,7 @@ import Map from "@components/Geolocation/map";
 
 
 
-export default function Post({postId = "defaultId"}: {postId?: string}) {
+function Post({postId = "defaultId"}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
@@ -41,6 +41,7 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
 
   const [isPostBodyAnImg, setIsPostBodyAnImg] = useState(false);
   const [isPostBodyAGeolocation, setIsPostBodyAGeolocation] = useState(false);
+  const [isArea, setIsArea] = useState(false);
   const [isPostBodyAVideo, setIsPostBodyAVideo] = useState(false);
 
   async function loadPostData(postId: string) {    
@@ -71,12 +72,14 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
               postViews: loadedPostData.impressions.views.number
           })
 
-          if (isBase64(loadedPostData.text)) {
+          if (isBase64(loadedPostData.text)) {  // se è un'immagine
             setIsPostBodyAnImg(true);
           }          
           
-          if (isCoordinates(loadedPostData.text)) {
-            console.log("CI SONO DELLE COORDINATE CAZZO!")
+          if (isCoordinates(loadedPostData.text)) { // se è una geolocalizzazione
+            if (isArea) { 
+              loadedPostData.text = loadedPostData.text.slice(0, -4);
+            }
             setIsPostBodyAGeolocation(true);
           }
 
@@ -122,8 +125,10 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
   }
 
   function isCoordinates(str: string): boolean {
-    // Regex per numeri con un numero variabile di cifre intere e decimali, separati da una virgola e uno spazio
-    const regex = /^\d+\.\d+, \d+\.\d+$/;
+    const regex = /^((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)[+]?)+|area$/;
+    if (str.endsWith('area')) {
+      setIsArea(true);
+    }
     return regex.test(str);
   }
 
@@ -358,7 +363,8 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
               ) : isPostBodyAGeolocation ? (
                 <>
                   <Map 
-                    crd={postData.postText}
+                    coordinates={postData.postText}
+                    isArea={isArea} 
                   />
                 </>
               ) : (
@@ -454,3 +460,5 @@ export default function Post({postId = "defaultId"}: {postId?: string}) {
     </div>
   )
 }
+
+export default Post;
