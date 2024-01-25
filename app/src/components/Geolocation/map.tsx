@@ -24,22 +24,24 @@ function splitStringByPlus(input: string): string[] {
 
 function Map({ coordinates, isArea }: MapProps) {
     const crd: LatLngTuple[] = coordinatesArrayToLatLngTuples(coordinates);
-    const center: LatLngTuple = crd[0];
+    const center: LatLngTuple = crd[crd.length - 1];
 
     return (
         <>
         <MapContainer 
             center={center} 
             zoom={13} 
+            scrollWheelZoom={false}
             style={{height: '250px'}}
         >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {crd.map((position, index) => (
+            {/* {crd.map((position, index) => (
                 <Marker key={index} position={position}></Marker>
-            ))}
+            ))} */}
+            <Marker position={center}></Marker>
 
             <Polyline pathOptions={{color: 'blue'}} positions={crd} />
             {
