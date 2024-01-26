@@ -5,6 +5,7 @@ import { Icon, LatLngTuple, divIcon } from 'leaflet';
 import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
+import React from "react";
 import { useContext, useEffect, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
 import { Button, Row, Col } from "react-bootstrap"
@@ -28,7 +29,7 @@ import Map from "@components/Geolocation/map";
 
 
 
-function Post({postId = "defaultId"}: {postId?: string}) {
+const Post = React.memo(({postId = "defaultId"}: {postId?: string}) => {
   const isLoggedIn = !!localStorage.getItem('token')
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
@@ -387,7 +388,7 @@ function Post({postId = "defaultId"}: {postId?: string}) {
                           </Link> <span> </span></>
                       );
                   } else {
-                      return word + ' ';
+                    return word + ' ';
                   }
                 })}
                 </span>
@@ -459,6 +460,6 @@ function Post({postId = "defaultId"}: {postId?: string}) {
       </Collapse>
     </div>
   )
-}
+})
 
 export default Post;

@@ -88,8 +88,13 @@ const getFeed = async (req,res) => {
 const getFeedIds = async (req,res) => {
   try {
     numberOfPosts = 10;
+    pageNumber = req.params.pageNumber || 1;
    
-    const postIds = await Post.find({}, {projection:{_id:true}}).sort({creationDate: -1}).limit(numberOfPosts);
+    const postIds = await Post.find({}, {projection:{_id:true}})
+                               .sort({creationDate: -1})
+                               .skip((pageNumber - 1) * numberOfPosts)
+                               .limit(numberOfPosts);
+
     return res.status(200).json(postIds);
     
   }

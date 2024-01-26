@@ -4,20 +4,14 @@ import axios, { AxiosError } from "axios"
 import { apiPostsURL, channelsURL, apiUsersURL } from "../../URLs"
 
 import { useEffect, useState } from "react"
+import { Button } from "react-bootstrap"
+
+import { concatNoDuplicates } from "@utils/arrayUtils"
 
 
 
 
-const fetchFeedALL = async () => {
-    //const numberOfPosts = 5;
-    const response = await axios.get(apiPostsURL);
-    if (response && response.status === 200) {
-        const postList = response.data.map((post: {_id: string}) => (post._id))
-        console.log("fetchFeedALL returns: ", postList)
-        return postList
-    }
-    else return []
-}
+
 
 const fetchFeedFromChannel = async (channelName: string) => {
     const response = await axios.get(channelsURL+"/"+channelName)
@@ -109,11 +103,27 @@ export default function Feed({channelName="",
                 } : FeedProps) {
     const [postList, setPostList] = useState<string[]>([]);
 
+    const [nPages, setNPages] = useState(1)
+
+
+    const fetchFeedALL = async () => {
+        //const numberOfPosts = 5;
+        const response = await axios.get(apiPostsURL+"/feed/"+nPages);
+        if (response && response.status === 200) {
+            const postList = response.data.map((post: {_id: string}) => (post._id))
+            console.log("fetchFeedALL returns: ", postList)
+            return postList
+        }
+        else return []
+    }
+
+
+
     useEffect(() => {
-        setPostList([])  //questo serve per il feed utente, senza, se cambio visualizedImpression da fuori con uno stato, i post renderizzati qua non vengono cancellati
+        if (userName) setPostList([])  //questo serve per il feed utente, senza, se cambio visualizedImpression da fuori con uno stato, i post renderizzati qua non vengono cancellati
         const fetchPosts = async () => {
             //console.log("Feed fetchPosts")
-            let postIdsList = []
+            let postIdsList: string[] = []
 
             if (userName) {
                 //console.log("Feed dentro useEffect if(userName) userName: ", userName)
@@ -140,11 +150,11 @@ export default function Feed({channelName="",
                     postIdsList = await fetchFeedFromChannel(channelName)
             }
             //console.log("Feed useEffect postIdsList: ", postIdsList)
-            setPostList(postIdsList)
+            setPostList(concatNoDuplicates(postList, postIdsList));
         }
         fetchPosts();
         //console.log("postList: ", postList)
-    }, [visualizedImpression, channelName, searchQuery])
+    }, [visualizedImpression, channelName, searchQuery, nPages])
     //ho aggiunto channelName qua perchè così quando passi da una pagina /channels/canale1 a /channels/canale2 carica effettivamente il feed. altrimenti rimane bloccato al primo (usando useNavigate)
 
     //useeffect di DEBUG
@@ -157,11 +167,13 @@ export default function Feed({channelName="",
     return (
         <>
            {
-            postList && postList.map((postId: string, index: number) => {
+            postList && postList.map((postId: string) => {
                 //console.log("Feed postList.map postId: ", postId);
-                return <Post key={index} postId={postId} />;
+                return <Post key={postId} postId={postId} />;
             })
            }
+
+           <Button onClick={() => setNPages(nPages + 1)}>carica altri post</Button>
         </>
     )
 }

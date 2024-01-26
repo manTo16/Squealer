@@ -5,6 +5,7 @@ import { apiUsersURL, channelsURL } from "../../URLs";
 import { useNavigate } from "react-router-dom";
 
 import { generateAddressURL } from "@utils/URLs"
+import { concatNoDuplicates } from "@utils/arrayUtils";
 
 interface SearchBarPopupProps {
   show: boolean;
@@ -49,11 +50,7 @@ export default function SearchBarPopup({show, handleShow, queryValue="", setQuer
     
   }
 
-  function concatNoDuplicates(array1: string[], array2: string[]): string[] {
-    console.log("array1: ", array1, " array2: ", array2)
-    const set = new Set(array1.concat(array2));
-    return Array.from(set);
-  }
+
 
   const getChannelResults = async (query: string) => {
     if (query) {
@@ -123,6 +120,9 @@ export default function SearchBarPopup({show, handleShow, queryValue="", setQuer
         autoFocus />
       </Modal.Header>
 
+      { searchQuery &&
+      <>
+
       <Modal.Body style={{backgroundColor: '#282828', color: 'white'}}>
         <div> 
         {
@@ -152,6 +152,9 @@ export default function SearchBarPopup({show, handleShow, queryValue="", setQuer
           Più risultati
         </Button>
       </Modal.Footer>
+
+      </>
+      }
     </Modal>
     </>
   )

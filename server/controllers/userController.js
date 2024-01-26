@@ -380,6 +380,64 @@ const getUserDebt = async (req,res) => {
   }
 }
 
+const selectSMM = async (req,res) => {
+  try {
+    const username = req.params.userName
+    const smmUsername = req.body.smm
+
+    console.log("utente ", username, " vuole come smm ", smmUsername, ". procedo")
+
+    const user = await User.findOne({username: username})
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    const smm = await User.findOne({username: smmUsername})
+    if (!smm)  return res.status(404).json({message: "smm not found"})
+    
+    if (username === smmUsername)  return res.status(403).json({message: "you can't be your own smm"})
+    
+    smm.smmClients.push(username)
+    await smm.save()
+
+    //togli l'smm vecchio così fa direttamente il cambio
+    const oldSmmUsername = user.personalSMM
+    if (oldSmmUsername) await User.updateOne(
+                          { username: oldSmmUsername },
+                          { $pull: { smmClients: username } }
+                        )
+
+    user.personalSMM = smmUsername
+    await user.save()
+
+    return res.status(200)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const removeSMM = async (req,res) => {
+  try {
+    const username = req.params.userName
+    
+    const user = await User.findOne({username: username})
+    if (!user) return res.status(404).json({message: "user not found"})
+    
+    const smmUsername = user.personalSMM
+    console.log("ricevuta richiesta da ", username, " di rimuovere il suo smm ", smmUsername)
+
+    await User.updateOne(
+      { username: smmUsername },
+      { $pull: { smmClients: username } }
+    )
+
+    user.personalSMM = ""
+    await user.save()
+
+    return res.status(200)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
     getAllUsers,
     //addNewUser,
@@ -406,4 +464,6 @@ module.exports = {
     getUserDebt,
     searchUserByUsernameNResults,
     searchUserByDisplayNameNResults,
+    selectSMM,
+    removeSMM
 }

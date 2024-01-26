@@ -17,6 +17,7 @@ const {
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
+router.route('/feed/:pageNumber').get(getFeedIds)
 
 router.route('/test').get(getPosts)
 

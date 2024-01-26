@@ -17,6 +17,34 @@ import Dislike from '@components/svg/Reaction/DislikeSvg';
 import Heartbreak from '@components/svg/Reaction/HeartbreakSvg';
 
 
+
+/*
+ERRORE IN CONSOLE:
+
+Warning: Each child in a list should have a unique "key" prop.
+
+Check the top-level render call using <span>. See https://reactjs.org/link/warning-keys for more information.
+./src/components/Post/Post.tsx/_c<@http://localhost:3000/static/js/bundle.js:78984:102
+Feed@http://localhost:3000/static/js/bundle.js:78161:14
+form
+_c@http://localhost:3000/static/js/bundle.js:33974:78
+UserPage@http://localhost:3000/static/js/bundle.js:89441:18
+RenderedRoute@http://localhost:3000/static/js/bundle.js:66633:7
+Routes@http://localhost:3000/static/js/bundle.js:67338:7
+div
+div
+./node_modules/react-bootstrap/esm/Col.js/_c<@http://localhost:3000/static/js/bundle.js:32564:14
+div
+./node_modules/react-bootstrap/esm/Row.js/_c<@http://localhost:3000/static/js/bundle.js:36901:97
+div
+./node_modules/react-bootstrap/esm/Container.js/_c<@http://localhost:3000/static/js/bundle.js:32733:103
+div
+App@http://localhost:3000/static/js/bundle.js:77332:88
+Router@http://localhost:3000/static/js/bundle.js:67275:7
+BrowserRouter@http://localhost:3000/static/js/bundle.js:65080:7
+*/
+
+
 interface UserProps {
   user?: string;
 }
@@ -33,6 +61,21 @@ export default function UserPage ({
   const navigate = useNavigate()
   const actualUser = () => {
     setUserData(userDetails)
+  }
+
+  const sendSMMRequest = async () => {
+    console.log("richiesta smm a: ", username)
+    await axios.put(`${apiUsersURL}/smm/${userDetails.username}`,
+                    {smm: username})
+    
+    //aggiorno i dati dell'utente quindi li richiedo dal server
+    fetchUserData()
+  }
+
+  const removeSMM = async () => {
+    await axios.delete(`${apiUsersURL}/smm/${userDetails.username}`)
+    
+    fetchUserData()
   }
 
   useEffect(() => {
@@ -105,6 +148,19 @@ export default function UserPage ({
         </div>
         </Col>
       </Row>
+
+      { 
+      (userDetails.personalSMM === username) ? 
+        (
+        <Button onClick={() => removeSMM()}>licenzia schiavo</Button>
+        ) :
+      (isLoggedIn && username)?   //va mostrato solo a chi è loggato e solo se non ci si trova in /profile (username è nei parametri url)
+        (
+        <Button onClick={() => sendSMMRequest()}>ti prego diventa il mio manager</Button>
+        ) :
+        <></>
+      }
+
       <hr/>
       <div className='d-flex'>
         <h4>Visualizza: <Badge pill bg="success"> {reactionType === ReactionType.Default ? 'post' : reactionType} </Badge> </h4>
