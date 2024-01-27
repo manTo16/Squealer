@@ -90,11 +90,13 @@ const getFeedIds = async (req,res) => {
     numberOfPosts = 10;
     pageNumber = req.params.pageNumber || 1;
 
-    const postIds = await Post.find({}, {projection:{_id:true}})
+    const postIdsMongoose = await Post.find({}, "_id")
                                .sort({creationDate: -1})
                                .skip((pageNumber - 1) * numberOfPosts)
-                               .limit(numberOfPosts);
-
+                               .limit(numberOfPosts)
+                               .lean();
+    const postIds = postIdsMongoose.map(post => post._id.toString())
+    console.log("getFeedIds page ", pageNumber, " postIds: ", postIds)
     return res.status(200).json(postIds);
     
   }

@@ -29,7 +29,7 @@ import Map from "@components/Geolocation/map";
 
 
 
-function Post({postId = "defaultId"}: {postId?: string}) {
+function Post({postId = ""}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
@@ -75,7 +75,7 @@ function Post({postId = "defaultId"}: {postId?: string}) {
 
           if (isBase64(loadedPostData.text)) {  // se è un'immagine
             setIsPostBodyAnImg(true);
-          }          
+          }
           
           if (isCoordinates(loadedPostData.text)) { // se è una geolocalizzazione
             if (isArea) { 
@@ -196,9 +196,9 @@ function Post({postId = "defaultId"}: {postId?: string}) {
   let postTextLength = 0;
 
   useEffect(() => {
-      loadPostData(postId)
-      if (postData.postUsername) sendReaction('view')
-  }, [])
+      if (!postData.postText && postId) loadPostData(postId)
+      if (isLoggedIn && postId && !userDetails.impressedPostIds.views.includes(postId)) sendReaction('view')
+  }, [postData])
 
       /* queste cose sono dentro uno useEffect invece che dentro handleImpressions
       a causa del comportamento degli stati in React: per poter vedere il nuovo
@@ -337,8 +337,8 @@ function Post({postId = "defaultId"}: {postId?: string}) {
           </Col>
         </Row>
         
-        
-        <div className="py-2 pb-3 text-break">
+        {/* ho allargato il padding per i post testuali perchè mi sembrava più carino */}
+        <div className={`${isPostBodyAnImg || isPostBodyAVideo || isPostBodyAGeolocation ? `py-2 pb-3` : `pt-4 pb-4`} text-break`}>
           {
             showReceivers ? 
               (
@@ -374,10 +374,10 @@ function Post({postId = "defaultId"}: {postId?: string}) {
                   if (mentionsRegex.test(word)) {
                       // Resetta l'espressione regolare
                       mentionsRegex.lastIndex = 0;
-                      return (
+                      return (<>
                           <Button key={index} variant="dark" onClick={() => {navigate(generateAddressURL(word))}}>
                               {word}
-                          </Button>
+                          </Button><span> </span></>
                       );
                   } else if (urlRegex.test(word)) {
                       // Resetta l'espressione regolare

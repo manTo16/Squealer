@@ -74,7 +74,7 @@ export default function Feed({channelName="",
         //const numberOfPosts = 5;
         const response = await axios.get(apiPostsURL+"/feed/"+nPages);
         if (response && response.status === 200) {
-            const postList = response.data.map((post: {_id: string}) => (post._id))
+            const postList = response.data//.map((post: {_id: string}) => (post._id)) ho modificato l'api quindi manda direttamente l'array di id normali ora
             console.log("fetchFeedALL returns: ", postList)
             return postList
         }

@@ -12,6 +12,7 @@ import { useContext, useEffect } from 'react';
 import { UserContext } from '@utils/userData';
 
 const ChannelPage: React.FC = () => {
+  const isLoggedIn = !!localStorage.getItem('token')
   const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const { channelName } = useParams<{ channelName: string }>();
 
@@ -29,22 +30,21 @@ const ChannelPage: React.FC = () => {
         <div className='d-flex align-items-center mb-2 p-2 bg-dark rounded'>
           <h1 className='m-0'>§{channelName}</h1>
 
-          {
-            userDetails.ownedChannels.includes(channelName) && 
+          {isLoggedIn && userDetails.ownedChannels.includes(channelName) && 
+          <>
             <h5>
               <Badge pill bg="success" className='mt-2 ms-2'>Proprietario</Badge>
             </h5>
-          }
-          <div className='ms-auto'>
-            {
-              userDetails.ownedChannels.includes(channelName) &&
+          
+            <div className='ms-auto'>
               <Button
                 onClick={() => navigate(`/channels/${channelName}/settings`)} 
                 className=' bg-transparent btn-outline-dark text-white'>
                   <Gear/>
               </Button>
-            }    
-          </div>      
+            </div>      
+          </>
+          }    
         </div>
         
         <Feed channelName={channelName} />
