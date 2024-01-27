@@ -179,8 +179,10 @@ const searchChannelByChannelNameOneResult = async (req, res) => {
 const getChannelData = async (req, res) => {
   try {
     const channelName = req.params.channelName
+    console.log("debug channelName: ", channelName)
     
     const channel = await Channel.findOne({channelName: channelName})
+    console.log("debug channel: ", channel)
 
     if (!channel) return res.status(404).json({message: "channel not found"})
 

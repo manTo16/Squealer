@@ -25,7 +25,7 @@ const register = async (req,res) => {
     const newUser = await user.save()
     return res.status(201).json(newUser)
   } catch(err){
-    return res.status(400).json({message: err.message})
+    return res.status(500).json({message: err.message})
   }
 }
 
@@ -33,16 +33,16 @@ const login = async (req,res) =>{
   try{
     const {username,password}=req.body;
     const user = await User.findOne({username:username});
-    if (!user) return res.status(400).json({message: "User not fount"});
+    if (!user) return res.status(400).json({message: "User not found"});
     const checkPW = await bcrypt.compare(password,user.password);
     if (!checkPW){
-      return res.status(401).json({error:'Invalid credentials'})
+      return res.status(401).json({message:'Invalid credentials'})
     }
     const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
     return res.status(200).json({token,user})
   }catch(err){
-    return res.status(400).json({message: err.message})
+    return res.status(500).json({message: err.message})
   }
 }
 

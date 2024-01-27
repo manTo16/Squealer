@@ -8,7 +8,7 @@ import { createContext } from "react"
 export const UserContext = createContext({
     userDetails: JSON.parse(localStorage.getItem('user') ?? 'null') ?? {},
     //prende i dati dal server, asincrona. aggiorna anche il valore dei dati utente in locale e lo stato passato tramite contesto
-    fetchUserData: () => {},
+    fetchUserData: async () => {},
     //prende i dati dal localstorage e li mette nello stato passato tramite contesto
     updateUserDataFromLS: () => {}
 })

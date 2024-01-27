@@ -9,12 +9,6 @@ import { Button } from "react-bootstrap"
 import { concatNoDuplicates } from "@utils/arrayUtils"
 
 
-
-
-
-
-
-
 export enum ReactionType {
     VeryLike = 'veryLike',
     Like = 'like',
@@ -23,13 +17,6 @@ export enum ReactionType {
     View = 'view',
     Default = 'none'
 }
-
-
-
-
-
-
-
 
 interface FeedProps {
     channelName?: string;

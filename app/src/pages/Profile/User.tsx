@@ -1,4 +1,4 @@
-import { Badge, ButtonGroup, Col, Row, Stack } from 'react-bootstrap';
+import { Badge, ButtonGroup, Col, Row, Spinner, Stack } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
@@ -63,19 +63,25 @@ export default function UserPage ({
     setUserData(userDetails)
   }
 
+  const [isLoadingSMMRequest, setIsLoadingSMMRequest] = useState(false)
+
   const sendSMMRequest = async () => {
     console.log("richiesta smm a: ", username)
+    setIsLoadingSMMRequest(true)
     await axios.put(`${apiUsersURL}/smm/${userDetails.username}`,
                     {smm: username})
     
     //aggiorno i dati dell'utente quindi li richiedo dal server
-    fetchUserData()
+    await fetchUserData()
+    setIsLoadingSMMRequest(false)
   }
 
   const removeSMM = async () => {
+    setIsLoadingSMMRequest(true)
     await axios.delete(`${apiUsersURL}/smm/${userDetails.username}`)
     
-    fetchUserData()
+    await fetchUserData()
+    setIsLoadingSMMRequest(false)
   }
 
   useEffect(() => {
@@ -149,8 +155,14 @@ export default function UserPage ({
         </Col>
       </Row>
 
-      { 
-      (userDetails.personalSMM === username) ? 
+      { isLoadingSMMRequest ?
+      (
+        <Spinner animation='border' role='status'>
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      ) : 
+      (
+      userDetails.personalSMM === username ? 
         (
         <Button onClick={() => removeSMM()}>licenzia schiavo</Button>
         ) :
@@ -159,7 +171,7 @@ export default function UserPage ({
         <Button onClick={() => sendSMMRequest()}>ti prego diventa il mio manager</Button>
         ) :
         <></>
-      }
+      )}
 
       <hr/>
       <div className='d-flex'>

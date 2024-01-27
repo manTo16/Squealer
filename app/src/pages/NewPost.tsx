@@ -117,7 +117,7 @@ export default function NewPostPage() {
       }
 
       (async () => {
-        fetchUserData()
+        await fetchUserData()
         setDisplayDailyChars(userDetails.dailyChar)
         setDisplayWeeklyChars(userDetails.weeklyChar)
         setDisplayMonthlyChars(userDetails.monthlyChar)

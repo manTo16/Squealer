@@ -433,7 +433,7 @@ const selectSMM = async (req,res) => {
     user.personalSMM = smmUsername
     await user.save()
 
-    return res.status(200)
+    return res.status(200).json({message: `${smmUsername} added as ${username} smm`})
   } catch (err) {
     return res.status(500).json({message: err.message})
   }
@@ -457,7 +457,7 @@ const removeSMM = async (req,res) => {
     user.personalSMM = ""
     await user.save()
 
-    return res.status(200)
+    return res.status(200).json({message: `${username} removed his smm`})
   } catch (err) {
     return res.status(500).json({message: err.message})
   }

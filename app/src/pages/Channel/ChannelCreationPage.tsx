@@ -55,7 +55,7 @@ export default function ChannelCreationPage() {
     setShowSyntaxWarning(!!channelName && !checkChannelNameSyntax());
   }, [channelName]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let submitWriters = []
     let submitReaders = []
     if (!canWrite) submitWriters = [...writers, userDetails.username]
