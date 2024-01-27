@@ -456,6 +456,10 @@ export default function NewPostPage() {
               <hr/>
               
               <Card.Text>
+                <div className="mt-2">
+                  <AdvancedOptions handleRepeatIntervalChange={setRepeatPostInterval} handleIntervalTimeUnitChange={setRepeatPostTimeUnit} />
+                </div>
+                <hr />
                 <CardBody
                   type={Type}
                   onInputChange={handleInputChange}
@@ -559,12 +563,6 @@ export default function NewPostPage() {
           :
           <></>
         }
-      </Row>
-
-      <Row>
-        <div className="mt-5">
-          <AdvancedOptions handleRepeatIntervalChange={setRepeatPostInterval} handleIntervalTimeUnitChange={setRepeatPostTimeUnit} />
-        </div>
       </Row>
     </Container>
   )  

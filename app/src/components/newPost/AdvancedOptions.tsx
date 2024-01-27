@@ -15,7 +15,7 @@ export default function AdvancedOptions({
     handleRepeatIntervalChange, handleIntervalTimeUnitChange
 } : AdvancedOptionsProps) {
 
-    const [showCollapse, setShowCollapse] = useState(false)
+    // const [showCollapse, setShowCollapse] = useState(false)
 
     const [repeatPostCheckboxValue, setRepeatPostCheckboxValue] = useState(false)
 
@@ -43,22 +43,30 @@ export default function AdvancedOptions({
     return (
         <>
 
-        <Button variant="dark" onClick={() => setShowCollapse(!showCollapse)}>
+        {/* <Button variant="dark" onClick={() => setShowCollapse(!showCollapse)}>
             Mostra impostazioni avanzate
-        </Button>
+        </Button> */}
 
-        <Collapse in={showCollapse} className="mt-3">
-            <div>
+        <div className="mt-3">
+            <div className="d-flex align-items-center">
                 <Form.Check
-                className="mb-2"
+                className="me-3"
                 type="checkbox"
-                label="Ripeti post"
+                label="Ripeti?"
                 checked={repeatPostCheckboxValue}
                 onChange={() => setRepeatPostCheckboxValue(!repeatPostCheckboxValue)} />
 
-                <Fade in={repeatPostCheckboxValue} >
-                    <div className="d-flex">
-                    Ogni <Form.Control value={repeatInterval} onChange={(e) => handleTimeIntervalInputChange(e.target.value)} /> 
+                <Fade className="ms-auto" in={repeatPostCheckboxValue} >
+                    <div className="d-flex align-items-center">
+                    Ogni 
+                    <Form.Control 
+                        value={repeatInterval} 
+                        className="mx-2"
+                        type="number"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        onChange={(e) => handleTimeIntervalInputChange(e.target.value)} 
+                    /> 
                     <span>
                         <Dropdown>
                             <Dropdown.Toggle variant="outline-light">
@@ -81,7 +89,7 @@ export default function AdvancedOptions({
                     </div>
                 </Fade>
             </div>
-        </Collapse>
+        </div>
         </>
     )
 }
