@@ -207,7 +207,7 @@ export default function NewPostPage() {
         { headers: {"Authorization": `Bearer ${userToken}`}}
         ).then((response) => {
           if (replyTo) axios.put(`${apiPostsURL}/${replyTo}/replies`,
-                                            {replyPostId: response.data})
+                                            {replyPostId: response.data.postId})
         })
         .then(() => {
           //toglie caratteri utente dal database

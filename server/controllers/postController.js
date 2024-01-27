@@ -89,7 +89,7 @@ const getFeedIds = async (req,res) => {
   try {
     numberOfPosts = 10;
     pageNumber = req.params.pageNumber || 1;
-   
+
     const postIds = await Post.find({}, {projection:{_id:true}})
                                .sort({creationDate: -1})
                                .skip((pageNumber - 1) * numberOfPosts)
@@ -309,11 +309,15 @@ const addReply = async (req,res) => {
 const getReplies = async (req,res) => {
   try {
     const postId = req.params.id
+    const pageNumber = req.params.pageNumber
+    const numberOfPosts = 5
     
     const post = await Post.findOne({postId: postId})
     if (!post) return res.status(404).json({message: "post not found"})
   
-    const repliesArray = post.replies
+    const start = (pageNumber - 1) * numberOfPosts
+    const end = pageNumber * numberOfPosts
+    const repliesArray = post.replies.slice(start, end)
   
     return res.status(200).json(repliesArray)
 
@@ -343,8 +347,15 @@ const searchPostByText = async(req,res) => {
     const query = req.params.query
     console.log("searchPostByText query: ", query)
 
+    const numberOfPosts = req.params.pageNumber ? 10 : 100 //se chiede per pagine ritorno 10 post (alla volta), altrimenti molti di più
+    const pageNumber = req.params.pageNumber || 1
+
     const posts = await Post.find({ text: { $regex: new RegExp(query, 'i') }}, 'postId -_id')
-    postIds = posts.map(post => post.postId)
+                        .sort({creationDate: -1})
+                        .skip((pageNumber - 1) * numberOfPosts)
+                        .limit(numberOfPosts);
+    const postIds = posts.map(post => post.postId)
+
     console.log("searchPostByText postIds: ", postIds)
     return res.status(200).json(postIds)
 
@@ -357,8 +368,15 @@ const searchPostByUsername = async(req,res) => {
   try {
     const query = req.params.query
 
+    const numberOfPosts = req.params.pageNumber ? 10 : 100 //se chiede per pagine ritorno 10 post (alla volta), altrimenti molti di più
+    const pageNumber = req.params.pageNumber || 1
+    console.log("searchPostsByUsername pageNumber: ", pageNumber, " parametri url: ", req.params.pageNumber)
+
     const posts = await Post.find({ username: query }, 'postId -_id')
-    postIds = posts.map(post => post.postId)
+                        .sort({creationDate: -1})
+                        .skip((pageNumber - 1) * numberOfPosts)
+                        .limit(numberOfPosts);
+    const postIds = posts.map(post => post.postId)
     console.log("searchPostByUsername postIds: ", postIds)
     return res.status(200).json(postIds)
 
@@ -371,8 +389,14 @@ const searchPostByKeyword = async(req,res) => {
   try {
     const query = req.params.query
 
-    const posts = await Post.find({ receivers: { $in: ["#"+query] }}, 'postId -_id');
-    postIds = posts.map(post => post.postId)
+    const numberOfPosts = req.params.pageNumber ? 10 : 100 //se chiede per pagine ritorno 10 post (alla volta), altrimenti molti di più
+    const pageNumber = req.params.pageNumber || 1
+
+    const posts = await Post.find({ receivers: { $in: ["#"+query] }}, 'postId -_id')
+                        .sort({creationDate: -1})
+                        .skip((pageNumber - 1) * numberOfPosts)
+                        .limit(numberOfPosts);
+    const postIds = posts.map(post => post.postId)
     return res.status(200).json(postIds)
 
   } catch (err) {

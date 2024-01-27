@@ -38,7 +38,7 @@ function UserInfo() {
             <Row className='text-white'>
               <Col lg={12}>
                 <span>
-                <h3>{userDetails.displayName}<IconPro/><IconVerified/></h3>
+                <h3>{userDetails.displayName}{userDetails.pro && <IconPro/>}{ userDetails.verified && <IconVerified/>}</h3>
                 </span>
                 
               </Col>

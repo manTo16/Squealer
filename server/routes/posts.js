@@ -26,11 +26,15 @@ router.route('/:id').get(getPost)
 router.route('/:id/impressions/:impression').patch(updateImpressions)
 router.route('/:id/mentions').get(getPostMentions)
 router.route('/:id/replies').put(addReply).get(getReplies)
+router.route('/:id/replies/:pageNumber').get(getReplies)
 router.route('/:id/receivers').get(getReceivers)
 
 router.route('/search/byText/:query').get(searchPostByText)
 router.route('/search/byUsername/:query').get(searchPostByUsername)
 router.route('/search/byKeyword/:query').get(searchPostByKeyword)
 
+router.route('/search/byText/:query/:pageNumber').get(searchPostByText)
+router.route('/search/byUsername/:query/:pageNumber').get(searchPostByUsername)
+router.route('/search/byKeyword/:query/:pageNumber').get(searchPostByKeyword)
 
 module.exports = router

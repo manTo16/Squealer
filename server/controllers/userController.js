@@ -87,7 +87,7 @@ const getUserChannels = async (req,res) =>{
 
 const getUserImpressions = async (req,res) => {
   try {
-    username = req.params.userName
+    const username = req.params.userName
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
 
@@ -101,11 +101,16 @@ const getUserImpressions = async (req,res) => {
 
 const getUserImpressionsVeryLikes = async (req,res) => {
   try {
-    username = req.params.userName
+    const username = req.params.userName
+    const pageNumber = req.params.pageNumber || 1
+    const numberOfPosts = 10
+
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
 
-    const response = user.impressedPostIds.veryLikes
+    const start = (pageNumber - 1) * numberOfPosts
+    const end = pageNumber * numberOfPosts
+    const response = user.impressedPostIds.veryLikes.slice(start, end)
     return res.status(200).json(response)
   }
   catch(err) {
@@ -115,11 +120,16 @@ const getUserImpressionsVeryLikes = async (req,res) => {
 
 const getUserImpressionsLikes = async (req,res) => {
   try {
-    username = req.params.userName
+    const username = req.params.userName
+    const pageNumber = req.params.pageNumber || 1
+    const numberOfPosts = 10
+
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
 
-    const response = user.impressedPostIds.likes
+    const start = (pageNumber - 1) * numberOfPosts
+    const end = pageNumber * numberOfPosts
+    const response = user.impressedPostIds.likes.slice(start, end)
     return res.status(200).json(response)
   }
   catch(err) {
@@ -129,11 +139,16 @@ const getUserImpressionsLikes = async (req,res) => {
 
 const getUserImpressionsDislikes = async (req,res) => {
   try {
-    username = req.params.userName
+    const username = req.params.userName
+    const pageNumber = req.params.pageNumber || 1
+    const numberOfPosts = 10
+
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
 
-    const response = user.impressedPostIds.dislikes
+    const start = (pageNumber - 1) * numberOfPosts
+    const end = pageNumber * numberOfPosts
+    const response = user.impressedPostIds.dislikes.slice(start, end)
     return res.status(200).json(response)
   }
   catch(err) {
@@ -143,11 +158,16 @@ const getUserImpressionsDislikes = async (req,res) => {
 
 const getUserImpressionsVeryDislikes = async (req,res) => {
   try {
-    username = req.params.userName
+    const username = req.params.userName
+    const pageNumber = req.params.pageNumber || 1
+    const numberOfPosts = 10
+
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
 
-    const response = user.impressedPostIds.veryDislikes
+    const start = (pageNumber - 1) * numberOfPosts
+    const end = pageNumber * numberOfPosts
+    const response = user.impressedPostIds.veryDislikes.slice(start, end)
     return res.status(200).json(response)
   }
   catch(err) {
@@ -157,11 +177,16 @@ const getUserImpressionsVeryDislikes = async (req,res) => {
 
 const getUserImpressionsViews = async (req,res) => {
   try {
-    username = req.params.userName
+    const username = req.params.userName
+    const pageNumber = req.params.pageNumber || 1
+    const numberOfPosts = 10
+
     const user = await User.findOne({username: username})
     if(!user) return res.status(404).json({message: "user not found"})
 
-    const response = user.impressedPostIds.views
+    const start = (pageNumber - 1) * numberOfPosts
+    const end = pageNumber * numberOfPosts
+    const response = user.impressedPostIds.views.slice(start, end)
     return res.status(200).json(response)
   }
   catch(err) {

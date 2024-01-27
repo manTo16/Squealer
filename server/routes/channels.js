@@ -13,6 +13,7 @@ const {
 
 router.route('/').post(verifyToken,createChannel)
 router.route('/:channelName').post(addUserToChannel).get(getChannelPostIds)
+router.route('/:channelName/:pageNumber').get(getChannelPostIds)
 
 router.route('/data/:channelName').get(getChannelData).patch(updateChannelData)
 

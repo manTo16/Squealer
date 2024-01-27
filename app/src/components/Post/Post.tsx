@@ -29,7 +29,7 @@ import Map from "@components/Geolocation/map";
 
 
 
-const Post = React.memo(({postId = "defaultId"}: {postId?: string}) => {
+function Post({postId = "defaultId"}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
@@ -460,6 +460,6 @@ const Post = React.memo(({postId = "defaultId"}: {postId?: string}) => {
       </Collapse>
     </div>
   )
-})
+}
 
 export default Post;
