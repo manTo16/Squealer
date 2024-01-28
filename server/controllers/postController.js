@@ -56,6 +56,9 @@ const createPost = async (req,res) => {
     if (repeatPostInterval.interval !== 0) {
       let unitMultiplier = 0
       switch(repeatPostInterval.unit) {
+        case "Secondi":
+          unitMultiplier = 1
+          break
         case "Minuti":
           unitMultiplier = 60
           break
@@ -253,14 +256,10 @@ const updateImpressions = async (req,res) => {
         //tuttavia, sono controllate dal localstorage. quindi l'utente medio vede un post una volta per dispostivo
         if (!post.impressions.views.usernames.includes(username) || username === "guestUser") {
           post.impressions.views.number+=1
-          console.log("chekp 1")
           post.impressions.views.usernames.push(username)
-          console.log("chekp 2")
           user?.impressedPostIds.views.push(postId)
-          console.log("chekp 3")
 
           if (post.impressions.views.number === 10) await checkPopularity(post)
-          console.log("chekp 4")
         }
         break
       default:

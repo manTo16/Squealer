@@ -73,8 +73,10 @@ export default function AdvancedOptions({
                                 {intervalTimeUnit}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item 
-                                onClick={() => intervalTimeUnitInputChange("Minuti")}>
+                                <Dropdown.Item onClick={() => intervalTimeUnitInputChange("Secondi")}>
+                                    Secondi
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => intervalTimeUnitInputChange("Minuti")}>
                                     Minuti
                                 </Dropdown.Item>
                                 <Dropdown.Item onClick={() => intervalTimeUnitInputChange("Ore")}>

@@ -175,15 +175,13 @@ export default function Feed({channelName="",
                     postIdsList = await fetchFeedALL()
                     break
                 default:
-                    setPostList([]) //resetto la lista dei post così quando cambio canale usando la pagina di ricerca carica i post e non lascia quelli vecchi
                     postIdsList = await fetchFeedFromChannel(channelName)
             }
             //console.log("Feed useEffect postIdsList: ", postIdsList)
             setPostList(concatNoDuplicates(postList, postIdsList))
         }
         fetchPosts()
-    }, [channelName, searchQuery, nPages])
-    //ho aggiunto channelName qua perchè così quando passi da una pagina /channels/canale1 a /channels/canale2 carica effettivamente il feed. altrimenti rimane bloccato al primo (usando useNavigate)
+    }, [searchQuery, nPages])
 
     //le impressioni hanno uno useeffect a parte perchè così quando nella stessa pagina cambio col tasto l'impressione da vedere resetta i post. altrimenti dava un bug dove rimanevano e quelli nuovi venivano aggiunti invece che sostituiti
     useEffect(() => {
@@ -199,6 +197,25 @@ export default function Feed({channelName="",
         }
         fetchPosts()
     }, [visualizedImpression])
+
+    //effetto che viene eseguito quando si cambia solo il nome del canale
+    useEffect(() => {
+        const fetchPosts = async () => {
+            let postIdsList: string[] = []
+            switch(channelName) {
+                case "":
+                    break
+                case "ALL":
+                    postIdsList = await fetchFeedALL()
+                    break
+                default:
+                    setPostList([]) //resetto la lista dei post così quando cambio canale usando la pagina di ricerca carica i post e non lascia quelli vecchi
+                    postIdsList = await fetchFeedFromChannel(channelName)
+            }
+            setPostList(concatNoDuplicates(postList, postIdsList))
+        }
+        fetchPosts()
+    }, [channelName])
 
 
     //useeffect di DEBUG
