@@ -348,7 +348,7 @@ function Post({postId = ""}: {postId?: string}) {
                   <span>
                     {postData.postDisplayedName}
                     <span className="text-secondary mx-1">
-                      {postData.postUsername}
+                      @{postData.postUsername}
                     </span>
                   </span>
                 </div>

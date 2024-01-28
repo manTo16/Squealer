@@ -177,12 +177,11 @@ const searchChannelByChannelNameOneResult = async (req, res) => {
 // }
 
 const getChannelData = async (req, res) => {
+
   try {
     const channelName = req.params.channelName
-    console.log("debug channelName: ", channelName)
     
     const channel = await Channel.findOne({channelName: channelName})
-    console.log("debug channel: ", channel)
 
     if (!channel) return res.status(404).json({message: "channel not found"})
 
@@ -244,6 +243,57 @@ const updateChannelData = async (req, res) => {
   }
 }
 
+const addSubscriberToChannel = async (req, res) => {
+  try {
+    const channelName = req.params.channelName
+    const { username } = req.body
+
+    const channel = await Channel.findOne({channelName: channelName})
+    if (!channel) return res.status(404).json({message: "channel not found"})
+
+    const user = await User.findOne({username: username})
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    if (!channel.usernames.subs.includes(username)) channel.usernames.subs.push(username)
+    await channel.save()
+
+    if (!user.channels.includes(channelName)) user.channels.push(channelName)
+    await user.save()
+
+    return res.status(200)
+  } catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+const removeSubscriberFromChannel = async (req, res) => {
+  try {
+    const channelName = req.params.channelName
+    const { username } = req.body
+
+    const channel = await Channel.findOne({channelName: channelName})
+    if (!channel) return res.status(404).json({message: "channel not found"})
+
+    const user = await User.findOne({username: username})
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    await Channel.updateOne(
+      { channelName: channelName },
+      { $pull: { 'usernames.subs': username } }
+    )
+
+    await User.updateOne(
+      { username: username },
+      { $pull: { channels: channelName } }
+    )
+
+    return res.status(200)
+  } catch(err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+
 module.exports = {
   createChannel,
   addUserToChannel,
@@ -251,5 +301,7 @@ module.exports = {
   searchChannelByChannelName,
   searchChannelByChannelNameOneResult,
   getChannelData,
-  updateChannelData
+  updateChannelData,
+  addSubscriberToChannel,
+  removeSubscriberFromChannel
 }

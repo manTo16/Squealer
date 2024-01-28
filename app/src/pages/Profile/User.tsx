@@ -166,7 +166,7 @@ export default function UserPage ({
         (
         <Button onClick={() => removeSMM()}>licenzia schiavo</Button>
         ) :
-      (isLoggedIn && username)?   //va mostrato solo a chi è loggato e solo se non ci si trova in /profile (username è nei parametri url)
+      (isLoggedIn && username && userDetails.username != username)?   //va mostrato solo a chi è loggato e solo se non ci si trova in /profile (username è nei parametri url)
         (
         <Button onClick={() => sendSMMRequest()}>ti prego diventa il mio manager</Button>
         ) :
