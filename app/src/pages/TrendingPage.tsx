@@ -14,6 +14,9 @@ export default function TrendingPage() {
     //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
     const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
     //console.log(localStorage.getItem('user'))
+
+    const [reservedChannelName, setReservedChannelName] = useState("")
+
     const userToken = localStorage.getItem('token')
     const createChannel = () => {
         try{
@@ -26,17 +29,24 @@ export default function TrendingPage() {
         }
     }
 
-    const cosa = async () => {
+    const createReservedChannel = () => {
+        try{
+            const response = axios.post(channelsURL,{channelName: reservedChannelName,username:userDetails.username,reserved: true},{ headers: {"Authorization": `Bearer ${userToken}`}}).then(()=>{
+                alert('new channel created')
+                setChannelName('')
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    const cosa = async () => {  //chi sa cos'era
         const response = await axios.post(channelsURL+`/ggg`, {username: "writer", requestedRole: "writer"})
 
         console.log(response)
     }
 
 
-
-    const [reactionType, setReactionType] = useState(ReactionType.Default)
-
-    const [usernameReaction, setUsernameReaction] = useState("")
     
 
     return(
@@ -50,62 +60,20 @@ export default function TrendingPage() {
             <button onClick={createChannel}>create channel</button>
             {/*<button onClick={cosa}>addusertochannel</button>*/}
 
-            <h1>prove caratteri</h1>
+            <h2>prove caratteri</h2>
             <button
             onClick={() => {axios.put(apiUsersURL+"/zedong/characters", {daily: -1, weekly: 105, monthly: -1})}}>manda richiesta put</button>
 
             <button
             onClick={() => {axios.patch(apiUsersURL+"/zedong/characters", {daily: -1, weekly: +1, monthly: 1})}}>manda patch</button>
-            <h1>questo è solo un esempio di come si potrebbe vedere la cronologia di un utente</h1>
-            <h2>visto che ogni utente salva in campi diversi post ai quali ha reagito in modo diverso</h2>
-            <p>qui si vedono i post a cui l'utente loggato ha reagito. probabilmente più avanti farò in modo di vedere anche i post che un utente ha creato</p>
-
-            <p>
-                questo è come si può usare il feed per vedere queste cose (vedi codice) 
-                praticamente basta passare ai props del Feed l'username dell'utente di cui si vogliono vedere i post e il tipo di reazione
-            </p>
-            <p>il problema è che visto che il Feed è un componente, deve rifare le richieste tutte le volte</p>
-            <p>
-                quindi direi che prima o poi inizierò a salvare nel localStorage o sessionStorage o comunque in locale i post presi dall'api che prende i post a cui un utente ha reagito, così schiacciando i bottoni non rifa le richieste al server ma le prende dal locale
-            </p>
             
-            <p>se lasci la barra vuota fa vedere i tuoi, se metti un utente che non trova il backend ritorna 404 e il frontend dà errore </p>
 
+            <h2>creazione canali riservati</h2>
+            <h3>occhio che questo crea §CANALI. non ci sarà questa funzionalità nella app, ma nella mod dashboard sì</h3>
             <Form.Group className='mb-3'>
-                <Form.Control onChange={(e)=>setUsernameReaction(e.target.value)} value={usernameReaction} placeholder="uente di cui vuoi vedere le reazioni"/>
+                <Form.Control onChange={(e)=>setReservedChannelName(e.target.value)} value={reservedChannelName} placeholder="type here RESERVED channel name" aria-label="channel name"/>
             </Form.Group>
-            <button
-            onClick={() => setReactionType(ReactionType.VeryLike)}>
-                likeone
-            </button>
-            <button
-            onClick={() => setReactionType(ReactionType.Like)}>
-                like normale
-            </button>
-            <button
-            onClick={() => setReactionType(ReactionType.Dislike)}>
-                dislike
-            </button>
-            <button
-            onClick={() => setReactionType(ReactionType.VeryDislike)}>
-                dislikeone
-            </button>
-            <button
-            onClick={() => setReactionType(ReactionType.View)}>
-                view
-            </button>
-
-
-
-
-            <Feed 
-           userName={usernameReaction ? usernameReaction : userDetails.username}
-           visualizedImpression={reactionType}
-           />
-           <p>{reactionType}</p>
-
-           
-           {/* <PostPlaceholder /> */}
+            <button onClick={createReservedChannel}>create channel</button>
         </div>
 
     )

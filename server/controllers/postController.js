@@ -4,6 +4,7 @@ const Channel = require('../models/channelModel')
 
 const { checkReceiverSyntax, parseTextForMentions } = require('./utils/postUtils')
 const { createPostInterval } = require('./utils/automaticPosts')
+const { checkPopularity, _addPostToChannel } = require( './utils/criticalMass')
 
 //poi magari spostiamo la funzione in un altro file che includiamo qua
 
@@ -248,10 +249,18 @@ const updateImpressions = async (req,res) => {
         break
 
       case 'view':
-        if (!post.impressions.views.usernames.includes(username)) {
+        //le visualizzazioni da sloggato possono essere ripetute
+        //tuttavia, sono controllate dal localstorage. quindi l'utente medio vede un post una volta per dispostivo
+        if (!post.impressions.views.usernames.includes(username) || username === "guestUser") {
           post.impressions.views.number+=1
+          console.log("chekp 1")
           post.impressions.views.usernames.push(username)
+          console.log("chekp 2")
           user?.impressedPostIds.views.push(postId)
+          console.log("chekp 3")
+
+          if (post.impressions.views.number === 10) await checkPopularity(post)
+          console.log("chekp 4")
         }
         break
       default:
@@ -406,6 +415,17 @@ const searchPostByKeyword = async(req,res) => {
   }
 }
 
+const addPostToChannel = async (req,res) => {
+  try {
+    const { postId, channelName } = req.body
+    _addPostToChannel(postId, channelName)
+
+    return res.status(200).json({channelName, postId})
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 const getPosts = async (req,res) =>{
   try {
     const page = parseInt(req.query.page) || 1;
@@ -430,6 +450,8 @@ const getPosts = async (req,res) =>{
   }
 }
 
+
+
 module.exports = {
   getPosts,
   createPost,
@@ -443,5 +465,7 @@ module.exports = {
   getReceivers,
   searchPostByText,
   searchPostByUsername,
-  searchPostByKeyword
+  searchPostByKeyword,
+  _addPostToChannel,
+  addPostToChannel
 }

@@ -13,7 +13,8 @@ const {
   getReceivers,
   searchPostByText,
   searchPostByUsername,
-  searchPostByKeyword
+  searchPostByKeyword,
+  addPostToChannel
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
@@ -21,7 +22,7 @@ router.route('/feed/:pageNumber').get(getFeedIds)
 
 router.route('/test').get(getPosts)
 
-router.route('/:id').get(getPost)
+router.route('/:id').get(getPost).put(addPostToChannel)
 //router.route('/:username/posts').get(getUserPosts)
 router.route('/:id/impressions/:impression').patch(updateImpressions)
 router.route('/:id/mentions').get(getPostMentions)

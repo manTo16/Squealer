@@ -5,7 +5,7 @@ import { Icon, LatLngTuple, divIcon } from 'leaflet';
 import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
-import React from "react";
+import React, { useRef } from "react";
 import { useContext, useEffect, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
 import { Button, Row, Col } from "react-bootstrap"
@@ -20,7 +20,7 @@ import Answer from "@components/svg/AnswerSvg";
 
 import { generateAddressURL } from "@utils/URLs"
 import { UserContext } from "@utils/userData";
-
+import { addViewedPost, alreadyViewed } from "@utils/guestUsers";
 
 import Image from 'react-bootstrap/Image';
 import Figure from 'react-bootstrap/Figure';
@@ -35,6 +35,8 @@ function Post({postId = ""}: {postId?: string}) {
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
   const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
   const navigate = useNavigate()
+
+  const observedDivRef = useRef<HTMLDivElement | null>(null)
 
   const { id } = useParams<{ id?: string }>();
 
@@ -195,9 +197,47 @@ function Post({postId = ""}: {postId?: string}) {
 
   let postTextLength = 0;
 
+  //garantisce che le visualizzazioni vengano mandate solo quando il post entra nel viewport
+  useEffect(() => {
+    if (!isLoading) {
+      const options = {
+        root: null,
+        threshold: 1.0
+      }
+
+      const observer = new IntersectionObserver((entities) => {
+        const target = entities[0];
+          if (target.isIntersecting) { 
+            
+            //sloggato
+            if (!isLoggedIn) {
+              if (!alreadyViewed(postId)) {
+                addViewedPost(postId)
+                sendReaction('view')
+              }
+            }
+            
+            //loggato
+            else if (isLoggedIn && postId && !userDetails.impressedPostIds.views.includes(postId)) sendReaction('view')
+            
+          }
+      }, options)
+    
+      if (observedDivRef.current) {
+        observer.observe(observedDivRef.current)
+      }
+    
+      // pulizia quando il componente viene smontato
+      return () => {
+        if (observedDivRef.current) {
+          observer.unobserve(observedDivRef.current);
+        }
+      }
+    }
+  }, [isLoading]); 
+
   useEffect(() => {
       if (!postData.postText && postId) loadPostData(postId)
-      if (isLoggedIn && postId && !userDetails.impressedPostIds.views.includes(postId)) sendReaction('view')
   }, [postData])
 
       /* queste cose sono dentro uno useEffect invece che dentro handleImpressions
@@ -290,7 +330,7 @@ function Post({postId = ""}: {postId?: string}) {
   if (isLoading) return (<PostPlaceholder />)
 
   return (
-    <div className="w-100 border-bottom border-3 border-dark" style={{backgroundColor: '#1a1a1b'}}>
+    <div ref={observedDivRef} className="w-100 border-bottom border-3 border-dark" style={{backgroundColor: '#1a1a1b'}}>
       <div className="p-2">
         <Row>
           <Col className="align-self-top">

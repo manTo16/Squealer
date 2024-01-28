@@ -175,6 +175,7 @@ export default function Feed({channelName="",
                     postIdsList = await fetchFeedALL()
                     break
                 default:
+                    setPostList([]) //resetto la lista dei post così quando cambio canale usando la pagina di ricerca carica i post e non lascia quelli vecchi
                     postIdsList = await fetchFeedFromChannel(channelName)
             }
             //console.log("Feed useEffect postIdsList: ", postIdsList)
@@ -221,7 +222,15 @@ export default function Feed({channelName="",
             if (loader.current) {
                 observer.observe(loader.current)
             }
+            
+            return () => {
+                if (loader.current) {
+                  observer.unobserve(loader.current);
+                }
+              }
         }
+
+        
       }, [isLoading]);
     
     const handleObserver = (entities: any) => {

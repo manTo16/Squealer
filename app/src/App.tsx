@@ -27,6 +27,8 @@ import ChannelCreationPage from './pages/Channel/ChannelCreationPage';
 import QuestionPage from './pages/QuestionPage';
 
 import { UserContext, getPersonalUserData } from '@utils/userData';
+import { createViewedPostsList } from '@utils/guestUsers';
+
 import ChannelSettingsPage from './pages/Channel/ChannelSettingPage';
 import { useParams } from 'next/navigation';
 import KeywordPage from './pages/KeywordPage';
@@ -47,6 +49,7 @@ function App() {
     if (isLoggedIn) fetchUserData().then(() => setIsLoading(false))
     else {
       setUserDetails(localUserDetails)
+      createViewedPostsList()
       setIsLoading(false)
     }
   }, [])
@@ -58,6 +61,7 @@ function App() {
     console.log("navbarHeight: ", navbarHeight)
     console.log("bottombarHeight: ", bottombarHeight)
   }, [navbarHeight, bottombarHeight])
+
 
   const location = useLocation();
   const renderSidebars = (location.pathname !== "/login" && location.pathname !== "/register")
