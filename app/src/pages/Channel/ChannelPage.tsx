@@ -174,6 +174,7 @@ const ChannelPage: React.FC = () => {
             </span>
           </div>  */}
         </div>
+        <div className='bg-black'></div>
         
         <Feed channelName={channelName} />
     </div>
