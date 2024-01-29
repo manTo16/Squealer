@@ -2,10 +2,12 @@ import { Col, Row, Stack } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '@utils/userData';
 import IconWarning from '@components/svg/WarningSvg';
-import { deleteAccount, changePassword } from '@root/axiosConfig';
+import { updateUser } from '../../../../server/controllers/userController'
+import axios from '@root/axiosConfig';
+import { apiUsersURL } from '@root/src/URLs';
 
 export default function Options() {
   const [isPro, setIsPro] = useState(false);
@@ -16,36 +18,66 @@ export default function Options() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const { userDetails } = useContext(UserContext)
+  const { userDetails, fetchUserData } = useContext(UserContext)
 
   const handleClose = () => setShow(!show);
   
-  const handleVerClick = () => {
+  const handleVerClick = async () => {
     setIsVer(!isVer);
     // andare a modificare le impostazioni del profilo
+
+    console.log('ver', isVer);
+    const res = await axios.put(`${apiUsersURL}/${userDetails.username}`, { verified: !isVer});
+    if (res.status === 200) {
+      console.log('Successo');
+      // Gestisci il successo dell'aggiornamento
+    } else {
+      console.log('Errore');
+      // Gestisci l'errore dell'aggiornamento
+    }
   }
 
-  const handleProClick = () => {
-      // Cambia lo stato opposto di isPro
-      setIsPro(!isPro);
+  const handleProClick = async () => {
+    // Cambia lo stato opposto di isPro
+    
+    setIsPro(!isPro);
+    
+    console.log('pro', isPro);
+    // Esegui la chiamata API
+    const res = await axios.put(`${apiUsersURL}/${userDetails.username}`, { pro: !isPro});
+  
+    // Controlla se la richiesta è andata a buon fine
+    if (res.status === 200) {
+      console.log('Successo');
+      await fetchUserData();
+      // Gestisci il successo dell'aggiornamento
+    } else {
+      console.log('Errore');
+      // Gestisci l'errore dell'aggiornamento
+    }
   };
 
   const handleChangePassword = async (newPassword: string) => {
-    const result = await changePassword(userDetails._id, newPassword);
-    if (result) {
-      // Gestisci il successo del cambio password
-    } else {
-      // Gestisci l'errore del cambio password
-    }
+    // const result = await changePassword(userDetails._id, newPassword);
+    // if (result) {
+    //   // Gestisci il successo del cambio password
+    // } else {
+    //   // Gestisci l'errore del cambio password
+    // }
   };
 
   const handleDelete = () => {
     const userID = userDetails._id;
     console.log(userID);
     (async () => {
-      const result = await deleteAccount(userID);
+      // const result = await deleteAccount(userID);
     })();
   }
+
+  useEffect(() => {
+    setIsPro(userDetails.pro);
+    setIsVer(userDetails.verified);
+  }, [])
 
   return(
     <>

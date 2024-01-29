@@ -34,7 +34,7 @@ const {
 
 router.route('/').get(getAllUsers)/*.post(addNewUser)*/
 router.route('/:userName/posts').get(getUserPosts)
-router.route('/:userName').get(getUser).patch(updateUser).delete(deleteUser)
+router.route('/:userName').get(getUser).patch(updateUser).delete(deleteUser).put(updateUser)
 router.route('/:userName/channels').get(verifyToken,getUserChannels)
 router.route('/:userName/propic').get(getUserImage)
 router.route('/:userName/propic-32').get(getUserThumbnail)

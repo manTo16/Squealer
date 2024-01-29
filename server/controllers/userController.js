@@ -44,7 +44,7 @@ const updateUser = async (req,res)=>{
       if (!updatedUser) {
         return res.status(404).json({ message: 'Oggetto non trovato' });
       }
-      return res.json(updatedUser);
+      return res.status(200).json(updatedUser);
     }catch(err){
       return res.status(500).json({message: err.message})
     }

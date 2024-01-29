@@ -17,25 +17,3 @@ axios.interceptors.response.use(
 );
 
 export default axios;
-
-export const deleteAccount = async (userId) => {
-  try {
-    console.log('1delete')
-    const response = await axios.delete(`/api/users/${userId}`);
-    console.log('2delete')
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-  console.log('3delete')
-};
-
-export async function changePassword(userId, newPassword) {
-  try {
-    const response = await axios.put(`/api/users/${userId}/password`, { password: newPassword });
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
