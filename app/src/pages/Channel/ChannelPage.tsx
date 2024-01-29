@@ -5,7 +5,7 @@ import Badge from 'react-bootstrap/Badge';
 import { channelsURL } from '@root/src/URLs';
 
 import Feed from '@components/Feed/Feed';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import Gear from '@components/svg/GearSvg';
 
 import { useContext, useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import { UserContext } from '@utils/userData';
 import { AxiosError } from 'axios';
 
 import { UserDetailsInterface } from "@utils/userData";
+import IconBxsUserMinus from '@components/svg/RemoveuserSvg';
 
 const ChannelPage: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem('token')
@@ -87,48 +88,91 @@ const ChannelPage: React.FC = () => {
   }, [channelName]);
 
   return (
-    <div>
-        <div className='d-flex align-items-center p-2 bg-secondary'>
+    <div className='bg-dark rounded-bottom'>
+      <hr className='mb-1 mt-0 d-lg-none'/>
+        <div className='p-2'>
           <h1 className='m-0'>§{channelName}</h1>
 
-          {isLoggedIn && userDetails.ownedChannels.includes(channelName?? "") && 
-          <>
-            <h5>
-              <Badge pill bg="success" className='mt-2 ms-2'>Proprietario</Badge>
-            </h5>
-          
-            <div className='ms-auto'>
-              <Button
-                onClick={() => navigate(`/channels/${channelName}/settings`)} 
-                className=' bg-transparent btn-outline-dark text-white'>
-                  <Gear/>
-              </Button>
-            </div>      
-          </>
+          {isLoggedIn && userDetails.ownedChannels.includes(channelName?? "") ? (
+            <div className='d-flex flex-row'>
+              <h5>
+                <Badge pill bg="success" className='mt-2 ms-2'>Proprietario</Badge>
+              </h5>
+            
+              <div className='ms-auto'>
+                <Button
+                  onClick={() => navigate(`/channels/${channelName}/settings`)} 
+                  className=' bg-transparent btn-outline-dark text-white'>
+                    <Gear/>
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )
           }    
         </div>
-        <div className='bg-secondary mb-2'>
-          <p>{channelData.description}</p>
-          <div className='nonloso'>{channelData.usernames.subs.length} iscritti 
-          <span>
-            { subReqIsLoading ? 
-            (
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            ) :
-            (
-              userDetails.channels.includes(channelName ?? "") ?
+        <div className='d-flex flex-row text-wrap bg-dark p-2'>
+          <Row>
+            <hr className='mt-0'/>
+            <Col xs={9}>
+              <p className='b-1 m-0  border border-light rounded p-1'><i>{channelData.description}</i></p>
+            </Col>
+            <div className='vr p-0'/>
+            <Col xs={2} className='ms-auto mt-auto'>
+              <div className='d-flex ms-auto align-items-center'>
+                { subReqIsLoading ? (
+                    <Spinner animation="border" role="status">
+                      <span className="mx-auto visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    userDetails.channels.includes(channelName ?? "") ? (
+                      <Button
+                        onClick={sendUnSubRequest}
+                        variant='outline-danger'
+                        className='ms-auto d-flex align-items-center'
+                      >
+                        <span className='d-flex d-flex flex-row align-items-center'>
+                          <span className='d-flex align-items center me-2 mt-auto'>{channelData.usernames.subs.length} </span>
+                          <IconBxsUserMinus className='d-flex align-items center'/>
+                        </span>
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={sendSubRequest}
+                        variant='outline-success'
+                        className='ms-auto'
+                      >
+                        Iscriviti
+                      </Button>
+                    )
+                  )
+                }
+              </div>
+            </Col>
+          </Row>
+          
+          {/* <p><i>{channelData.description}</i></p>
+          <div className=''>
+            <span>
+              { subReqIsLoading ? 
               (
-                <Button onClick={sendUnSubRequest}>Disiscriviti</Button>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
               ) :
               (
-                <Button onClick={sendSubRequest}>Iscriviti</Button>
+                userDetails.channels.includes(channelName ?? "") ?
+                (
+                  <Button variant='light' onClick={sendUnSubRequest}>{channelData.usernames.subs.length} <IconBxsUserMinus/></Button>
+                ) :
+                (
+                  <Button onClick={sendSubRequest}>Iscriviti</Button>
+                )
               )
-            )
-            }
-          </span>
-          </div> 
+              }
+            </span>
+          </div>  */}
         </div>
         
         <Feed channelName={channelName} />
