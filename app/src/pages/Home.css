@@ -31,7 +31,10 @@ body {
 .content-wrapper {
     height: 100%; /*Utilizza tutta l'altezza disponibile*/
     overflow-y: auto; /* Abilita lo scroll verticale solo per il componente Feed */
-    scrollbar-width: none;  /* Firefox */
+    scrollbar-width: none;  /* Firefox */;
+    @media screen and (max-width: 992px){
+        background-color: #212529;
+    }
 }
 
   /* Nascondi la scrollbar verticale */

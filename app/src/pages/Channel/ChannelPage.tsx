@@ -12,9 +12,11 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '@utils/userData';
 import { AxiosError } from 'axios';
 
+import { UserDetailsInterface } from "@utils/userData";
+
 const ChannelPage: React.FC = () => {
   const isLoggedIn = !!localStorage.getItem('token')
-  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
   const { channelName } = useParams<{ channelName: string }>();
 
   const [subReqIsLoading, setSubReqIsLoading] = useState(false)
@@ -89,7 +91,7 @@ const ChannelPage: React.FC = () => {
         <div className='d-flex align-items-center p-2 bg-secondary'>
           <h1 className='m-0'>§{channelName}</h1>
 
-          {isLoggedIn && userDetails.ownedChannels.includes(channelName) && 
+          {isLoggedIn && userDetails.ownedChannels.includes(channelName?? "") && 
           <>
             <h5>
               <Badge pill bg="success" className='mt-2 ms-2'>Proprietario</Badge>
@@ -116,7 +118,7 @@ const ChannelPage: React.FC = () => {
               </Spinner>
             ) :
             (
-              userDetails.channels.includes(channelName) ?
+              userDetails.channels.includes(channelName ?? "") ?
               (
                 <Button onClick={sendUnSubRequest}>Disiscriviti</Button>
               ) :

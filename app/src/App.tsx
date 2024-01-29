@@ -88,32 +88,34 @@ function App() {
         }
 
         {/* <SidebarComponent /> */}
-        <Col xs={12} lg={6} className='content-wrapper p-0'>
-          <div style={{
-            // overflow: "scroll", 
-          height: window.innerHeight - navbarHeight - bottombarHeight - 10}}
+        <Col xs={12} lg={6} className='content-wrapper h-100 p-0'>
+          <div
+           style={{
+          //   // overflow: "scroll", 
+          height: window.innerHeight - navbarHeight - bottombarHeight - 10
+        }}
           >
 
-          <Routes>
-            <Route path='/'                               element={<Home />}                      />
-            <Route path='/login'                          element={<Login />}                     />
-            <Route path='/register'                       element={<Register />}                  />
-            <Route path='/newPost'                        element={<NewPostPage />}               />
-            <Route path='/newPost/reply/:replyPostId'     element={<NewPostPage />}               />
-            <Route path='/trendingPage'                   element={<TrendingPage />}              />
-            <Route path='/feed'                           element={<Feed />}                      />
-            <Route path='/profile'                        element={<ProfilePage />}               />
-            <Route path='/channels/:channelName'          element={<ChannelPage />}               />
-            <Route path='/channels/:channelName/settings' element={<ChannelSettingsPage />}       />
-            <Route path='/posts/:id'                      element={<Post postId='getFromUrl' />}  />
-            <Route path='/search/:query'                  element={<SearchPage />}                />
-            <Route path='/users/:username'                element={<UserPage />}                  />
-            <Route path='/charShop'                       element={<CharShopPage />}              />
-            <Route path='/createChannel'                  element={<ChannelCreationPage />}       />
-            <Route path='/question'                       element={<QuestionPage />}              />
-            <Route path='/keywords/:keyword'              element={<KeywordPage />} />
-            {/* <Route path='/charShop'         element={< />}          /> */}
-          </Routes>
+            <Routes>
+              <Route path='/'                               element={<Home />}                      />
+              <Route path='/login'                          element={<Login />}                     />
+              <Route path='/register'                       element={<Register />}                  />
+              <Route path='/newPost'                        element={<NewPostPage />}               />
+              <Route path='/newPost/reply/:replyPostId'     element={<NewPostPage />}               />
+              <Route path='/trendingPage'                   element={<TrendingPage />}              />
+              <Route path='/feed'                           element={<Feed />}                      />
+              <Route path='/profile'                        element={<ProfilePage />}               />
+              <Route path='/channels/:channelName'          element={<ChannelPage />}               />
+              <Route path='/channels/:channelName/settings' element={<ChannelSettingsPage />}       />
+              <Route path='/posts/:id'                      element={<Post postId='getFromUrl' />}  />
+              <Route path='/search/:query'                  element={<SearchPage />}                />
+              <Route path='/users/:username'                element={<UserPage />}                  />
+              <Route path='/charShop'                       element={<CharShopPage />}              />
+              <Route path='/createChannel'                  element={<ChannelCreationPage />}       />
+              <Route path='/question'                       element={<QuestionPage />}              />
+              <Route path='/keywords/:keyword'              element={<KeywordPage />} />
+              {/* <Route path='/charShop'         element={< />}          /> */}
+            </Routes>
 
           </div>
         </Col>
@@ -144,7 +146,7 @@ function App() {
       </Container>
       <Row>
         <Col >
-          <div className='d-lg-none'>
+          <div className='d-lg-none' style={{height:`${bottombarHeight}px`}}>
             <Bottombar
             onHeightChange={setBottombarHeight}/>
           </div>

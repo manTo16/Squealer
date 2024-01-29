@@ -12,13 +12,15 @@ import gif from '../../assets/piggies-plane.gif';
 
 import "../../pages/Home.css";
 
+import { UserDetailsInterface } from "@utils/userData";
+
 export default function SidebarContent(
   { handleShow = (input: boolean) => {} }: { handleShow?: (input: boolean) => void }
   ) {
   const userToken = localStorage.getItem('token');
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
   const username = userDetails.username
   const navigate = useNavigate()
 

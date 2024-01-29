@@ -27,13 +27,14 @@ import Figure from 'react-bootstrap/Figure';
 import logo from "../../assets/Squealer.png"
 import Map from "@components/Geolocation/map";
 
+import { UserDetailsInterface } from "@utils/userData";
 
 
 function Post({postId = ""}: {postId?: string}) {
   const isLoggedIn = !!localStorage.getItem('token')
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
   const navigate = useNavigate()
 
   const observedDivRef = useRef<HTMLDivElement | null>(null)

@@ -7,10 +7,12 @@ import { channelsURL } from '../../URLs';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { UserDetailsInterface } from "@utils/userData";
+
 const normalChannelRegex = /^([a-z0-9-]+)$/;
 
 export default function ChannelCreationPage() {
-  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
   const userToken = localStorage.getItem("token") ?? "";
 
   const navigate = useNavigate()

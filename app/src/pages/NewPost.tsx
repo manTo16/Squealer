@@ -36,6 +36,8 @@ import WeeklyCalendar from "@components/svg/CharSvg/wCharSvg";
 import Alert from 'react-bootstrap/Alert';
 import AdvancedOptions from "@components/newPost/AdvancedOptions";
 
+import { UserDetailsInterface } from "@utils/userData";
+
 /*ERRORE IN CONSOLE
 Warning: validateDOMNesting(...): <div> cannot appear as a descendant of <p>.
 div
@@ -73,7 +75,7 @@ BrowserRouter@http://localhost:3000/static/js/bundle.js:65000:7
 export default function NewPostPage() {
   //const defaultValue = {}
   //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
   const userToken = localStorage.getItem("token") ?? "";
 
   const { replyPostId } = useParams<{ replyPostId?: string }>();

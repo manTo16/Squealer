@@ -70,7 +70,7 @@ export default function Login() {
 
 
   return (
-    <div>
+    <div className="d-flex bg-dark">
       <Container className='d-flex justify-content-center align-titems-cener flex-column pt-2 bg-dark rounded-bottom'>
         <Row>
           <Col>
@@ -93,49 +93,51 @@ export default function Login() {
               </div>
             </Collapse>
         </Row>
-        <Row>
-          <Col xs={12} md={6}>
-            <Form.Label> Username </Form.Label>
-            <InputGroup className='mb-3 w-80'>
-            <InputGroup.Text>@</InputGroup.Text>
-                <Form.Control 
-                  autoFocus 
-                  onChange={(e)=>setUsername(e.target.value)} 
-                  value={username} 
-                  placeholder="scrivi qui il tuo username" 
-                  aria-label="username"
-                />
-            </InputGroup>
-            <Form.Label> Password </Form.Label>
-            <InputGroup className='mb-3 w-80'>
-                <Form.Control 
-                  onChange={(e)=>setPassword(e.target.value)}
-                  value={password} 
-                  isInvalid={error}
-                  placeholder="type password here" 
-                  aria-label="password" 
-                  type='password'
-                />
-            </InputGroup>
-            { error ? ( <><p className='text-danger'>La password è corretta</p></> ) :( <></> ) }
-            <div className='pt-3'>
-              <hr />
-            </div>
-            <div className='d-flex justify-content-end'>
-              <ButtonBootstrap 
-                onClick={handleSubmit} 
-                type="submit" 
-                className='my-3' 
-                variant='success'
-              >
-                Log in
-              </ButtonBootstrap>
-            </div>
-          </Col>
-          <Col className='d-flex d-none d-md-block justify-content-center align-items-center'>
-            <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/>
-          </Col>
-        </Row>
+        <div>
+          <Row className='d-flex mt-auto'>
+            <Col xs={12} md={6}>
+              <Form.Label> Username </Form.Label>
+              <InputGroup className='mb-3 w-80'>
+              <InputGroup.Text>@</InputGroup.Text>
+                  <Form.Control 
+                    autoFocus 
+                    onChange={(e)=>setUsername(e.target.value)} 
+                    value={username} 
+                    placeholder="scrivi qui il tuo username" 
+                    aria-label="username"
+                  />
+              </InputGroup>
+              <Form.Label> Password </Form.Label>
+              <InputGroup className='mb-3 w-80'>
+                  <Form.Control 
+                    onChange={(e)=>setPassword(e.target.value)}
+                    value={password} 
+                    isInvalid={error}
+                    placeholder="type password here" 
+                    aria-label="password" 
+                    type='password'
+                  />
+              </InputGroup>
+              { error ? ( <><p className='text-danger'>La password è corretta</p></> ) :( <></> ) }
+              <div className='pt-3'>
+                <hr />
+              </div>
+              <div className='d-flex justify-content-end'>
+                <ButtonBootstrap 
+                  onClick={handleSubmit} 
+                  type="submit" 
+                  className='my-3' 
+                  variant='success'
+                >
+                  Log in
+                </ButtonBootstrap>
+              </div>
+            </Col>
+            <Col className='d-flex d-none d-md-block justify-content-center align-items-center'>
+              <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/>
+            </Col>
+          </Row>
+        </div>
       </Container>
     </div>
   )

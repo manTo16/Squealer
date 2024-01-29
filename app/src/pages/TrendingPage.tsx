@@ -7,12 +7,14 @@ import Feed, { ReactionType } from "@components/Feed/Feed"
 import PostPlaceholder from '@components/Post/PostPlaceholder'
 import { UserContext } from '@utils/userData'
 
+import { UserDetailsInterface } from "@utils/userData";
+
 export default function TrendingPage() {
     const [channelName,setChannelName] = useState("")
     //const isLoggedIn = !!localStorage.getItem('token')
     //const defaultValue = {}
     //const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
-    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
     //console.log(localStorage.getItem('user'))
 
     const [reservedChannelName, setReservedChannelName] = useState("")

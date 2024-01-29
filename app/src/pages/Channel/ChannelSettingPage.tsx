@@ -14,9 +14,11 @@ import IconSave from "@components/svg/SaveSvg";
 import IconUsergroupAdd from "@components/svg/UsergroupAddSvg";
 import IconUserPen from "@components/svg/UserPenSvg";
 
+import { UserDetailsInterface } from "@utils/userData";
+
 
 export default function ChannelSettingsPage() {
-    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
 
     const { channelName } = useParams<{ channelName: string }>()
 
@@ -152,7 +154,7 @@ export default function ChannelSettingsPage() {
     }, [channelData.usernames.writers, channelData.usernames.readers])
 
     
-    if (!userDetails.ownedChannels.includes(channelName))
+    if (!userDetails.ownedChannels.includes(channelName ?? ""))
     return (
     <>
     <p>oops! sembra tu non abbia i permessi</p>

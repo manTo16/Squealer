@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import ThirdColumn from './ThirdColumn/ThirdColumn'
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -10,15 +10,26 @@ import Container from 'react-bootstrap/Container';
 import { UserContext } from '@utils/userData';
 import Badge from 'react-bootstrap/Badge';
 import IconPro from './svg/ProSvg';
+import { checkIfInDebt } from "@utils/debt";
 import IconVerified from './svg/VerifSvg';
+
+import { UserDetailsInterface } from '@utils/userData';
+
 
 function UserInfo() {
   const isLoggedIn = !!localStorage.getItem('token')
-
-  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
-  
-
+  const [userInDebt, setUserInDebt] = useState(false)
   const navigate = useNavigate()
+  
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
+  
+  const fetchDebt = async () => {
+    setUserInDebt(await checkIfInDebt(userDetails.username))
+  }
+
+  useEffect(() => {
+    if (userDetails.username) fetchDebt();
+  }, [userDetails.debtChar])  // da cambiare con qualcosa che si aggiorna quando logghi
 
   return (
     <Container className="bg-dark p-2 rounded-bottom">
@@ -50,22 +61,34 @@ function UserInfo() {
         </Col>
       </Row>
       <hr />
-      <Row>
-        <Col lg="auto" className='m-2'>
-          <Row>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'> <DailyCalendar/> </Col>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h3><Badge pill bg="secondary">{userDetails.dailyChar}</Badge></h3></Col>
-          </Row>
-          <Row>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'> <WeeklyCalendar/> </Col>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h3><Badge pill bg="secondary">{userDetails.weeklyChar}</Badge></h3></Col>
-          </Row>
-          <Row>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'> <MonthlyCalendar/> </Col>
-            <Col lg="auto" className='d-flex align-text-center justify-content-center'><h3><Badge pill bg="secondary">{userDetails.monthlyChar}</Badge></h3></Col>
-          </Row>
-        </Col>  
-      </Row>
+      {
+        !!userInDebt ? (
+          <div className='d-flex justify-content-center'>
+            <Button 
+              variant='warning'
+              onClick={() => navigate("/charShop")}
+            >
+              Sei in Debito
+            </Button>
+          </div>
+        ) : (
+        <Row>
+          <Col lg="auto" className='m-2'>
+            <Row>
+              <Col lg="auto" className='d-flex align-text-center justify-content-center'> <DailyCalendar/> </Col>
+              <Col lg="auto" className='d-flex align-text-center justify-content-center'><h3><Badge pill bg="secondary">{userDetails.dailyChar}</Badge></h3></Col>
+            </Row>
+            <Row>
+              <Col lg="auto" className='d-flex align-text-center justify-content-center'> <WeeklyCalendar/> </Col>
+              <Col lg="auto" className='d-flex align-text-center justify-content-center'><h3><Badge pill bg="secondary">{userDetails.weeklyChar}</Badge></h3></Col>
+            </Row>
+            <Row>
+              <Col lg="auto" className='d-flex align-text-center justify-content-center'> <MonthlyCalendar/> </Col>
+              <Col lg="auto" className='d-flex align-text-center justify-content-center'><h3><Badge pill bg="secondary">{userDetails.monthlyChar}</Badge></h3></Col>
+            </Row>
+          </Col>  
+        </Row>
+      )}
       <hr/>
         <ThirdColumn />
     </Container>

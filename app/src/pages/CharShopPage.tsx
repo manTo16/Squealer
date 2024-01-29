@@ -9,11 +9,19 @@ import DailyCalendar from "@components/svg/CharSvg/dCharSvg";
 import MonthlyCalendar from "@components/svg/CharSvg/mCharSvg";
 import WeeklyCalendar from "@components/svg/CharSvg/wCharSvg";
 
+import { checkIfInDebt } from "@utils/debt";
+import { useNavigate } from "react-router-dom";
+
+import { UserDetailsInterface } from "@utils/userData";
+
 export default function CharShopPage() {
     //var userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
+    const isLoggedIn = !!localStorage.getItem('token')
 
-    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext)
+    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
     const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate()
 
     const updatePersonalUserData = async () => {
         await fetchUserData();
@@ -30,11 +38,7 @@ export default function CharShopPage() {
 
     const [numCharsToAdd, setNumCharsToAdd] = useState(0);
 
-    const checkIfInDebt = async (username: string) => {
-        const userDebt = await axios.get(apiUsersURL+'/'+username+'/debt').then(response => response?.data ?? 0)
 
-        return (userDebt > 0)
-    } 
 
     const handleNumCharsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNumCharsToAdd(Number(event.target.value));
@@ -59,22 +63,30 @@ export default function CharShopPage() {
     const [userInDebt, setUserInDebt] = useState(false)
 
     useEffect(() => {
-        fetchDebt()
+        if (isLoggedIn) fetchDebt()
     }, [])
 
     useEffect(() => {
-        updatePersonalUserData();
+        if (isLoggedIn) updatePersonalUserData();
     }, [userInDebt]);
 
     useEffect(() => {
-        setDisplayDailyChars(userDetails.dailyChar)
-        setDisplayWeeklyChars(userDetails.weeklyChar)
-        setDisplayMonthlyChars(userDetails.monthlyChar)
-        fetchDebt()
-        setDisplayDebt(userDetails.debtChar)
+        if (isLoggedIn) {
+            setDisplayDailyChars(userDetails.dailyChar)
+            setDisplayWeeklyChars(userDetails.weeklyChar)
+            setDisplayMonthlyChars(userDetails.monthlyChar)
+            fetchDebt()
+            setDisplayDebt(userDetails.debtChar)
+        }
     }, [userDetails])
 
+    useEffect(() => {
+        if (!isLoggedIn) navigate("/login")
+    }, [])
 
+
+
+    
 
     return(
         <div className="bg-dark rounded-bottom p-3">
