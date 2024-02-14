@@ -8,20 +8,21 @@ async function resizeBase64Image(base64Image, width, height) {
     }
   
     // rimuove l'intestazione dei dati, se presente
+    const img_format = extractImageFormat(base64Image)
     const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
   
     const imageBuffer = Buffer.from(base64Data, 'base64');
     const resizedImageBuffer = await sharp(imageBuffer)
       .resize(width, height)
       .toBuffer();
-    const resizedBase64Image = resizedImageBuffer.toString('base64');
+    const resizedBase64Image = addBase64ImageHeader(resizedImageBuffer.toString('base64'), img_format);
   
     return resizedBase64Image;
 }
 
 
-function addBase64ImageHeader(base64Image) {
-    const format = extractImageFormat(base64Image)
+function addBase64ImageHeader(base64Image, format) {
+    //const format = extractImageFormat(base64Image)
     // occhio: scrive "null" nel caso format sia null
     const base64ImageWithHeader = `data:image/${format};base64,${base64Image}`;
     return base64ImageWithHeader;

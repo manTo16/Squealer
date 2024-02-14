@@ -1,6 +1,6 @@
 //const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
-const { resizeBase64Image, addBase64ImageHeader } = require('./utils/imageManipulation')
+const { resizeBase64Image, addBase64ImageHeader, extractImageFormat } = require('./utils/imageManipulation')
 
 const getAllUsers = async (req,res)=>{
     try{
@@ -222,7 +222,7 @@ const getUserThumbnail = async (req,res) => {
 
     //se l'utente ha un'immagine profilo ma non una versione piccola per qualche motivo la genera sul momento
     if (!user.userImage32x32 && user.userImage) {
-      user.userImage32x32 = addBase64ImageHeader(await resizeBase64Image(user.userImage, 32, 32))
+      user.userImage32x32 = addBase64ImageHeader(user.userImage32x32, extractImageFormat(await resizeBase64Image(user.userImage, 32, 32)))
       await user.save()
     }
 

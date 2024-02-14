@@ -29,10 +29,14 @@ app.use('/auth',auth)
 app.use('/posts',posts)
 app.use('/channels',channels)
 
+
 /*
-app.get('/',(req,res)=>{
-  res.status(200).send('Home page')
-})
+differenze tra server produzione e questo:
+c'è qualche app.get in più ma roba facilmente copiabile qua
+
+lo script lì non legge il .env non si capisce perchè, quindi ci sono varie variabili dichiarate dentro 
+i file chiamate ENV_NOMEVARIABILE ma piuttosto che tenere quelle conviene sistemare il problema del .env
+
 */
 
 
