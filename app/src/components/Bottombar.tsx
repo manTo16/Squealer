@@ -39,9 +39,9 @@ export default function Bottombar(
 
   return (
     <>
-    <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="w-100 fixed-bottom">
-      <Nav className="d-flex flex-grow-1" ref={divHtmlElementRef}> 
-        <Container className='justify-content-center py-2'>
+    <Navbar fixed="bottom" bg="dark" data-bs-theme="dark" className="w-100" ref={divHtmlElementRef}>
+      <Nav className="d-flex flex-grow-1"> 
+        <Container className='justify-content-center py-0 '>
             <Row>
 
             <Col>

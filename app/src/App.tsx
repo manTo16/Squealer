@@ -143,7 +143,7 @@ function App() {
         
       </Row>
       </Container>
-      <Row>
+      <Row className='fixed-bottom'>
         <Col >
           <div className='d-lg-none' style={{height:`${bottombarHeight}px`}}>
             <Bottombar
