@@ -100,7 +100,7 @@ const getFeedIds = async (req,res) => {
                                .limit(numberOfPosts)
                                .lean();
     const postIds = postIdsMongoose.map(post => post._id.toString())
-    console.log("getFeedIds page ", pageNumber, " postIds: ", postIds)
+    //console.log("getFeedIds page ", pageNumber, " postIds: ", postIds)
     return res.status(200).json(postIds);
     
   }

@@ -125,7 +125,6 @@ function App() {
         isLoggedIn ?
         (
           <>
-      
           <Col xs={0} lg={2} className='d-none d-lg-block'>
             <UserInfo />
           </Col>

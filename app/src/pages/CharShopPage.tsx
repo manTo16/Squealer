@@ -19,7 +19,7 @@ export default function CharShopPage() {
     const isLoggedIn = !!localStorage.getItem('token')
 
     const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate()
 
@@ -62,9 +62,6 @@ export default function CharShopPage() {
 
     const [userInDebt, setUserInDebt] = useState(false)
 
-    useEffect(() => {
-        if (isLoggedIn) fetchDebt()
-    }, [])
 
     useEffect(() => {
         if (isLoggedIn) updatePersonalUserData();

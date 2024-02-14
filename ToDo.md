@@ -55,6 +55,10 @@ negativo.</span>
 ### Altre pippe app
 potete cancellari man mano che li facciamo
 
+fare prove con una connessione lenta
+pagine da sistemare:
+- negozio: se sono in debito e ci mette un po' a caricare che sono in debito mi fa vedere l'acquisto caratteri normale. dovrebbe farmi vedere una schermata di caricamento senza mostrare nulla e poi sostituire in base a quanto debito hai
+
 Grafica:
 - pagina ricerca:
     - i tasti per cambiare da post a canale e utente a keywork sono orrendi

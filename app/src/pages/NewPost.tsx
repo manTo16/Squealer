@@ -37,6 +37,7 @@ import Alert from 'react-bootstrap/Alert';
 import AdvancedOptions from "@components/newPost/AdvancedOptions";
 
 import { UserDetailsInterface } from "@utils/userData";
+import { addAutomaticPost } from "@utils/automaticsPosts";
 
 /*ERRORE IN CONSOLE
 Warning: validateDOMNesting(...): <div> cannot appear as a descendant of <p>.
@@ -132,6 +133,7 @@ export default function NewPostPage() {
     
 
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+    console.log("getComputedStyle(textarea): ", getComputedStyle(textarea))
 
     //a volte l'altezza di default della linea di scrittura della textarea è >= 24*2 e questa funzione non va bene
     if (parseInt(getComputedStyle(textarea).height) > 40) return 12
@@ -203,9 +205,8 @@ export default function NewPostPage() {
     event.preventDefault()
     console.log('sei qui')
     try{
-      console.log("DEBUG")
       const response = await axios.post(apiPostsURL,
-        {username: userDetails.username, text: text, receivers: receivers, repeatPostInterval: {interval: repeatPostInterval, unit: repeatPostTimeUnit}},
+        {username: userDetails.username, text: text, receivers: receivers, repeatPostInterval: {interval: Type === 'gps' ? 0 : repeatPostInterval, unit: repeatPostTimeUnit}},
         { headers: {"Authorization": `Bearer ${userToken}`}}
         ).then((response) => {
           if (replyTo) axios.put(`${apiPostsURL}/${replyTo}/replies`,
@@ -220,11 +221,20 @@ export default function NewPostPage() {
           //aggiorna dati utente in locale
           axios.get(apiUsersURL+'/'+userDetails.username).then(response => response.data).then(userData => localStorage.setItem('user',JSON.stringify(userData)))
         })
-        .then(()=>{
+        .then(() => {
+          if (Type === 'gps' && repeatPostInterval > 0 && userDetails.debtChar === 0) {
+            addAutomaticPost(
+              {username: userDetails.username, text: text, receivers: receivers, repeatPostInterval: {interval: repeatPostInterval, unit: repeatPostTimeUnit}},
+              { headers: {"Authorization": `Bearer ${userToken}`}},
+              replyTo,
+              onlyUsersInReceivers())
+          }
+        })
+        .then(() => {
           alert('Post created')
           navigate('/')
         })
-        .then(()=>{
+        .then(() => {
           //aggiorna dati utente in locale
           console.log("ENTRO IN GETPERSONAUSERDATA")
           fetchUserData()
@@ -472,87 +482,88 @@ export default function NewPostPage() {
                   receiversOnlyUsers={onlyUsersInReceivers()}
                 />
               </Card.Text>
-
-              <CardFooter>
-                <Stack direction="horizontal" gap={3}>
-                <ButtonGroup defaultValue={1}>
-                  <Button
-                    className="btn btn-secondary"
-                    onClick={() => handleType('txt')}
-                    id="postType-Txt"
-                    value={1}
-                  >
-                    <Text />
-                  </Button>
-                  <DropdownButton as={ButtonGroup} title={<Media/>} id="bg-nested-dropdown" variant="secondary">
-                    <Dropdown.Item 
-                      className="btn btn-secondary"
-                      onClick={() => handleType('pst')}
-                    >
-                      <div className="d-flex flex-row">
-                        <div>
-                          <IconPaste/> 
-                        </div>
-                        <div className="vr mx-3"/>
-                        <div className="ms-auto">Incolla dagli appunti</div>
-                      </div>
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item 
-                      className="btn btn-secondary"
-                      onClick={() => handleType('upl')}
-                    >
-                      <div className="d-flex flex-row">
-                        <div>
-                          <IconUpload/> 
-                        </div>
-                        <div className="vr mx-3"/>
-                        <div className="ms-auto">Carica un'immagine</div>
-                      </div>
-                      
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item 
-                      className="btn btn-secondary"
-                      onClick={() =>{ handleType('cmr'); console.log("cmr click")}}
-                    >
-                      <div className="d-flex flex-row">
-                        <div>
-                          <IconCamera/> 
-                        </div>
-                        <div className="vr mx-3"/>
-                        <div className="ms-auto">Scatta una foto</div>
-                      </div>
-                      
-                    </Dropdown.Item>
-                  </DropdownButton>
-                  <Button
-                    className="btn btn-secondary"
-                    onClick={() => handleType('mp4')}
-                    id="postType-vid"
-                    value={3}
-                  >
-                    <Video />
-                  </Button>
-                  <Button
-                    className="btn btn-secondary"
-                    onClick={() => handleType('gps')}
-                    id="postType-gps"
-                    value={4}
-                  >
-                    <LocationButton />
-                  </Button>
-                </ButtonGroup>
-
-
-                  <Button 
-                  className="p-2 ms-auto btn-secondary"
-                  onClick={handleSubmit}
-                  disabled={userDetails.debtChar > 0 || charCount < 1}>
-                    Squeal</Button>
-                </Stack>
-              </CardFooter>
             </Card.Body>
+
+            <CardFooter>
+              <Stack direction="horizontal" gap={3}>
+              <ButtonGroup defaultValue={1}>
+                <Button
+                  className="btn btn-secondary"
+                  onClick={() => handleType('txt')}
+                  id="postType-Txt"
+                  value={1}
+                >
+                  <Text />
+                </Button>
+                <DropdownButton as={ButtonGroup} title={<Media/>} id="bg-nested-dropdown" variant="secondary">
+                  <Dropdown.Item 
+                    className="btn btn-secondary"
+                    onClick={() => handleType('pst')}
+                  >
+                    <div className="d-flex flex-row">
+                      <div>
+                        <IconPaste/> 
+                      </div>
+                      <div className="vr mx-3"/>
+                      <div className="ms-auto">Incolla dagli appunti</div>
+                    </div>
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item 
+                    className="btn btn-secondary"
+                    onClick={() => handleType('upl')}
+                  >
+                    <div className="d-flex flex-row">
+                      <div>
+                        <IconUpload/> 
+                      </div>
+                      <div className="vr mx-3"/>
+                      <div className="ms-auto">Carica un'immagine</div>
+                    </div>
+                    
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item 
+                    className="btn btn-secondary"
+                    onClick={() =>{ handleType('cmr'); console.log("cmr click")}}
+                  >
+                    <div className="d-flex flex-row">
+                      <div>
+                        <IconCamera/> 
+                      </div>
+                      <div className="vr mx-3"/>
+                      <div className="ms-auto">Scatta una foto</div>
+                    </div>
+                    
+                  </Dropdown.Item>
+                </DropdownButton>
+                <Button
+                  className="btn btn-secondary"
+                  onClick={() => handleType('mp4')}
+                  id="postType-vid"
+                  value={3}
+                >
+                  <Video />
+                </Button>
+                <Button
+                  className="btn btn-secondary"
+                  onClick={() => handleType('gps')}
+                  id="postType-gps"
+                  value={4}
+                >
+                  <LocationButton />
+                </Button>
+              </ButtonGroup>
+
+
+                <Button 
+                className="p-2 ms-auto btn-secondary"
+                onClick={handleSubmit}
+                disabled={userDetails.debtChar > 0 || charCount < 1}>
+                  Squeal</Button>
+              </Stack>
+            </CardFooter>
+            
           </Card>
         </Col>
       </Row>

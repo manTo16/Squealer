@@ -30,7 +30,7 @@ export default function Navbar(
   const navigate = useNavigate()
 
   const fetchDebt = async () => {
-    isLoggedIn && setUserInDebt(await checkIfInDebt(userDetails.username))
+    isLoggedIn && userDetails.username && setUserInDebt(await checkIfInDebt(userDetails.username))
   }
 
   useEffect(() => {
