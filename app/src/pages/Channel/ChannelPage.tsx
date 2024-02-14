@@ -60,22 +60,25 @@ const ChannelPage: React.FC = () => {
   }
 
   useEffect(() => {
-    const fetchChannelData = async () => {
-        try {
-            const response = await axios.get(channelsURL+"/data/"+channelName).then(response => response.data)
-            setChannelData(response)
-        } catch (error) {
-            if (error instanceof Error && 'response' in error) {
-                const axiosError = error as AxiosError;
-                if (axiosError.response && axiosError.response.status === 404) {
-                  console.log("ChannelSettingPage 404 con channelName: ", channelName);
-                } else {
-                  throw error;
-                }
-            }
-        }
+    if(!isLoggedIn) navigate('/login')
+    else {
+      const fetchChannelData = async () => {
+          try {
+              const response = await axios.get(channelsURL+"/data/"+channelName).then(response => response.data)
+              setChannelData(response)
+          } catch (error) {
+              if (error instanceof Error && 'response' in error) {
+                  const axiosError = error as AxiosError;
+                  if (axiosError.response && axiosError.response.status === 404) {
+                    console.log("ChannelSettingPage 404 con channelName: ", channelName);
+                  } else {
+                    throw error;
+                  }
+              }
+          }
+      }
+      fetchChannelData()
     }
-    fetchChannelData()
   }, [])
 
   const navigate = useNavigate()
@@ -86,6 +89,14 @@ const ChannelPage: React.FC = () => {
       document.title = 'Squealer';
     };
   }, [channelName]);
+
+  if ( !isLoggedIn ) {
+    return (
+      <>
+      <p>pagina non disponibile se non loggato</p>
+      </>
+    )
+  }
 
   return (
     <div className='bg-dark rounded-bottom'>
