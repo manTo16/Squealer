@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Moderator Dashboard per il social network Squealer">
+    <link rel="icon" href="./assets/favicon.ico">
+    <title>Squealer | Moderator Dashboard - Squeals</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script defer type="module" src="./js/squeals/squealFilter.js"></script>
+    <script defer src="./js/squeals/receiverInputs.js"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <img src="./assets/favicon.ico" alt="Utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+            Squealer
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/squeals/">Squeals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/">@Utenti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/channels/">§canali</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/CHANNELS/">§CANALI</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Nome Utente
+                        <img src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+          <!-- Sidebar -->
+          <div class="col-md-2 bg-light sidebar" style="position: fixed; height: 100%; overflow: auto;">
+            <ul class="nav flex-column">
+
+              <li class="nav-item">
+                <input type="checkbox" name="use_filter_squealContainsField" id="use_filter_squealContainsField">
+                <label for="filter_squealContainsField">Contiene:</label>
+                <textarea class="w-100" id="filter_squealContainsField" name="filter_squealContainsField" rows="8">
+                </textarea>
+              </li>
+
+              <li class="nav-item">
+                <input type="checkbox" name="use_filter_senderField" id="use_filter_senderField">
+                <label for="filter_senderField">Mittente:</label>
+                <input type="text" id="filter_senderField" name="filter_senderField">
+              </li>
+              
+              <li class="nav-item" id="receiversFields">
+                <input type="checkbox" name="use_filter_receiverField" id="use_filter_receiverField">
+                <span style="display: flex; flex-direction: row; text-align: center; margin-bottom: 1em;">
+                    <p style="margin-top: auto; margin-bottom: auto;  margin-right: 2em;">Tra i destinatari ci sono:</p>
+                    <button id="addReceiverButton">+</button>
+                </span>
+              </li>
+
+              <li class="nav-item">
+                <input type="checkbox" name="use_filter_minDateField" id="use_filter_minDateField">
+                <label for="filter_minDateField">Da:</label>
+                <input type="date" name="filter_minDateField" id="filter_minDateField">
+              </li>
+
+              <li class="nav-item">
+                <input type="checkbox" name="use_filter_maxDateField" id="use_filter_maxDateField">
+                <label for="filter_maxDateField">Da:</label>
+                <input type="date" name="filter_maxDateField" id="filter_maxDateField">
+              </li>
+            </ul>
+
+            <button id="sendSquealFilterButton">Applica filtro</button>
+          </div>
+        </div>
+      
+        <!-- Main Content -->
+        <div class="col-md-9 offset-md-2">
+            <h1>Main Content</h1>
+            <p>This is the main content.</p>
+        </div>
+
+      </div>
+
+
+
+</body>
+
+</html>

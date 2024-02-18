@@ -463,6 +463,50 @@ const removeSMM = async (req,res) => {
   }
 }
 
+const findUsers = async (req,res) => {
+  try {
+    const { username, displayName, mod, pro, smm, verified } = req.body
+
+    console.log("mod findUsers username: ", username)
+    console.log("mod findUsers displayName: ", displayName)
+    console.log("mod findUsers mod: ", mod)
+    console.log("mod findUsers pro: ", pro)
+    console.log("mod findUsers smm: ", smm)
+    console.log("mod findUsers verified: ", verified)
+
+
+    let query = {}
+
+    if (username) 
+      query.username = username
+    
+    if (displayName) 
+      query.username = displayName
+
+    if ('mod' in req.body)
+      query.mod = mod
+
+    if ('pro' in req.body)
+      query.pro = pro
+
+    if ('smm' in req.body)
+      query.smm = smm
+
+    if ('verified' in req.body)
+      query.verified = verified
+
+    const users = await User.find(query, 'username -_id')
+
+    console.log("findUsers: ", users)
+
+    return res.status(200).json(users)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+
+
 module.exports = {
     getAllUsers,
     //addNewUser,
@@ -490,5 +534,6 @@ module.exports = {
     searchUserByUsernameNResults,
     searchUserByDisplayNameNResults,
     selectSMM,
-    removeSMM
+    removeSMM,
+    findUsers
 }

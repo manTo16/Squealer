@@ -293,6 +293,45 @@ const removeSubscriberFromChannel = async (req, res) => {
   }
 }
 
+const findChannels = async (req,res) => {
+  try {
+    const { channelName, owner, minNPosts, maxNPosts } = req.body
+
+    console.log("mod findChannels channelName: ", channelName)
+    console.log("mod findChannels owner: ", owner)
+    console.log("mod findChannels minNPosts: ", minNPosts)
+    console.log("mod findChannels maxNPosts: ", maxNPosts)
+
+    let query = {}
+
+    if (channelName) 
+      query.channelName = channelName
+    
+    if (owner) 
+      query['usernames.owners'] = { $in: [owner] }
+
+    const channels = await Channel.find(query)
+
+    const filteredChannels = channels.filter(channel => {
+      let minOK = true
+      let maxOK = true
+      if (minNPosts) minOK = channel.postsIds.length >= minNPosts
+      if (maxNPosts) maxOK = channel.postsIds.length <= maxNPosts
+      return (minOK && maxOK)
+    })
+
+    const channelNames = filteredChannels.map(channel => channel.channelName)
+
+    console.log("findChannels: ", channelNames)
+
+    return res.status(200).json(channelNames)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+
+
 
 module.exports = {
   createChannel,
@@ -303,5 +342,6 @@ module.exports = {
   getChannelData,
   updateChannelData,
   addSubscriberToChannel,
-  removeSubscriberFromChannel
+  removeSubscriberFromChannel,
+  findChannels
 }

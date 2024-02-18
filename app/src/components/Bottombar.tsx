@@ -28,6 +28,16 @@ export default function Bottombar(
 
   const divHtmlElementRef = useRef<HTMLDivElement>(null)
 
+  const shrinkableStyle = { 
+    flexShrink: 0.5,
+    paddingRight: '0rem',
+    paddingLeft: '0rem'
+  }
+  const justifyCenterStyle = {
+    display: 'flex',
+    justifyContent: 'center'
+  }
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -44,40 +54,40 @@ export default function Bottombar(
         <Container className='justify-content-center py-0 '>
             <Row>
 
-            <Col>
-              <Nav.Item>
+            <Col style={shrinkableStyle}>
+              <Nav.Item style={justifyCenterStyle}>
                   <Button onClick={()=>{navigate("/")}} variant="dark"  className='btn-transparent'>
                     <HomeButton />
                   </Button>
               </Nav.Item>
             </Col>
     
-            <Col>
-              <Nav.Item>
+            <Col style={shrinkableStyle}>
+              <Nav.Item style={justifyCenterStyle}>
                 <Button onClick={()=>{navigate("/trendingPage")}} variant="dark" className='btn-transparent'>
                   <FireButton/>
                 </Button>
               </Nav.Item>
             </Col>
 
-            <Col>
-              <Nav.Item>
+            <Col style={shrinkableStyle}>
+              <Nav.Item style={justifyCenterStyle}>
                 <Button onClick={()=>{navigate("/newPost")}} variant="dark" className='btn-transparent'>
                   <AddButton />
                 </Button>
               </Nav.Item>
             </Col>
 
-            <Col>
-              <Nav.Item>
+            <Col style={shrinkableStyle}>
+              <Nav.Item style={justifyCenterStyle}>
                 <Button onClick={()=>{navigate("/")}} variant="dark" className='btn-transparent'>
                   <QuestionButton/>
                 </Button>
               </Nav.Item>
             </Col>
 
-            <Col>
-              <Nav.Item>
+            <Col style={shrinkableStyle}>
+              <Nav.Item style={justifyCenterStyle}>
                 <Button onClick={()=>{navigate("/profile")}} variant="dark" className='btn-transparent'>
                   <GroupButton/> 
                 </Button>

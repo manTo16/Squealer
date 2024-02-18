@@ -28,7 +28,8 @@ const {
   searchUserByUsernameNResults,
   searchUserByDisplayNameNResults,
   selectSMM,
-  removeSMM
+  removeSMM,
+  findUsers
 } = require ('../controllers/userController.js')
 
 
@@ -63,5 +64,7 @@ router.route('/:userName/characters/').put(setUserCharacters).patch(updateUserCh
 router.route('/:userName/debt').get(getUserDebt)
 
 router.route('/smm/:userName').put(selectSMM).delete(removeSMM)
+
+router.route('/mod/search').post(findUsers)
 
 module.exports = router

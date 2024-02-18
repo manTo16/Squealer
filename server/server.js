@@ -39,6 +39,29 @@ i file chiamate ENV_NOMEVARIABILE ma piuttosto che tenere quelle conviene sistem
 
 */
 
+const User_tmp= require('./models/userModel'); // Assumendo che tu abbia un modello Mongoose chiamato User
+
+async function updateImages() {
+  // Ottieni tutti gli utenti
+  const users = await User_tmp.find({});
+
+  // Itera su ogni utente
+  for (let user of users) {
+    // Controlla se il campo userImage32x32 esiste e inizia con "data:image"
+    if (user.userImage32x32 && !user.userImage32x32.startsWith('data:image')) {
+      // Aggiungi "data:image/png;base64," all'inizio della stringa
+      user.userImage32x32 = 'data:image/png;base64,' + user.userImage32x32;
+
+      // Salva l'utente aggiornato nel database
+      await user.save();
+      console.log("utente ", user.username , " modificato")
+    }
+  }
+}
+
+// Chiama la funzione
+updateImages();
+console.log("funzione finita")
 
 app.use('/app/static', 
         express.static(path.join(__dirname, "..", "app", "build",'static')))

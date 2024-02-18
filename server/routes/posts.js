@@ -14,7 +14,8 @@ const {
   searchPostByText,
   searchPostByUsername,
   searchPostByKeyword,
-  addPostToChannel
+  addPostToChannel,
+  findPosts
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
@@ -37,5 +38,7 @@ router.route('/search/byKeyword/:query').get(searchPostByKeyword)
 router.route('/search/byText/:query/:pageNumber').get(searchPostByText)
 router.route('/search/byUsername/:query/:pageNumber').get(searchPostByUsername)
 router.route('/search/byKeyword/:query/:pageNumber').get(searchPostByKeyword)
+
+router.route('/mod/search').post(findPosts)
 
 module.exports = router

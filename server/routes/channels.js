@@ -10,7 +10,8 @@ const {
   getChannelData,
   updateChannelData,
   addSubscriberToChannel,
-  removeSubscriberFromChannel
+  removeSubscriberFromChannel,
+  findChannels
 } = require('../controllers/channelController.js')
 
 router.route('/').post(verifyToken,createChannel)
@@ -25,5 +26,7 @@ router.route('/unsub/:channelName').patch(removeSubscriberFromChannel)
 
 router.route('/:channelName/:pageNumber').get(getChannelPostIds)
 router.route('/:channelName').post(addUserToChannel).get(getChannelPostIds)
+
+router.route('/mod/search').post(findChannels)
 
 module.exports = router

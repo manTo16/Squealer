@@ -425,6 +425,47 @@ const addPostToChannel = async (req,res) => {
   }
 }
 
+const findPosts = async (req,res) =>{
+  try {
+    const { squealContains, sender, receiver, minDate, maxDate } = req.body
+
+    console.log("mod findPosts squealContains: ", squealContains)
+    console.log("mod findPosts sender: ", sender)
+    console.log("mod findPosts minDate: ", minDate)
+    console.log("mod findPosts maxDate: ", maxDate)
+    console.log("mod findPosts receivers: ", receiver)
+
+
+    let query = {}
+
+    if (sender) 
+      query.username = sender
+    
+    if (minDate)
+      query.creationDate = { $gt: new Date(minDate) }
+
+    if (maxDate)
+      query.creationDate = { $lt: new Date(maxDate) }
+
+    if (squealContains)
+      query.text = { $regex: new RegExp(squealContains, 'i') }
+
+    if (receiver.length !== 0) {
+      query.receivers = { $all: receiver.filter(checkReceiverSyntax) }
+    }
+
+    const posts = await Post.find(query, '_id')
+
+    console.log("findPosts: ", posts)
+
+    return res.status(200).json(posts)
+
+  } catch (error) {
+    console.error('errore findPosts:', error);
+    res.status(500).json({ error: 'Errore del server' });
+  }
+}
+
 const getPosts = async (req,res) =>{
   try {
     const page = parseInt(req.query.page) || 1;
@@ -451,6 +492,7 @@ const getPosts = async (req,res) =>{
 
 
 
+
 module.exports = {
   getPosts,
   createPost,
@@ -466,5 +508,6 @@ module.exports = {
   searchPostByUsername,
   searchPostByKeyword,
   _addPostToChannel,
-  addPostToChannel
+  addPostToChannel,
+  findPosts
 }
