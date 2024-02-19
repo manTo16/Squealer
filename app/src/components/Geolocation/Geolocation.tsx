@@ -21,7 +21,9 @@ export default function TestGeolocation(
     latitude: number;
     longitude: number;
   } | null>(null);
+  
   const [locationObtained, setLocationObtained] = useState<boolean>(false);
+  const [area, setArea] = useState(false);
   const startPosition: LatLngTuple = [44.66, 10.81];
 
   console.log("startPosition: ", startPosition);
@@ -46,6 +48,12 @@ export default function TestGeolocation(
     } 
   };
 
+  const isArea = () => {
+    setArea(true);
+    console.log("Area: ", area);
+  }
+
+
   const position: LatLngTuple = [userLocation?.latitude || 44.66, userLocation?.longitude || 10.81];
 
   const polyline: LatLngTuple[] = [
@@ -59,7 +67,7 @@ export default function TestGeolocation(
     <>
       <Row>
         <Col className="d-flex flex-row">
-          <div>
+          <div className="d-flex flex-column">
             <Button 
               className="p-2 ms-auto"
               variant="success" 
@@ -67,19 +75,34 @@ export default function TestGeolocation(
             >
               Posizione attuale
             </Button>
+            <Button
+              className="p-2 ms-auto w-100 mt-2"
+              variant="success" 
+              onClick={isArea}
+            >
+              Area?
+            </Button>
           </div>
           {userLocation && (
-            <>
-            {/* <div className="vr"/> */}
             <div className="d-flex ms-auto justify-content-end">
-              {/* <h2>Coordinate</h2> */}
-              <div className="vr mx-3"/>
-              <div className="ms-2">
-                <p className="my-0">Latitudine: {userLocation.latitude}</p>
-                <p className="my-0">Longitudine: {userLocation.longitude}</p>
-              </div>  
+              <table style={{ border: '1px solid white' }}>
+                <tbody>
+                  <tr>
+                    <th rowSpan={2} className="p-2" style={{ border: '1px solid white' }}>Coordinate</th>
+                    <th className="p-2" style={{ border: '1px solid white' }}>Latitude</th>
+                    <th className="p-2" style={{ border: '1px solid white' }}>{userLocation.latitude}</th>
+                  </tr>
+                  <tr>
+                    <th className="p-2" style={{ border: '1px solid white' }}>Longitude</th>
+                    <th className="p-2" style={{ border: '1px solid white' }}>{userLocation.longitude}</th>
+                  </tr>
+                  <tr>
+                    <td className="p-2" style={{ border: '1px solid white' }}>Area</td>
+                    <td className="p-2" colSpan={2} style={{ border: '1px solid white' }}>Si</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            </>
           )}
         </Col>
       </Row>
