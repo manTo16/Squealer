@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-emerald-700 p-4 flex justify-between items-center shadow-lg">
+  <nav class="bg-emerald-700 p-4 flex justify-between items-center shadow-lg fixed top-0 w-full">
     <div class="flex items-center">
       <img src="../assets/Squealer.png" alt="Logo" class="mr-2 h-10 w-auto">
       <router-link to="/" class="text-white text-2xl  font-bold">Squealer For SMMs</router-link>

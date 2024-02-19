@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="m-10 mt-20 w-5/12">
     <Post v-for="post in posts" :key="post._id" :post="post"/> 
     <button v-if="currentPage < totalPages" @click="loadMorePosts">Carica più post</button>
   </div>
@@ -31,7 +31,6 @@ export default {
         this.posts = this.posts.concat(data.posts);
         this.currentPage = data.currentPage;
         this.totalPages = data.totalPages;
-        console.log(this.posts)
       } catch (error) {
         console.error('Errore durante il recupero dei post:', error);
       }

@@ -48,9 +48,9 @@ export default {
           const token = data.token
           localStorage.setItem('token', token)
           localStorage.setItem('isUserLoggedIn', 'true')
-          getLoggedUserData(this.username);
-          alert('login successful')
+          await getLoggedUserData(this.username);
           this.$router.push({ name: 'home' });
+          alert('login successful')
         } else {
           console.error('Login error:', response.statusText);
         }

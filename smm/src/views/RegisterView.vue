@@ -57,7 +57,7 @@ export default {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username: this.username, password: this.password, email: this.email, displayName: this.displayName}),
+          body: JSON.stringify({ username: this.username, password: this.password, email: this.email, displayName: this.displayName, smm: true}),
         });
         console.log(response)
         if (response.ok) {
