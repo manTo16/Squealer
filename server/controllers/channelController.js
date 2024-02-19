@@ -25,6 +25,7 @@ const createChannel = async (req,res) => {
   try{
     const {channelName, username, description, owners, writers, readers, reserved} = req.body
     const user = await User.findOne({username:username})
+    console.log("debug username: ", username)
 
     let channelNameAdjusted = channelName
 

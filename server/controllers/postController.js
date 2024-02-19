@@ -2,7 +2,7 @@ const User = require('../models/userModel')
 const Post = require('../models/postModel')
 const Channel = require('../models/channelModel')
 
-const { checkReceiverSyntax, parseTextForMentions } = require('./utils/postUtils')
+const { checkReceiverSyntax, parseTextForMentions, checkAddressSyntax } = require('./utils/postUtils')
 const { createPostInterval } = require('./utils/automaticPosts')
 const { checkPopularity, _addPostToChannel } = require( './utils/criticalMass')
 
@@ -448,7 +448,10 @@ const findPosts = async (req,res) =>{
       query.creationDate = { $lt: new Date(maxDate) }
 
     if (squealContains)
-      query.text = { $regex: new RegExp(squealContains, 'i') }
+      query.text = { 
+        $regex: new RegExp(squealContains, 'i'),
+        $not: /^data:image\//i
+      }
 
     if (receiver.length !== 0) {
       query.receivers = { $all: receiver.filter(checkReceiverSyntax) }
@@ -468,35 +471,116 @@ const findPosts = async (req,res) =>{
 
 const updatePost = async (req, res) => {
   try {
+    console.log("updatePost ", req.params.id)
+    console.log(" impressions: ", req.body.impressions)
+    const newReceivers = req.body.receivers
+    console.log(" receivers: ", newReceivers)
+
+    const oldReceivers = (await Post.findOne({postId: req.params.id}, "receivers -_id")).receivers
+    console.log("AAAAAA ", oldReceivers)
+
     const updates = {};
     if (req.body.impressions) {
       if (req.body.impressions.veryLikes) {
-        updates['impressions.veryLikes.number'] = req.body.impressions.veryLikes.number;
+        updates['impressions.veryLikes.number'] = req.body.impressions.veryLikes.number
       }
       if (req.body.impressions.likes) {
-        updates['impressions.likes.number'] = req.body.impressions.likes.number;
+        updates['impressions.likes.number'] = req.body.impressions.likes.number
       }
       if (req.body.impressions.dislikes) {
-        updates['impressions.dislikes.number'] = req.body.impressions.dislikes.number;
+        updates['impressions.dislikes.number'] = req.body.impressions.dislikes.number
       }
       if (req.body.impressions.veryDislikes) {
-        updates['impressions.veryDislikes.number'] = req.body.impressions.veryDislikes.number;
+        updates['impressions.veryDislikes.number'] = req.body.impressions.veryDislikes.number
       }
     }
+    if (newReceivers) updates["receivers"] = newReceivers
 
-    const updatedPost = await Post.updateOne({ _id: req.params.id }, { $set: updates });
+    const updatedPost = await Post.updateOne({ _id: req.params.id }, { $set: updates })
 
     if (!updatedPost) {
-      return res.status(404).json({ message: 'Post non trovato' });
+      return res.status(404).json({ message: 'Post non trovato' })
     }
 
-    console.log("Modifico post ", req.params.id, " di ", updatedPost.username);
-    return res.status(200).json(updatedPost);
+    //aggiunge post a canali nuovi
+    const receiversCopy = newReceivers.filter(checkAddressSyntax);
+    receiversCopy.filter(receiver => receiver[0] === "§").map(async (receiver) => {
+      let channel = await Channel.findOne({channelName: receiver.slice(1)})
+      if(channel) {
+        channel.postsIds.push(req.params.id)
+        await channel.save()
+      }
+    })
+
+    //toglie post da canali rimossi   TODO NON FUNZIONA 
+    const removedChannels = oldReceivers.filter(channel => {
+      return channel.startsWith('§') && !newReceivers.includes(channel)
+    })
+  
+    const updatePromises = removedChannels.map(channelName => {
+        return Channel.updateOne({channelName: channelName.slice(1)}, { $pull: { postsIds: req.params.id } })
+    })
+  
+    Promise.all(updatePromises)
+      .then(() => {
+          console.log('updatePost ho rimosso i post dai ', updatePromises.length, ' canali');
+      })
+      .catch(err => {
+          console.error('updatePost Errore durante l\'aggiornamento dei canali:', err);
+      })
+
+    return res.status(200).json(updatedPost)
   } catch (error) {
-    console.error('Errore durante l\'aggiornamento del post:', error);
-    res.status(500).json({ error: 'Errore del server' });
+    console.error('Errore durante l\'aggiornamento del post:', error)
+    res.status(500).json({ error: 'Errore del server' })
   }
 }
+
+//sortBy:   views / positiveReactions / negativeReactions
+const getUserPostsSorted = async (req,res) => {
+  try {
+    const username = req.params.userName
+    const sortBy = req.params.sortBy
+
+    let posts = []
+    let postIds = []
+
+    switch (sortBy) {
+      case "views":
+        posts = await Post.find({ username: username }, 'postId -_id')
+                            .sort({"impressions.views.number": -1})
+        postIds = posts.map(post => post.postId)
+        break
+      case "positiveReactions":
+        posts = await Post.aggregate([
+            { $match: { username: username } },
+            { $addFields: { totalLikes: { $add: ["$impressions.veryLikes.number", "$impressions.likes.number"] } } },
+            { $sort: { totalLikes: -1 } },
+            { $project: { postId: 1, _id: 0 } }
+        ])
+        
+        postIds = posts.map(post => post.postId);
+        break
+      case "negativeReactions":
+        posts = await Post.aggregate([
+          { $match: { username: username } },
+          { $addFields: { totalLikes: { $add: ["$impressions.veryLikes.number", "$impressions.likes.number"] } } },
+          { $sort: { totalLikes: -1 } },
+          { $project: { postId: 1, _id: 0 } }
+        ])
+        postIds = posts.map(post => post.postId)
+        break
+    }
+
+    console.log("getUserPostsSorted by", sortBy, " postIds: ", postIds)
+
+    return res.status(200).json(postIds)
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
+
 
 
 const getPosts = async (req,res) =>{
@@ -543,5 +627,6 @@ module.exports = {
   _addPostToChannel,
   addPostToChannel,
   findPosts,
-  updatePost
+  updatePost,
+  getUserPostsSorted
 }

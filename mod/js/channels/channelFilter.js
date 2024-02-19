@@ -1,4 +1,5 @@
 import { channelsURL } from "../urls.mjs"
+import { toggleEdit, untoggleEdit, saveChanges } from "./edit.mjs"
 
 function trimFilterIdString(string) {
     return string.replace("filter_", "").replace("Field", "")
@@ -72,7 +73,7 @@ export async function displayChannels(channels) {
         let channelWrapper = $(`<div 
         style="padding: 15px;
         box-shadow: 0 0 4px #00000052;
-        border-radius: 20px;"></div>`);
+        border-radius: 20px;" id="wrapper_${channelName}"></div>`);
         channelWrapper.append($(`<h6 style="margin-bottom: 0px;">Nome canale</h6>`));
         let channelTitle = $(`<h2 style="padding-left: 20px">${channelData.channelName}</h2>`);
         channelWrapper.append(channelTitle);
@@ -93,6 +94,29 @@ export async function displayChannels(channels) {
             });
             channelWrapper.append(channelOwners);
         }
+
+        const editButton = document.createElement("button")
+        editButton.addEventListener("click", () => toggleEdit(`wrapper_${channelName}`))
+        editButton.innerText = "Modifica"
+        editButton.setAttribute("class", "editButton")
+        channelWrapper.append(editButton)
+
+        const deleteButton = document.createElement("button")
+        deleteButton.addEventListener("click", () => untoggleEdit(`wrapper_${channelName}`))
+        deleteButton.innerText = "Annulla modifiche"
+        deleteButton.setAttribute("class", "deleteButton")
+        deleteButton.style.display = "none"
+        channelWrapper.append(deleteButton)
+
+        const saveButton = document.createElement("button")
+        saveButton.addEventListener("click", () => {
+            saveChanges(`wrapper_${channelName}`, channelName)
+            untoggleEdit(`wrapper_${channelName}`)
+        })
+        saveButton.innerText = "Salva modifiche"
+        saveButton.setAttribute("class", "saveButton")
+        saveButton.style.display = "none"
+        channelWrapper.append(saveButton)
 
         displayer.append(channelWrapper);
 

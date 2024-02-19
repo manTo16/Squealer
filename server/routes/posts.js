@@ -16,7 +16,8 @@ const {
   searchPostByKeyword,
   addPostToChannel,
   findPosts,
-  updatePost
+  updatePost,
+  getUserPostsSorted
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
@@ -41,5 +42,7 @@ router.route('/search/byUsername/:query/:pageNumber').get(searchPostByUsername)
 router.route('/search/byKeyword/:query/:pageNumber').get(searchPostByKeyword)
 
 router.route('/mod/search').post(findPosts)
+
+router.route('/user/sortBy/:userName/:sortBy').get(getUserPostsSorted)
 
 module.exports = router

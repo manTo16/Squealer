@@ -12,10 +12,50 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+ 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
 
     <script defer type="module" src="./js/squeals/squealFilter.js"></script>
     <script defer type="module" src="./js/squeals/receiverInputs.js"></script>
+    <script defer src="./js/login/loadUserData.js"></script>
+
+    <style>
+        .navSelectable:hover {
+            background-color: #ffb07cbe;
+        }
+
+        .navSelectable {
+            border-radius: 5px;
+            transition: 0.2s;
+            margin-left: 2px;
+            padding-right: 4px;
+            margin-right: 2px;
+            padding-left: 4px;
+        }
+
+        #sendSquealFilterButton {
+            width: -webkit-fill-available;
+        }
+
+        #sidebarOfPage {
+            padding: 0px;
+            padding-bottom: 20px;
+            border-radius: 0px 0px 20px 0px;
+        }
+
+        /* Se viene fatto il break della pagina con le col, allora passa a height: fit-content */
+        @media (max-width: 992px) {
+            #sidebarOfPage {
+                height: fit-content;
+                border-radius: 0px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -30,27 +70,28 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item navSelectable">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item navSelectable active">
                     <a class="nav-link" href="squeals/">Squeals</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item navSelectable">
                     <a class="nav-link" href="users/">@Utenti</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item navSelectable">
                     <a class="nav-link" href="channels/">§canali</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item navSelectable">
                     <a class="nav-link" href="CHANNELS/">§CANALI</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        Nome Utente
-                        <img src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+                        <span id="loggedUserUsername">Nome Utente</span>
+                        <img id="loggedUserProfilePicture" src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle"
+                            style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
                     </a>
                 </li>
             </ul>

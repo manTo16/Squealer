@@ -31,7 +31,7 @@ const register = async (req,res) => {
 
 const login = async (req,res) =>{
   try{
-    const {username,password}=req.body;
+    const {username,password, accountType}=req.body;
     const user = await User.findOne({username:username});
     if (!user) return res.status(400).json({message: "User not found"});
     const checkPW = await bcrypt.compare(password,user.password);
@@ -40,6 +40,10 @@ const login = async (req,res) =>{
     }
     const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
+    if (accountType !== "" && accountType==="mod") {
+      if (!user.moderator) 
+        return res.status(403).json({message: "you must be a moderator to log here"})
+    }
     return res.status(200).json({token,user})
   }catch(err){
     return res.status(500).json({message: err.message})
