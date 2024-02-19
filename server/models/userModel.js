@@ -105,6 +105,10 @@ const userSchema = mongoose.Schema(
     moderator: {
       type: Boolean,
       default: false,
+    },
+    blocked: {
+      type: Boolean,
+      default: false
     }
   }
 )

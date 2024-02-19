@@ -454,7 +454,7 @@ const findPosts = async (req,res) =>{
       query.receivers = { $all: receiver.filter(checkReceiverSyntax) }
     }
 
-    const posts = await Post.find(query, '_id')
+    const posts = (await Post.find(query, '_id')).map(post => post._id.toString())
 
     console.log("findPosts: ", posts)
 
@@ -465,6 +465,39 @@ const findPosts = async (req,res) =>{
     res.status(500).json({ error: 'Errore del server' });
   }
 }
+
+const updatePost = async (req, res) => {
+  try {
+    const updates = {};
+    if (req.body.impressions) {
+      if (req.body.impressions.veryLikes) {
+        updates['impressions.veryLikes.number'] = req.body.impressions.veryLikes.number;
+      }
+      if (req.body.impressions.likes) {
+        updates['impressions.likes.number'] = req.body.impressions.likes.number;
+      }
+      if (req.body.impressions.dislikes) {
+        updates['impressions.dislikes.number'] = req.body.impressions.dislikes.number;
+      }
+      if (req.body.impressions.veryDislikes) {
+        updates['impressions.veryDislikes.number'] = req.body.impressions.veryDislikes.number;
+      }
+    }
+
+    const updatedPost = await Post.updateOne({ _id: req.params.id }, { $set: updates });
+
+    if (!updatedPost) {
+      return res.status(404).json({ message: 'Post non trovato' });
+    }
+
+    console.log("Modifico post ", req.params.id, " di ", updatedPost.username);
+    return res.status(200).json(updatedPost);
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento del post:', error);
+    res.status(500).json({ error: 'Errore del server' });
+  }
+}
+
 
 const getPosts = async (req,res) =>{
   try {
@@ -509,5 +542,6 @@ module.exports = {
   searchPostByKeyword,
   _addPostToChannel,
   addPostToChannel,
-  findPosts
+  findPosts,
+  updatePost
 }

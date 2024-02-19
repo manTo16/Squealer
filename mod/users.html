@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Moderator Dashboard per il social network Squealer">
     <link rel="icon" href="./assets/favicon.ico">
     <title>Squealer | Moderator Dashboard</title>
+    <base href="http://localhost:8080/mod/">
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -13,108 +15,237 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script defer type="module" src="./js/users/userFilter.js"></script>
+
+    <style>
+        .navSelectable:hover {
+            background-color: #ffb07cbe;
+        }
+
+        .navSelectable {
+            border-radius: 5px;
+            transition: 0.2s;
+            margin-left: 2px;
+            padding-right: 4px;
+            margin-right: 2px;
+            padding-left: 4px;
+        }
+
+        #sendUserFilterButton {
+            width: -webkit-fill-available;
+        }
+
+        #sidebarOfPage {
+            padding: 0px;
+            padding-bottom: 20px;
+            border-radius: 0px 0px 20px 0px;
+        }
+
+        /* Se viene fatto il break della pagina con le col, allora passa a height: fit-content */
+        @media (max-width: 992px) {
+            #sidebarOfPage {
+                height: fit-content;
+                border-radius: 0px;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">
-            <img src="./assets/favicon.ico" alt="Utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+            <img src="./assets/favicon.ico" alt="Utente" class="rounded-circle"
+                style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
             Squealer
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item navSelectable">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/squeals/">Squeals</a>
+                <li class="nav-item navSelectable">
+                    <a class="nav-link" href="squeals/">Squeals</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/">@Utenti</a>
+                <li class="nav-item active navSelectable">
+                    <a class="nav-link" href="users/">@Utenti</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/channels/">§canali</a>
+                <li class="nav-item navSelectable">
+                    <a class="nav-link" href="channels/">§canali</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/CHANNELS/">§CANALI</a>
+                <li class="nav-item navSelectable">
+                    <a class="nav-link" href="CHANNELS/">§CANALI</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         Nome Utente
-                        <img src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+                        <img src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle"
+                            style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
                     </a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-          <!-- Sidebar -->
-          <div class="col-md-2 bg-light sidebar" style="position: fixed; height: 100%; overflow: auto;">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <input type="checkbox" name="use_filter_usernameField" id="use_filter_usernameField">
+    <div class="container-fluid row" style="padding:0px!important; margin:0px!important">
+        <div class="col-md-3 bg-light" id="sidebarOfPage">
+            <!-- Sidebar -->
+            <div>
+                <!-- Titolo che indica la sidebar -->
+                <h3 class="text-center mt-3">Filtri</h3>
+
+            </div>
+
+            <hr>
+
+            <div class="" style="overflow: auto;">
+                <div class="mt-2 mb-2 ml-3 mr-3">
                     <label for="filter_usernameField">@Username:</label>
-                    <input type="text" id="filter_usernameField">
-                </li>
-                <li class="nav-item">
-                    <input type="checkbox" name="use_filter_displayNameField" id="use_filter_displayNameField">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="use_filter_usernameField"
+                                    aria-label="Abilitazione del username per la ricerca" id="use_filter_usernameField">
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="filter_usernameField"
+                            aria-label="Text input per username">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
                     <label for="filter_displayNameField">Display name:</label>
-                    <input type="text" id="filter_displayNameField">
-                </li>
-                <li>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="use_filter_displayNameField"
+                                    aria-label="Abilitazione del display name per la ricerca"
+                                    id="use_filter_displayNameField">
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="filter_displayNameField"
+                            aria-label="Text input per display name">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
                     <label for="filter_verifiedSelect">Utenti verificati</label>
-                    <select name="filter_verifiedSelect" id="filter_verifiedSelect">
+                    <select name="filter_verifiedSelect" id="filter_verifiedSelect" class="form-control">
                         <option value="default" selected>Nessun filtro</option>
                         <option value="true">Includi</option>
                         <option value="false">Escludi</option>
                     </select>
-                </li>
-                <li>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
                     <label for="filter_proSelect">Utenti pro</label>
-                    <select name="filter_proSelect" id="filter_proSelect">
+                    <select name="filter_proSelect" id="filter_proSelect" class="form-control">
                         <option value="default" selected>Nessun filtro</option>
                         <option value="true">Includi</option>
                         <option value="false">Escludi</option>
                     </select>
-                </li>
-                <li>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
                     <label for="filter_smmSelect">Utenti social media manager</label>
-                    <select name="filter_smmSelect" id="filter_smmSelect">
+                    <select name="filter_smmSelect" id="filter_smmSelect" class="form-control">
                         <option value="default" selected>Nessun filtro</option>
                         <option value="true">Includi</option>
                         <option value="false">Escludi</option>
                     </select>
-                </li>
-                <li>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
                     <label for="filter_modSelect">Utenti moderatori</label>
-                    <select name="filter_modSelect" id="filter_modSelect">
+                    <select name="filter_modSelect" id="filter_modSelect" class="form-control">
                         <option value="default" selected>Nessun filtro</option>
                         <option value="true">Includi</option>
                         <option value="false">Escludi</option>
                     </select>
-                </li>
-            </ul>
+                </div>
 
-            <button id="sendUserFilterButton">Applica filtro</button>
-          </div>
+                <hr>
+
+                <!--
+                    <ul id="parameters" class="nav flex-column">
+                        <li class="nav-item">
+                            <input type="checkbox" name="use_filter_usernameField" id="use_filter_usernameField">
+                            <label for="filter_usernameField">@Username:</label>
+                            <input type="text" id="filter_usernameField">
+                        </li>
+                        <li class="nav-item">
+                            <input type="checkbox" name="use_filter_displayNameField" id="use_filter_displayNameField">
+                            <label for="filter_displayNameField">Display name:</label>
+                            <input type="text" id="filter_displayNameField">
+                        </li>
+                        <li>
+                            <label for="filter_verifiedSelect">Utenti verificati</label>
+                            <select name="filter_verifiedSelect" id="filter_verifiedSelect">
+                                <option value="default" selected>Nessun filtro</option>
+                                <option value="true">Includi</option>
+                                <option value="false">Escludi</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="filter_proSelect">Utenti pro</label>
+                            <select name="filter_proSelect" id="filter_proSelect">
+                                <option value="default" selected>Nessun filtro</option>
+                                <option value="true">Includi</option>
+                                <option value="false">Escludi</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="filter_smmSelect">Utenti social media manager</label>
+                            <select name="filter_smmSelect" id="filter_smmSelect">
+                                <option value="default" selected>Nessun filtro</option>
+                                <option value="true">Includi</option>
+                                <option value="false">Escludi</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="filter_modSelect">Utenti moderatori</label>
+                            <select name="filter_modSelect" id="filter_modSelect">
+                                <option value="default" selected>Nessun filtro</option>
+                                <option value="true">Includi</option>
+                                <option value="false">Escludi</option>
+                            </select>
+                        </li>
+                    </ul>
+                -->
+
+                <button type="button" class="btn ml-3 mr-3" style="background-color: #ffab72;"
+                    id="sendUserFilterButton">Applica filtro</button>
+            </div>
         </div>
-      
+
         <!-- Main Content -->
-        <div class="col-md-9 offset-md-2">
-            <h1>Main Content</h1>
-            <p>This is the main content.</p>
+        <div class="col-md-9    " style="padding: 20px">
+            <h1>Utenti</h1>
+            <p>Qui puoi gestire gli utenti</p>
+            <div id="usersViewer">
+
+            </div>
         </div>
 
-      </div>
+    </div>
 
 
 
 </body>
+
 </html>

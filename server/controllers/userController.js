@@ -484,7 +484,7 @@ const findUsers = async (req,res) => {
       query.username = displayName
 
     if ('mod' in req.body)
-      query.mod = mod
+      query.moderator = mod
 
     if ('pro' in req.body)
       query.pro = pro
@@ -495,7 +495,7 @@ const findUsers = async (req,res) => {
     if ('verified' in req.body)
       query.verified = verified
 
-    const users = await User.find(query, 'username -_id')
+    const users = (await User.find(query, 'username -_id')).map(user => user.username)
 
     console.log("findUsers: ", users)
 

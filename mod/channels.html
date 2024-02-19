@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Moderator Dashboard per il social network Squealer">
     <link rel="icon" href="./assets/favicon.ico">
     <title>Squealer | Moderator Dashboard</title>
+    <base href="http://localhost:8080/mod/">
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -13,89 +15,205 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script defer type="module" src="./js/channels/channelFilter.js"></script>
+
+    <style>
+        .navSelectable:hover {
+            background-color: #ffb07cbe;
+        }
+
+        .navSelectable {
+            border-radius: 5px;
+            transition: 0.2s;
+            margin-left: 2px;
+            padding-right: 4px;
+            margin-right: 2px;
+            padding-left: 4px;
+        }
+
+        #sendChannelFilterButton {
+            width: -webkit-fill-available;
+        }
+
+        #sidebarOfPage {
+            padding: 0px;
+            padding-bottom: 20px;
+            border-radius: 0px 0px 20px 0px;
+        }
+
+        /* Se viene fatto il break della pagina con le col, allora passa a height: fit-content */
+        @media (max-width: 992px) {
+            #sidebarOfPage {
+                height: fit-content;
+                border-radius: 0px;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">
-            <img src="./assets/favicon.ico" alt="Utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+            <img src="./assets/favicon.ico" alt="Utente" class="rounded-circle"
+                style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
             Squealer
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item navSelectable">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/squeals/">Squeals</a>
+                <li class="nav-item navSelectable">
+                    <a class="nav-link" href="squeals/">Squeals</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/">@Utenti</a>
+                <li class="nav-item navSelectable">
+                    <a class="nav-link" href="users/">@Utenti</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/channels/">§canali</a>
+                <li class="nav-item navSelectable active">
+                    <a class="nav-link" href="channels/">§canali</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/CHANNELS/">§CANALI</a>
+                <li class="nav-item navSelectable">
+                    <a class="nav-link" href="CHANNELS/">§CANALI</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         Nome Utente
-                        <img src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+                        <img src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle"
+                            style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
                     </a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-          <!-- Sidebar -->
-          <div class="col-md-2 bg-light sidebar" style="position: fixed; height: 100%; overflow: auto;">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <input type="checkbox" name="use_filter_channelNameField" id="use_filter_channelNameField">
-                    <label for="filter_channelNameField">§nomecanale:</label>
-                    <input type="text" id="filter_channelNameField">
-                </li>
-                <li class="nav-item">
-                    <input type="checkbox" name="use_filter_ownerField" id="use_filter_ownerField">
-                    <label for="filter_ownerField">@Username proprietario:</label>
-                    <input type="text" id="filter_ownerField">
-                </li>
-                <li class="nav-item">
-                    <input type="checkbox" name="use_filter_minNPostsField" id="use_filter_minNPostsField">
-                    <label for="filter_minNPostsField">Numero minimo di post:</label>
-                    <input type="number" id="filter_minNPostsField">
-                </li>
-                <li class="nav-item">
-                    <input type="checkbox" name="use_filter_maxNPostsField" id="use_filter_maxNPostsField">
-                    <label for="filter_maxNPostsField">Numero massimo di post:</label>
-                    <input type="number" id="filter_maxNPostsField">
-                </li>
-            </ul>
+    <div class="container-fluid row" style="padding:0px!important; margin:0px!important">
+        <div class="col-md-3 bg-light" id="sidebarOfPage">
+            <!-- Sidebar -->
+            <div>
+                <!-- Titolo che indica la sidebar -->
+                <h3 class="text-center mt-3">Filtri</h3>
 
-            <button id="sendChannelFilterButton">Applica filtro</button>
-          </div>
-        </div>
-      
-        <!-- Main Content -->
-        <div class="col-md-9 offset-md-2">
-            <h1>Main Content</h1>
-            <p>This is the main content.</p>
-            <div id="channelsViewer">
-                
+            </div>
+
+            <hr>
+
+            <div class="" >
+                <div class="mt-2 mb-2 ml-3 mr-3">
+                    <label for="filter_channelNameField">§nomecanale:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="use_filter_channelNameField"
+                                    aria-label="Abilitazione del username per la ricerca"
+                                    id="use_filter_channelNameField">
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="filter_channelNameField"
+                            aria-label="Input per nomecanale">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
+                    <label for="filter_ownerField">@Username proprietario:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="use_filter_ownerField"
+                                    aria-label="Abilitazione del display name per la ricerca"
+                                    id="use_filter_ownerField">
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="filter_ownerField"
+                            aria-label="Input per username proprietario">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
+                    <label for="filter_minNPostsField">Numero minimo di post:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="use_filter_minNPostsField"
+                                    aria-label="Abilitazione del display name per la ricerca"
+                                    id="use_filter_minNPostsField">
+                            </div>
+                        </div>
+                        <input type="number" class="form-control" id="filter_minNPostsField"
+                            aria-label="Input per numero minimo di post">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mt-2 mb-2 ml-3 mr-3">
+                    <label for="filter_maxNPostsField">Numero massimo di post:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="use_filter_maxNPostsField"
+                                    aria-label="Abilitazione del display name per la ricerca"
+                                    id="use_filter_maxNPostsField">
+                            </div>
+                        </div>
+                        <input type="number" class="form-control" id="filter_maxNPostsField"
+                            aria-label="Input per numero massimo di post">
+                    </div>
+                </div>
+
+                <hr>
+
+                <button type="button" class="btn ml-3 mr-3 mb-3" style="background-color: #ffab72;"
+                    id="sendChannelFilterButton">Applica filtro</button>
             </div>
         </div>
 
-      </div>
+        <!-- Main Content -->
+        <div class="col-md-9    " style="padding: 20px">
+            <h1>Canali</h1>
+            <p>Elenco dei canali.</p>
+            <div id="channelsViewer">
 
+            </div>
+        </div>
 
+        <!-- sidebar precedente, commentato per ora / da eliminare
+              <div class="col-md-2 bg-light sidebar" style="position: fixed; height: 100%; overflow: auto;">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <input type="checkbox" name="use_filter_channelNameField" id="use_filter_channelNameField">
+                        <label for="filter_channelNameField">§nomecanale:</label>
+                        <input type="text" id="filter_channelNameField">
+                    </li>
+                    <li class="nav-item">
+                        <input type="checkbox" name="use_filter_ownerField" id="use_filter_ownerField">
+                        <label for="filter_ownerField">@Username proprietario:</label>
+                        <input type="text" id="filter_ownerField">
+                    </li>
+                    <li class="nav-item">
+                        <input type="checkbox" name="use_filter_minNPostsField" id="use_filter_minNPostsField">
+                        <label for="filter_minNPostsField">Numero minimo di post:</label>
+                        <input type="number" id="filter_minNPostsField">
+                    </li>
+                    <li class="nav-item">
+                        <input type="checkbox" name="use_filter_maxNPostsField" id="use_filter_maxNPostsField">
+                        <label for="filter_maxNPostsField">Numero massimo di post:</label>
+                        <input type="number" id="filter_maxNPostsField">
+                    </li>
+                </ul>
+          -->
 
+    </div>
+    </div>
 </body>
+
 </html>
