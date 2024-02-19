@@ -17,11 +17,14 @@ const {
   addPostToChannel,
   findPosts,
   updatePost,
+  createPostBySMM,
   getUserPostsSorted
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
 router.route('/feed/:pageNumber').get(getFeedIds)
+
+router.route('/smm').post(verifyToken, createPostBySMM)
 
 router.route('/test').get(getPosts)
 

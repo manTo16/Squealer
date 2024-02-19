@@ -607,7 +607,54 @@ const getPosts = async (req,res) =>{
   }
 }
 
+const createPostBySMM = async (req,res) =>{
+  try{
+    const {username, text, receivers,smmUsername} = req.body;
+    const user = await User.findOne({username: username});
+    const smm = await User.findOne({username: smmUsername});
+    if (!smm.smmClients.includes(username)) {
+      throw new Error('Not present in client list')
+    }
 
+    const receiversCopy = receivers.filter(checkReceiverSyntax);
+    const mentions = parseTextForMentions(text)
+
+
+    const newPost = new Post({
+      postId: "",
+      username: username,
+      displayName: user.displayName,
+      text: text,
+      receivers: receiversCopy,
+      mentions: mentions
+    })
+    //res.status(400).json({message: JSON.stringify(user.username) })
+    await newPost.save();
+
+    console.log("creato post di ", username, " con destinatari ", receivers, " menzioni ", mentions, " di lunghezza ", text.length)
+
+    /* aggiungi il post ai canali ai quali è destinato */
+    receiversCopy.filter(receiver => receiver[0] === "§").map(async (receiver) => {
+      console.log("createPost filter map receiver: ", receiver)      
+      let channel = await Channel.findOne({channelName: receiver.slice(1)})
+      console.log("createPost filter map channel._id: ", channel?._id)
+      if(channel) {
+        //console.log("createPost sono dentro l'if")
+        console.log("createPost channel: ", channel)
+        console.log("createPost newPost._id: ", newPost._id)
+        channel.postsIds.push(newPost._id)
+        await channel.save()
+      }
+    })
+
+
+
+
+    return res.status(200).json({postId: newPost.postId});
+  } catch(err) {
+    return res.status(409).json({message: err.message})
+  }
+}
 
 
 module.exports = {
@@ -628,5 +675,6 @@ module.exports = {
   addPostToChannel,
   findPosts,
   updatePost,
+  createPostBySMM,
   getUserPostsSorted
 }

@@ -1,10 +1,12 @@
 import Like from "../svg/Reaction/LikeSvg"
 import Heart from "../svg/Reaction/HeartSvg"
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { Icon, LatLngTuple, divIcon } from 'leaflet';
 import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
+import './post.css';
+import { useSpring, animated } from 'react-spring';
+import { View, Pressable, Text, StyleSheet, Animated} from 'react-native';
 import React, { useRef } from "react";
 import { useContext, useEffect, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
@@ -442,31 +444,38 @@ function Post({postId = ""}: {postId?: string}) {
           <Col>
             <ButtonGroup>
               <Button
-              variant="dark"
-              onClick={()=>handleImpressions('veryLike')}
-              disabled={postData.postImpressionChosen === "veryLike"}
-              >
+                className="rotate-animation"
+                variant="dark"
+                onClick={()=>handleImpressions('veryLike')}
+                disabled={postData.postImpressionChosen === "veryLike"}
+              > 
                 <Heart style={{width: '24px', height: '24px'}} /> {postData.postVeryLikesCounter}
               </Button>
 
               <Button
-              variant="dark"
-              onClick={()=>handleImpressions('like')}
-              disabled={postData.postImpressionChosen === "like"}>
+                className="swing-animation"
+                variant="dark"
+                onClick={()=>handleImpressions('like')}
+                disabled={postData.postImpressionChosen === "like"}
+              >
                 <Like style={{width: '24px', height: '24px'}} /> {postData.postLikesCounter}
               </Button>
 
               <Button
-              variant="dark"
-              onClick={()=>handleImpressions('dislike')}
-              disabled={postData.postImpressionChosen === "dislike"}>
+                className="jump-animation"
+                variant="dark"
+                onClick={()=>handleImpressions('dislike')}
+                disabled={postData.postImpressionChosen === "dislike"}
+              >
                 <Dislike style={{width: '24px', height: '24px'}} /> {postData.postDislikesCounter}
               </Button>
 
               <Button
-              variant="dark"
-              onClick={()=>handleImpressions('veryDislike')}
-              disabled={postData.postImpressionChosen === "veryDislike"}>
+                className="shake-animation"
+                variant="dark"
+                onClick={()=>handleImpressions('veryDislike')}
+                disabled={postData.postImpressionChosen === "veryDislike"}
+              >
                 <Heartbreak style={{width: '24px', height: '24px'}} /> {postData.postVeryDislikesCounter}
               </Button>
             </ButtonGroup>
