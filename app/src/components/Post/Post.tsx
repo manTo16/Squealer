@@ -5,8 +5,6 @@ import axios, { AxiosError } from "axios"
 import { apiPostsURL, apiUsersURL } from "../../URLs"
 
 import './post.css';
-import { useSpring, animated } from 'react-spring';
-import { View, Pressable, Text, StyleSheet, Animated} from 'react-native';
 import React, { useRef } from "react";
 import { useContext, useEffect, useState } from "react"
 import { Collapse, Stack } from "react-bootstrap"
