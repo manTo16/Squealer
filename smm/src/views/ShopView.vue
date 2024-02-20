@@ -5,7 +5,7 @@
       <div class="text-2xl font-bold mb-2">Compra caratteri extra per il tuo vip!</div>
       <div>Pacchetto  SMM:</div>
       <ul>
-        <li>+100 caratteri giornalieri</li>
+        <li>+150 caratteri giornalieri</li>
         <li>+500 caratteri settimanali</li>
         <li>+1000 caratteri mensili</li>
       </ul>
@@ -20,22 +20,24 @@
 import { apiUsersURL } from '@/URLs'
 export default {
   setup(){
+    const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+    if (!isUserLoggedIn) router.push('login')
     const username = JSON.parse(localStorage.getItem('selected-vip')).username || ''
     let vipDailyCh = JSON.parse(localStorage.getItem('selected-vip')).dailyChar || 0
     let vipWeeklyCh = JSON.parse(localStorage.getItem('selected-vip')).weeklyChar || 0
     let vipMonthlyCh = JSON.parse(localStorage.getItem('selected-vip')).monthlyChar || 0
     const handleBuy = async (username) =>{
-      vipDailyCh+=100
+      vipDailyCh+=150
       vipWeeklyCh+=500
       vipMonthlyCh+=1000
       try {
-        const response = await fetch(apiUsersURL+'/'+username,{
+        const response = await fetch(apiUsersURL+'/'+username+'/characters',{
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            dailyChar: vipDailyCh, weeklyChar:vipWeeklyCh, monthlyChar: vipMonthlyCh
+            daily: 150, weekly: 500, monthly: 1000
           })
         })
         if (response.ok) {

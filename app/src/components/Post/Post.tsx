@@ -76,8 +76,12 @@ function Post({postId = ""}: {postId?: string}) {
               postViews: loadedPostData.impressions.views.number
           })
 
-          if (isBase64(loadedPostData.text)) {  // se è un'immagine
+          if (isBase64Image(loadedPostData.text)) {  // se è un'immagine
             setIsPostBodyAnImg(true);
+          }
+
+          if (isBase64Video(loadedPostData.text)) {
+            setIsPostBodyAVideo(true)
           }
           
           if (isCoordinates(loadedPostData.text)) { // se è una geolocalizzazione
@@ -136,8 +140,12 @@ function Post({postId = ""}: {postId?: string}) {
     return regex.test(str);
   }
 
-  function isBase64(str: string) {
+  function isBase64Image(str: string) {
     return str.startsWith('data:image/');
+  }
+
+  function isBase64Video(str: string) {
+    return str.startsWith('data:video/');
   }
 
   const [showReceivers, setShowReceivers] = useState(false)
@@ -245,8 +253,9 @@ function Post({postId = ""}: {postId?: string}) {
       a causa del comportamento degli stati in React: per poter vedere il nuovo
       valore di uno stato, bisogna aspettare che il componente venga ri-renderizzato
       quindi svolgere queste azioni all'interno della stessa funzione in cui si
-      aggiorna lo stato causa il loro svolgimento col valore precedente dello stato.
-      metterle qui dentro ci assicura che lo stato sia effettivamente aggiornato */
+      aggiorna lo stato causa il lo  function isBase64Image(str: string) {
+    return str.startsWith('data:image/');
+  }ra che lo stato sia effettivamente aggiornato */
   useEffect(() => {
     if (chosenReaction !== ReactionType.Default) sendReaction(chosenReaction)
 
@@ -402,6 +411,10 @@ function Post({postId = ""}: {postId?: string}) {
                 />
                 </Figure>
                 </div>
+              ) : isPostBodyAVideo ? (
+                <div className="d-flex align-items-center justify-content-center bg-black rounded">
+                <video controls src={postData.postText} className="w-100"></video>
+                </div>
               ) : isPostBodyAGeolocation ? (
                 <>
                   <Map 
@@ -415,18 +428,18 @@ function Post({postId = ""}: {postId?: string}) {
                   if (mentionsRegex.test(word)) {
                       // Resetta l'espressione regolare
                       mentionsRegex.lastIndex = 0;
-                      return (<>
-                          <Button key={index} variant="dark" onClick={() => {navigate(generateAddressURL(word))}}>
+                      return (<React.Fragment key={index}>
+                          <Button variant="dark" onClick={() => {navigate(generateAddressURL(word))}}>
                               {word}
-                          </Button><span> </span></>
+                          </Button><span> </span></React.Fragment>
                       );
                   } else if (urlRegex.test(word)) {
                       // Resetta l'espressione regolare
                       urlRegex.lastIndex = 0;
-                      return (<>
-                          <Link key={index} to={word.startsWith("http") ? word : `https://${word}`}>
+                      return (<React.Fragment key={index}>
+                          <Link to={word.startsWith("http") ? word : `https://${word}`}>
                               {word}
-                          </Link> <span> </span></>
+                          </Link> <span> </span></React.Fragment>
                       );
                   } else {
                     return word + ' ';
@@ -503,7 +516,7 @@ function Post({postId = ""}: {postId?: string}) {
         <div style={{borderLeft: "5px solid gray"}}>
 
         <div className="mx-1">risposte</div>
-        <div><Feed postRepliesId={(postId === 'getFromUrl' ? id : postId)} handleNumberOfReplies={handleRepliesNumber}></Feed></div>
+        <div><Feed postRepliesId={(postId === 'getFromUrl' ? id : postId)} handleNumberOfReplies={handleRepliesNumber} /></div>
         </div>
       </Collapse>
     </div>

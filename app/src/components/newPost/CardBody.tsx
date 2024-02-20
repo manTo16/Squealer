@@ -50,6 +50,15 @@ export default function CardBody({
     onInputChange({ target: { value: convertedImage } } as React.ChangeEvent<HTMLTextAreaElement>);
   }
 
+  const handleVideoUpload = async (e:React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files == null) return;
+    const file = e.target.files[0];
+    const convertedVideo: any = await convertToBase64(file)
+    console.log(convertedVideo.slice(0,100))
+    // setUserImage(convertedImage)
+    onInputChange({ target: { value: convertedVideo } } as React.ChangeEvent<HTMLTextAreaElement>);
+  }
+
   const [imageSrc, setImageSrc] = useState(''); 
 
 
@@ -167,6 +176,7 @@ export default function CardBody({
           type="file" 
           multiple 
           accept="video/*" // Accetta solo file video MP4
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleVideoUpload(e)}
         />
       </Form.Group>
     );

@@ -319,7 +319,7 @@ export default function Feed({channelName="",
            ( !postRepliesId ? 
             (
                 <div ref={loader} className="mt-5">
-                    <p style={{ color: '#030303' }}>fondo della pagina</p>
+                    <p style={{ color: '#030303' }}>-</p>
                     {/* qua ci si può mettere qualcosa per far vedere che si è arrivati in fondo alla pagina. 
                     ma sinceramente lo lascerei vuoto perchè rischiamo di mettere uno spinner che va 
                     all'infinito visto che non ci sono controlli per ora che ti dicono se i post 

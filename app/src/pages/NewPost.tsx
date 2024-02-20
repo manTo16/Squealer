@@ -167,6 +167,13 @@ export default function NewPostPage() {
         console.log('An empty string was passed');
       }
     } else if (Type === 'mp4') {
+      if (inputText.length > 0) { // se è stato incollato un immagine
+        setCharCount(125);        // imposto il numero di caratteri usati a 125
+        setText(inputText)
+      } else if (inputText.length === 0) { // se è stato cancellato il contenuto
+        setCharCount(0);
+        console.log('An empty string was passed');
+      }
     } else if (Type === 'gps') {
       setCharCount(125);        // imposto il numero di caratteri usati a 125
       setText(inputText)

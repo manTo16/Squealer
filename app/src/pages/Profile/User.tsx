@@ -115,7 +115,8 @@ export default function UserPage ({
     userImage: "",
     dailyChar: 0,
     weeklyChar: 0,
-    monthlyChar: 0
+    monthlyChar: 0,
+    pro: false
   })
 
   const [reactionType, setReactionType] = useState(ReactionType.Default)
@@ -167,11 +168,11 @@ export default function UserPage ({
       (
       userDetails.personalSMM === username ? 
         (
-        <Button onClick={() => removeSMM()}>licenzia schiavo</Button>
+        <Button variant="outline-light" onClick={() => removeSMM()}>licenzia schiavo</Button>
         ) :
-      (isLoggedIn && username && userDetails.username != username)?   //va mostrato solo a chi è loggato e solo se non ci si trova in /profile (username è nei parametri url)
+      (isLoggedIn && username && userDetails.username != username && userDetails.pro && userData.pro)?   //va mostrato solo a chi è loggato e solo se non ci si trova in /profile (username è nei parametri url) e solo se entrambi gli utenti sono pro
         (
-        <Button onClick={() => sendSMMRequest()}>ti prego diventa il mio manager</Button>
+        <Button variant="outline-light" onClick={() => sendSMMRequest()}>ti prego diventa il mio manager</Button>
         ) :
         <></>
       )}

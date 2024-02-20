@@ -117,7 +117,9 @@ async function fetchNews() {
     const response = await fetch(url[randomIndex])
     const data = await response.json()
 
-    const postText = data["articles"][0]["title"] + "   " + data["articles"][0]["url"]
+    const selectedArticle = Math.floor(Math.random() * data["articles"].length)
+
+    const postText = data["articles"][selectedArticle]["title"] + "   " + data["articles"][0]["url"]
 
     return postText;
 }
@@ -153,8 +155,7 @@ function startTimers() {
 
     setInterval(makeNewCatPost, n_minuti * 60 * 1000)
     setInterval(makeLoremPicsumPost, n_minuti * 60 * 1000)
-    setInterval(makeNewsPost, n_minuti * 60 * 1000)
-
+    //setInterval(makeNewsPost, n_minuti * 60 * 1000)
 
 }
 
