@@ -126,7 +126,11 @@ const ChannelPage: React.FC = () => {
           }    
         </div>
         <div className='d-flex flex-column text-wrap bg-dark p-2'>
-          <p className='b-1 m-0  border border-light rounded p-1'><i>{channelData.description}</i></p>
+          { channelData.description.length > 0 ? (
+            <p className='b-1 m-0  border border-light rounded p-1'><i>{channelData.description}</i></p>
+          ) : (
+            <></>
+          )}
           <div className='d-flex ms-auto mt-2 align-items-center'>
             { subReqIsLoading ? (
                 <Spinner animation="border" role="status">
@@ -134,6 +138,7 @@ const ChannelPage: React.FC = () => {
                 </Spinner>
               ) : (
                 userDetails.channels.includes(channelName ?? "") ? (
+                  // disiscriviti
                   <Button
                     onClick={sendUnSubRequest}
                     variant='outline-danger'
@@ -144,17 +149,21 @@ const ChannelPage: React.FC = () => {
                       <IconBxsUserMinus className='d-flex align-items center'/>
                     </span>
                   </Button>
-                ) : (
-                  <Button 
-                    onClick={sendSubRequest}
-                    variant='outline-success'
-                    className='ms-auto'
-                  >
-                    Iscriviti
-                  </Button>
-                )
-              )
-            }
+                  ) : (
+                    channelName === (channelName?.toUpperCase() ?? "") ? (
+                      <></>
+                    ) : (
+                    // iscriviti
+                    <Button 
+                      onClick={sendSubRequest}
+                      variant='outline-success'
+                      className='ms-auto'
+                    >
+                      Iscriviti
+                    </Button>                  
+                    )
+                  )
+                )}
           </div>
         </div>
         <div className='bg-black'></div>

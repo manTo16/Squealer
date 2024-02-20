@@ -126,7 +126,9 @@ function App() {
         (
           <>
           <Col xs={0} lg={2} className='d-none d-lg-block'>
-            <UserInfo />
+            <div style={{height: window.innerHeight - navbarHeight - bottombarHeight - 10}}>
+              <UserInfo />
+            </div>
           </Col>
            <Col xs={0} xxl={1}>
             <></>
