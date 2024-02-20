@@ -138,7 +138,7 @@ export default function SearchBarPopup({show, handleShow, queryValue="", setQuer
             <Card 
               className="m-1" 
               onClick={() => {
-                navigate(generateAddressURL(result)) 
+                navigate(generateAddressURL(result))
                 handleShow(false)}}>
               <Card.Body>
                 {result}

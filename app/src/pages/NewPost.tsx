@@ -425,7 +425,7 @@ export default function NewPostPage() {
           <Card bg='dark' text='white' className="mt-3">
             <Card.Header>
             <div className="tags">
-              <Stack direction="horizontal" gap={2}>
+              <Stack direction="horizontal" className="d-flex flex-wrap" gap={2}>
                 <img src={`${userDetails.userImage}`} alt="user profile picture" width={50} className="rounded-circle"/>
                 <span className="p-2 displayedName">{userDetails.displayName}</span>
                 <span className="p-2 tagName">{'@'+userDetails.username}</span>

@@ -3,6 +3,7 @@ import Options from "./Options";
 import Feed from "@components/Feed/Feed";
 import User from "./User";
 import Utente from "./User";
+import { generateAddressURL } from "@utils/URLs"
 import { useNavigate, useParams } from "react-router-dom"
 // import ChannelsList from "./ChannelsList";
 import Button from 'react-bootstrap/Button';
@@ -100,10 +101,12 @@ export default function ProfileSide({
                     <Row xs={1} md={2} className="g-4">
                     {displayedChannels.map((channelName, index) =>
                         <Col key={index}>
-                        <Card bg="dark" border="success" text="white">
+                        <Card bg="dark" border="success" text="white"
+                            onClick={() => {navigate(`/channels/${channelName}`)}}>
                             <Card.Body>
                             <Card.Title>
                                 <span >{channelName}</span> 
+                                <hr className="my-2"/>
                                 {channelsData && ( channelsData[channelName]?.usernames.owners.includes(userDetails.username) || channelsData[channelName]?.usernames.owners.length === 0) && <Badge pill className="m-1" bg="success">Proprietario</Badge>}
                                 {channelsData && ( channelsData[channelName]?.usernames.writers.includes(userDetails.username) || channelsData[channelName]?.usernames.writers.length === 0) && <Badge pill className="m-1" bg="warning" text="dark">Scrittore</Badge>}
                                 {channelsData && ( channelsData[channelName]?.usernames.readers.includes(userDetails.username) || channelsData[channelName]?.usernames.readers.length === 0) && <Badge pill className="m-1" bg="primary">Lettore</Badge>}  
