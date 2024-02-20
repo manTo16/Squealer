@@ -168,13 +168,13 @@ const ChannelPage: React.FC = () => {
         </div>
         <div className='bg-black'></div>
 
-        {(channelData && !channelData.usernames.readers.includes(userDetails.username)) && (
+        {(channelData && !channelData.usernames.readers.includes(userDetails.username) && channelData.usernames.readers.length !== 0) && (
           <>
           <p>§{channelData.channelName} è un canale privato!</p>
           </>
         )}
         
-        { (channelData && channelData.usernames.readers.includes(userDetails.username)) && (
+        { (channelData && (channelData.usernames.readers.includes(userDetails.username) || channelData.usernames.readers.length === 0 ) ) && (
           <Feed channelName={channelName} />
         )}
     </div>
