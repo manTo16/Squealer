@@ -136,6 +136,7 @@ const ChannelPage: React.FC = () => {
                 </Spinner>
               ) : (
                 userDetails.channels.includes(channelName ?? "") ? (
+                  // disiscriviti
                   <Button
                     onClick={sendUnSubRequest}
                     variant='outline-danger'
@@ -146,17 +147,21 @@ const ChannelPage: React.FC = () => {
                       <IconBxsUserMinus className='d-flex align-items center'/>
                     </span>
                   </Button>
-                ) : (
-                  <Button 
-                    onClick={sendSubRequest}
-                    variant='outline-success'
-                    className='ms-auto'
-                  >
-                    Iscriviti
-                  </Button>
-                )
-              )
-            }
+                  ) : (
+                    channelName === (channelName?.toUpperCase() ?? "") ? (
+                      <></>
+                    ) : (
+                    // iscriviti
+                    <Button 
+                      onClick={sendSubRequest}
+                      variant='outline-success'
+                      className='ms-auto'
+                    >
+                      Iscriviti
+                    </Button>                  
+                    )
+                  )
+                )}
           </div>
         </div>
         <div className='bg-black'></div>

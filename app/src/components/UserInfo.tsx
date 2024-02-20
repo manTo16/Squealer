@@ -32,7 +32,7 @@ function UserInfo() {
   }, [userDetails.debtChar])  // da cambiare con qualcosa che si aggiorna quando logghi
 
   return (
-    <Container className="bg-dark p-2 rounded-bottom">
+    <div className="bg-dark p-2 content-wrapper h-100 rounded-bottom">
       <Row>
         <Col lg={12} xs={0}>
           <Button 
@@ -91,7 +91,7 @@ function UserInfo() {
       )}
       <hr/>
         <ThirdColumn />
-    </Container>
+    </div>
   )
 }
 

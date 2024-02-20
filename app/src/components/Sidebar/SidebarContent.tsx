@@ -142,26 +142,15 @@ export default function SidebarContent(
           </>
           ):
         (
-        <>
-        <Button variant="outline-light m-1">
-          § TRENDING
-        </Button>
-        <Button variant="outline-light m-1">
-          § NEWS
-        </Button>
-        <Button variant="outline-light m-1">
-          § WIKI-RAND-PG
-        </Button>
-        <Button variant="outline-light m-1">
-          cronologia
-        </Button>
-        <hr />
-          
-        </>
-        )
-        }
-       
+          <>
+            <Button variant="outline-light m-1">§ TRENDING</Button>
+            <Button variant="outline-light m-1">§ NEWS</Button>
+            <Button variant="outline-light m-1">§ WIKI-RAND-PG</Button>
+            <Button variant="outline-light m-1">cronologia</Button>
+            <hr />
+          </>
+        )}
       </div>
-  </div>
+    </div>
   )
 }
