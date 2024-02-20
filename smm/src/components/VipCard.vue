@@ -19,12 +19,17 @@
         <div>{{ vipdata.weeklyChar }}</div>
         <div>{{ vipdata.monthlyChar }}</div>
       </div>
-      <button class="bg-emerald-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 my-8" @click="handleShopRequest">
-        Compra caratteri per {{ vipdata.username }}
-      </button>
-      <button class="bg-emerald-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50">
-        Posta per conto di {{ vipdata.username }}
-      </button>
+      <div class="flex flex-col">
+        <button @click="switchDisplay('feed')" class="bg-emerald-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 mt-8">
+          Mostra post di {{ vipdata.username }}
+        </button>
+        <button @click="switchDisplay('post')" class="bg-emerald-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 mt-8">
+          Posta per conto di {{ vipdata.username }}
+        </button>
+        <button class="bg-emerald-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 mt-8" @click="handleShopRequest">
+          Compra caratteri per {{ vipdata.username }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -44,6 +49,9 @@ export default {
   methods:{
     handleShopRequest(){
       this.$router.push({ name: 'shop' });
+    },
+    switchDisplay(display){
+      this.$emit('switch-display',display)
     }
   }
 };

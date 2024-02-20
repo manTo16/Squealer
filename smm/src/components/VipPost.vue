@@ -18,9 +18,9 @@
       hover:file:bg-emerald-100">
     </div>
     <div v-else-if="postMode === 'location'">
-      <!-- Campo per la geolocazione -->
-      <!-- Sostituisci questo div con il componente per la geolocazione -->
-      <div class="mb-4">Campo per la geolocazione</div>
+      <div class="mb-4">
+        <InputMap @position-selected="handlePositionSelection" />
+      </div>
     </div>
     <div class="flex flex-col mb-4">
       <div v-for="(recipient, index) in recipients" :key="index" class="flex items-center mb-2">
@@ -39,17 +39,25 @@
 <script>
 import { apiPostsURL } from '@/URLs';
 import convertToBase64 from '@/composables/convertToBase64';
+import InputMap from './InputMap.vue';
 
 export default {
+  components: {
+    InputMap
+  },
   data() {
     return {
       postMode: 'text', // Modalità predefinita: testo
       postText: '',
       characterCount: 0,
-      recipients: [''] 
+      recipients: [''],
+      position: null
     };
   },
   methods: {
+    handlePositionSelection(obj){
+      this.postText = `${obj.lat}, ${obj.lng}`
+    },
     updateCharacterCount() {
       this.characterCount = this.postText.length;
     },
@@ -76,6 +84,7 @@ export default {
           recipients: this.recipients.filter(recipient => recipient.trim() !== '') // Rimuove i destinatari vuoti
         };
         console.log("Post inviato:", postData);
+        if (response.ok) alert('Post creato con successo')
       }catch(err){
         console.log(err)
       }
