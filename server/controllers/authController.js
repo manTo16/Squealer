@@ -8,6 +8,7 @@ const { registrationDailyChars, registrationWeeklyChars, registrationMonthlyChar
 const register = async (req,res) => {
   const {username,email,displayName,password,userImage}=req.body;
   const isSmm = req.body.smm === true;
+  const isPro = req.body.pro === true;
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password,salt);
   const userThumbnail = await resizeBase64Image(userImage, 32, 32)
@@ -21,7 +22,8 @@ const register = async (req,res) => {
     dailyChar: registrationDailyChars,
     weeklyChar: registrationWeeklyChars,
     monthlyChar: registrationMonthlyChars,
-    smm: isSmm || false
+    smm: isSmm || false,
+    pro: isPro || false
   })
   try{
     const newUser = await user.save()

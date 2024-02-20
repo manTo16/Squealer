@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-10 mt-50">
+  <div class="ml-5 mt-50">
     <Suspense>
       <template #default>
         <Post v-for="post in posts" :key="post" :postId="post"/> 
@@ -26,7 +26,6 @@ export default {
   },
   setup(props) {
     const posts = ref([]);
-    console.log(props.repliesTo)
     const loadReplies = async () => {
       if (props.repliesTo) {
         try {

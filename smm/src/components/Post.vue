@@ -27,11 +27,11 @@
           <BrokenHeartSvg class="ml-5 m-1" />
           <p v-if="postData.impressions && postData.impressions.veryDisikes && postData.impressions.veryDisikes.number">{{ postData.impressions.veryDislikes.number }}</p>
           <p v-else>0</p>
-          <button class="ml-auto border border-black rounded-full px-2 py-1" @click="HandleShowReplies" v-if="replies">Mostra {{ replies }} risposte</button>
+          <button class="ml-auto border border-black rounded-full px-2 py-1" @click="HandleShowReplies" v-if="replies">Toggle Risposte ({{ replies }})</button>
         </div>
       </div>
     </div>
-    <RepliesFeed  v-if="showReplies" :repliesTo="id"/>
+    <RepliesFeed v-if="showReplies" :repliesTo="id" :key="id"/>
   </div>
 </template>
 
@@ -44,7 +44,7 @@ import ThumbsUpSvg from './svg/ThumbsUpSvg.vue';
 import ViewsSvg from './svg/ViewsSvg.vue';
 import HeartSvg from './svg/HeartSvg.vue';
 import Map from './Map.vue';
-//import Feed from './Feed.vue'
+import RepliesFeed from './RepliesFeed.vue'
 
 export default {
   props: {
@@ -57,7 +57,7 @@ export default {
     ViewsSvg,
     HeartSvg,
     Map,
-    RepliesFeed: () => import('@/components/RepliesFeed.vue')
+    RepliesFeed
   },
   setup(props){
     const showReplies = ref(false)
@@ -96,12 +96,15 @@ export default {
         console.log(err)
       }
     }
-
+    
     loadPost()
-
+    
+    
     const HandleShowReplies = () => {
       showReplies.value = !showReplies.value
     }
+
+
 
     return{
       postData, type, showReplies, HandleShowReplies, replies, id

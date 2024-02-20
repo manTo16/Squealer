@@ -53,8 +53,10 @@ export default {
     handleSwitch(display){
       this.display = display
     },
-    handleRefresh(){
-      this.cardKey++
+    handleRefresh(username){
+      this.handleSelection(username)
+      this.cardKey++; 
+
     }
   },
   setup(){
