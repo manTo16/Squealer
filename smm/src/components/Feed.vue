@@ -1,46 +1,71 @@
 <template>
-  <div class="m-10 mt-20 w-5/12">
-    <Post v-for="post in posts" :key="post._id" :post="post"/> 
-    <button v-if="currentPage < totalPages" @click="loadMorePosts">Carica più post</button>
+  <div class="mx-10 mt-50">
+    <Suspense>
+      <template #default>
+        <Post v-for="post in posts" :key="post" :postId="post"/> 
+      </template>
+      <template #fallback>
+        <!-- Fallback content while the component is loading -->
+        <div>Caricamento in corso...</div>
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script>
 import Post from './Post.vue';
+import { apiPostsURL } from '@/URLs';
+import { defineAsyncComponent, ref } from 'vue';
+
 
 export default {
   components: {
-    Post,
+    Post: defineAsyncComponent(() => import('./Post.vue'))
+  },
+  props:{
+    query: String,
+    repliesTo: String
   },
   data() {
     return {
-      posts: [],
-      currentPage: 1,
-      totalPages: 1,
     };
   },
-  methods: {
-    async loadPosts(page) {
-      const limit = 10; 
-      const apiUrl = `http://localhost:3001/posts/test?page=${page}&limit=${limit}`;
-
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-
-        this.posts = this.posts.concat(data.posts);
-        this.currentPage = data.currentPage;
-        this.totalPages = data.totalPages;
-      } catch (error) {
-        console.error('Errore durante il recupero dei post:', error);
+  setup(props){
+    const username = JSON.parse(localStorage.getItem('selected-vip')).username || ''
+    const posts = ref([])
+    console.log(props.query)
+    if(props.query){
+      const loadUserPosts = async () => {
+        try {
+          const response = await fetch(apiPostsURL+`/user/sortBy/${username}/${props.query}`);
+          if (response.ok) {
+            const data = await response.json()
+            posts.value = data
+          }
+        } catch (err) {
+          console.error('Errore durante il recupero dei post utente:', err);
+        }
       }
-    },
-    loadMorePosts() {
-      this.loadPosts(this.currentPage + 1);
-    },
-  },
-  mounted() {
-    this.loadPosts(this.currentPage);
-  },
+      loadUserPosts()
+    }
+    else{
+      const loadReply = async () => {
+        try{
+          const response = await fetch(apiPostsURL+`/${props.repliesTo}/replies`);
+          if (response.ok) {
+            const data = await response.json()
+            posts.value = data
+          }
+        }catch(err){
+          console.log(err)
+        }
+      }
+      loadReply()
+    }
+    return{
+    posts
+  }
+    
+  }
 };
 </script>
