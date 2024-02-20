@@ -462,7 +462,7 @@ const findPosts = async (req,res) =>{
     if (squealContains)
       query.text = { 
         $regex: new RegExp(squealContains, 'i'),
-        $not: /^data:image\//i
+        $not: /^data:(image|video)\//i
       }
 
     if (receiver.length !== 0) {

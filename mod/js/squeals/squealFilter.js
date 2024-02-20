@@ -80,8 +80,12 @@ function isCoordinates(str) {
 }
 
 // Funzione per verificare se una stringa è un'immagine in base64
-function isBase64(str) {
+function isBase64Image(str) {
     return str.startsWith('data:image/');
+}
+
+function isBase64Video(str) {
+    return str.startsWith('data:video/');
 }
 
 export async function displayGeoMap() {
@@ -204,7 +208,7 @@ export async function displaySqueals(squealIds) {
             mapField.appendChild(mapDiv);
 
             squealWrapper.appendChild(mapField);
-        } else if (isBase64(squealData.text)) {
+        } else if (isBase64Image(squealData.text)) {
             let imgField = createContentField("Contenuto Squeal: ", "");
             imgField.removeChild(imgField.querySelector("p"));
             const img = document.createElement("img");
@@ -214,6 +218,18 @@ export async function displaySqueals(squealIds) {
             img.style.marginBottom = "10px";
             imgField.appendChild(img);
             squealWrapper.appendChild(imgField);
+        }
+        else if (isBase64Video(squealData.text)) {
+            let videoField = createContentField("Contenuto Squeal: ", "");
+            videoField.removeChild(videoField.querySelector("p"));
+            const video = document.createElement("video");
+            video.setAttribute("controls", "true")
+            video.src = squealData.text;
+            video.style.width = "100%";
+            video.style.height = "auto";
+            video.style.marginBottom = "10px";
+            videoField.appendChild(video);
+            squealWrapper.appendChild(videoField);
         }
         else {
             squealWrapper.appendChild(createContentField("Contenuto Squeal: ", squealData.text))
