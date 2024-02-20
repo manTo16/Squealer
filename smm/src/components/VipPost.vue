@@ -37,9 +37,10 @@
 </template>
 
 <script>
-import { apiPostsURL } from '@/URLs';
+import { apiPostsURL, apiUsersURL } from '@/URLs';
 import convertToBase64 from '@/composables/convertToBase64';
 import InputMap from './InputMap.vue';
+import getUserData from '@/composables/getUserData';
 
 export default {
   components: {
@@ -51,7 +52,8 @@ export default {
       postText: '',
       characterCount: 0,
       recipients: [''],
-      position: null
+      position: null,
+      chCount: 0
     };
   },
   methods: {
@@ -68,6 +70,16 @@ export default {
       this.recipients.splice(index, 1);
     },
     async postTweet() {
+      if(this.vipDebtCh>0){
+        alert("Vip in debito di caratteri!")
+        return
+      }
+      if (this.postMode === 'location' || this.postMode === 'image'){
+        this.chCount = 125
+      }
+      else {
+        this.chCount = this.characterCount
+      }
       try{
         const response = await fetch(apiPostsURL+'/smm',{
           method: "POST",
@@ -76,15 +88,24 @@ export default {
             "Authorization": `Bearer ${this.userToken}` 
           },
           body:JSON.stringify({username: this.username, text: this.postText, receivers: this.recipients.filter(recipient => recipient.trim() !== ''), smmUsername: this.smmUsername})
+        }).then(async ()=>{
+          console.log('sei qui ch: '+ (-this.chCount))
+          const responseCh = await fetch(apiUsersURL+'/'+this.username+'/characters',{
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({  
+            daily: -this.chCount, weekly: -this.chCount, monthly: -this.chCount
+          })
+          })
+
+        }).then(alert('Post creato con successo')).then(getUserData(this.username)).catch((err)=>{
+          console.log(err)
         })
-        //debug
-        const postData = {
-          mode: this.postMode,
-          text: this.postText,
-          recipients: this.recipients.filter(recipient => recipient.trim() !== '') // Rimuove i destinatari vuoti
-        };
-        console.log("Post inviato:", postData);
-        if (response.ok) alert('Post creato con successo')
+        this.$emit('refresh-card')
+
+
       }catch(err){
         console.log(err)
       }
@@ -108,9 +129,10 @@ export default {
   },
   setup(){
     const username = JSON.parse(localStorage.getItem('selected-vip')).username || ''
+    let vipDebtCh  = JSON.parse(localStorage.getItem('selected-vip')).debtChar || 0
     const smmUsername = JSON.parse(localStorage.getItem('user')).username || ''
     const userToken = localStorage.getItem('token') || ''
-    return {username, userToken,smmUsername}
+    return {username, userToken,smmUsername, vipDebtCh}
   }
 }
 </script>

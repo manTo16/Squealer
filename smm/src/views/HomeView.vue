@@ -4,8 +4,8 @@
     <div class="flex flex-1 ">
       <Sidebar @vip-selected="handleSelection"/>
       <VipHistory :key="vipKey" v-if="display==='feed'" />
-      <VipPost v-if="display==='post'" />
-      <VipCard v-if="vipdata" :vipdata="vipdata" @switch-display="handleSwitch"/>
+      <VipPost @refresh-card="handleRefresh" v-if="display==='post'" />
+      <VipCard v-if="vipdata" :vipdata="vipdata" :key="cardKey" @switch-display="handleSwitch"/>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@ import VipCard from '@/components/VipCard.vue'
 import getUserData from '@/composables/getUserData.js'
 import VipPost from '@/components/VipPost.vue';
 import VipHistory from '@/components/VipHistory.vue'
+import router from '@/router';
 
 export default {
   name: 'HomeView',
@@ -25,7 +26,8 @@ export default {
     return{
       vipdata: null,
       display: '',
-      vipKey: 0
+      vipKey: 0,
+      cardKey: 0
     };
   },
   components: {
@@ -50,7 +52,14 @@ export default {
     },
     handleSwitch(display){
       this.display = display
+    },
+    handleRefresh(){
+      this.cardKey++
     }
+  },
+  setup(){
+    const isUserLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+    if (!isUserLoggedIn) router.push('login')
   }
 }
 </script>

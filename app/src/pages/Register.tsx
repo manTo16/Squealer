@@ -20,7 +20,14 @@ export default function Register() {
   const [confirmPassword,setConfirmPassword]=useState('')
   const [userImage,setUserImage]=useState('')
   const navigate = useNavigate()
-  const [error, setError] = useState(false);
+
+
+  const [usernameError, setUsernameError] = useState(false)
+  const [usernameExistsError, setUsernameExistsError] = useState(false);
+  const [passwordMatchError, setPasswordMatchError] = useState(false);
+  const [passwordLengthError, setPasswordLengthError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [nameError, setNameError] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -37,10 +44,38 @@ export default function Register() {
 
   const handleSubmit = (e:React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
+
+    let errorFound = false;
+
+    // Controllo dei campi - password, email, username
     if (password!==confirmPassword){
-      setError(true)
-      return;
+      setPasswordMatchError(true)
+      errorFound = true;
     }
+    if (password.length<8){
+      setPasswordLengthError(true)
+      errorFound = true;
+    }
+    if(!email.includes('@' && '.')){
+      setEmailError(true)
+      errorFound = true;
+    }
+    // username senza spazi e con solo caratteri alfanumerici e più lungo di 3 caratteri
+    if( !/^[a-zA-Z0-9_]*$/.test(username) || username.length<3){
+      setUsernameError(true)
+      errorFound = true;
+    }
+    // nome senza spazi e con solo caratteri alfanumerici e più lungo di 3 caratteri
+    if( !/^[a-zA-Z0-9_]*$/.test(displayName) || displayName.length<3 ){
+      setNameError(true)
+      errorFound = true;
+    }
+
+
+    if (errorFound) return; // Evitiamo di fare la richiesta se ci sono errori
+
+
+
     axios.post(apiAuthURL+'/register', {username,displayName,email,password, userImage })
     .then(()=>{
       alert('Success!')
@@ -51,7 +86,19 @@ export default function Register() {
       setConfirmPassword('')
       setUserImage('')
       navigate('/login')
-    }).catch((err)=>console.log(err))
+    }).catch((err)=> {
+      console.log(err)
+      
+      // Your error handling logic
+      if (err?.response?.data?.message && typeof err.response.data.message === 'string') {
+        if (err.response.data.message.includes('E11000')) {
+          setUsernameExistsError(true);
+        }
+      } else {
+        // Handle nel caso di altri errori ancora
+        console.error("An unexpected error occurred", err);
+      }
+    })
   }
 
   const handleImageUpload = async (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +129,7 @@ export default function Register() {
                 <InputGroup className='mb-3 w-80'>
                     <Form.Control 
                       autoFocus
-                      onChange={(e)=>setDisplayName(e.target.value)}
+                      onChange={(e)=>{setDisplayName(e.target.value); setNameError(false)}}
                       value={displayName}
                       placeholder="type displayed name here"
                       aria-label="username"/>
@@ -94,47 +141,52 @@ export default function Register() {
                 <InputGroup className='mb-3'>
                   <InputGroup.Text>@</InputGroup.Text>
                   <Form.Control
-                    onChange={(e)=>setUsername(e.target.value)}
+                    onChange={(e)=>{setUsername(e.target.value); setUsernameError(false); setUsernameExistsError(false)}}
                     value={username}
                     placeholder="type username here"
                     aria-label="username"/>
                 </InputGroup>
               </Col>
+                { usernameError ? ( <><p className='text-danger'>L'username deve essere lungo 3 caratteri e contenere solo caratteri alfanumerici </p></> ) :( <></> ) }
+                { usernameExistsError ? ( <><p className='text-danger'>L'username è già in uso, scegline un altro</p></> ) :( <></> ) }
+                { nameError ? ( <><p className='text-danger'>Il nome deve essere lungo 3 caratteri e contenere solo caratteri alfanumerici </p></> ) :( <></> )}
             </Row>
             <Form.Label> La tua email </Form.Label>
             <InputGroup className='mb-3'>
                 <Form.Control 
-                  onChange={(e)=>setEmail(e.target.value)}
+                  onChange={(e)=>{setEmail(e.target.value); setEmailError(false)}}
                   value={email}
                   isInvalid={email.length>0 && !email.includes('@' && '.') }
                   placeholder="type email here"
                   aria-label="email"/>
             </InputGroup>
+                { emailError ? ( <><p className='text-danger'>L'email non è scritta correttamente</p></> ) :( <></> ) }
             <Row>
               <Col>
                 <Form.Label> Crea una password </Form.Label>
                 <InputGroup className='mb-3'>
                     <Form.Control
-                      onChange={(e)=>setPassword(e.target.value)}
+                      onChange={(e)=>{setPassword(e.target.value); setPasswordLengthError(false); setPasswordMatchError(false);}}
                       value={password}
-                      isInvalid={error || (password.length>0 && password.length<8) }
+                      isInvalid={passwordMatchError || passwordLengthError || (password.length>0 && password.length<8)  }
                       placeholder="type password here"
                       aria-label="password"
                       type='password'/>
                 </InputGroup>
-                { error ? ( <><p className='text-danger'>Le password non corrispondono</p></> ) :( <></> ) }
+                { passwordLengthError ? ( <><p className='text-danger'>La password deve essere più lunga di 8 caratteri</p></> ) :( <></> ) }
               </Col>
               <Col>
                 <Form.Label> Conferma Password </Form.Label>
                 <InputGroup className='mb-3'>
                     <Form.Control
-                      onChange={(e)=>setConfirmPassword(e.target.value)}
+                      onChange={(e)=>{setConfirmPassword(e.target.value); setPasswordMatchError(false);}}
                       value={confirmPassword}
-                      isInvalid={error || (password.length>0 && password.length<8) }
+                      isInvalid={passwordMatchError || (password.length>0 && password.length<8) || (password!==confirmPassword) }
                       placeholder="type password again"
                       aria-label="password"
                       type='password'/>
                 </InputGroup>
+                { passwordMatchError ? ( <><p className='text-danger'>Le password non corrispondono</p></> ) :( <></> ) }
               </Col>
             </Row>
             

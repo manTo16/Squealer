@@ -14,19 +14,24 @@
         <div class="flex align-top mt-3">  
           <ViewsSvg class="m-1" />
           <p v-if="postData.impressions && postData.impressions.views && postData.impressions.views.number" >{{ postData.impressions.views.number }}</p>
+          <p v-else>0</p>
           <HeartSvg class="ml-5 m-1"/>
           <p v-if="postData.impressions && postData.impressions.veryLikes && postData.impressions.veryLikes.number">{{ postData.impressions.veryLikes.number }}</p>
+          <p v-else>0</p>
           <ThumbsUpSvg class="ml-5 m-1" />
           <p v-if="postData.impressions && postData.impressions.likes && postData.impressions.likes.number">{{ postData.impressions.likes.number }}</p>
+          <p v-else>0</p>
           <ThumbsDownSvg class="ml-5 m-1" />
           <p v-if="postData.impressions && postData.impressions.dislikes && postData.impressions.dislikes.number">{{ postData.impressions.dislikes.number }}</p>
+          <p v-else>0</p>
           <BrokenHeartSvg class="ml-5 m-1" />
-          <p v-if="postData.impressions && postData.impressions.veryDisikes && postData.impressions.veryDisikes.number">{{ postData.impressions.veryDisikes.number }}</p>
+          <p v-if="postData.impressions && postData.impressions.veryDisikes && postData.impressions.veryDisikes.number">{{ postData.impressions.veryDislikes.number }}</p>
+          <p v-else>0</p>
           <button class="ml-auto border border-black rounded-full px-2 py-1" @click="HandleShowReplies" v-if="replies">Mostra {{ replies }} risposte</button>
         </div>
       </div>
     </div>
-    <Feed  v-if="showReplies" :repliesTo="id"/>
+    <RepliesFeed  v-if="showReplies" :repliesTo="id"/>
   </div>
 </template>
 
@@ -52,7 +57,7 @@ export default {
     ViewsSvg,
     HeartSvg,
     Map,
-    Feed: () => import('@/components/Feed.vue')
+    RepliesFeed: () => import('@/components/RepliesFeed.vue')
   },
   setup(props){
     const showReplies = ref(false)

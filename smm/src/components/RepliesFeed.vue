@@ -17,37 +17,37 @@ import Post from './Post.vue';
 import { apiPostsURL } from '@/URLs';
 import { defineAsyncComponent, ref } from 'vue';
 
-
 export default {
   components: {
     Post: defineAsyncComponent(() => import('./Post.vue'))
   },
-  props:{
-    query: String
+  props: {
+    repliesTo: String
   },
-  data() {
-    return {
-    };
-  },
-  setup(props){
-    const username = JSON.parse(localStorage.getItem('selected-vip')).username || ''
-    const posts = ref([])
-    const loadUserPosts = async () => {
+  setup(props) {
+    const posts = ref([]);
+    console.log(props.repliesTo)
+    const loadReplies = async () => {
+      if (props.repliesTo) {
         try {
-          const response = await fetch(apiPostsURL+`/user/sortBy/${username}/${props.query}`);
+          const response = await fetch(apiPostsURL + `/${props.repliesTo}/replies`);
           if (response.ok) {
-            const data = await response.json()
-            posts.value = data
+            const data = await response.json();
+            posts.value = data;
+          } else {
+            console.error('Errore durante il recupero delle risposte:', response.status);
           }
         } catch (err) {
-          console.error('Errore durante il recupero dei post utente:', err);
+          console.error('Errore durante il recupero delle risposte:', err);
         }
+      } else {
+        console.error('Prop "repliesTo" non definito o vuoto');
       }
-    loadUserPosts()
-    return{
-    posts
-  }
-    
+    };
+
+    loadReplies();
+
+    return { posts };
   }
 };
 </script>
