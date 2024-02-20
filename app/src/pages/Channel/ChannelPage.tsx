@@ -123,67 +123,37 @@ const ChannelPage: React.FC = () => {
           )
           }    
         </div>
-        <div className='d-flex flex-row text-wrap bg-dark p-2'>
-          <Row>
-            <hr className='mt-0'/>
-            <Col xs={9}>
-              <p className='b-1 m-0  border border-light rounded p-1'><i>{channelData.description}</i></p>
-            </Col>
-            <div className='vr p-0'/>
-            <Col xs={2} className='ms-auto mt-auto'>
-              <div className='d-flex ms-auto align-items-center'>
-                { subReqIsLoading ? (
-                    <Spinner animation="border" role="status">
-                      <span className="mx-auto visually-hidden">Loading...</span>
-                    </Spinner>
-                  ) : (
-                    userDetails.channels.includes(channelName ?? "") ? (
-                      <Button
-                        onClick={sendUnSubRequest}
-                        variant='outline-danger'
-                        className='ms-auto d-flex align-items-center'
-                      >
-                        <span className='d-flex d-flex flex-row align-items-center'>
-                          <span className='d-flex align-items center me-2 mt-auto'>{channelData.usernames.subs.length} </span>
-                          <IconBxsUserMinus className='d-flex align-items center'/>
-                        </span>
-                      </Button>
-                    ) : (
-                      <Button 
-                        onClick={sendSubRequest}
-                        variant='outline-success'
-                        className='ms-auto'
-                      >
-                        Iscriviti
-                      </Button>
-                    )
-                  )
-                }
-              </div>
-            </Col>
-          </Row>
-          
-          {/* <p><i>{channelData.description}</i></p>
-          <div className=''>
-            <span>
-              { subReqIsLoading ? 
-              (
+        <div className='d-flex flex-column text-wrap bg-dark p-2'>
+          <p className='b-1 m-0  border border-light rounded p-1'><i>{channelData.description}</i></p>
+          <div className='d-flex ms-auto mt-2 align-items-center'>
+            { subReqIsLoading ? (
                 <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
+                  <span className="mx-auto visually-hidden">Loading...</span>
                 </Spinner>
-              ) :
-              (
-                userDetails.channels.includes(channelName ?? "") ?
-                (
-                  <Button variant='light' onClick={sendUnSubRequest}>{channelData.usernames.subs.length} <IconBxsUserMinus/></Button>
-                ) :
-                (
-                  <Button onClick={sendSubRequest}>Iscriviti</Button>
+              ) : (
+                userDetails.channels.includes(channelName ?? "") ? (
+                  <Button
+                    onClick={sendUnSubRequest}
+                    variant='outline-danger'
+                    className='ms-auto d-flex align-items-center'
+                  >
+                    <span className='d-flex d-flex flex-row align-items-center'>
+                      <span className='d-flex align-items center me-2 mt-auto'>{channelData.usernames.subs.length} </span>
+                      <IconBxsUserMinus className='d-flex align-items center'/>
+                    </span>
+                  </Button>
+                ) : (
+                  <Button 
+                    onClick={sendSubRequest}
+                    variant='outline-success'
+                    className='ms-auto'
+                  >
+                    Iscriviti
+                  </Button>
                 )
               )
-              }
-            </span>
-          </div>  */}
+            }
+          </div>
         </div>
         <div className='bg-black'></div>
         

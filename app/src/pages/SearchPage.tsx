@@ -4,7 +4,10 @@ import { useEffect, useState } from "react"
 import { Button, ToggleButton, ToggleButtonGroup } from "react-bootstrap"
 import { apiUsersURL, channelsURL } from "../URLs"
 import { useNavigate, useParams } from "react-router-dom"
-
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import Card from 'react-bootstrap/Card';
+import UserSvg from '@components/svg/User';
 
 
 
@@ -12,8 +15,6 @@ import { useNavigate, useParams } from "react-router-dom"
 export default function SearchPage() {
 
     const { query } = useParams<{query?: string}>()
-
-    const [selectedButton, setSelectedButton] = useState(1)
 
     const [displayedChannels, setDisplayedChannels] = useState([])
     const [displayedUsernames, setDisplayedUsernames] = useState([])
@@ -34,50 +35,52 @@ export default function SearchPage() {
             setDisplayedUsernames(usernamesArray)
         }
         loadUsernames()
-    
         
       }, [query])
     
 
     return (
-        <>
-        <div className="pt-md flex flex-wrap items-center justify-between">
-            Cerca tra:
-            <ToggleButtonGroup value={selectedButton} type="radio" name="searchIn">
-                <ToggleButton name="searchIn" id="selectPost" value={1} onClick={() => setSelectedButton(1)}>
-                    Post
-                </ToggleButton>
-                <ToggleButton name="searchIn" id="selectChannels" value={2} onClick={() => setSelectedButton(2)}>
-                    Canali
-                </ToggleButton>
-                <ToggleButton name="searchIn" id="selectUsers" value={3} onClick={() => setSelectedButton(3)}>
-                    Utenti
-                </ToggleButton>
-                <ToggleButton name="searchIn" id="selectKeywords" value={4} onClick={() => setSelectedButton(4)}>
-                    Keyword
-                </ToggleButton>
-            </ToggleButtonGroup>
-        </div>
-        {selectedButton === 1 &&
-            <Feed searchQuery={query} searchRoute="search/byText/" />
-        }
-
-        {selectedButton === 2 &&
-        displayedChannels.map((channelName, index) =>
-          <Button key={index} 
-          className="mb-2"
-          onClick={() => {navigate(`/channels/${channelName}`)}}
-          variant="outline-light">
-            {channelName}
-          </Button>  )
-        }
-
-        {selectedButton === 3 &&
-        displayedUsernames.map((username, index) => 
-        <p key={index}>{username}</p>)}
-
-        {selectedButton === 4 &&
-        <Feed searchQuery={query} searchRoute="/search/byKeyword/" />}
-        </>
+        <div className="mt-3">
+        <Tabs
+            defaultActiveKey="post"
+            id="uncontrolled-tab-example"
+            className="mb-3  text-white"
+        >
+            <Tab eventKey="post" title="Post">
+                <Feed searchQuery={query} searchRoute="search/byText/" />
+            </Tab>
+            <Tab eventKey="channels" title="§Canali">
+                <div className="">
+                {displayedChannels.map((channelName, Description, index) =>
+                    <Card className="m-1">
+                        <Card.Body>
+                        <Card.Title>§{channelName}</Card.Title>
+                            <div className="d-flex">
+                                <Button className="ms-auto" variant="primary" onClick={() => {navigate(`/channels/${channelName}`)}}>Al canale</Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                )}
+                </div>
+            </Tab>
+            <Tab eventKey="keyword" title="#Keyword">
+                <Feed searchQuery={query} searchRoute="/search/byKeyword/" />
+            </Tab>
+            <Tab eventKey="users" title="@Utenti">
+                {displayedUsernames.map((username, index) => 
+                <Card className="m-1">
+                    <Card.Body>
+                        <Card.Title className="d-flex">
+                            {username}
+                            <Button className="ms-auto" variant="primary" onClick={() => {navigate(`/users/${username}`)}}>
+                                <UserSvg className="text-white" width="20" height="20" />
+                            </Button>
+                        </Card.Title>
+                    </Card.Body>
+                </Card>
+                )}
+            </Tab>
+        </Tabs>
+        </div> 
     )
 }

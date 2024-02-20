@@ -15,7 +15,8 @@ import Heart from '@components/svg/Reaction/HeartSvg';
 import Like from '@components/svg/Reaction/LikeSvg';
 import Dislike from '@components/svg/Reaction/DislikeSvg';
 import Heartbreak from '@components/svg/Reaction/HeartbreakSvg';
-
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import { UserDetailsInterface } from "@utils/userData";
 
 
@@ -176,24 +177,28 @@ export default function UserPage ({
       )}
 
       <hr/>
-      <div className='d-flex'>
-        <h4>Visualizza: <Badge pill bg="success"> {reactionType === ReactionType.Default ? 'post' : reactionType} </Badge> </h4>
-        <ButtonGroup aria-label="Basic example" className='pb-2 ms-auto'>
-          <Button variant="secondary" onClick={() => setReactionType(ReactionType.Default)}>Post</Button>
-          <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryLike)}><Heart/></Button>
-          <Button variant="secondary" onClick={() => setReactionType(ReactionType.Like)}><Like/></Button>
-          <Button variant="secondary" onClick={() => setReactionType(ReactionType.Dislike)}><Dislike/></Button>
-          <Button variant="secondary" onClick={() => setReactionType(ReactionType.VeryDislike)}><Heartbreak/></Button>
-        </ButtonGroup>
-      </div>
-      { 
-      reactionType === ReactionType.Default ? (
-          <Feed searchQuery={userData.username} searchRoute="search/byUsername"/>
-        ) : (
-          <Feed userName={userData.username} visualizedImpression={reactionType} />
-        )
-      }
-    
+      <Tabs
+        defaultActiveKey="post"
+        id="fill-tab-example"
+        className="mb-3"
+        fill
+      >
+        <Tab eventKey="post" title="post">
+        <Feed searchQuery={userData.username} searchRoute="search/byUsername"/>
+        </Tab>
+        <Tab eventKey="veryLike" title={<Heart/>}>
+          <Feed userName={userData.username} visualizedImpression={ReactionType.VeryLike} />
+        </Tab>
+        <Tab eventKey="like" title={<Like/>}>
+          <Feed userName={userData.username} visualizedImpression={ReactionType.Like} />
+        </Tab>
+        <Tab eventKey="disLike" title={<Dislike/>}>
+          <Feed userName={userData.username} visualizedImpression={ReactionType.Dislike} />
+        </Tab>
+        <Tab eventKey="veryDisLike" title={<Heartbreak/>}>
+        <Feed userName={userData.username} visualizedImpression={ReactionType.VeryDislike} />
+        </Tab>
+      </Tabs>    
     </Form>
   )
 }

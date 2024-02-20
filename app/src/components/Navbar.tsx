@@ -51,8 +51,8 @@ export default function Navbar(
 
           <NavbarBootstrap.Brand className="d-flex align-items-center">
             <SidebarComponent />
-            <Link to="/" style={{ textDecoration: 'none' }} className="align-middle">
-              <img src={Logo} alt="" width="50" height="50" className="d-inline-block align-middle mx-2" />
+            <Link to="/" style={{ textDecoration: 'none' }} className="d-flex align-items-center justify-content-center">
+              <img src={Logo} alt="" width="50" height="50" className="d-inline-block mx-2 " />
               <span className='ms-1 text-white fw-bold fs-3'>Squealer</span>
             </Link>
           </NavbarBootstrap.Brand>

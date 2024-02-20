@@ -7,8 +7,6 @@ import { apiUsersURL } from '../../URLs';
 
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '@utils/userData';
-import Figure from 'react-bootstrap/Figure';
-import gif from '../../assets/piggies-plane.gif';
 
 import "../../pages/Home.css";
 
@@ -158,13 +156,7 @@ export default function SidebarContent(
           cronologia
         </Button>
         <hr />
-          <Figure>
-            <Figure.Image
-              width={171}
-              height={180}
-              alt="171x180"
-              src={gif}/>
-            </Figure> 
+          
         </>
         )
         }

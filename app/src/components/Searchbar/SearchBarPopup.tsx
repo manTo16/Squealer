@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import { Button, Form, Modal } from "react-bootstrap"
 import { apiUsersURL, channelsURL } from "../../URLs";
 import { useNavigate } from "react-router-dom";
-
 import { generateAddressURL } from "@utils/URLs"
 import { concatNoDuplicates } from "@utils/arrayUtils";
+import Card from 'react-bootstrap/Card';
 
 interface SearchBarPopupProps {
   show: boolean;
@@ -129,11 +129,21 @@ export default function SearchBarPopup({show, handleShow, queryValue="", setQuer
           results.map((result, index) => {
             return (
             <div key={index}>
-            <Button variant="dark" onClick={() => {
+              
+            {/* <Button variant="dark" onClick={() => {
                                                 navigate(generateAddressURL(result))
                                                 handleShow(false)}}>
               {result}
-            </Button>
+            </Button> */}
+            <Card 
+              className="m-1" 
+              onClick={() => {
+                navigate(generateAddressURL(result)) 
+                handleShow(false)}}>
+              <Card.Body>
+                {result}
+              </Card.Body>
+            </Card>
             </div>
             )
             
