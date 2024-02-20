@@ -15,6 +15,9 @@ const createPost = async (req,res) => {
     const {username, text, receivers, repeatPostInterval} = req.body;
     const user = await User.findOne({username: username});
 
+    //controllo per utenti shadow bannati. ritorno 200 perchè l'utente non se ne deve accorgere
+    if (user.blocked) return res.status(200).json({message: "blocked"})
+
     //rimuovi elementi vuoti dall'array dei destinatari
     //console.log("createPost receivers: ", receivers)
     const receiversCopy = receivers.filter(checkReceiverSyntax);
@@ -627,6 +630,20 @@ const getPersonalFeedIds = async (req,res) => {
   }
 }
 
+const getRandomFeedIds = async (req,res) => {
+  try {
+    const numberOfPosts = 5;
+
+    const randomPosts = await Post.aggregate([{ $sample: { size: numberOfPosts } }])
+
+    const postIds = randomPosts.map(post => post._id.toString())
+
+    return res.status(200).json(postIds);
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 
 
 const getPosts = async (req,res) =>{
@@ -703,6 +720,8 @@ const createPostBySMM = async (req,res) =>{
 }
 
 
+
+
 module.exports = {
   getPosts,
   createPost,
@@ -723,5 +742,6 @@ module.exports = {
   updatePost,
   createPostBySMM,
   getUserPostsSorted,
-  getPersonalFeedIds
+  getPersonalFeedIds,
+  getRandomFeedIds
 }

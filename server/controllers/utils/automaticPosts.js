@@ -37,16 +37,16 @@ function addUserInterval(username, action, interval_ms) {
 }
 
 
-function getIntervalIdFromUniqueId(uniqueId, intervalMap) {
-    const intervalObject = intervalMap[uniqueId];
-  
-    if (intervalObject) {
-      return intervalObject.intervalId;
-    }
-  
-    return null;
-}
+function getIntervalIdFromUniqueId(uniqueId) {
+  const intervalObject = intervalMap.find(interval => interval.uniqueId === uniqueId);
 
+  if (intervalObject) {
+    console.log("intervalIds getIntervalIdFromUniqueId trovato un id")
+    return intervalObject.intervalId;
+  }
+
+  return null;
+}
 
 function removeUserInterval(username, uniqueId) {
   clearInterval(getIntervalIdFromUniqueId(uniqueId, intervalMap));

@@ -3,6 +3,7 @@ import { apiUsersURL } from "../URLs";
 import axios from "@root/axiosConfig";
 import { useContext, useEffect, useState } from "react";
 import Spinner from 'react-bootstrap/Spinner';
+import { Container, Collapse } from "react-bootstrap";
 import { UserContext, getPersonalUserData } from "@utils/userData";
 import Char from "@components/svg/CharSvg";
 import DailyCalendar from "@components/svg/CharSvg/dCharSvg";
@@ -20,6 +21,7 @@ export default function CharShopPage() {
 
     const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
     const [isLoading, setIsLoading] = useState(true);
+    const [openDebit, setOpenDebit] = useState(false);
 
     const navigate = useNavigate()
 
@@ -34,7 +36,9 @@ export default function CharShopPage() {
     const [displayDailyChars, setDisplayDailyChars] = useState(0)
     const [displayWeeklyChars, setDisplayWeeklyChars] = useState(0)
     const [displayMonthlyChars, setDisplayMonthlyChars] = useState(0)
+
     const [displayDebt, setDisplayDebt] = useState(0)
+    const [errorDebt, setErrorDebt] = useState("")
 
     const [numCharsToAdd, setNumCharsToAdd] = useState(0);
 
@@ -81,30 +85,46 @@ export default function CharShopPage() {
         if (!isLoggedIn) navigate("/login")
     }, [])
 
-
-
+    const handleDebitClick = () => {
+        setOpenDebit(!openDebit)
+    }
     
+    const handleBuyCharsDebt = (numCharsToAdd: number) => {
+        if (numCharsToAdd < displayDebt) {
+            setErrorDebt("Non hai abbastanza caratteri per saldare il debito");
+        } else {
+            buyChars(numCharsToAdd)
+            setErrorDebt("");
+        }
+    }
 
     return(
         <div className="bg-dark rounded-bottom p-3">
             <div className="d-flex flex-row align-items-center">
                 <h1>I tuoi caratteri</h1>
-                <h1 className="ms-auto"><Char /></h1>
+                <h1 className="ms-auto"></h1>
             </div>
         <hr />
             <div>
                 { userInDebt ? (
-                <Row className="bg-danger mx-1 rounded">
-                    <Col>
-                        ⚠
-                    </Col>
-                    <Col>
-                        <p>Debito: </p>
-                    </Col>
-                    <Col>
-                        <Badge bg="warning" className="text-black" pill> {displayDebt} </Badge>
-                    </Col>
-                </Row>
+                <Container className="gap-3">
+                    <Row className="p-3 justify-content-evenly bg-danger rounded">
+                        <Col className="d-flex gap-3 align-items-center">
+                            <div>⚠</div>
+                            <div> Debito: </div>
+                            <Badge bg="warning" className="text-black" pill> {displayDebt} </Badge>
+                        </Col>
+                        <Col> {/* Aggiunto Col per migliorare l'allineamento del Button */}
+                            <div className="d-flex justify-content-end"> {/* Justify-content-end allinea il Button a destra */}
+                            <Button
+                                variant="success"
+                                onClick={() => buyChars(displayDebt)}>
+                                Risana debito
+                            </Button>
+                            </div>
+                        </Col>
+                    </Row>
+                </Container>
                 ) : (
                     <>
                         <Row>
@@ -152,17 +172,7 @@ export default function CharShopPage() {
                         </Spinner>
                     </div>
                 ) : userInDebt ?(
-                    <div className="d-flex">
-                        <hr />
-                        <div className="ms-auto d-flex flex-column">
-                            <Button
-                                variant="outline-warning"
-                                onClick={() => buyChars(userDetails.debtChar)}
-                            >
-                                Risana debito
-                            </Button>
-                        </div>
-                    </div>
+                    <div></div>
                 ) :
                 (
                     <>
@@ -178,7 +188,7 @@ export default function CharShopPage() {
                             <Button
                                 variant="success"
                                 onClick={() => buyChars(numCharsToAdd)}>
-                                Aggiungi {numCharsToAdd} caratteri
+                                Compra {numCharsToAdd} caratteri
                             </Button>
                             <hr />
                             <Button
