@@ -8,8 +8,12 @@ import IconWarning from '@components/svg/WarningSvg';
 import { updateUser } from '../../../../server/controllers/userController'
 import axios from '@root/axiosConfig';
 import { apiUsersURL } from '@root/src/URLs';
+import { useNavigate } from 'react-router-dom';
 
 export default function Options() {
+  
+  const navigate = useNavigate()
+
   const [isPro, setIsPro] = useState(false);
   const [isVer, setIsVer] = useState(false);
   const [show, setShow] = useState(false);
@@ -66,12 +70,13 @@ export default function Options() {
     // }
   };
 
-  const handleDelete = () => {
-    const userID = userDetails._id;
-    console.log(userID);
-    (async () => {
-      // const result = await deleteAccount(userID);
-    })();
+  const handleDelete = async () => {
+    //const userID = userDetails._id;
+    //console.log(userID);
+    await axios.delete(`${apiUsersURL}/${userDetails.username}`)
+    localStorage.clear()
+    navigate('/')
+    window.location.reload();
   }
 
   useEffect(() => {
@@ -177,12 +182,12 @@ export default function Options() {
             <IconWarning/>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body>Questa azione NON è reversibile</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Annulla
           </Button>
-          <Button variant="warning" className='text-black' onClick={handleDelete}>
+          <Button variant="warning" className='text-black' onClick={() => {handleDelete()}}>
             Elimina
           </Button>
         </Modal.Footer>

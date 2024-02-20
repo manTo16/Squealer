@@ -30,13 +30,14 @@ const {
   selectSMM,
   removeSMM,
   findUsers,
-  getAllRepliesToUsers
+  getAllRepliesToUsers,
+  deleteUserAccount
 } = require ('../controllers/userController.js')
 
 
 router.route('/').get(getAllUsers)/*.post(addNewUser)*/
 router.route('/:userName/posts').get(getUserPosts)
-router.route('/:userName').get(getUser).patch(updateUser).delete(deleteUser).put(updateUser)
+router.route('/:userName').get(getUser).patch(updateUser).delete(deleteUserAccount).put(updateUser)
 router.route('/:userName/channels').get(verifyToken,getUserChannels)
 router.route('/:userName/propic').get(getUserImage)
 router.route('/:userName/propic-32').get(getUserThumbnail)
@@ -68,5 +69,6 @@ router.route('/smm/:userName').put(selectSMM).delete(removeSMM)
 router.route('/smm/allRepliesToUser/:userName').get(getAllRepliesToUsers)
 
 router.route('/mod/search').post(findUsers)
+
 
 module.exports = router

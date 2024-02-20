@@ -1,6 +1,9 @@
 //const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 const { resizeBase64Image, addBase64ImageHeader, extractImageFormat } = require('./utils/imageManipulation')
+const { red_cross_base64 } = require('./utils/red_cross')
+const bcrypt = require('bcrypt')
+
 
 const getAllUsers = async (req,res)=>{
     try{
@@ -391,6 +394,45 @@ const updateUserCharacters = async (req,res) => {
   }
 }
 
+const deleteUserAccount = async (req,res) => {
+  try {
+    const username = req.params.userName
+
+    const user = await User.findOne({username: username})
+
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    user.displayName = "[deleted]"
+    user.userImage = red_cross_base64
+
+    if (user.personalSMM) {
+      await User.updateOne(
+        { username: user.personalSMM },
+        { $pull: { smmClients: username } }
+      )
+    }
+
+    await User.updateMany(
+      { username: { $in: user.smmClients } },
+      { $set: { personalSMM: null } }
+    )
+
+    user.blocked = true
+
+    const newpw_salt = await bcrypt.genSalt()
+    const newpw_hashedPassword = await bcrypt.hash("DELETED_deleted", newpw_salt)
+
+    user.password = newpw_hashedPassword
+
+    await user.save()
+
+    return res.status(200).json({message: "user successfully deleted"})
+
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 const getUserDebt = async (req,res) => {
   try {
     const username = req.params.userName
@@ -553,4 +595,5 @@ module.exports = {
     removeSMM,
     findUsers,
     getAllRepliesToUsers,
+    deleteUserAccount
 }

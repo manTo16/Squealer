@@ -9,6 +9,8 @@
     <title>Squealer | Moderator Dashboard</title>
     <base href="http://localhost:8080/mod/">
 
+    <script src="./js/login/checkLogged.js"></script>
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
@@ -16,6 +18,7 @@
 
     <script defer type="module" src="./js/users/userFilter.js"></script>
     <script defer src="./js/login/loadUserData.js"></script>
+    <script defer src="./js/login/logout.js"></script>
 
     <style>
         .navSelectable:hover {
@@ -83,6 +86,9 @@
                         <img id="loggedUserProfilePicture" src="url_della_tua_immagine.jpg" alt="Profile picture of logged-in user" class="rounded-circle"
                             style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
                     </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="login/" role="menuitem" id="logoutbutton">Log Out</a>
                 </li>
             </ul>
         </div>
