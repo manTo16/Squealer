@@ -1,4 +1,5 @@
 const sharp = require('sharp');
+const fs = require('fs');
 
 
 
@@ -39,8 +40,9 @@ function extractImageFormat(base64Image) {
 }
 
 
+
 module.exports = {
     resizeBase64Image,
     addBase64ImageHeader,
-    extractImageFormat
+    extractImageFormat,
 }

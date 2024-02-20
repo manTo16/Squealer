@@ -11,6 +11,8 @@ const auth = require('./routes/auth')
 const posts = require('./routes/posts')
 const channels = require('./routes/channels')
 
+const { startTimers } = require('./controllers/utils/externAPIChannels')
+
 const app=express()
 const PORT = process.env.PORT || 5000
 
@@ -28,6 +30,11 @@ app.use('/users',users)
 app.use('/auth',auth)
 app.use('/posts',posts)
 app.use('/channels',channels)
+
+
+console.log("[starting] automatic posts timers...")
+startTimers()
+console.log("[started] automatic posts timers")
 
 
 /*
