@@ -19,6 +19,10 @@ export default function Home() {
       }
   }, [userDetails])
 
+  if(!isLoggedIn) return (
+    <Feed channelName='ALL'/>
+  )
+
   if (isLoading) return <p>loading...</p>
 
 

@@ -505,7 +505,23 @@ const findUsers = async (req,res) => {
   }
 }
 
+const getAllRepliesToUsers = async (req,res) => {
+  try {
+    const username = req.params.userName
 
+    // Trova tutti i post che hanno 'username' uguale alla tua costante 'username'
+    const userPosts = await Post.find({ username: username }, "_id").lean();
+    const userPostIds = userPosts.map(post => post._id.toString());
+
+    // Trova tutti i post che hanno uno degli 'userPostIds' nel loro campo 'replyTo'
+    const replyPosts = await Post.find({ replyTo: { $in: userPostIds } }, "_id").lean();
+    const replyPostIds = replyPosts.map(post => post._id.toString());
+
+    return res.status(200).json(replyPostIds);
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
 
 module.exports = {
     getAllUsers,
@@ -535,5 +551,6 @@ module.exports = {
     searchUserByDisplayNameNResults,
     selectSMM,
     removeSMM,
-    findUsers
+    findUsers,
+    getAllRepliesToUsers,
 }
