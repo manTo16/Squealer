@@ -42,15 +42,17 @@ const createPost = async (req,res) => {
 
     /* aggiungi il post ai canali ai quali è destinato */
     receiversCopy.filter(receiver => receiver[0] === "§").map(async (receiver) => {
-      console.log("createPost filter map receiver: ", receiver)      
+      console.log("createPost filter map receiver: ", receiver)
       let channel = await Channel.findOne({channelName: receiver.slice(1)})
       console.log("createPost filter map channel._id: ", channel?._id)
-      if(channel) {
-        //console.log("createPost sono dentro l'if")
-        console.log("createPost channel: ", channel)
-        console.log("createPost newPost._id: ", newPost._id)
-        channel.postsIds.push(newPost._id)
-        await channel.save()
+      if (channel.usernames.writers.include(username)) {
+        if(channel) {
+          //console.log("createPost sono dentro l'if")
+          console.log("createPost channel: ", channel)
+          console.log("createPost newPost._id: ", newPost._id)
+          channel.postsIds.push(newPost._id)
+          await channel.save()
+        }
       }
     })
 

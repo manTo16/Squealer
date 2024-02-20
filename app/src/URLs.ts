@@ -2,7 +2,7 @@
 
 
 //LOCALE:
-export const apiURL = 'http://localhost:3001/'
+export const apiURL = 'http://localhost:5000/'
 
 
 //PRODUZIONE:
