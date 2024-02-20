@@ -29,6 +29,8 @@ interface FeedProps {
 
     searchQuery?: string;
     searchRoute?: string;
+
+    personalFeed?: boolean;
 }
 
 /*
@@ -37,14 +39,16 @@ vanno usati così:
     channelName                                oppure
     postRepliesId e handleNumberOfReplies      oppure
     userName e visualizedImpression            oppure
-    searchQuery e searchRoute
+    searchQuery e searchRoute                  oppure
+    personalFeed e userName     (per il feed personale)
 
     in searchRoute NON mettete la parte iniziale delle api dei post: /posts lo mette in automatico
 */
 export default function Feed({channelName="", 
                     postRepliesId="", handleNumberOfReplies=()=>{}, 
                     userName="", visualizedImpression=ReactionType.Default,
-                    searchQuery="", searchRoute=""
+                    searchQuery="", searchRoute="",
+                    personalFeed=false
                 } : FeedProps) {
     
     const [isLoading, setIsLoading] = useState(true)
@@ -63,6 +67,16 @@ export default function Feed({channelName="",
         if (response && response.status === 200) {
             const postList = response.data//.map((post: {_id: string}) => (post._id)) ho modificato l'api quindi manda direttamente l'array di id normali ora
             console.log("fetchFeedALL returns: ", postList)
+            return postList
+        }
+        else return []
+    }
+
+    const fetchFeedPersonal = async () => {
+        //const numberOfPosts = 5;
+        const response = await axios.get(`${apiPostsURL}/personalfeed/${userName}/${nPages}`);
+        if (response && response.status === 200) {
+            const postList = response.data//.map((post: {_id: string}) => (post._id)) ho modificato l'api quindi manda direttamente l'array di id normali ora
             return postList
         }
         else return []
@@ -155,7 +169,11 @@ export default function Feed({channelName="",
         const fetchPosts = async () => {
             let postIdsList: string[] = []
 
-            if (userName) {
+            if (personalFeed) {
+                postIdsList = await fetchFeedPersonal()
+            }
+
+            else if (userName) {
                 postIdsList = await fetchFeedFromUserImpressions(userName, visualizedImpression)
             }
 
@@ -282,7 +300,7 @@ export default function Feed({channelName="",
            ( !postRepliesId ? 
             (
                 <div ref={loader} className="mt-5">
-                    <p>fondo della pagina</p> 
+                    <p style={{ color: '#030303' }}>fondo della pagina</p>
                     {/* qua ci si può mettere qualcosa per far vedere che si è arrivati in fondo alla pagina. 
                     ma sinceramente lo lascerei vuoto perchè rischiamo di mettere uno spinner che va 
                     all'infinito visto che non ci sono controlli per ora che ti dicono se i post 

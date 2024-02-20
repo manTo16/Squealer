@@ -18,11 +18,14 @@ const {
   findPosts,
   updatePost,
   createPostBySMM,
-  getUserPostsSorted
+  getUserPostsSorted,
+  getPersonalFeedIds
 } = require ('../controllers/postController.js')
 
 router.route('/').post(verifyToken, createPost).get(getFeedIds)
 router.route('/feed/:pageNumber').get(getFeedIds)
+router.route('/personalfeed/:userName').get(getPersonalFeedIds)
+router.route('/personalfeed/:userName/:pageNumber').get(getPersonalFeedIds)
 
 router.route('/smm').post(verifyToken, createPostBySMM)
 

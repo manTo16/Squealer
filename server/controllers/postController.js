@@ -587,6 +587,45 @@ const getUserPostsSorted = async (req,res) => {
   }
 }
 
+const getPersonalFeedIds = async (req,res) => {
+  try {
+    numberOfPosts = 10;
+    username = req.params.userName
+    pageNumber = req.params.pageNumber || 1;
+
+    const user = await User.findOne({username: username})
+    if (!user) return res.status(200).json([])
+
+    const userChannels = user.channels
+    const defaultChannels = ["NEWS", "GATTINI", "FOTO"] //questi sono i canali non silenziabili
+    
+    const channelPool = userChannels.concat(defaultChannels)
+    console.log("debug channelPool ", channelPool)
+
+    // ottengo gli id dei post dai canali in channelPool
+    const channels = await Channel.find({ channelName: { $in: channelPool } }).populate('postsIds');
+    console.log("DEBUG ", channels.length)
+    const postIdsFromChannels = channels.flatMap(channel => channel.postsIds);
+
+    // ottengo gli id dei post che hanno l'utente nei destinatari
+    const postIdsFromReceivers = await Post.find({ receivers: `@${username}` }, "_id").lean();
+    const postIdsFromReceiversStr = postIdsFromReceivers.map(post => post._id.toString())
+
+    // unisco i postIdsFromChannels e postIdsFromReceivers
+    const combinedPostIds = [...postIdsFromChannels, ...postIdsFromReceiversStr];
+
+    const postIdsMongoose = await Post.find({ _id: { $in: combinedPostIds }, replyTo: null }, "_id")
+                               .sort({creationDate: -1})
+                               .skip((pageNumber - 1) * numberOfPosts)
+                               .limit(numberOfPosts)
+                               .lean();
+    const postIds = postIdsMongoose.map(post => post._id.toString())
+    //console.log("getFeedIds page ", pageNumber, " postIds: ", postIds)
+    return res.status(200).json(postIds);
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
 
 
 
@@ -683,5 +722,6 @@ module.exports = {
   findPosts,
   updatePost,
   createPostBySMM,
-  getUserPostsSorted
+  getUserPostsSorted,
+  getPersonalFeedIds
 }
