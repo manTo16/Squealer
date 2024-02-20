@@ -13,40 +13,101 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script defer src="./js/login/loadUserData.js"></script>
+
+    <style>
+        .navSelectable:hover {
+            background-color: #ffb07cbe;
+        }
+
+        .navSelectable {
+            border-radius: 5px;
+            transition: 0.2s;
+            margin-left: 2px;
+            padding-right: 4px;
+            margin-right: 2px;
+            padding-left: 4px;
+        }
+        
+        .boxHomePage:hover {
+            background-color: #000;
+            color: #fff;
+            width: 300px;
+            height: 150px;
+            font-size: 60px;
+        }
+
+        .boxHomePage {
+            width: 200px;
+            height: 100px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px 0px #00000050;
+            float: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            font-family: monospace;
+            border: 1px solid #00000050;
+
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .rowForButton:hover {
+            background-color: rgb(212, 212, 212);
+        }
+
+        .rowForButton:hover .boxHomePage {
+            background-color: #000;
+            color: #fff;
+            width: 300px;
+            height: 150px;
+            font-size: 60px;
+        }
+
+        .rowForButton {
+            width:100%;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            height: calc(100% / 4);
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
         <a class="navbar-brand" href="/">
-            <img src="./assets/favicon.ico" alt="Utente" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
+            <img src="./assets/favicon.ico" alt="Squealer Logo" class="rounded-circle" style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
             Squealer
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse" id="navbarNav" role="navigation">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item navSelectable active" role="presentation">
+                    <a class="nav-link" href="/mod/" role="menuitem">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="squeals/">Squeals</a>
+                <li class="nav-item navSelectable" role="presentation">
+                    <a class="nav-link" href="squeals/" role="menuitem">Squeals</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="users/">@Utenti</a>
+                <li class="nav-item navSelectable" role="presentation">
+                    <a class="nav-link" href="users/" role="menuitem">@Utenti</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="channels/">§canali</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="CHANNELS/">§CANALI</a>
+                <li class="nav-item navSelectable" role="presentation">
+                    <a class="nav-link" href="channels/" role="menuitem">§canali</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" href="#" role="menuitem">
                         <span id="loggedUserUsername">Nome Utente</span>
-                        <img id="loggedUserProfilePicture" src="url_della_tua_immagine.jpg" alt="immagine utente" class="rounded-circle"
+                        <img id="loggedUserProfilePicture" src="url_della_tua_immagine.jpg" alt="Profile picture of logged-in user" class="rounded-circle"
                             style="width: 30px; height: 30px; object-fit: cover; margin-right: 5px;">
                     </a>
                 </li>
@@ -54,33 +115,25 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row">
-          <!-- Sidebar -->
-          <div class="col-md-2 bg-light sidebar" style="position: fixed; height: 100%; overflow: auto;">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Link 1</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link 2</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link 3</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      
-        <!-- Main Content -->
-        <div class="col-md-9 offset-md-2">
-            <h1>Main Content</h1>
-            <p>This is the main content.</p>
-        </div>
+    <div class="container-fluid" style="height: calc(100vh - 59px); padding:0px; display: flex; justify-content: space-evenly; align-items: center; flex-wrap: wrap; flex-direction: column;">
+    
+        <a href="squeals/" class="rowForButton" role="button" aria-label="View Squeals">
+            <div class="btn btn-light boxHomePage" role="link">
+                Squeals
+            </div>
+        </a>
 
-      </div>
+        <a href="users/" class="rowForButton" role="button" aria-label="View Users">
+            <div class="btn btn-light boxHomePage" role="link">
+                @Utenti
+            </div>
+        </a>
 
-
-
+        <a href="channels/" class="rowForButton" role="button" aria-label="View Channels">
+            <div class="btn btn-light boxHomePage" role="link">
+                §canali
+            </div>
+        </a>
+    </div>
 </body>
 </html>

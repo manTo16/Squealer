@@ -31,6 +31,8 @@ interface FeedProps {
     searchRoute?: string;
 
     personalFeed?: boolean;
+
+    randomFeed?: boolean
 }
 
 /*
@@ -40,7 +42,8 @@ vanno usati così:
     postRepliesId e handleNumberOfReplies      oppure
     userName e visualizedImpression            oppure
     searchQuery e searchRoute                  oppure
-    personalFeed e userName     (per il feed personale)
+    personalFeed e userName     (per il feed personale), oppure
+    randomFeed
 
     in searchRoute NON mettete la parte iniziale delle api dei post: /posts lo mette in automatico
 */
@@ -48,7 +51,8 @@ export default function Feed({channelName="",
                     postRepliesId="", handleNumberOfReplies=()=>{}, 
                     userName="", visualizedImpression=ReactionType.Default,
                     searchQuery="", searchRoute="",
-                    personalFeed=false
+                    personalFeed=false,
+                    randomFeed=false
                 } : FeedProps) {
     
     const [isLoading, setIsLoading] = useState(true)
@@ -75,6 +79,16 @@ export default function Feed({channelName="",
     const fetchFeedPersonal = async () => {
         //const numberOfPosts = 5;
         const response = await axios.get(`${apiPostsURL}/personalfeed/${userName}/${nPages}`);
+        if (response && response.status === 200) {
+            const postList = response.data//.map((post: {_id: string}) => (post._id)) ho modificato l'api quindi manda direttamente l'array di id normali ora
+            return postList
+        }
+        else return []
+    }
+
+    const fetchFeedRandom = async () => {
+        //const numberOfPosts = 5;
+        const response = await axios.get(`${apiPostsURL}/randomfeed`);
         if (response && response.status === 200) {
             const postList = response.data//.map((post: {_id: string}) => (post._id)) ho modificato l'api quindi manda direttamente l'array di id normali ora
             return postList
@@ -171,6 +185,10 @@ export default function Feed({channelName="",
 
             if (personalFeed) {
                 postIdsList = await fetchFeedPersonal()
+            }
+
+            else if (randomFeed) {
+                postIdsList = await fetchFeedRandom()
             }
 
             else if (userName) {

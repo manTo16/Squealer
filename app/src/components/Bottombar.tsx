@@ -80,7 +80,7 @@ export default function Bottombar(
 
             <Col style={shrinkableStyle}>
               <Nav.Item style={justifyCenterStyle}>
-                <Button onClick={()=>{navigate("/")}} variant="dark" className='btn-transparent'>
+                <Button onClick={()=>{navigate("/question")}} variant="dark" className='btn-transparent'>
                   <QuestionButton/>
                 </Button>
               </Nav.Item>

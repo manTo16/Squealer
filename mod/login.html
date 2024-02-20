@@ -3,15 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Squealer | Moderator Dashboard | Login</title>
+    <title>Login Page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script defer src="./js/login/loadUserData.js"></script>
     <script defer type="module" src="./js/login/login.js"></script>
 </head>
 <body>
-    <label for="usernameField">username:</label>
-    <input type="text" id="usernameField">
-    <label for="passwordField">password:</label>
-    <input type="text" id="passwordField">
+    <style>
+        .login,
+        .image {
+            min-height: 100vh;
+        }
 
-    <button id="loginButton">loggati</button>
-</body>
+        .bg-image {
+            background-image: url('https://source.unsplash.com/WEQbe2jBg40/600x800');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+
+            z-index: 1;
+            right: 0px;
+            min-height: 100vh;
+        }
+
+        @keyframes rotateAndScale {
+        0%, 100% {
+            transform: rotate(0deg) scale(0.75);
+        }
+        25% {
+            transform: rotate(30deg) scale(0.75);
+        }
+        50% {
+            transform: rotate(0deg) scale(0.75);
+        }
+        75% {
+            transform: rotate(-30deg) scale(0.75);
+        }
+        }
+
+        #Squealer img {
+        animation: rotateAndScale 4s infinite linear; 
+        }
+
+        /* Quando la pagina è troppo piccola, la bg-image diventa display:none */
+        @media (max-width: 600px) {
+            .bg-image {
+                display: none!important;
+            }
+
+            .login {
+                width: 100vw;
+            }
+        }
+
+    </style>
+    <div>
+        <div class="row no-gutters" style="display: grid; grid-template-columns: 1fr 3fr; background-color: black;">
+            <div style="background-color: white;z-index: 2;">
+                <div class="login d-flex align-items-top py-5" style="padding-bottom: 10em;">
+                    <div class="container" style="display: flex; flex-direction: column;">
+                            <div class="col-lg-12" style="width: 100%; margin: auto;">
+                                <h3 class="display-5">Log in to your Moderator's account</h3>
+                                <p class="text-muted mb-4">
+                                    Not a mod?
+                                    <br> 
+                                    <a href="#" class="text-primary">Go back</a>
+                                </p>
+                                <div>
+                                    <div class="mb-3">
+                                        <input id="usernameField" type="text" placeholder="Username" required="" autofocus="" class="form-control rounded-pill border-0 shadow-sm px-4">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input id="passwordField" type="password" placeholder="Password" required="" class="form-control rounded-pill border-0 shadow-sm px-4 text-primary">
+                                    </div>
+                                    <div class="d-grid gap-2 mt-2">
+                                        <button id="loginButton" class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm">Sign in</button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+                <div class="bg-image" style="display: flex; justify-content: center; align-items: center;"> 
+                    <div id="Squealer">
+                        <div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+                            <h3 class="display-4" style="text-align: center; color: white;text-shadow: 0 0 2px black; margin-top: 1em;">The flying Squealer Moderator Login Page</h3>
+                            <img src="./assets/Squealer.png" style="height: 340px;">
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </body>
 </html>

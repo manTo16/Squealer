@@ -136,7 +136,7 @@ export default function NewPostPage() {
     console.log("getComputedStyle(textarea): ", getComputedStyle(textarea))
 
     //a volte l'altezza di default della linea di scrittura della textarea è >= 24*2 e questa funzione non va bene
-    if (parseInt(getComputedStyle(textarea).height) > 40) return 12
+    //if (parseInt(getComputedStyle(textarea).height) > 40) return 8
     //const maxHeight = textarea.parentElement?.clientHeight;  //non funziona, il componente cardbody si allunga dinamicamente
     const maxHeight = window.innerHeight / 3
     

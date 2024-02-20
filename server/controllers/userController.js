@@ -359,6 +359,8 @@ const updateUserCharacters = async (req,res) => {
 
     if (!user) return res.status(404).json({message: "user not found"})
 
+    if (user.debtChar < 0) user.debtChar = 0   //a volte andava in negativo, per qualche motivo. questo valore deve essere sempre >= 0
+
     if (user.debtChar === 0) {
       user.dailyChar += daily
       user.weeklyChar += weekly
@@ -509,11 +511,9 @@ const getAllRepliesToUsers = async (req,res) => {
   try {
     const username = req.params.userName
 
-    // Trova tutti i post che hanno 'username' uguale alla tua costante 'username'
     const userPosts = await Post.find({ username: username }, "_id").lean();
     const userPostIds = userPosts.map(post => post._id.toString());
 
-    // Trova tutti i post che hanno uno degli 'userPostIds' nel loro campo 'replyTo'
     const replyPosts = await Post.find({ replyTo: { $in: userPostIds } }, "_id").lean();
     const replyPostIds = replyPosts.map(post => post._id.toString());
 
