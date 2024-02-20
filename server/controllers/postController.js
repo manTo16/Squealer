@@ -319,15 +319,22 @@ const addReply = async (req,res) => {
 const getReplies = async (req,res) => {
   try {
     const postId = req.params.id
-    const pageNumber = req.params.pageNumber
+    const pageNumber = req.params.pageNumber || -1
     const numberOfPosts = 5
     
     const post = await Post.findOne({postId: postId})
     if (!post) return res.status(404).json({message: "post not found"})
   
-    const start = (pageNumber - 1) * numberOfPosts
-    const end = pageNumber * numberOfPosts
-    const repliesArray = post.replies.slice(start, end)
+    let repliesArray = []
+    //l'api funziona sia con la pagina che senza. senza pagina ritorna tutte le risposte
+    if (pageNumber !== -1) {
+      const start = (pageNumber - 1) * numberOfPosts
+      const end = pageNumber * numberOfPosts
+      repliesArray = post.replies.slice(start, end)
+    }
+    else {
+      repliesArray = post.replies
+    }
   
     return res.status(200).json(repliesArray)
 
