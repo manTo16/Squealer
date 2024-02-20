@@ -246,6 +246,7 @@ export default function Feed({channelName="",
                     break
                 default:
                     setPostList([]) //resetto la lista dei post così quando cambio canale usando la pagina di ricerca carica i post e non lascia quelli vecchi
+                    console.log("DEBUG ho appena cambiato canale")
                     postIdsList = await fetchFeedFromChannel(channelName)
             }
             setPostList(concatNoDuplicates(postList, postIdsList))

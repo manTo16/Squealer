@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Options from "./Options";
 import Feed from "@components/Feed/Feed";
 import User from "./User";
@@ -8,11 +8,12 @@ import { useNavigate, useParams } from "react-router-dom"
 import Button from 'react-bootstrap/Button';
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import { apiUsersURL } from '../../URLs';
+import { apiUsersURL, channelsURL } from '../../URLs';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { Col, Row } from "react-bootstrap";
 import Badge from 'react-bootstrap/Badge';
+import { UserContext, UserDetailsInterface } from "@utils/userData";
 
 interface proSideProps {
     type: string;
@@ -25,13 +26,48 @@ export default function ProfileSide({
     const { query } = useParams<{query?: string}>()
     const isLoggedIn = !!localStorage.getItem('token')
     const defaultValue = {}
-    const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? defaultValue
+    const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
 
     const userToken = localStorage.getItem('token');
     const username = userDetails.username
     const navigate = useNavigate()
 
     const [displayedChannels, setDisplayedChannels] = useState<string[]>([])
+
+    interface Usernames {
+        owners: string[];
+        writers: string[];
+        readers: string[];
+        subs: string[];
+    }
+    
+    interface ChannelData {
+        usernames: Usernames;
+        _id: string;
+        channelName: string;
+        description: string;
+        reserved: boolean;
+        postsIds: string[];
+    }
+    
+    interface ChannelsData {
+        [channelName: string]: ChannelData;
+    }
+
+    const [channelsData, setChannelsData] = useState<ChannelsData>({});
+
+
+
+    useEffect(() => {
+        if (displayedChannels) {
+            displayedChannels.forEach(async channelName => {
+                if (channelName) {
+                    const channelData = await axios.get(`${channelsURL}/data/${channelName}`).then(response => response.data)
+                    setChannelsData(prevState => ({ ...prevState, [channelName]: channelData }))
+                }
+            })
+        }
+    }, [displayedChannels])
 
     useEffect(() => {
         const loadChannels = async () => {
@@ -68,12 +104,12 @@ export default function ProfileSide({
                             <Card.Body>
                             <Card.Title>
                                 <span >{channelName}</span> 
-                                <Badge pill className="m-1" bg="success">Proprietario</Badge>
-                                <Badge pill className="m-1" bg="warning" text="dark">Scrittore</Badge>
-                                <Badge pill className="m-1" bg="primary">Lettore</Badge>    
+                                {channelsData && ( channelsData[channelName]?.usernames.owners.includes(userDetails.username) || channelsData[channelName]?.usernames.owners.length === 0) && <Badge pill className="m-1" bg="success">Proprietario</Badge>}
+                                {channelsData && ( channelsData[channelName]?.usernames.writers.includes(userDetails.username) || channelsData[channelName]?.usernames.writers.length === 0) && <Badge pill className="m-1" bg="warning" text="dark">Scrittore</Badge>}
+                                {channelsData && ( channelsData[channelName]?.usernames.readers.includes(userDetails.username) || channelsData[channelName]?.usernames.readers.length === 0) && <Badge pill className="m-1" bg="primary">Lettore</Badge>}  
                             </Card.Title>
                             <Card.Text>
-                                channelData.description
+                                {channelsData && channelsData[channelName]?.description}
                             </Card.Text>
                             </Card.Body>
                         </Card>

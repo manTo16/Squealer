@@ -261,7 +261,8 @@ const addSubscriberToChannel = async (req, res) => {
     if (!user.channels.includes(channelName)) user.channels.push(channelName)
     await user.save()
 
-    return res.status(200)
+
+    return res.status(200).json(channelName)
   } catch(err) {
     return res.status(500).json({message: err.message})
   }
@@ -288,7 +289,7 @@ const removeSubscriberFromChannel = async (req, res) => {
       { $pull: { channels: channelName } }
     )
 
-    return res.status(200)
+    return res.status(200).json(channelName)
   } catch(err) {
     return res.status(500).json({message: err.message})
   }

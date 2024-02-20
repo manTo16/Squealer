@@ -98,6 +98,8 @@ const ChannelPage: React.FC = () => {
     )
   }
 
+
+
   return (
     <div className='bg-dark rounded-bottom'>
       <hr className='mb-1 mt-0 d-lg-none'/>
@@ -136,6 +138,7 @@ const ChannelPage: React.FC = () => {
                 </Spinner>
               ) : (
                 userDetails.channels.includes(channelName ?? "") ? (
+                  // disiscriviti
                   <Button
                     onClick={sendUnSubRequest}
                     variant='outline-danger'
@@ -146,22 +149,34 @@ const ChannelPage: React.FC = () => {
                       <IconBxsUserMinus className='d-flex align-items center'/>
                     </span>
                   </Button>
-                ) : (
-                  <Button 
-                    onClick={sendSubRequest}
-                    variant='outline-success'
-                    className='ms-auto'
-                  >
-                    Iscriviti
-                  </Button>
-                )
-              )
-            }
+                  ) : (
+                    channelName === (channelName?.toUpperCase() ?? "") ? (
+                      <></>
+                    ) : (
+                    // iscriviti
+                    <Button 
+                      onClick={sendSubRequest}
+                      variant='outline-success'
+                      className='ms-auto'
+                    >
+                      Iscriviti
+                    </Button>                  
+                    )
+                  )
+                )}
           </div>
         </div>
         <div className='bg-black'></div>
+
+        {(channelData && !channelData.usernames.readers.includes(userDetails.username)) && (
+          <>
+          <p>§{channelData.channelName} è un canale privato!</p>
+          </>
+        )}
         
-        <Feed channelName={channelName} />
+        { (channelData && channelData.usernames.readers.includes(userDetails.username)) && (
+          <Feed channelName={channelName} />
+        )}
     </div>
   );
 };
