@@ -21,7 +21,6 @@ export default {
   setup (){
     const vips = ref([])
     const userDetails = JSON.parse(localStorage.getItem('user') ?? 'null') ?? {}
-    console.log(userDetails)
     vips.value = userDetails.smmClients
     return {
       vips,

@@ -86,25 +86,35 @@ async function makeLoremPicsumPost() {
 }
 
 /* * * notizie * * */
-const NEWS_API_KEY = "185b0de6c19b4cf8a5def08f81189613"
+const NEWS_API_KEY = "66b8694fc3724ee483578f4fbaa04e28"
 
 async function fetchNews() {
-    const urls = [
-        `https://newsapi.org/v2/top-headlines?category=general&language=en&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/top-headlines?category=entertainment&language=en&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/top-headlines?category=general&language=it&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/top-headlines?country=us&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/everything?domains=wsj.com&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/everything?language=en&domains=bbc.co.uk&pageSize=5&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/everything?language=en&domains=techcrunch.com&pageSize=5&apiKey=${NEWS_API_KEY}`,
-        `https://newsapi.org/v2/everything?q=apple&from=2024-02-19&to=2024-02-19&sortBy=popularity&apiKey=${NEWS_API_KEY}`
-      ];
+    const url = [
+        // da Apple, popolari, in inglese, da oggi
+        `https://newsapi.org/v2/everything?q=Apple&from=2024-02-20&sortBy=popularity&apiKey=${NEWS_API_KEY}`,
+        // top-headlines, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?country=us&language=en&apiKey=${NEWS_API_KEY}`,
+        // top-headlines da BBC, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=${NEWS_API_KEY}`,
+        // top-headlines da business, in tedesco, da oggi
+        `https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=${NEWS_API_KEY}`,
+        // top-headlines su Trupm, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?q=trump&apiKey=${NEWS_API_KEY}`,
+        // top-headlines su Unibo, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?country=it&q=unibo&apiKey=${NEWS_API_KEY}`,
+        // top-headlines su Caltanissetta, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?country=uk&q=beans&apiKey=${NEWS_API_KEY}`,
+        // // top-headlines su Caltanissetta, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?country=it&q=monster&apiKey=${NEWS_API_KEY}`,
+        // // top-headlines su Caltanissetta, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?country=us&q=russia&apiKey=${NEWS_API_KEY}`,
+        // // top-headlines su Caltanissetta, in inglese, da oggi
+        `https://newsapi.org/v2/top-headlines?country=it&q=lega&apiKey=${NEWS_API_KEY}`,
+    ];
 
+    const randomIndex = Math.floor(Math.random() * url.length)
 
-    const url = urls[Math.floor(Math.random() * urls.length)];
-
-    const response = await fetch(url)
+    const response = await fetch(url[randomIndex])
     const data = await response.json()
 
     const selectedArticle = Math.floor(Math.random() * data["articles"].length)

@@ -22,10 +22,12 @@
         </div>
         <div class="mb-4">
           <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Confirm Password</label>
-          <input type="password" id="password" v-model="confirmPassword" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-emerald-500" placeholder="type password again..." required>
+          <input type="password" id="confirm-password" v-model="confirmPassword" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-emerald-500" placeholder="type password again..." required>
         </div>
         <button type="submit" class="mt-4 w-full bg-emerald-700 text-white py-2 rounded-full hover:bg-emerald-600 focus:outline-none focus:bg-emerald-600">Register as SMM</button>
       </form>
+      <p class="text-center mt-3">oppure</p>
+      <button @click="handleRedirect" type="submit" class="mt-4 w-full bg-emerald-700 text-white py-2 rounded-full hover:bg-emerald-600 focus:outline-none focus:bg-emerald-600">Accedi come SMM</button>
     </div>
   </div>
 </template>
@@ -33,6 +35,7 @@
 
 <script>
 import { apiAuthURL } from '@/URLs';
+import router from '@/router';
 
 export default {
   name: 'RegisterView',
@@ -57,7 +60,7 @@ export default {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username: this.username, password: this.password, email: this.email, displayName: this.displayName, smm: true}),
+          body: JSON.stringify({ username: this.username, password: this.password, email: this.email, displayName: this.displayName, smm: true, pro:true}),
         });
         console.log(response)
         if (response.ok) {
@@ -70,6 +73,9 @@ export default {
         console.error('Registration request error:', error);
       }
     },
+    handleRedirect(){
+      router.push('login')
+    }
   },
 };
 </script>

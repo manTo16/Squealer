@@ -89,7 +89,6 @@ export default {
           },
           body:JSON.stringify({username: this.username, text: this.postText, receivers: this.recipients.filter(recipient => recipient.trim() !== ''), smmUsername: this.smmUsername})
         }).then(async ()=>{
-          console.log('sei qui ch: '+ (-this.chCount))
           const responseCh = await fetch(apiUsersURL+'/'+this.username+'/characters',{
           method: "PATCH",
           headers: {
@@ -100,10 +99,11 @@ export default {
           })
           })
 
-        }).then(alert('Post creato con successo')).then(getUserData(this.username)).catch((err)=>{
+        }).then(alert('Post creato con successo')).then(()=>{
+          this.$emit('refresh-card',this.username)
+        }).catch((err)=>{
           console.log(err)
         })
-        this.$emit('refresh-card')
 
 
       }catch(err){
