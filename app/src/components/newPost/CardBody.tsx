@@ -94,7 +94,7 @@ export default function CardBody({
         <Form.Control 
           as="textarea" 
           readOnly={txtReadOnly}
-          autoFocus
+          //autoFocus
           aria-label="With textarea" 
           className="shareInput bg-dark text-white"
           placeholder={txtReadOnly ? "Quota caratteri finita!" : "Squillo calde nei paraggi"}

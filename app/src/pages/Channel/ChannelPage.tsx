@@ -90,7 +90,7 @@ const ChannelPage: React.FC = () => {
     };
   }, [channelName]);
 
-  if ( !isLoggedIn ) {
+  if ( !isLoggedIn && (channelName !== channelName?.toUpperCase())) {
     return (
       <>
       <p>pagina non disponibile se non loggato</p>
