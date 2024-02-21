@@ -10,6 +10,11 @@ The Social Media Manager dashboard app makes an SMM manage different user accoun
 
 
 ## App view
+
+<p float="left">
+  <img src="https://github.com/manTo16/Squealer/blob/main/images/app_1.jpg">
+  <img src="https://github.com/manTo16/Squealer/blob/main/images/app_2.jpg">
+</p>
 ![app view](https://github.com/manTo16/Squealer/blob/main/images/app_1.jpg)
 ![app view](https://github.com/manTo16/Squealer/blob/main/images/app_2.jpg)
 
