@@ -1,15 +1,24 @@
 <template>
   <div class="bg-white p-4 rounded-lg shadow-md mt-16 w-2/5 ml-10">
-    <div class="my-2 text-slate-500">Attenzione: se i destinatari non iniziano con @ (per gli utenti) o $ (per i canali), non verranno considerati</div>
+    <div class="my-2 text-slate-500">Attenzione: se i destinatari non iniziano con @ (per gli utenti) , § (per i canali) o # (per le keyword), non verranno considerati</div>
     <select v-model="postMode" class="border border-gray-300 rounded-md px-2 py-1 mb-4">
       <option value="text">Testo</option>
       <option value="image">Immagine</option>
       <option value="location">Geolocazione</option>
+      <option value="video">Video</option>
     </select>
     <div v-if="postMode === 'text'">
       <textarea v-model="postText" @input="updateCharacterCount" class="w-full h-32 border border-gray-300 rounded-md resize-none p-2 mb-4" placeholder="Scrivi il tuo post..."></textarea>
     </div>
     <div v-else-if="postMode === 'image'" class="mb-4">
+      <input type="file" @change="handleImageUpload" class="block w-full text-sm text-slate-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-emerald-50 file:text-emerald-700
+      hover:file:bg-emerald-100">
+    </div>
+    <div v-else-if="postMode === 'video'" class="mb-4">
       <input type="file" @change="handleImageUpload" class="block w-full text-sm text-slate-500
       file:mr-4 file:py-2 file:px-4
       file:rounded-full file:border-0
@@ -74,7 +83,7 @@ export default {
         alert("Vip in debito di caratteri!")
         return
       }
-      if (this.postMode === 'location' || this.postMode === 'image'){
+      if (this.postMode === 'location' || this.postMode === 'image' || this.postMode ==='video'){
         this.chCount = 125
       }
       else {
