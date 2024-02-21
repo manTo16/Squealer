@@ -6,7 +6,7 @@ Squealer is a project divided in 3 separate apps. The main app is a Social Netwo
 
 The moderator dashboard lets a moderator manage channels, posts and users. The moderator can edit post reactions, channel properties and user properties.
 
-The Social Media Manager dashboard app makes an SMM manage different user accounts. The SMM can post on behalf of their clients and see which posts are performing the best/worst.
+The Social Media Manager dashboard app lets a SMM manage different user accounts. The SMM can post on behalf of their clients and see which posts are performing the best/worst.
 
 
 ## App view
@@ -16,7 +16,7 @@ The Social Media Manager dashboard app makes an SMM manage different user accoun
   <img src="https://github.com/manTo16/Squealer/blob/main/images/app_3.jpg" height="500" />
 </p>
 
-## Moderator View
+## Moderator Dashboard View
 ![mod view](https://github.com/manTo16/Squealer/blob/main/images/mod_1.png)
 ![mod view](https://github.com/manTo16/Squealer/blob/main/images/mod_3.png)
 
