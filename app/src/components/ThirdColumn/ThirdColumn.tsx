@@ -47,7 +47,7 @@ export default function ThirdColumn() {
             className="w-100 mb-1 d-flex justify-content-left align-items-center"
           >
             <QuestionButton className="mx-2"/>
-            <span className="mx-2">§Random</span>
+            <span className="mx-2">§RANDOM</span>
           </Button>
         </div>
   );
