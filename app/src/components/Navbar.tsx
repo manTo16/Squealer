@@ -36,11 +36,11 @@ export default function Navbar(
   useEffect(() => {
     onHeightChange(divHtmlElementRef.current?.clientHeight ?? 0)
     console.log("navbar divHtmlElementRef.current?.clientHeight: ", divHtmlElementRef.current?.clientHeight)
-  }, [onHeightChange])
+  }, [onHeightChange, location.pathname])
 
   useEffect(() => {
     fetchDebt();
-  }, [10000])
+  }, [])
 
 
   console.log('isLoggedIn?: ', isLoggedIn)
