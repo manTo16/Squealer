@@ -83,3 +83,21 @@
   animation: shake 0.3s;
   animation-iteration-count: 3;
 }
+
+@keyframes muoviImmagine {
+  0% {
+    transform: translateX(100%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.squeal {
+  width: 100px;
+  height: 100px;
+  animation: muoviImmagine 5s linear infinite;
+}

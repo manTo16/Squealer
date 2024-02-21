@@ -21,7 +21,7 @@ import Answer from "@components/svg/AnswerSvg";
 import { generateAddressURL } from "@utils/URLs"
 import { UserContext } from "@utils/userData";
 import { addViewedPost, alreadyViewed } from "@utils/guestUsers";
-
+import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
 import Figure from 'react-bootstrap/Figure';
 import logo from "../../assets/Squealer.png"
@@ -52,29 +52,42 @@ function Post({postId = ""}: {postId?: string}) {
 
     if (postId === 'getFromUrl') postId = id ?? ""
 
-      try {
+    try {
         const loadedPostData = await axios.get(apiPostsURL + `/${postId}`).then((response) => (response?.data));
         if (loadedPostData) {
-          //const userImage = await getUserPropic(loadedPostData.username)
-          const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
-          setChosenReaction(impressionAlreadyChosenByUser)
-          //console.log("Post loadPostDAta impressionAlreadyChosenByUser: ", impressionAlreadyChosenByUser)
-          setPostData({
-              postText: loadedPostData.text,
-              postIsReplyTo: loadedPostData.replyTo,
-              postReplies: loadedPostData.replies,
-              postDisplayedName: loadedPostData.displayName,
-              postUsername: loadedPostData.username,
-              userImg: "",
-              postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
-              postReceivers: loadedPostData.receivers,
-              postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
-              postLikesCounter: loadedPostData.impressions.likes.number,
-              postDislikesCounter: loadedPostData.impressions.dislikes.number,
-              postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
-              postImpressionChosen: impressionAlreadyChosenByUser,
-              postViews: loadedPostData.impressions.views.number
-          })
+            const impressionAlreadyChosenByUser = getImpressionFromUser(loadedPostData.impressions)
+            setChosenReaction(impressionAlreadyChosenByUser)
+
+            let postCreationDate: string;
+            const now = new Date();
+            const creationDate = new Date(loadedPostData.creationDate);
+            const diffInMinutes = Math.floor((now.getTime() - creationDate.getTime()) / 60000);
+
+            if (diffInMinutes < 60) {
+                postCreationDate = `${diffInMinutes} minuti fa`;
+            } else if (diffInMinutes < 1440) {
+                const diffInHours = Math.floor(diffInMinutes / 60);
+                postCreationDate = `${diffInHours} ore fa`;
+            } else {
+                postCreationDate = creationDate.toLocaleDateString('it-IT', { weekday: 'short', day: '2-digit', month: 'short' }).replace(/\. /g, ' | ');
+            }
+
+            setPostData({
+                postText: loadedPostData.text,
+                postIsReplyTo: loadedPostData.replyTo,
+                postReplies: loadedPostData.replies,
+                postDisplayedName: loadedPostData.displayName,
+                postUsername: loadedPostData.username,
+                userImg: "",
+                postCreationDate: postCreationDate,
+                postReceivers: loadedPostData.receivers,
+                postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
+                postLikesCounter: loadedPostData.impressions.likes.number,
+                postDislikesCounter: loadedPostData.impressions.dislikes.number,
+                postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
+                postImpressionChosen: impressionAlreadyChosenByUser,
+                postViews: loadedPostData.impressions.views.number
+            })
 
           if (isBase64Image(loadedPostData.text)) {  // se è un'immagine
             setIsPostBodyAnImg(true);
@@ -96,24 +109,38 @@ function Post({postId = ""}: {postId?: string}) {
   
           const userImage = getUserPropic(loadedPostData?.username ?? "")
           .then((userImage) => {
-            
-            setPostData({
-              postText: loadedPostData.text,
-              postIsReplyTo: loadedPostData.replyTo,
-              postReplies: loadedPostData.replies,
-              postDisplayedName: loadedPostData.displayName,
-              postUsername: loadedPostData.username,
-              userImg: userImage ?? "",
-              postCreationDate: loadedPostData.creationDate.toLocaleString().split('T')[0],  //dopo la T ci sono ora, minuto e secondi. si possono tenere anche quelle informazini se vogliamo
-              postReceivers: loadedPostData.receivers,
-              postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
-              postLikesCounter: loadedPostData.impressions.likes.number,
-              postDislikesCounter: loadedPostData.impressions.dislikes.number,
-              postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
-              postImpressionChosen: impressionAlreadyChosenByUser,
-              postViews: loadedPostData.impressions.views.number
-          })
-            //console.log("POST POSTDATA AGGIORNATO CON PROPIC: ", userImage)
+              
+              let postCreationDate: string;
+              const now = new Date();
+              const creationDate = new Date(loadedPostData.creationDate);
+              const diffInMinutes = Math.floor((now.getTime() - creationDate.getTime()) / 60000);
+
+              if (diffInMinutes < 60) {
+                  postCreationDate = `${diffInMinutes} minuti fa`;
+              } else if (diffInMinutes < 1440) {
+                  const diffInHours = Math.floor(diffInMinutes / 60);
+                  postCreationDate = `${diffInHours} ore fa`;
+              } else {
+                  postCreationDate = creationDate.toLocaleDateString('it-IT', { weekday: 'short', day: '2-digit', month: 'short' }).replace(/\. /g, ' | ');
+              }
+
+              setPostData({
+                  postText: loadedPostData.text,
+                  postIsReplyTo: loadedPostData.replyTo,
+                  postReplies: loadedPostData.replies,
+                  postDisplayedName: loadedPostData.displayName,
+                  postUsername: loadedPostData.username,
+                  userImg: userImage ?? "",
+                  postCreationDate: postCreationDate,
+                  postReceivers: loadedPostData.receivers,
+                  postVeryLikesCounter: loadedPostData.impressions.veryLikes.number,
+                  postLikesCounter: loadedPostData.impressions.likes.number,
+                  postDislikesCounter: loadedPostData.impressions.dislikes.number,
+                  postVeryDislikesCounter: loadedPostData.impressions.veryDislikes.number,
+                  postImpressionChosen: impressionAlreadyChosenByUser,
+                  postViews: loadedPostData.impressions.views.number
+              })
+              //console.log("POST POSTDATA AGGIORNATO CON PROPIC: ", userImage)
           })
   
         }
@@ -284,10 +311,12 @@ function Post({postId = ""}: {postId?: string}) {
     postTextLength = postData.postText.length;
   }
 
+  const [showModal, setShowModal] = useState(false);
+
   const handleImpressions = (impression:string) => {
     if (!isLoggedIn) {
       //TODO: togliere questo alert e fare un popup un pelo più carino
-      alert("devi loggarti per reagire ai post!")
+      setShowModal(true);
       return 
     }
     try{
@@ -340,6 +369,24 @@ function Post({postId = ""}: {postId?: string}) {
   if (isLoading) return (<PostPlaceholder />)
 
   return (
+    <>
+    <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>Accedi per reagire a questo squeal</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        Accedi a Squealer e inizia subito a squillare‼
+        <img src={logo} alt="logo" className="squeal d-block mx-auto my-3" width="100px" height="100px"/>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="light" onClick={() => {setShowModal(false); navigate('/register')}}>
+          Registrati
+        </Button>
+        <Button variant="success" onClick={() => {setShowModal(false); navigate('/login')}} >
+          Log in
+        </Button>
+      </Modal.Footer>
+    </Modal>
     <div ref={observedDivRef} className="w-100 border-bottom border-3 border-dark" style={{backgroundColor: '#1a1a1b'}}>
       <div className="p-2">
         <Row>
@@ -520,6 +567,7 @@ function Post({postId = ""}: {postId?: string}) {
         </div>
       </Collapse>
     </div>
+    </>
   )
 }
 
