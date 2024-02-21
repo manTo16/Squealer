@@ -124,6 +124,41 @@ app.get("/app", async function(req, res) {
 
 
 
+/* * * SMM * * */
+
+app.use('/smm/js', 
+        express.static(path.join(__dirname, "..", "smm", "dist",'js')))
+
+app.use('/smm/css', 
+        express.static(path.join(__dirname, "..", "smm", "dist",'css')))
+
+app.use('/smm/img', 
+        express.static(path.join(__dirname, "..", "smm", "dist",'img')))
+
+
+app.get("/smm/*", async function(req, res) {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "..",
+      "smm",
+      "dist",
+      "index.html"
+    )
+  )
+})
+//uguale a quello qua sopra ma per l'indirizzo /app senza barra dopo (/app/)
+app.get("/smm", async function(req, res) {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "..",
+      "smm",
+      "dist",
+      "index.html"
+    )
+  )
+})
 
 
 
