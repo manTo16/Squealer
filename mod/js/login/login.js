@@ -50,6 +50,7 @@ const handleLogin = async () => {
         alert('login successful')
         window.location.href = "https://site222335.tw.cs.unibo.it/mod/"
       } else {
+        displayErrors()
         console.error('Login error:', response.statusText);
       }
     } catch (error) {
