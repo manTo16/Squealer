@@ -10,6 +10,7 @@
             <p v-if="type==='text'">{{ postData.text }}</p>
             <img v-if="type==='img'" :src="postData.text" alt="">
             <Map v-if="type==='map'" :coordinates="postData.text" :isArea="isArea"/>
+            <video controls v-if="type==='video'" class="max-h-80" :src="postData.text"></video>
         </div>
         <div class="flex align-top mt-3">  
           <ViewsSvg class="m-1" />
@@ -66,8 +67,11 @@ export default {
     const replies = ref(0)
     const type = ref('text')
     const isArea = ref(false)
-    const isBase64 = (str) => {
+    const isBase64Image = (str) => {
       return str.startsWith('data:image/');
+    }
+    const isBase64Video = (str) => {
+      return str.startsWith('data:video/');
     }
     const isCoordinates = (str) => {
       const regex = /^((-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)[+]?)+|area$/;
@@ -82,7 +86,8 @@ export default {
         const response = await fetch(apiPostsURL+'/'+props.postId)
         if (response.ok){
           postData.value = await response.json()
-          if (isBase64(postData.value.text)) type.value = 'img'
+          if (isBase64Image(postData.value.text)) type.value = 'img'
+          if (isBase64Video(postData.value.text)) type.value = 'video'
           replies.value = postData.value.replies.length
           id.value = postData.value.postId
           if (isCoordinates(postData.value.text)) {
