@@ -5,6 +5,9 @@ const { resizeBase64Image } = require('./utils/imageManipulation')
 
 const { registrationDailyChars, registrationWeeklyChars, registrationMonthlyChars } = require('./utils/characterCountValues')
 
+const ENV_SECRET_KEY = "6F4jp16OZMRYrWmOYIDG"
+
+
 const register = async (req,res) => {
   const {username,email,displayName,password,userImage}=req.body;
   const isSmm = req.body.smm === true;
@@ -43,7 +46,7 @@ const login = async (req,res) =>{
       console.log(username?? "?", "typed wrong password")
       return res.status(401).json({message:'Invalid credentials'})
     }
-    const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '7d'});
+    const token = jwt.sign({id:user._id},ENV_SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
     if (accountType !== "" && accountType==="mod") {
       if (!user.moderator) 
