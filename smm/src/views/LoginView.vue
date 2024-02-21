@@ -3,6 +3,9 @@
     <div class="bg-white p-8 rounded-md shadow-md w-full max-w-md">
       <img src="../assets/Squealer.png" alt="Logo" class="h-20 mx-auto">
       <h2 class="text-2xl font-bold mb-6 text-center">Login to Squealer For SMMs</h2>
+      <p v-if="userErr" class="text-red-500">Utente non esistente</p>
+      <p v-if="passwordErr" class="text-red-500">Password errata </p>
+      <p v-if="error" class="text-red-500">Errore </p>
       <form @submit.prevent="handleLogin">
         <div class="mb-4">
           <label for="username" class="block text-gray-700 text-sm font-semibold mb-2">Username</label>
@@ -32,10 +35,16 @@ export default {
     return {
       username: '',
       password: '',
+      userErr: false,
+      passwordErr: false,
+      error: false,
     };
   },
   methods: {
     async handleLogin() {
+      this.userErr = false
+      this.passwordErr = false
+      this.error = false
       try {
         const response = await fetch(apiAuthURL+'/login', {
           method: 'POST',
@@ -51,12 +60,20 @@ export default {
           localStorage.setItem('isUserLoggedIn', 'true')
           await getLoggedUserData(this.username);
           this.$router.push({ name: 'home' });
-          alert('login successful')
-        } else {
-          console.error('Login error:', response.statusText);
+        } else  {
+          const errorMessage = await response.text()
+          const msg = JSON.parse(errorMessage).message
+          if (response.status === 400 && msg === "User not found") {
+            this.userErr = true
+          } else if (response.status === 401 && msg === "Invalid credentials") {
+            this.passwordErr = true
+          } else {
+            this.error = true
+          }
         }
       } catch (error) {
         console.error('Login request error:', error);
+        this.error = true
       }
     },
     handleRedirect(){
