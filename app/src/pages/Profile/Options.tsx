@@ -1,9 +1,9 @@
-import { Col, Row, Stack } from 'react-bootstrap';
+import { Col, Row, Spinner, Stack } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState, useContext, useEffect } from 'react';
-import { UserContext } from '@utils/userData';
+import { UserContext, UserDetailsInterface } from '@utils/userData';
 import IconWarning from '@components/svg/WarningSvg';
 import { updateUser } from '../../../../server/controllers/userController'
 import axios from '@root/axiosConfig';
@@ -22,7 +22,13 @@ export default function Options() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  const { userDetails, fetchUserData } = useContext(UserContext)
+  const [loadingPWChange, setLoadingPWChange] = useState(false)
+
+  const [errorText, setErrorText] = useState('');
+  const [pwSuccessText, setPwSuccessText] = useState('')
+  
+
+  const { userDetails, fetchUserData, updateUserDataFromLS } = useContext(UserContext) as { userDetails: UserDetailsInterface, fetchUserData: Function, updateUserDataFromLS: Function }
 
   const handleClose = () => setShow(!show);
   
@@ -61,15 +67,38 @@ export default function Options() {
     }
   };
 
-  const handleChangePassword = async (newPassword: string) => {
-    // const result = await changePassword(userDetails._id, newPassword);
-    // if (result) {
-    //   // Gestisci il successo del cambio password
-    // } else {
-    //   // Gestisci l'errore del cambio password
-    // }
+  const handleChangePassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setLoadingPWChange(true);
+  
+    axios.patch(`${apiUsersURL}/${userDetails.username}/password`,
+      { newpw: newPassword, oldpw: oldPassword })
+      .then(() => {
+        setOldPassword("")
+        setNewPassword("")
+        setConfirmNewPassword("")
+        setErrorText("")
+        setPwSuccessText("Password modificata con successo")
+      })
+      .catch((error) => {
+        if (axios.isAxiosError(error)) {
+          if (error.response) {
+            if (error.response.status === 400) {
+              setErrorText('Password vecchia non corrispondente');
+            } else {
+              setErrorText(`Ops! C'è stato un problema. Riprova più tardi`);
+            }
+          } else {
+            setErrorText(`Ops! C'è stato un problema. Riprova più tardi`);
+          }
+        } else {
+          setErrorText(`Ops! C'è stato un problema. Riprova più tardi`);
+        }
+      })
+      .finally(() => {
+        setLoadingPWChange(false);
+      });
   };
-
   const handleDelete = async () => {
     //const userID = userDetails._id;
     //console.log(userID);
@@ -93,6 +122,12 @@ export default function Options() {
           <Col>
             <h4>Cambia Password</h4>
             <hr/>
+              {errorText !== "" &&
+              <p className='text-danger'>{errorText}</p>
+              }
+              {pwSuccessText !== "" &&
+              <p className='text-success'>{pwSuccessText}</p>
+              }
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Vecchia password</Form.Label>
                 <Form.Control 
@@ -118,17 +153,25 @@ export default function Options() {
                   type="password" 
                   placeholder="Password" 
                   className='bg-dark text-light'
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  onChange={(e) => {
+                        setConfirmNewPassword(e.target.value)
+                        if (e.target.value !== newPassword) setErrorText("Le password non coincidono")
+                        else setErrorText("")}}
                 />
                 <hr />
-                <Button 
-                  type="submit" 
-                  className="btn d-flex ms-auto btn-dark border-light mt-1" 
-                  disabled
-                  onAbort={() => handleChangePassword('')}
-                >
-                  Cambia password 
-                </Button>
+                {loadingPWChange ? (
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                ) : (
+                  <Button 
+                    className="btn d-flex ms-auto btn-dark border-light mt-1" 
+                    disabled = {( newPassword === "" || confirmNewPassword === "" || newPassword !== confirmNewPassword ) || oldPassword === ""}
+                    onClick={handleChangePassword}
+                  >
+                    Cambia password 
+                  </Button>
+                )}
             </Form.Group>
           </Col>
 

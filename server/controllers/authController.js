@@ -40,14 +40,18 @@ const login = async (req,res) =>{
     if (!user) return res.status(400).json({message: "User not found"});
     const checkPW = await bcrypt.compare(password,user.password);
     if (!checkPW){
+      console.log(username?? "?", "typed wrong password")
       return res.status(401).json({message:'Invalid credentials'})
     }
     const token = jwt.sign({id:user._id},process.env.SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
     if (accountType !== "" && accountType==="mod") {
       if (!user.moderator) 
+        console.log(username?? "?", "tried to log as a mod")
         return res.status(403).json({message: "you must be a moderator to log here"})
     }
+
+    console.log(username?? "?", "logged in")
     return res.status(200).json({token,user})
   }catch(err){
     return res.status(500).json({message: err.message})
