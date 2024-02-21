@@ -60,7 +60,7 @@ const ChannelPage: React.FC = () => {
   }
 
   useEffect(() => {
-    if(!isLoggedIn) navigate('/login')
+    if( !isLoggedIn && (channelName !== channelName?.toUpperCase())) navigate('/login')
     else {
       const fetchChannelData = async () => {
           try {
@@ -84,6 +84,7 @@ const ChannelPage: React.FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    if( !isLoggedIn && (channelName !== channelName?.toUpperCase())) navigate('/login')
     document.title = `§${channelName}`;
     return () => {
       document.title = 'Squealer';
@@ -137,7 +138,7 @@ const ChannelPage: React.FC = () => {
                   <span className="mx-auto visually-hidden">Loading...</span>
                 </Spinner>
               ) : (
-                userDetails.channels.includes(channelName ?? "") ? (
+                userDetails && userDetails.channels && userDetails.channels.includes(channelName ?? "") ? (
                   // disiscriviti
                   <Button
                     onClick={sendUnSubRequest}
