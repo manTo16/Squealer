@@ -2,8 +2,9 @@
 
 
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('token')
+const user = JSON.parse(localStorage.getItem('user'))
 
-if (!token) {
-  window.location.href = "login/";
+if (!token || (user && !user.moderator)) {
+  window.location.href = "login/"
 }

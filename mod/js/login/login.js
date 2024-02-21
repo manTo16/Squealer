@@ -2,7 +2,19 @@
 
 import { apiUsersURL, apiAuthURL } from "../urls.mjs"
 
-const getLoggedUserData = async (username) =>{
+
+const displayErrors = () => {
+  const loginDataDiv = document.getElementById("loginDataFields")
+
+  const errorMessage = document.createElement("p")
+  errorMessage.innerText = "Not a mod"
+  errorMessage.style.color = "red"
+
+  loginDataDiv.appendChild(errorMessage)
+}
+
+
+const getLoggedUserData = async (username) => {
   try{
     const url=apiUsersURL+'/'+username
     const response = await fetch(url)
@@ -36,11 +48,13 @@ const handleLogin = async () => {
         localStorage.setItem('isUserLoggedIn', 'true')
         await getLoggedUserData(username);
         alert('login successful')
+        window.location.href = "https://site222335.tw.cs.unibo.it/mod/"
       } else {
         console.error('Login error:', response.statusText);
       }
     } catch (error) {
-      console.error('Login request error:', error);
+      console.log('Login request error:', error);
+      displayErrors()
     }
   }
 
