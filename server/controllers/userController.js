@@ -1,4 +1,3 @@
-//const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 const { resizeBase64Image, addBase64ImageHeader, extractImageFormat } = require('./utils/imageManipulation')
 const { red_cross_base64 } = require('./utils/red_cross')
@@ -565,6 +564,33 @@ const getAllRepliesToUsers = async (req,res) => {
   }
 }
 
+const changePassword = async (req,res) => {
+  try {
+    const { newpw, oldpw } = req.body
+    const username = req.params.userName
+
+    const user = await User.findOne({username: username})
+
+    if (!user) return res.status(404).json({message: "user not found"})
+
+    const checkPW = await bcrypt.compare(oldpw,user.password)
+
+    if (checkPW) {   //imposta nuova password
+      const salt = await bcrypt.genSalt()
+      const hashedPassword = await bcrypt.hash(newpw,salt)
+      user.password = hashedPassword
+      await user.save()
+      return res.status(200).json({message: "password changed"})
+    }
+    else {
+      return res.status(400).json({message: "wrong old password"})
+    }
+
+  } catch (err) {
+    return res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
     getAllUsers,
     //addNewUser,
@@ -595,5 +621,6 @@ module.exports = {
     removeSMM,
     findUsers,
     getAllRepliesToUsers,
-    deleteUserAccount
+    deleteUserAccount,
+    changePassword
 }

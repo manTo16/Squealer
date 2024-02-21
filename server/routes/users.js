@@ -31,7 +31,8 @@ const {
   removeSMM,
   findUsers,
   getAllRepliesToUsers,
-  deleteUserAccount
+  deleteUserAccount,
+  changePassword
 } = require ('../controllers/userController.js')
 
 
@@ -67,6 +68,8 @@ router.route('/:userName/debt').get(getUserDebt)
 
 router.route('/smm/:userName').put(selectSMM).delete(removeSMM)
 router.route('/smm/allRepliesToUser/:userName').get(getAllRepliesToUsers)
+
+router.route('/:userName/password').patch(changePassword)
 
 router.route('/mod/search').post(findUsers)
 
