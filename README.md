@@ -1,5 +1,5 @@
 # Squealer
-Repository for the Squealer Project (Tecnologie Web Unibo Course)
+Repository for the Squealer Project (Tecnologie Web | University of Bologna Course)
 
 ### What is Squealer?
 Squealer is a project divided in 3 separate apps. The main app is a Social Network where a user can post in different channels, private or public.
@@ -10,11 +10,11 @@ The Social Media Manager dashboard app makes an SMM manage different user accoun
 
 
 ## App view
-![app view](https://github.com/manTo16/Squealer/images/app_1.png)
-![app view](https://github.com/manTo16/Squealer/images/app_2.png)
+![app view](https://github.com/manTo16/Squealer/blob/main/images/app_1.jpg)
+![app view](https://github.com/manTo16/Squealer/blob/main/images/app_2.jpg)
 
 ## Moderator View
-![app view](https://github.com/manTo16/Squealer/images/mod_1.png)
+![app view](https://github.com/manTo16/Squealer/blob/main/images/mod_1.jpg)
 
 ## SMM dashboard view
-![app view](https://github.com/manTo16/Squealer/images/smm_1.png)
+![app view](https://github.com/manTo16/Squealer/blob/main/images/app_1.jpg)
