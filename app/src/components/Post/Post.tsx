@@ -278,7 +278,7 @@ function Post({postId = ""}: {postId?: string}) {
     setPostData(updatedPostData)
   }, [chosenReaction])
 
-  if (isPostBodyAnImg || isPostBodyAGeolocation) {
+  if (isPostBodyAnImg || isPostBodyAGeolocation || isPostBodyAVideo) {
     postTextLength = 125;
   } else {
     postTextLength = postData.postText.length;
