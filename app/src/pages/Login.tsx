@@ -26,6 +26,7 @@ const getLoggedUserData = async (username: String) =>{
 export default function Login() {
   const [username,setUsername]=useState('')
   const [password,setPassword]=useState('')
+  const [isWriting, setIsWriting] = useState(false)
   const [error,setError]=useState(false)
   const navigate = useNavigate()
 
@@ -101,7 +102,7 @@ export default function Login() {
               <InputGroup.Text>@</InputGroup.Text>
                   <Form.Control 
                     autoFocus 
-                    onChange={(e)=>setUsername(e.target.value)} 
+                    onChange={(e)=>{setUsername(e.target.value); setIsWriting(true)}} 
                     value={username} 
                     placeholder="scrivi qui il tuo username" 
                     aria-label="username"
@@ -110,7 +111,7 @@ export default function Login() {
               <Form.Label> Password </Form.Label>
               <InputGroup className='mb-3 w-80'>
                   <Form.Control 
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={(e)=>{setPassword(e.target.value); setIsWriting(true)}}
                     value={password} 
                     isInvalid={error}
                     placeholder="type password here" 
@@ -121,20 +122,33 @@ export default function Login() {
               { error ? ( <><p className='text-danger'>La password è corretta</p></> ) :( <></> ) }
               <div className='pt-3'>
                 <hr />
-              </div>
-              <div className='d-flex justify-content-end'>
+              </div>                
+              <div className='d-flex justify-content-end align-items-center'>
                 <ButtonBootstrap 
                   onClick={handleSubmit} 
                   type="submit" 
-                  className='my-3' 
+                  className='mb-2'
                   variant='success'
                 >
                   Log in
                 </ButtonBootstrap>
               </div>
+              <div className='d-flex justify-content-end align-items-center'>
+                <label className='text-light me-2'>Non hai un account?</label>
+                <ButtonBootstrap 
+                  onClick={()=>navigate('/register')}  
+                  variant='light'
+                >
+                  Registrati
+                </ButtonBootstrap>
+              </div>
             </Col>
             <Col className='d-flex d-none d-md-block justify-content-center align-items-center'>
-              <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/>
+              { isWriting ? ( 
+                <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/> 
+                ) : ( 
+                <img className='my-3 mt-10' src={Logo} width={"100%"} alt=''/> 
+              )}
             </Col>
           </Row>
         </div>

@@ -94,7 +94,7 @@ export default function ProfileSide({
         );
     } else if (type === 'channels') {
         return (
-            <div className="rounded bg-dark bt-2">
+            <div className="rounded bg-dark bt-2 p-2">
                 <h1>Channels List</h1>
                 { userToken ? (
                     
@@ -105,7 +105,7 @@ export default function ProfileSide({
                             onClick={() => {navigate(`/channels/${channelName}`)}}>
                             <Card.Body>
                             <Card.Title>
-                                <span >{channelName}</span> 
+                                <h3>{channelName}</h3> 
                                 <hr className="my-2"/>
                                 {channelsData && ( channelsData[channelName]?.usernames.owners.includes(userDetails.username) || channelsData[channelName]?.usernames.owners.length === 0) && <Badge pill className="m-1" bg="success">Proprietario</Badge>}
                                 {channelsData && ( channelsData[channelName]?.usernames.writers.includes(userDetails.username) || channelsData[channelName]?.usernames.writers.length === 0) && <Badge pill className="m-1" bg="warning" text="dark">Scrittore</Badge>}
