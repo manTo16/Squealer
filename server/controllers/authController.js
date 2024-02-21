@@ -49,9 +49,10 @@ const login = async (req,res) =>{
     const token = jwt.sign({id:user._id},ENV_SECRET_KEY,{expiresIn: '7d'});
     delete user.password;
     if (accountType !== "" && accountType==="mod") {
-      if (!user.moderator) 
+      if (!user.moderator) {
         console.log(username?? "?", "tried to log as a mod")
         return res.status(403).json({message: "you must be a moderator to log here"})
+      }
     }
 
     console.log(username?? "?", "logged in")

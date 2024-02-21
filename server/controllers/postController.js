@@ -45,7 +45,7 @@ const createPost = async (req,res) => {
       console.log("createPost filter map receiver: ", receiver)
       let channel = await Channel.findOne({channelName: receiver.slice(1)})
       console.log("createPost filter map channel._id: ", channel?._id)
-      if (channel.usernames.writers.include(username)) {
+      if (channel.usernames.writers.includes(username)) {
         if(channel) {
           //console.log("createPost sono dentro l'if")
           console.log("createPost channel: ", channel)
