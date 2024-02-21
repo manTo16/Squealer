@@ -6,7 +6,7 @@
 
 
 //PRODUZIONE:
-export const apiURL = 'https://site222335.tw.cs.unibo.it/'
+export const apiURL = 'https://localhost:8000/'
 
 
 

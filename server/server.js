@@ -12,7 +12,7 @@ const path = require("path")
 
 // *** modifiche fatte in produzione perchè a quanto pare non legge in .env
 
-ENV_DATABASE_URL = "mongodb+srv://liambu:pepega@cluster0.5cpnjho.mongodb.net/?retryWrites=true&w=majority"
+ENV_DATABASE_URL = ""
 ENV_PORT = 8000
 SECRET_KEY = "6F4jp16OZMRYrWmOYIDG"
 // ***

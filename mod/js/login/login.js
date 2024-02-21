@@ -48,7 +48,7 @@ const handleLogin = async () => {
         localStorage.setItem('isUserLoggedIn', 'true')
         await getLoggedUserData(username);
         alert('login successful')
-        window.location.href = "https://site222335.tw.cs.unibo.it/mod/"
+        window.location.href = "https://localhost:3002/mod/"
       } else {
         displayErrors()
         console.error('Login error:', response.statusText);
