@@ -143,16 +143,16 @@ export default function SidebarContent(
           ):
         (
           <>
-            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/NEWS")}}>
+            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/NEWS"); handleShow(false)}}>
               §NEWS
             </Button>
-            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/FOTO")}}>
+            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/FOTO"); handleShow(false)}}>
               §FOTO
             </Button>
-            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/GATTINI")}}>
+            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/GATTINI"); handleShow(false)}}>
               §GATTINI
             </Button>
-            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/CONTROVERSIAL")}}>
+            <Button variant="outline-light m-1" onClick={() => {navigate("/channels/CONTROVERSIAL"); handleShow(false)}}>
               §CONTROVERSIAL
             </Button>
             
