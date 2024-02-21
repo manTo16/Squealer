@@ -14,9 +14,9 @@ The Social Media Manager dashboard app makes an SMM manage different user accoun
 ![app view](https://github.com/manTo16/Squealer/blob/main/images/app_2.jpg)
 
 ## Moderator View
-![mod view](https://github.com/manTo16/Squealer/blob/main/images/mod_1.jpg)
-![mod view](https://github.com/manTo16/Squealer/blob/main/images/mod_2.jpg)
+![mod view](https://github.com/manTo16/Squealer/blob/main/images/mod_1.png)
+![mod view](https://github.com/manTo16/Squealer/blob/main/images/mod_2.png)
 
 ## SMM dashboard view
-![smm view](https://github.com/manTo16/Squealer/blob/main/images/smm_1.jpg)
-![smm view](https://github.com/manTo16/Squealer/blob/main/images/smm_2.jpg)
+![smm view](https://github.com/manTo16/Squealer/blob/main/images/smm_1.png)
+![smm view](https://github.com/manTo16/Squealer/blob/main/images/smm_2.png)
